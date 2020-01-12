@@ -1,11 +1,11 @@
-package model;
+package com.operacluj.registry.model;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 public class User {
 
-    private int id;
+    private int userId;
 
     @NotBlank
     private String firstName;
@@ -20,12 +20,12 @@ public class User {
     @NotBlank
     private String password;
 
-    public int getId() {
-        return id;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public String getFirstName() {
