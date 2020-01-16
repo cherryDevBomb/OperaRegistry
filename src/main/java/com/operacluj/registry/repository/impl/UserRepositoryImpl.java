@@ -3,8 +3,6 @@ package com.operacluj.registry.repository.impl;
 import com.operacluj.registry.model.User;
 import com.operacluj.registry.repository.UserRepository;
 
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -19,10 +17,8 @@ import org.springframework.stereotype.Repository;
 @PropertySource("classpath:/queries.properties")
 public class UserRepositoryImpl implements UserRepository {
 
-    private static final Logger LOG = LogManager.getLogger(UserRepositoryImpl.class);
-
     @Autowired
-    private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+    private NamedParameterJdbcTemplate jdbcTemplate;
 
     @Autowired
     private RowMapper<User> userMapper;
@@ -32,8 +28,19 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public User getUserByEmail(String email) {
-        LOG.info("Enter getUserByEmail :email={}", email);
         SqlParameterSource sqlParameterSource = new MapSqlParameterSource("email", email);
-        return this.namedParameterJdbcTemplate.queryForObject(getUserByEmailQuery, sqlParameterSource, userMapper);
+        return jdbcTemplate.queryForObject(getUserByEmailQuery, sqlParameterSource, userMapper);
+    }
+
+    private SqlParameterSource getSqlParameterSourceForEntity(User user) {
+        MapSqlParameterSource parameterSource = new MapSqlParameterSource();
+        if (user != null) {
+            parameterSource.addValue("userid", user.getUserId());
+            parameterSource.addValue("firstname", user.getFirstName());
+            parameterSource.addValue("lastname", user.getLastName());
+            parameterSource.addValue("email", user.getEmail());
+            parameterSource.addValue("password", user.getPassword());
+        }
+        return parameterSource;
     }
 }
