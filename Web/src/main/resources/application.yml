@@ -1,0 +1,10 @@
+server:
+  servlet:
+    context-path: /registryServices
+spring:
+  datasource:
+    username: root
+    password: toor
+    url: jdbc:mysql://localhost:3306/registrydb
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
