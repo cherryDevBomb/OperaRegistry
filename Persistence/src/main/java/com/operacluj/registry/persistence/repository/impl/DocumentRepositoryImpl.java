@@ -9,9 +9,12 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Objects;
 
 @Repository
 @PropertySource("classpath:/queries.properties")
@@ -46,7 +49,9 @@ public class DocumentRepositoryImpl implements DocumentRepository {
 
     @Override
     public int addDocument(Document document) {
-        return 0;
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        this.jdbcTemplate.update(addDocumentQuery, getSqlParameterSourceForEntity(document), keyHolder);
+        return Objects.requireNonNull(keyHolder.getKey()).intValue();
     }
 
     private SqlParameterSource getSqlParameterSourceForEntity(Document document) {
@@ -54,7 +59,6 @@ public class DocumentRepositoryImpl implements DocumentRepository {
         if (document != null) {
             parameterSource.addValue("registrynumber", document.getRegistryNumber());
             parameterSource.addValue("creatorid", document.getCreatedBy());
-            //parameterSource.addValue("createddate", document.getCreatedDate());
             parameterSource.addValue("title", document.getTitle());
             parameterSource.addValue("globalstatus", document.getGlobalStatus().getStatus());
             parameterSource.addValue("doctype", document.getDocumentType());

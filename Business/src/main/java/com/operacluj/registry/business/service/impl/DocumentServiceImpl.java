@@ -1,5 +1,6 @@
 package com.operacluj.registry.business.service.impl;
 
+import com.operacluj.registry.business.exception.CreateEntityException;
 import com.operacluj.registry.business.exception.EntityNotFoundException;
 import com.operacluj.registry.model.Document;
 import com.operacluj.registry.persistence.repository.DocumentRepository;
@@ -43,6 +44,11 @@ public class DocumentServiceImpl implements DocumentService {
     @Override
     @Transactional
     public int addDocument(Document document) {
-        return 0;
+        try {
+            return documentRepository.addDocument(document);
+        } catch (RuntimeException e) {
+            LOG.error("Error creating new document");
+            throw new CreateEntityException("Failed to create a new document", e);
+        }
     }
 }
