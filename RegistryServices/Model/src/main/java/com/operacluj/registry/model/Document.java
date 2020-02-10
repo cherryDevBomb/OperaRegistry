@@ -1,11 +1,14 @@
 package com.operacluj.registry.model;
 
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.FutureOrPresent;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
 import java.time.LocalDate;
 
+@PropertySource("classpath:/message.properties")
 public class Document {
 
     @Positive
@@ -18,10 +21,12 @@ public class Document {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate createdDate;
 
+    @NotBlank(message = "${documentTitleRequiredMessage}")
     private String title;
 
     private DocumentStatus globalStatus;
 
+    @NotBlank(message = "${documentTypeRequiredMessage}")
     private String documentType;
 
     private String path;

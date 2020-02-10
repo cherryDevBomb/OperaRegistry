@@ -28,6 +28,7 @@ public class DocumentServiceImpl implements DocumentService {
     @Transactional(readOnly = true)
     public Document getDocumentByRegistryNumber(int registryNumber) {
         try {
+            LOG.info("Enter getDocumentByRegistryNumber {}", registryNumber);
             return documentRepository.getDocumentByRegistryNumber(registryNumber);
         } catch (EmptyResultDataAccessException e) {
             LOG.error("Document with registry number {} not found", registryNumber);
@@ -38,6 +39,7 @@ public class DocumentServiceImpl implements DocumentService {
     @Override
     @Transactional(readOnly = true)
     public List<Document> getAllDocuments() {
+        LOG.info("Enter getAllDocuments");
         return documentRepository.getAllDocuments();
     }
 
@@ -45,6 +47,7 @@ public class DocumentServiceImpl implements DocumentService {
     @Transactional
     public int addDocument(Document document) {
         try {
+            LOG.info("Enter addDocument created by user with id {}", document.getCreatedBy());
             return documentRepository.addDocument(document);
         } catch (RuntimeException e) {
             LOG.error("Error creating new document");

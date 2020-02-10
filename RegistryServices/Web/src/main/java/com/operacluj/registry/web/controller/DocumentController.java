@@ -13,6 +13,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/document")
+@CrossOrigin
 public class DocumentController {
 
     @Autowired
@@ -24,7 +25,7 @@ public class DocumentController {
         return documentFacade.getDocumentByRegistryNumber(registryNumber);
     }
 
-    @PostMapping(value="/new", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value="/new", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public int addDocument(@Valid @RequestBody DocumentDTO documentDTO) {
 //        String email = documentDTO.getEmail();
