@@ -1,0 +1,43 @@
+@import "../../node_modules/bootstrap/scss/functions";
+@import "../../node_modules/bootstrap/scss/variables";
+
+// Colors
+
+$theme-colors: (
+  primary: #c11f22,
+  secondary: #202020,
+  success: #c6ad82,
+  dark: #000000,
+  light: #ffffff
+);
+
+// // Create grayscale
+// $gray-dark: #292b2c !default;
+// $gray: #464a4c !default;
+// $gray-light: #636c72 !default;
+// $gray-lighter: #eceeef !default;
+// $gray-lightest: #f7f7f9 !default;
+
+// Reassign color vars to semantic color scheme
+$brand-primary: $primary !default;
+$brand-success: $success !default;
+$brand-info: $secondary !default;
+$brand-warning: $success !default;
+$brand-danger: $primary !default;
+$brand-inverse: $secondary !default;
+
+// Options
+
+$enable-rounded: false !default;
+// $enable-shadows:            false !default;
+// $enable-gradients:          false !default;
+// $enable-transitions:        true !default;
+// $enable-hover-media-query:  false !default;
+// $enable-grid-classes:       true !default;
+// $enable-print-styles:       true !default;
+
+// Nav
+
+$nav-item-margin: 0.2rem !default;
+
+@import "../../node_modules/bootstrap/scss/bootstrap.scss";
