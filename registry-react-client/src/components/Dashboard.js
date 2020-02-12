@@ -1,6 +1,4 @@
 import React, { Component } from "react";
-import DocumentItem from "./DocumentItem";
-import Table from "react-bootstrap/Table";
 
 export default class Dashboard extends Component {
   render() {

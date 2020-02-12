@@ -13,11 +13,19 @@ class CreateDocument extends Component {
     this.state = {
       email: "testEmail",
       title: "",
-      docType: ""
+      docType: "",
+      errors: {}
     };
 
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+  }
+
+  //life cycle hooks
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.errors) {
+      this.setState({ errors: nextProps.errors });
+    }
   }
 
   onChange(e) {
@@ -36,6 +44,8 @@ class CreateDocument extends Component {
   }
 
   render() {
+    const { errors } = this.state;
+
     return (
       <React.Fragment>
         <Form onSubmit={this.onSubmit}>
@@ -61,7 +71,11 @@ class CreateDocument extends Component {
               placeholder="Introduceți titlul"
               value={this.state.title}
               onChange={this.onChange}
+              isInvalid={errors.title}
             />
+            <Form.Control.Feedback type="invalid">
+              {errors.title}
+            </Form.Control.Feedback>
           </Form.Group>
           <Form.Group controlId="formGroupDocType">
             <Form.Label>Tipul documentului</Form.Label>
@@ -71,7 +85,11 @@ class CreateDocument extends Component {
               placeholder="Introduceți tipul documentului"
               value={this.state.docType}
               onChange={this.onChange}
+              isInvalid={errors.docType}
             />
+            <Form.Control.Feedback type="invalid">
+              {errors.docType}
+            </Form.Control.Feedback>
           </Form.Group>
           <Button variant="primary" type="submit">
             Submit
@@ -83,7 +101,12 @@ class CreateDocument extends Component {
 }
 
 CreateDocument.propTypes = {
+  errors: PropTypes.object.isRequired,
   createDocument: PropTypes.func.isRequired
 };
 
-export default connect(null, { createDocument })(CreateDocument);
+const mapStateToProps = state => ({
+  errors: state.errors
+});
+
+export default connect(mapStateToProps, { createDocument })(CreateDocument);
