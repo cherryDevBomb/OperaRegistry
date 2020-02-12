@@ -1,15 +1,19 @@
 package com.operacluj.registry.business.domain;
 
-import org.springframework.format.annotation.DateTimeFormat;
+import com.operacluj.registry.business.util.ErrorMessageConstants;
 
-import java.time.LocalDate;
+import javax.validation.constraints.NotBlank;
+
 
 public class DocumentDTO {
 
+    @NotBlank(message = ErrorMessageConstants.EMAIL_REQUIRED)
     private String email;
 
+    @NotBlank(message = ErrorMessageConstants.DOCUMENT_TITLE_REQUIRED)
     private String title;
 
+    @NotBlank(message = ErrorMessageConstants.DOCUMENT_TYPE_REQUIRED)
     private String docType;
 
     private String path;

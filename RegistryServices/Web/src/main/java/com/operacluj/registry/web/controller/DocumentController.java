@@ -8,8 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-
 
 @RestController
 @RequestMapping("/document")
@@ -27,13 +25,7 @@ public class DocumentController {
 
     @PostMapping(value="/new", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public int addDocument(@Valid @RequestBody DocumentDTO documentDTO) {
-//        String email = documentDTO.getEmail();
-//        String title = documentDTO.getTitle();
-//        String docType = documentDTO.getDocType();
-//        String path = documentDTO.getPath();
-//        String recipientId = documentDTO.getRecipientId();
-//        String deadline = documentDTO.getDeadline();
+    public int addDocument(@RequestBody DocumentDTO documentDTO) {
         return documentFacade.addNewDocument(documentDTO);
     }
 }

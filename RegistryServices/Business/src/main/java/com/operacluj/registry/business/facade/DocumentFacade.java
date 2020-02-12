@@ -4,9 +4,9 @@ import com.operacluj.registry.business.domain.DocumentDTO;
 import com.operacluj.registry.business.service.DocumentService;
 import com.operacluj.registry.business.service.UserService;
 import com.operacluj.registry.business.translator.DocumentTranslator;
+import com.operacluj.registry.business.validator.InputValidator;
 import com.operacluj.registry.model.Document;
 import com.operacluj.registry.model.DocumentStatus;
-import com.operacluj.registry.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -20,6 +20,9 @@ public class DocumentFacade {
     private UserService userService;
 
     @Autowired
+    InputValidator inputValidator;
+
+    @Autowired
     private DocumentTranslator documentTranslator;
 
     public Document getDocumentByRegistryNumber(int registryNumber) {
@@ -28,6 +31,7 @@ public class DocumentFacade {
 
     public int addNewDocument(DocumentDTO documentDTO) {
     //String email, String title, String docType, String path, String recipientId, String deadline)
+        inputValidator.validate(documentDTO);
         Document newDocument = documentTranslator.translate(documentDTO);
         newDocument.setGlobalStatus(DocumentStatus.PENDING);
         int registryNumber = documentService.addDocument(newDocument);
