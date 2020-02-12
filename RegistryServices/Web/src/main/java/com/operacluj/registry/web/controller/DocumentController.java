@@ -8,22 +8,30 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @RestController
-@RequestMapping("/document")
+@RequestMapping("/documents")
 @CrossOrigin
 public class DocumentController {
 
     @Autowired
     private DocumentFacade documentFacade;
 
-    @GetMapping("/registry-number/{registryNumber}")
+    @GetMapping("/{registryNumber}")
     @ResponseStatus(HttpStatus.OK)
     public Document getDocumentByRegistryNumber(@PathVariable int registryNumber) {
         return documentFacade.getDocumentByRegistryNumber(registryNumber);
     }
 
-    @PostMapping(value="/new", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    public List<Document> getAllDocuments() {
+        return documentFacade.getAllDocuments();
+    }
+
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public int addDocument(@RequestBody DocumentDTO documentDTO) {
         return documentFacade.addNewDocument(documentDTO);

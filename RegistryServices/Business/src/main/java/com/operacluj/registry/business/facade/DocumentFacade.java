@@ -10,6 +10,8 @@ import com.operacluj.registry.model.DocumentStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class DocumentFacade {
 
@@ -29,6 +31,10 @@ public class DocumentFacade {
         return documentService.getDocumentByRegistryNumber(registryNumber);
     }
 
+    public List<Document> getAllDocuments() {
+        return documentService.getAllDocuments();
+    }
+
     public int addNewDocument(DocumentDTO documentDTO) {
     //String email, String title, String docType, String path, String recipientId, String deadline)
         inputValidator.validate(documentDTO);
@@ -40,4 +46,5 @@ public class DocumentFacade {
 
         return registryNumber;
     }
+
 }
