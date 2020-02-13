@@ -7,13 +7,17 @@ export const createDocument = (document, history) => async dispatch => {
   try {
     const path = properties.serverURL + appConstants.DOCUMENTS_URL;
     console.log(path);
-    const res = await axios.post(path, document);
-    history.pushState("/my-documents");
-  } catch (err) {
+    await axios.post(path, document);
+    history.push("/my-documents");
     dispatch({
       type: GET_ERRORS,
-      payload: err.response.data
+      payload: {}
     });
+  } catch (err) {
+    // dispatch({
+    //   type: GET_ERRORS,
+    //   payload: err.response.data
+    // });
   }
 };
 

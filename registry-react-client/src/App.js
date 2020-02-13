@@ -11,6 +11,7 @@ import PageHeader from "./components/layout/PageHeader";
 import DocumentTable from "./components/document/DocumentTable";
 import Dashboard from "./components/Dashboard";
 import CreateDocument from "./components/document/CreateDocument";
+import * as appConstants from "./properties.js";
 
 function App() {
   return (
@@ -18,10 +19,22 @@ function App() {
       <Router>
         <div className="App">
           <PageHeader />
-          <Route exact path="/documents" component={DocumentTable} />
+          <Route
+            exact
+            path={appConstants.DOCUMENTS_PATH}
+            component={DocumentTable}
+          />
           <Route exact path="/documents-in-work" component={Dashboard} />
-          <Route exact path="/my-documents" component={DocumentTable} />
-          <Route exact path="/new-document" component={CreateDocument} />
+          <Route
+            exact
+            path={appConstants.MY_DOCUMENTS_PATH}
+            component={DocumentTable}
+          />
+          <Route
+            exact
+            path={appConstants.NEW_DOCUMENT_PATH}
+            component={CreateDocument}
+          />
         </div>
       </Router>
     </Provider>
