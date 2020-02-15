@@ -57,7 +57,6 @@ public class DocumentRepositoryImpl implements DocumentRepository {
     private SqlParameterSource getSqlParameterSourceForEntity(Document document) {
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
         if (document != null) {
-            parameterSource.addValue("registrynumber", document.getRegistryNumber());
             parameterSource.addValue("creatorid", document.getCreatedBy());
             parameterSource.addValue("title", document.getTitle());
             parameterSource.addValue("globalstatus", document.getGlobalStatus().getStatus());

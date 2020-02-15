@@ -10,7 +10,11 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+
+import java.util.Objects;
 
 
 @Repository
@@ -26,16 +30,26 @@ public class UserRepositoryImpl implements UserRepository {
     @Value("${getUserByEmail}")
     private String getUserByEmailQuery;
 
+    @Value("${addUser}")
+    private String addUserQuery;
+
     @Override
     public User getUserByEmail(String email) {
         SqlParameterSource sqlParameterSource = new MapSqlParameterSource("email", email);
         return jdbcTemplate.queryForObject(getUserByEmailQuery, sqlParameterSource, userMapper);
     }
 
+    @Override
+    public int addUser(User user) {
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        this.jdbcTemplate.update(addUserQuery, getSqlParameterSourceForEntity(user), keyHolder);
+        return Objects.requireNonNull(keyHolder.getKey()).intValue();
+    }
+
+
     private SqlParameterSource getSqlParameterSourceForEntity(User user) {
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
         if (user != null) {
-            parameterSource.addValue("userid", user.getUserId());
             parameterSource.addValue("firstname", user.getFirstName());
             parameterSource.addValue("lastname", user.getLastName());
             parameterSource.addValue("email", user.getEmail());

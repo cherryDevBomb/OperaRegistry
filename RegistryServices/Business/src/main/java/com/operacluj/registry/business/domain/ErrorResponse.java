@@ -1,4 +1,4 @@
-package com.operacluj.registry.web.domain;
+package com.operacluj.registry.business.domain;
 
 public class ErrorResponse {
 
