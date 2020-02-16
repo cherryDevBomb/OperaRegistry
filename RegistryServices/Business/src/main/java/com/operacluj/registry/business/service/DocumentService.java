@@ -12,5 +12,7 @@ public interface DocumentService {
 
     Document getDocumentByRegistryNumber(int registryNumber);
     List<Document> getAllDocuments();
+    List<Document> getAllDocumentsCreatedBy(Principal principal);
     Integer addDocument(DocumentDTO documentDTO, Principal principal);
+    void deleteDocument(int registryNumber, Principal principal);
 }

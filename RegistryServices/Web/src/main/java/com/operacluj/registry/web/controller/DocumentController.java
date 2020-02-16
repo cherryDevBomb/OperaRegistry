@@ -32,9 +32,21 @@ public class DocumentController {
         return documentService.getAllDocuments();
     }
 
+    @GetMapping("/my-documents")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Document> getAllDocumentsByCreator(Principal principal) {
+        return documentService.getAllDocumentsCreatedBy(principal);
+    }
+
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public Integer addDocument(@RequestBody DocumentDTO documentDTO, Principal principal) {
         return documentService.addDocument(documentDTO, principal);
+    }
+
+    @DeleteMapping("/{registryNumber}")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteDocumentByRegistryNumber(@PathVariable int registryNumber, Principal principal) {
+        documentService.deleteDocument(registryNumber, principal);
     }
 }

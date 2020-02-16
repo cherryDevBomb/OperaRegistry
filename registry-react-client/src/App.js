@@ -12,6 +12,9 @@ import DocumentTable from "./components/document/DocumentTable";
 import Dashboard from "./components/Dashboard";
 import CreateDocument from "./components/document/CreateDocument";
 import * as appConstants from "./properties.js";
+import LandingPage from "./components/layout/LandingPage";
+import Register from "./components/userManagement/Register";
+import Login from "./components/userManagement/Login";
 
 function App() {
   return (
@@ -19,6 +22,11 @@ function App() {
       <Router>
         <div className="App">
           <PageHeader />
+
+          <Route exact path="/" component={LandingPage} />
+          <Route exact path={appConstants.REGISTER_PATH} component={Register} />
+          <Route exact path={appConstants.LOGIN_PATH} component={Login} />
+
           <Route
             exact
             path={appConstants.DOCUMENTS_PATH}

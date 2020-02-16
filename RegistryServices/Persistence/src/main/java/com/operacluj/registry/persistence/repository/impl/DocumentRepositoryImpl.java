@@ -32,6 +32,9 @@ public class DocumentRepositoryImpl implements DocumentRepository {
     @Value("${getAllDocuments}")
     private String getAllDocumentsQuery;
 
+    @Value("${getAllDocumentsCreatedBy}")
+    private String getAllDocumentsCreatedByQuery;
+
     @Value("${addDocument}")
     private String addDocumentQuery;
 
@@ -50,6 +53,12 @@ public class DocumentRepositoryImpl implements DocumentRepository {
     }
 
     @Override
+    public List<Document> getAllDocumentsCreatedBy(int userId) {
+        SqlParameterSource sqlParameterSource = new MapSqlParameterSource("createdBy", userId);
+        return jdbcTemplate.query(getAllDocumentsCreatedByQuery, sqlParameterSource, documentMapper);
+    }
+
+    @Override
     public int addDocument(Document document) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         this.jdbcTemplate.update(addDocumentQuery, getSqlParameterSourceForEntity(document), keyHolder);
@@ -57,8 +66,8 @@ public class DocumentRepositoryImpl implements DocumentRepository {
     }
 
     @Override
-    public void deleteDocument(int documentId) {
-        SqlParameterSource sqlParameterSource = new MapSqlParameterSource("documentid", documentId);
+    public void deleteDocument(int registryNumber) {
+        SqlParameterSource sqlParameterSource = new MapSqlParameterSource("registrynumber", registryNumber);
         jdbcTemplate.update(deleteDocumentQuery, sqlParameterSource);
     }
 

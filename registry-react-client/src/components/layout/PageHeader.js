@@ -2,6 +2,7 @@ import React, { Component } from "react";
 
 import { LinkContainer } from "react-router-bootstrap";
 import { Link } from "react-router-dom";
+import * as appConstants from "../../properties.js";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import NavDropdown from "react-bootstrap/NavDropdown";
@@ -18,18 +19,28 @@ export default class PageHeader extends Component {
             <i className="fas fa-home" />
           </Link>
         </Navbar.Brand>
+
         <Nav className="mr-auto">
-          <LinkContainer to="/documents">
+          <LinkContainer to={appConstants.DOCUMENTS_PATH}>
             <Nav.Link>Documente</Nav.Link>
           </LinkContainer>
           <LinkContainer to="/documents-in-work">
             <Nav.Link>Documente in lucru</Nav.Link>
           </LinkContainer>
-          <LinkContainer to="/my-documents">
-            <Nav.Link href="#pricing">Documentele mele</Nav.Link>
+          <LinkContainer to={appConstants.MY_DOCUMENTS_PATH}>
+            <Nav.Link>Documentele mele</Nav.Link>
           </LinkContainer>
         </Nav>
+
         <Navbar.Collapse className="justify-content-end">
+          <LinkContainer to={appConstants.REGISTER_PATH}>
+            <Nav.Link>Sign up</Nav.Link>
+          </LinkContainer>
+
+          <LinkContainer to={appConstants.LOGIN_PATH}>
+            <Nav.Link>Sign in</Nav.Link>
+          </LinkContainer>
+
           <NavDropdown
             className="white-red-hover dropdown-menu-right"
             title={
@@ -39,10 +50,11 @@ export default class PageHeader extends Component {
             }
             id="nav-dropdown-plus"
           >
-            <LinkContainer to="/new-document">
+            <LinkContainer to={appConstants.NEW_DOCUMENT_PATH}>
               <NavDropdown.Item>Document nou</NavDropdown.Item>
             </LinkContainer>
           </NavDropdown>
+
           <NavDropdown
             className="white-red-hover dropdown-menu-right"
             title={

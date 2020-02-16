@@ -7,6 +7,7 @@ import com.operacluj.registry.business.domain.ErrorResponse;
 import com.operacluj.registry.business.exception.PasswordDoesNotMatchException;
 import com.operacluj.registry.business.util.ErrorMessageConstants;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -27,6 +28,12 @@ public class ControllerExceptionHandler {
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public ErrorResponse handleAuthException(AuthenticationException e, HttpServletResponse response) {
         return new ErrorResponse(ErrorMessageConstants.INVALID_LOGIN_MESSAGE, ErrorMessageConstants.INVALID_LOGIN_CAUSE);
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ErrorResponse handleException(AccessDeniedException e) {
+        return new ErrorResponse(ErrorMessageConstants.ACCESS_DENIED, getCause(e));
     }
 
     @ExceptionHandler(EntityNotFoundException.class)

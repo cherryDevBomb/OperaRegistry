@@ -6,6 +6,7 @@ import com.operacluj.registry.business.exception.EntityNotFoundException;
 import com.operacluj.registry.business.service.DocumentService;
 import com.operacluj.registry.business.translator.DocumentTranslator;
 import com.operacluj.registry.business.translator.UserTranslator;
+import com.operacluj.registry.business.util.ErrorMessageConstants;
 import com.operacluj.registry.business.validator.InputValidator;
 import com.operacluj.registry.model.Document;
 import com.operacluj.registry.model.DocumentStatus;
@@ -16,6 +17,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -51,7 +53,7 @@ public class DocumentServiceImpl implements DocumentService {
             return documentRepository.getDocumentByRegistryNumber(registryNumber);
         } catch (EmptyResultDataAccessException e) {
             LOG.error("Document with registry number {} not found", registryNumber);
-            throw new EntityNotFoundException("Failed to get document with registry number: " + registryNumber, e);
+            throw new EntityNotFoundException(ErrorMessageConstants.DOCUMENT_NOT_FOUND, e);
         }
     }
 
@@ -60,6 +62,14 @@ public class DocumentServiceImpl implements DocumentService {
     public List<Document> getAllDocuments() {
         LOG.info("Enter getAllDocuments");
         return documentRepository.getAllDocuments();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Document> getAllDocumentsCreatedBy(Principal principal) {
+        LOG.info("Enter getAllDocumentsCreatedBy");
+        User user = userTranslator.getUserFromPrincipal(principal);
+        return documentRepository.getAllDocumentsCreatedBy(user.getUserId());
     }
 
     @Override
@@ -78,7 +88,26 @@ public class DocumentServiceImpl implements DocumentService {
             return registryNumber;
         } catch (RuntimeException e) {
             LOG.error("Error creating new document");
-            throw new CreateEntityException("Failed to create a new document", e);
+            throw new CreateEntityException(ErrorMessageConstants.DOCUMENT_NOT_CREATED, e);
+        }
+    }
+
+    @Override
+    @Transactional
+    public void deleteDocument(int registryNumber, Principal principal) {
+        User user = userTranslator.getUserFromPrincipal(principal);
+        Document document = getDocumentByRegistryNumber(registryNumber);
+        if (user.getUserId() == document.getCreatedBy()) {
+            try {
+                LOG.info("Enter deleteDocument {}", registryNumber);
+                documentRepository.deleteDocument(registryNumber);
+            } catch (EmptyResultDataAccessException e) {
+                LOG.error("Document with registry number {} not deleted", registryNumber);
+                throw new EntityNotFoundException(ErrorMessageConstants.DOCUMENT_NOT_FOUND, e);
+            }
+        }
+        else {
+            throw new AccessDeniedException(ErrorMessageConstants.ACCESS_DENIED);
         }
     }
 }

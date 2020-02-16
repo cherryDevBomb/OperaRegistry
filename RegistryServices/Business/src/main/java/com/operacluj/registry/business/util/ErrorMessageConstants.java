@@ -7,6 +7,8 @@ public class ErrorMessageConstants {
 
     public static final String DOCUMENT_TITLE_REQUIRED = "Document title is required";
     public static final String DOCUMENT_TYPE_REQUIRED = "Document type is required";
+    public static final String DOCUMENT_NOT_FOUND = "Document not found";
+    public static final String DOCUMENT_NOT_CREATED = "Failed to create a new document";
 
     public static final String EMAIL_REQUIRED = "Email is required";
     public static final String EMAIL_NOT_VALID = "Not a valid email";
@@ -20,4 +22,5 @@ public class ErrorMessageConstants {
     public static final String INVALID_LOGIN_MESSAGE = "Invalid Login";
     public static final String INVALID_LOGIN_CAUSE = "Please use the right credentials";
 
+    public static final String ACCESS_DENIED = "Access denied";
 }

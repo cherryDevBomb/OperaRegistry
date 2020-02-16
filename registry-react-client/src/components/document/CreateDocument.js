@@ -49,20 +49,6 @@ class CreateDocument extends Component {
     return (
       <React.Fragment>
         <Form onSubmit={this.onSubmit}>
-          <Form.Group controlId="formGroupDocCreator">
-            <Form.Label column sm="2">
-              Emitent
-            </Form.Label>
-            <Col sm="10">
-              <Form.Control
-                name="email"
-                plaintext
-                readOnly
-                defaultValue="testEmail"
-              />
-            </Col>
-          </Form.Group>
-
           <Form.Group controlId="formGroupDocTitle">
             <Form.Label>Titlu</Form.Label>
             <Form.Control

@@ -9,6 +9,7 @@ public interface DocumentRepository {
 
     Document getDocumentByRegistryNumber(int registryNumber);
     List<Document> getAllDocuments();
+    List<Document> getAllDocumentsCreatedBy(int userId);
     int addDocument(Document document);
-    void deleteDocument(int documentId);
+    void deleteDocument(int registryNumber);
 }
