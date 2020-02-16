@@ -3,11 +3,10 @@ package com.operacluj.registry.business.service.impl;
 import com.operacluj.registry.business.domain.UserDTO;
 import com.operacluj.registry.business.exception.DuplicateEntityException;
 import com.operacluj.registry.business.exception.EntityNotFoundException;
-import com.operacluj.registry.business.exception.PasswordDoesNotMatchException;
 import com.operacluj.registry.business.service.UserService;
 import com.operacluj.registry.business.translator.UserTranslator;
 import com.operacluj.registry.business.util.ErrorMessageConstants;
-import com.operacluj.registry.business.validator.InputValidator;
+import com.operacluj.registry.business.validator.UserValidator;
 import com.operacluj.registry.model.User;
 import com.operacluj.registry.persistence.repository.UserRepository;
 
@@ -28,8 +27,10 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
 
+//    @Autowired
+//    InputValidator userValidator;
     @Autowired
-    InputValidator inputValidator;
+    UserValidator userValidator;
 
     @Autowired
     UserTranslator userTranslator;
@@ -48,11 +49,8 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public int addUser(UserDTO userDTO) {
-        inputValidator.validate(userDTO);
-        if (!userDTO.getPassword().equals(userDTO.getConfirmPassword())) {
-            throw new PasswordDoesNotMatchException(ErrorMessageConstants.PASSWORD_DOES_NOT_MATCH);
-        }
 
+        userValidator.validate(userDTO);
         User newUser = userTranslator.translate(userDTO);
         try {
             return userRepository.addUser(newUser);

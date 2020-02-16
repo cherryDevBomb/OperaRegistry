@@ -35,6 +35,12 @@ public class ControllerExceptionHandler {
         return new ErrorResponse(e.getMessage(), getCause(e));
     }
 
+    @ExceptionHandler({PasswordDoesNotMatchException.class, DuplicateEntityException.class})
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ErrorResponse handleException(RuntimeException e) {
+        return new ErrorResponse(e.getMessage(), getCause(e));
+    }
+
     @ExceptionHandler(ArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
@@ -44,12 +50,6 @@ public class ControllerExceptionHandler {
             errorMap.put(constraintViolation.getPropertyPath().toString(), constraintViolation.getMessage());
         }
         return errorMap;
-    }
-
-    @ExceptionHandler({PasswordDoesNotMatchException.class})
-    @ResponseStatus(HttpStatus.CONFLICT)
-    public ErrorResponse handleException(PasswordDoesNotMatchException e) {
-        return new ErrorResponse(e.getMessage(), getCause(e));
     }
 
     @ExceptionHandler({Exception.class, ServletException.class})
