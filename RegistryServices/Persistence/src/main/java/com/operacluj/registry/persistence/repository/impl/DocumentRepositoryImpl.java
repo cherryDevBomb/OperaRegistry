@@ -35,6 +35,8 @@ public class DocumentRepositoryImpl implements DocumentRepository {
     @Value("${addDocument}")
     private String addDocumentQuery;
 
+    @Value("${deleteDocument}")
+    private String deleteDocumentQuery;
 
     @Override
     public Document getDocumentByRegistryNumber(int registryNumber) {
@@ -54,6 +56,12 @@ public class DocumentRepositoryImpl implements DocumentRepository {
         return Objects.requireNonNull(keyHolder.getKey()).intValue();
     }
 
+    @Override
+    public void deleteDocument(int documentId) {
+        SqlParameterSource sqlParameterSource = new MapSqlParameterSource("documentid", documentId);
+        jdbcTemplate.update(deleteDocumentQuery, sqlParameterSource);
+    }
+
     private SqlParameterSource getSqlParameterSourceForEntity(Document document) {
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
         if (document != null) {
@@ -65,4 +73,6 @@ public class DocumentRepositoryImpl implements DocumentRepository {
         }
         return parameterSource;
     }
+
+
 }

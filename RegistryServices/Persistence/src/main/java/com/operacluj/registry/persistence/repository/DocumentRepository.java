@@ -10,4 +10,5 @@ public interface DocumentRepository {
     Document getDocumentByRegistryNumber(int registryNumber);
     List<Document> getAllDocuments();
     int addDocument(Document document);
+    void deleteDocument(int documentId);
 }

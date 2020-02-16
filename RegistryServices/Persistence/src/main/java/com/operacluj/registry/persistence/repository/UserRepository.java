@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 public interface UserRepository {
 
     User getUserByEmail(String email);
+    User getUserById(int userId);
     int addUser(User user);
 }
 

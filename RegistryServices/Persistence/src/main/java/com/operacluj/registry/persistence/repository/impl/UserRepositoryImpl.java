@@ -30,6 +30,9 @@ public class UserRepositoryImpl implements UserRepository {
     @Value("${getUserByEmail}")
     private String getUserByEmailQuery;
 
+    @Value("${getUserById}")
+    private String getUserByIdQuery;
+
     @Value("${addUser}")
     private String addUserQuery;
 
@@ -37,6 +40,12 @@ public class UserRepositoryImpl implements UserRepository {
     public User getUserByEmail(String email) {
         SqlParameterSource sqlParameterSource = new MapSqlParameterSource("email", email);
         return jdbcTemplate.queryForObject(getUserByEmailQuery, sqlParameterSource, userMapper);
+    }
+
+    @Override
+    public User getUserById(int userId) {
+        SqlParameterSource sqlParameterSource = new MapSqlParameterSource("userid", userId);
+        return jdbcTemplate.queryForObject(getUserByIdQuery, sqlParameterSource, userMapper);
     }
 
     @Override

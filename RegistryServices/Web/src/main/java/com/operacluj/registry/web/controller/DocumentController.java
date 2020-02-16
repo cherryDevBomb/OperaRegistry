@@ -1,13 +1,14 @@
 package com.operacluj.registry.web.controller;
 
-import com.operacluj.registry.business.facade.DocumentFacade;
-import com.operacluj.registry.model.Document;
 import com.operacluj.registry.business.domain.DocumentDTO;
+import com.operacluj.registry.business.service.DocumentService;
+import com.operacluj.registry.model.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 
@@ -17,23 +18,23 @@ import java.util.List;
 public class DocumentController {
 
     @Autowired
-    private DocumentFacade documentFacade;
+    private DocumentService documentService;
 
     @GetMapping("/{registryNumber}")
     @ResponseStatus(HttpStatus.OK)
     public Document getDocumentByRegistryNumber(@PathVariable int registryNumber) {
-        return documentFacade.getDocumentByRegistryNumber(registryNumber);
+        return documentService.getDocumentByRegistryNumber(registryNumber);
     }
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<Document> getAllDocuments() {
-        return documentFacade.getAllDocuments();
+        return documentService.getAllDocuments();
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public int addDocument(@RequestBody DocumentDTO documentDTO) {
-        return documentFacade.addNewDocument(documentDTO);
+    public Integer addDocument(@RequestBody DocumentDTO documentDTO, Principal principal) {
+        return documentService.addDocument(documentDTO, principal);
     }
 }

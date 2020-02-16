@@ -1,14 +1,11 @@
 package com.operacluj.registry.business.domain;
 
 import com.operacluj.registry.business.util.ErrorMessageConstants;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import java.util.Collection;
 
-public class UserDTO implements UserDetails {
+public class UserDTO {
 
     @NotBlank(message = ErrorMessageConstants.FIRST_NAME_REQUIRED)
     private String firstName;
@@ -65,33 +62,33 @@ public class UserDTO implements UserDetails {
         this.confirmPassword = confirmPassword;
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
-    }
-
-    @Override
-    public String getUsername() {
-        return null;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
+//    @Override
+//    public Collection<? extends GrantedAuthority> getAuthorities() {
+//        return null;
+//    }
+//
+//    @Override
+//    public String getUsername() {
+//        return null;
+//    }
+//
+//    @Override
+//    public boolean isAccountNonExpired() {
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean isAccountNonLocked() {
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean isCredentialsNonExpired() {
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean isEnabled() {
+//        return true;
+//    }
 }
