@@ -1,10 +1,7 @@
 package com.operacluj.registry.web.controller;
 
-import com.operacluj.registry.business.exception.ArgumentNotValidException;
-import com.operacluj.registry.business.exception.DuplicateEntityException;
-import com.operacluj.registry.business.exception.EntityNotFoundException;
+import com.operacluj.registry.business.exception.*;
 import com.operacluj.registry.business.domain.ErrorResponse;
-import com.operacluj.registry.business.exception.PasswordDoesNotMatchException;
 import com.operacluj.registry.business.util.ErrorMessageConstants;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
@@ -42,10 +39,12 @@ public class ControllerExceptionHandler {
         return new ErrorResponse(e.getMessage(), getCause(e));
     }
 
-    @ExceptionHandler({PasswordDoesNotMatchException.class, DuplicateEntityException.class})
+    @ExceptionHandler({CustomConstraintViolationException.class})
     @ResponseStatus(HttpStatus.CONFLICT)
-    public ErrorResponse handleException(RuntimeException e) {
-        return new ErrorResponse(e.getMessage(), getCause(e));
+    public Map<String, String> handleException(CustomConstraintViolationException e) {
+        Map<String, String> errorMap = new HashMap<>();
+        errorMap.put(e.getPropertyName(), e.getViolationMessage());
+        return errorMap;
     }
 
     @ExceptionHandler(ArgumentNotValidException.class)

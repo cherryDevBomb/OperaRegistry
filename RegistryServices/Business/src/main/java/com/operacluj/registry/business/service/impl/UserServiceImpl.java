@@ -1,6 +1,7 @@
 package com.operacluj.registry.business.service.impl;
 
 import com.operacluj.registry.business.domain.UserDTO;
+import com.operacluj.registry.business.exception.CustomConstraintViolationException;
 import com.operacluj.registry.business.exception.DuplicateEntityException;
 import com.operacluj.registry.business.exception.EntityNotFoundException;
 import com.operacluj.registry.business.service.UserService;
@@ -74,7 +75,7 @@ public class UserServiceImpl implements UserService {
             return userRepository.addUser(newUser);
         } catch (DuplicateKeyException e) {
             LOG.error("User with email {} already exists", newUser.getEmail());
-            throw new DuplicateEntityException(ErrorMessageConstants.USER_ALREADY_EXISTS);
+            throw new CustomConstraintViolationException("email", ErrorMessageConstants.USER_ALREADY_EXISTS);
         }
     }
 }

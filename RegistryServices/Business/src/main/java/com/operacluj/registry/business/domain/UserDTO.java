@@ -20,6 +20,7 @@ public class UserDTO {
     @NotBlank(message = ErrorMessageConstants.PASSWORD_REQUIRED)
     private String password;
 
+    @NotBlank(message = ErrorMessageConstants.PASSWORD_REQUIRED)
     private String confirmPassword;
 
     public String getFirstName() {
