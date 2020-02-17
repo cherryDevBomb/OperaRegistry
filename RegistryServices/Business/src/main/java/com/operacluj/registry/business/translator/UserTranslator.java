@@ -1,6 +1,6 @@
 package com.operacluj.registry.business.translator;
 
-import com.operacluj.registry.business.domain.UserDTO;
+import com.operacluj.registry.business.domain.UserFormDTO;
 import com.operacluj.registry.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -15,12 +15,12 @@ public class UserTranslator {
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public User translate(UserDTO userDTO) {
+    public User translate(UserFormDTO userFormDTO) {
         User user = new User();
-        user.setFirstName(userDTO.getFirstName());
-        user.setLastName(userDTO.getLastName());
-        user.setEmail(userDTO.getEmail());
-        user.setPassword(bCryptPasswordEncoder.encode(userDTO.getPassword()));
+        user.setFirstName(userFormDTO.getFirstName());
+        user.setLastName(userFormDTO.getLastName());
+        user.setEmail(userFormDTO.getEmail());
+        user.setPassword(bCryptPasswordEncoder.encode(userFormDTO.getPassword()));
         return user;
     }
 

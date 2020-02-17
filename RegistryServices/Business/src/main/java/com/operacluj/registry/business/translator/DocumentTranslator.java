@@ -1,18 +1,18 @@
 package com.operacluj.registry.business.translator;
 
-import com.operacluj.registry.business.domain.DocumentDTO;
+import com.operacluj.registry.business.domain.DocumentFormDTO;
 import com.operacluj.registry.model.Document;
 import org.springframework.stereotype.Component;
 
 @Component
 public class DocumentTranslator {
     
-    public Document translate(DocumentDTO documentDTO) {
+    public Document translate(DocumentFormDTO documentFormDTO) {
 
         Document document = new Document();
-        document.setTitle(documentDTO.getTitle());
-        document.setDocumentType(documentDTO.getDocType());
-        document.setPath(documentDTO.getPath());
+        document.setTitle(documentFormDTO.getTitle());
+        document.setDocumentType(documentFormDTO.getDocType());
+        document.setPath(documentFormDTO.getPath());
         
         return document;
     }

@@ -1,72 +1,27 @@
 package com.operacluj.registry.business.domain;
 
-import com.operacluj.registry.business.util.ErrorMessageConstants;
+import com.operacluj.registry.model.User;
+import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.validation.constraints.NotBlank;
-
+import java.time.LocalDate;
+import java.util.List;
 
 public class DocumentDTO {
 
-//    @NotBlank(message = ErrorMessageConstants.EMAIL_REQUIRED)
-//    private String email;
+    private int registryNumber;
 
-    @NotBlank(message = ErrorMessageConstants.DOCUMENT_TITLE_REQUIRED)
+    private User createdBy;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate createdDate;
+
     private String title;
 
-    @NotBlank(message = ErrorMessageConstants.DOCUMENT_TYPE_REQUIRED)
-    private String docType;
+    private String globalStatus;
+
+    private String documentType;
 
     private String path;
 
-    private String recipientId;
-
-    private String deadline;
-
-//    public String getEmail() {
-//        return email;
-//    }
-//
-//    public void setEmail(String email) {
-//        this.email = email;
-//    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getDocType() {
-        return docType;
-    }
-
-    public void setDocType(String docType) {
-        this.docType = docType;
-    }
-
-    public String getPath() {
-        return path;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
-    }
-
-    public String getRecipientId() {
-        return recipientId;
-    }
-
-    public void setRecipientId(String recipientId) {
-        this.recipientId = recipientId;
-    }
-
-    public String getDeadline() {
-        return deadline;
-    }
-
-    public void setDeadline(String deadline) {
-        this.deadline = deadline;
-    }
+    private List<DocumentHistoryDTO> documentHistory;
 }

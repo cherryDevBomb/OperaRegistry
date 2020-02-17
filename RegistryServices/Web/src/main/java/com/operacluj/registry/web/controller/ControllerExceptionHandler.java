@@ -3,7 +3,7 @@ package com.operacluj.registry.web.controller;
 import com.operacluj.registry.business.exception.ArgumentNotValidException;
 import com.operacluj.registry.business.exception.DuplicateEntityException;
 import com.operacluj.registry.business.exception.EntityNotFoundException;
-import com.operacluj.registry.business.domain.ErrorResponse;
+import com.operacluj.registry.business.payload.ErrorResponse;
 import com.operacluj.registry.business.exception.PasswordDoesNotMatchException;
 import com.operacluj.registry.business.util.ErrorMessageConstants;
 import org.springframework.http.HttpStatus;

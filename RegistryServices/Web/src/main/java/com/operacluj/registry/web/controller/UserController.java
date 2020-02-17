@@ -1,6 +1,6 @@
 package com.operacluj.registry.web.controller;
 
-import com.operacluj.registry.business.domain.UserDTO;
+import com.operacluj.registry.business.domain.UserFormDTO;
 import com.operacluj.registry.business.payload.JWTLoginSuccessResponse;
 import com.operacluj.registry.business.payload.LoginRequest;
 import com.operacluj.registry.business.service.AuthenticationService;
@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
+@CrossOrigin
 @RequestMapping("/users")
 public class UserController {
 
@@ -29,8 +30,8 @@ public class UserController {
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
-    public int registerUser(@RequestBody UserDTO userDTO) {
-        return userService.addUser(userDTO);
+    public int registerUser(@RequestBody UserFormDTO userFormDTO) {
+        return userService.addUser(userFormDTO);
     }
 
     @PostMapping("/login")

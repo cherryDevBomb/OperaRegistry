@@ -1,6 +1,6 @@
 package com.operacluj.registry.business.service.impl;
 
-import com.operacluj.registry.business.domain.DocumentDTO;
+import com.operacluj.registry.business.domain.DocumentFormDTO;
 import com.operacluj.registry.business.exception.CreateEntityException;
 import com.operacluj.registry.business.exception.EntityNotFoundException;
 import com.operacluj.registry.business.service.DocumentService;
@@ -74,11 +74,11 @@ public class DocumentServiceImpl implements DocumentService {
 
     @Override
     @Transactional
-    public Integer addDocument(DocumentDTO documentDTO, Principal principal) {
+    public Integer addDocument(DocumentFormDTO documentFormDTO, Principal principal) {
         User user = userTranslator.getUserFromPrincipal(principal);
 
-        inputValidator.validate(documentDTO);
-        Document newDocument = documentTranslator.translate(documentDTO);
+        inputValidator.validate(documentFormDTO);
+        Document newDocument = documentTranslator.translate(documentFormDTO);
         newDocument.setGlobalStatus(DocumentStatus.PENDING);
         newDocument.setCreatedBy(user.getUserId());
 

@@ -1,6 +1,6 @@
 package com.operacluj.registry.web.controller;
 
-import com.operacluj.registry.business.domain.DocumentDTO;
+import com.operacluj.registry.business.domain.DocumentFormDTO;
 import com.operacluj.registry.business.service.DocumentService;
 import com.operacluj.registry.model.Document;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +13,8 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/documents")
 @CrossOrigin
+@RequestMapping("/documents")
 public class DocumentController {
 
     @Autowired
@@ -40,8 +40,8 @@ public class DocumentController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public Integer addDocument(@RequestBody DocumentDTO documentDTO, Principal principal) {
-        return documentService.addDocument(documentDTO, principal);
+    public Integer addDocument(@RequestBody DocumentFormDTO documentFormDTO, Principal principal) {
+        return documentService.addDocument(documentFormDTO, principal);
     }
 
     @DeleteMapping("/{registryNumber}")
