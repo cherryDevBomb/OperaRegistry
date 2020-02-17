@@ -6,18 +6,17 @@ import * as appConstants from "../properties.js";
 export const createDocument = (document, history) => async dispatch => {
   try {
     const path = properties.serverURL + appConstants.DOCUMENTS_URL;
-    console.log(path);
     await axios.post(path, document);
-    history.push("/my-documents");
+    history.push(appConstants.MY_DOCUMENTS_PATH);
     dispatch({
       type: GET_ERRORS,
       payload: {}
     });
   } catch (err) {
-    // dispatch({
-    //   type: GET_ERRORS,
-    //   payload: err.response.data
-    // });
+    dispatch({
+      type: GET_ERRORS,
+      payload: err.response.data
+    });
   }
 };
 

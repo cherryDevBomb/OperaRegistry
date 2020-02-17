@@ -63,6 +63,7 @@ class CreateDocument extends Component {
               {errors.title}
             </Form.Control.Feedback>
           </Form.Group>
+
           <Form.Group controlId="formGroupDocType">
             <Form.Label>Tipul documentului</Form.Label>
             <Form.Control
@@ -77,6 +78,7 @@ class CreateDocument extends Component {
               {errors.docType}
             </Form.Control.Feedback>
           </Form.Group>
+          
           <Button variant="primary" type="submit">
             Submit
           </Button>
