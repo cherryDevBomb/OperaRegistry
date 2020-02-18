@@ -1,6 +1,7 @@
 package com.operacluj.registry.business.service.impl;
 
-import com.operacluj.registry.business.domain.DocumentFormDTO;
+import com.operacluj.registry.business.domain.DocumentDTO;
+import com.operacluj.registry.business.domain.DocumentForm;
 import com.operacluj.registry.business.exception.CreateEntityException;
 import com.operacluj.registry.business.exception.EntityNotFoundException;
 import com.operacluj.registry.business.service.DocumentService;
@@ -12,7 +13,6 @@ import com.operacluj.registry.model.Document;
 import com.operacluj.registry.model.DocumentStatus;
 import com.operacluj.registry.model.User;
 import com.operacluj.registry.persistence.repository.DocumentRepository;
-import com.operacluj.registry.persistence.repository.UserRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -34,23 +35,21 @@ public class DocumentServiceImpl implements DocumentService {
     private DocumentRepository documentRepository;
 
     @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
     InputValidator inputValidator;
 
     @Autowired
     private DocumentTranslator documentTranslator;
 
-    @Autowired private UserTranslator userTranslator;
-
+    @Autowired
+    private UserTranslator userTranslator;
 
     @Override
     @Transactional(readOnly = true)
-    public Document getDocumentByRegistryNumber(int registryNumber) {
+    public DocumentDTO getDocumentByRegistryNumber(int registryNumber) {
         try {
             LOG.info("Enter getDocumentByRegistryNumber {}", registryNumber);
-            return documentRepository.getDocumentByRegistryNumber(registryNumber);
+            Document document = documentRepository.getDocumentByRegistryNumber(registryNumber);
+            return documentTranslator.translate(document);
         } catch (EmptyResultDataAccessException e) {
             LOG.error("Document with registry number {} not found", registryNumber);
             throw new EntityNotFoundException(ErrorMessageConstants.DOCUMENT_NOT_FOUND, e);
@@ -59,27 +58,32 @@ public class DocumentServiceImpl implements DocumentService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Document> getAllDocuments() {
+    public List<DocumentDTO> getAllDocuments() {
         LOG.info("Enter getAllDocuments");
-        return documentRepository.getAllDocuments();
+        return documentRepository.getAllDocuments()
+                .stream()
+                .map(document -> documentTranslator.translate(document))
+                .collect(Collectors.toList());
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<Document> getAllDocumentsCreatedBy(Principal principal) {
+    public List<DocumentDTO> getAllDocumentsCreatedBy(Principal principal) {
         LOG.info("Enter getAllDocumentsCreatedBy");
         User user = userTranslator.getUserFromPrincipal(principal);
-        return documentRepository.getAllDocumentsCreatedBy(user.getUserId());
+        return documentRepository.getAllDocumentsCreatedBy(user.getUserId())
+                .stream()
+                .map(document -> documentTranslator.translate(document))
+                .collect(Collectors.toList());
     }
 
     @Override
     @Transactional
-    public Integer addDocument(DocumentFormDTO documentFormDTO, Principal principal) {
-        User user = userTranslator.getUserFromPrincipal(principal);
-
-        inputValidator.validate(documentFormDTO);
-        Document newDocument = documentTranslator.translate(documentFormDTO);
+    public Integer addDocument(DocumentForm documentForm, Principal principal) {
+        inputValidator.validate(documentForm);
+        Document newDocument = documentTranslator.translate(documentForm);
         newDocument.setGlobalStatus(DocumentStatus.PENDING);
+        User user = userTranslator.getUserFromPrincipal(principal);
         newDocument.setCreatedBy(user.getUserId());
 
         try {
@@ -96,7 +100,7 @@ public class DocumentServiceImpl implements DocumentService {
     @Transactional
     public void deleteDocument(int registryNumber, Principal principal) {
         User user = userTranslator.getUserFromPrincipal(principal);
-        Document document = getDocumentByRegistryNumber(registryNumber);
+        Document document = documentRepository.getDocumentByRegistryNumber(registryNumber);
         if (user.getUserId() == document.getCreatedBy()) {
             try {
                 LOG.info("Enter deleteDocument {}", registryNumber);

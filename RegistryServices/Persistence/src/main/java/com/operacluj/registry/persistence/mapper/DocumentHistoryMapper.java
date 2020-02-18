@@ -2,11 +2,12 @@ package com.operacluj.registry.persistence.mapper;
 
 import com.operacluj.registry.model.DocumentHistory;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Component;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-
+@Component
 public class DocumentHistoryMapper implements RowMapper<DocumentHistory> {
 
     @Override

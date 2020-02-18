@@ -1,8 +1,8 @@
 package com.operacluj.registry.web.controller;
 
-import com.operacluj.registry.business.domain.DocumentFormDTO;
+import com.operacluj.registry.business.domain.DocumentDTO;
+import com.operacluj.registry.business.domain.DocumentForm;
 import com.operacluj.registry.business.service.DocumentService;
-import com.operacluj.registry.model.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -22,26 +22,26 @@ public class DocumentController {
 
     @GetMapping("/{registryNumber}")
     @ResponseStatus(HttpStatus.OK)
-    public Document getDocumentByRegistryNumber(@PathVariable int registryNumber) {
+    public DocumentDTO getDocumentByRegistryNumber(@PathVariable int registryNumber) {
         return documentService.getDocumentByRegistryNumber(registryNumber);
     }
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<Document> getAllDocuments() {
+    public List<DocumentDTO> getAllDocuments() {
         return documentService.getAllDocuments();
     }
 
     @GetMapping("/my-documents")
     @ResponseStatus(HttpStatus.OK)
-    public List<Document> getAllDocumentsByCreator(Principal principal) {
+    public List<DocumentDTO> getAllDocumentsByCreator(Principal principal) {
         return documentService.getAllDocumentsCreatedBy(principal);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public Integer addDocument(@RequestBody DocumentFormDTO documentFormDTO, Principal principal) {
-        return documentService.addDocument(documentFormDTO, principal);
+    public Integer addDocument(@RequestBody DocumentForm documentForm, Principal principal) {
+        return documentService.addDocument(documentForm, principal);
     }
 
     @DeleteMapping("/{registryNumber}")

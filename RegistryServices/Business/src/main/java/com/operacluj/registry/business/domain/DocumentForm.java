@@ -5,10 +5,7 @@ import com.operacluj.registry.business.util.ErrorMessageConstants;
 import javax.validation.constraints.NotBlank;
 
 
-public class DocumentFormDTO {
-
-//    @NotBlank(message = ErrorMessageConstants.EMAIL_REQUIRED)
-//    private String email;
+public class DocumentForm {
 
     @NotBlank(message = ErrorMessageConstants.DOCUMENT_TITLE_REQUIRED)
     private String title;
@@ -21,14 +18,6 @@ public class DocumentFormDTO {
     private String recipientId;
 
     private String deadline;
-
-//    public String getEmail() {
-//        return email;
-//    }
-//
-//    public void setEmail(String email) {
-//        this.email = email;
-//    }
 
     public String getTitle() {
         return title;

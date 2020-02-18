@@ -1,9 +1,7 @@
 package com.operacluj.registry.business.domain;
 
 import com.operacluj.registry.model.User;
-import org.springframework.format.annotation.DateTimeFormat;
 
-import java.time.LocalDate;
 import java.util.List;
 
 public class DocumentDTO {
@@ -12,8 +10,7 @@ public class DocumentDTO {
 
     private User createdBy;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate createdDate;
+    private String createdDate;
 
     private String title;
 
@@ -24,4 +21,68 @@ public class DocumentDTO {
     private String path;
 
     private List<DocumentHistoryDTO> documentHistory;
+
+    public int getRegistryNumber() {
+        return registryNumber;
+    }
+
+    public void setRegistryNumber(int registryNumber) {
+        this.registryNumber = registryNumber;
+    }
+
+    public User getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(User createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public String getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(String createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getGlobalStatus() {
+        return globalStatus;
+    }
+
+    public void setGlobalStatus(String globalStatus) {
+        this.globalStatus = globalStatus;
+    }
+
+    public String getDocumentType() {
+        return documentType;
+    }
+
+    public void setDocumentType(String documentType) {
+        this.documentType = documentType;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    public List<DocumentHistoryDTO> getDocumentHistory() {
+        return documentHistory;
+    }
+
+    public void setDocumentHistory(List<DocumentHistoryDTO> documentHistory) {
+        this.documentHistory = documentHistory;
+    }
 }

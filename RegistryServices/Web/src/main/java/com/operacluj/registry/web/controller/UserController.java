@@ -1,6 +1,6 @@
 package com.operacluj.registry.web.controller;
 
-import com.operacluj.registry.business.domain.UserFormDTO;
+import com.operacluj.registry.business.domain.UserForm;
 import com.operacluj.registry.business.payload.JWTLoginSuccessResponse;
 import com.operacluj.registry.business.payload.LoginRequest;
 import com.operacluj.registry.business.service.AuthenticationService;
@@ -30,8 +30,8 @@ public class UserController {
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
-    public int registerUser(@RequestBody UserFormDTO userFormDTO) {
-        return userService.addUser(userFormDTO);
+    public int registerUser(@RequestBody UserForm userForm) {
+        return userService.addUser(userForm);
     }
 
     @PostMapping("/login")

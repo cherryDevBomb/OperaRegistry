@@ -1,6 +1,5 @@
 package com.operacluj.registry.persistence.repository.impl;
 
-
 import com.operacluj.registry.model.DocumentHistory;
 import com.operacluj.registry.persistence.repository.DocumentHistoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +10,12 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Objects;
 
+@Repository
 public class DocumentHistoryRepositoryImpl implements DocumentHistoryRepository {
 
     @Autowired
@@ -32,9 +34,9 @@ public class DocumentHistoryRepositoryImpl implements DocumentHistoryRepository 
     private String updateDocumentHistoryStatusQuery;
 
     @Override
-    public DocumentHistory getDocumentHistoryForDocument(int registryNumber) {
+    public List<DocumentHistory> getDocumentHistoryForDocument(int registryNumber) {
         SqlParameterSource sqlParameterSource = new MapSqlParameterSource("registrynumber", registryNumber);
-        return jdbcTemplate.queryForObject(getDocumentHistoryForDocumentQuery, sqlParameterSource, documentHistoryMapper);
+        return jdbcTemplate.query(getDocumentHistoryForDocumentQuery, sqlParameterSource, documentHistoryMapper);
     }
 
     @Override
