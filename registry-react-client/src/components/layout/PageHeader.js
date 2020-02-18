@@ -2,16 +2,98 @@ import React, { Component } from "react";
 
 import { LinkContainer } from "react-router-bootstrap";
 import { Link } from "react-router-dom";
-import * as appConstants from "../../properties.js";
+import { DOCUMENTS_PATH } from "../../properties.js";
+import { MY_DOCUMENTS_PATH } from "../../properties.js";
+import { NEW_DOCUMENT_PATH } from "../../properties.js";
+import { REGISTER_PATH } from "../../properties.js";
+import { LOGIN_PATH } from "../../properties.js";
+import { LOGOUT_PATH } from "../../properties.js";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import NavDropdown from "react-bootstrap/NavDropdown";
-// import Form from "react-bootstrap/Form";
-// import FormControl from "react-bootstrap/FormControl";
-// import Button from "react-bootstrap/Button";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { logout } from "../../actions/securityActions";
 
-export default class PageHeader extends Component {
+
+class PageHeader extends Component {
+  logout() {
+    this.props.logout();
+    window.location.href = "/";
+  }
+
   render() {
+    const { validToken, user } = this.props.security;
+    const userIsAuthenticated = (
+      <React.Fragment>
+        <Nav className="mr-auto">
+          <LinkContainer to={DOCUMENTS_PATH}>
+            <Nav.Link>Documente</Nav.Link>
+          </LinkContainer>
+          <LinkContainer to="/documents-in-work">
+            <Nav.Link>Documente in lucru</Nav.Link>
+          </LinkContainer>
+          <LinkContainer to={MY_DOCUMENTS_PATH}>
+            <Nav.Link>Documentele mele</Nav.Link>
+          </LinkContainer>
+        </Nav>
+
+        <Navbar.Collapse className="justify-content-end">
+          <LinkContainer to={NEW_DOCUMENT_PATH}>
+            <Nav.Link>
+              <i className="fas fa-plus" />
+              {"  "}Document nou
+            </Nav.Link>
+          </LinkContainer>
+
+          <NavDropdown
+            className="dropdown-menu-left"
+            title={
+              <span>
+                <i className="fas fa-user" />
+                {"  " + user.firstName + " " + user.lastName}
+              </span>
+            }
+          >
+            <NavDropdown.Item>Your profile</NavDropdown.Item>
+            <NavDropdown.Divider />
+
+            <LinkContainer to={LOGOUT_PATH} onClick={this.logout.bind(this)}>
+              <NavDropdown.Item>Sign out</NavDropdown.Item>
+            </LinkContainer>
+          </NavDropdown>
+        </Navbar.Collapse>
+      </React.Fragment>
+    );
+
+    const userIsNotAuthenticated = (
+      <React.Fragment>
+        <Nav className="mr-auto">
+          <LinkContainer to={LOGIN_PATH}>
+            <Nav.Link>Documente</Nav.Link>
+          </LinkContainer>
+        </Nav>
+
+        <Navbar.Collapse className="justify-content-end">
+          <LinkContainer to={REGISTER_PATH}>
+            <Nav.Link>Sign up</Nav.Link>
+          </LinkContainer>
+
+          <LinkContainer to={LOGIN_PATH}>
+            <Nav.Link>Sign in</Nav.Link>
+          </LinkContainer>
+        </Navbar.Collapse>
+      </React.Fragment>
+    );
+
+    let headerLinks;
+
+    if (validToken && user) {
+      headerLinks = userIsAuthenticated;
+    } else {
+      headerLinks = userIsNotAuthenticated;
+    }
+
     return (
       <Navbar bg="dark" variant="dark" sticky="top">
         <Navbar.Brand>
@@ -19,63 +101,19 @@ export default class PageHeader extends Component {
             <i className="fas fa-home" />
           </Link>
         </Navbar.Brand>
-
-        <Nav className="mr-auto">
-          <LinkContainer to={appConstants.DOCUMENTS_PATH}>
-            <Nav.Link>Documente</Nav.Link>
-          </LinkContainer>
-          <LinkContainer to="/documents-in-work">
-            <Nav.Link>Documente in lucru</Nav.Link>
-          </LinkContainer>
-          <LinkContainer to={appConstants.MY_DOCUMENTS_PATH}>
-            <Nav.Link>Documentele mele</Nav.Link>
-          </LinkContainer>
-        </Nav>
-
-        <Navbar.Collapse className="justify-content-end">
-          <LinkContainer to={appConstants.REGISTER_PATH}>
-            <Nav.Link>Sign up</Nav.Link>
-          </LinkContainer>
-
-          <LinkContainer to={appConstants.LOGIN_PATH}>
-            <Nav.Link>Sign in</Nav.Link>
-          </LinkContainer>
-
-          <NavDropdown
-            className="white-red-hover dropdown-menu-right"
-            title={
-              <span>
-                <i className="fas fa-plus white-red-hover"></i>
-              </span>
-            }
-            id="nav-dropdown-plus"
-          >
-            <LinkContainer to={appConstants.NEW_DOCUMENT_PATH}>
-              <NavDropdown.Item>Document nou</NavDropdown.Item>
-            </LinkContainer>
-          </NavDropdown>
-
-          <NavDropdown
-            className="white-red-hover dropdown-menu-right"
-            title={
-              <span>
-                <i className="fas fa-user white-red-hover"></i>
-              </span>
-            }
-            id="nav-dropdown-user"
-          >
-            <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-            <NavDropdown.Item href="#action/3.2">
-              Another action
-            </NavDropdown.Item>
-            <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-            <NavDropdown.Divider />
-            <NavDropdown.Item href="#action/3.4">
-              Separated link
-            </NavDropdown.Item>
-          </NavDropdown>
-        </Navbar.Collapse>
+        {headerLinks}
       </Navbar>
     );
   }
 }
+
+PageHeader.propTypes = {
+  logout: PropTypes.func.isRequired,
+  security: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+  security: state.security
+});
+
+export default connect(mapStateToProps, { logout })(PageHeader);

@@ -1,13 +1,14 @@
 import axios from "axios";
 import { GET_ERRORS, GET_DOCUMENTS } from "./types";
 import { properties } from "../properties.js";
-import * as appConstants from "../properties.js";
+import { DOCUMENTS_URL } from "../properties";
+import { MY_DOCUMENTS_PATH } from "../properties";
 
 export const createDocument = (document, history) => async dispatch => {
   try {
-    const path = properties.serverURL + appConstants.DOCUMENTS_URL;
+    const path = properties.serverURL + DOCUMENTS_URL;
     await axios.post(path, document);
-    history.push(appConstants.MY_DOCUMENTS_PATH);
+    history.push(MY_DOCUMENTS_PATH);
     dispatch({
       type: GET_ERRORS,
       payload: {}
@@ -21,7 +22,7 @@ export const createDocument = (document, history) => async dispatch => {
 };
 
 export const getDocuments = () => async dispatch => {
-  const path = properties.serverURL + appConstants.DOCUMENTS_URL;
+  const path = properties.serverURL + DOCUMENTS_URL;
   const res = await axios.get(path);
   dispatch({
     type: GET_DOCUMENTS,

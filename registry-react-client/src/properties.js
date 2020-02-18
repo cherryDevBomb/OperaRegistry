@@ -10,6 +10,7 @@ export const LOGIN_URL = "/users/login";
 // client side routes
 export const REGISTER_PATH = "/register";
 export const LOGIN_PATH = "/login";
+export const LOGOUT_PATH = "/logout";
 export const DOCUMENTS_PATH = "/documents";
 export const MY_DOCUMENTS_PATH = "/my-documents";
 export const NEW_DOCUMENT_PATH = "/new-document";

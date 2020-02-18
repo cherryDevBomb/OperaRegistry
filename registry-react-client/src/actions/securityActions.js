@@ -1,6 +1,8 @@
 import axios from "axios";
 import { properties } from "../properties.js";
-import * as appConstants from "../properties.js";
+import { REGISTER_URL } from "../properties";
+import { LOGIN_PATH } from "../properties";
+import { LOGIN_URL } from "../properties";
 import { GET_ERRORS } from "./types.js";
 import { SET_CURRENT_USER } from "./types.js";
 import setJWTToken from "../securityUtils/setJWTToken.js";
@@ -8,10 +10,10 @@ import jwt_decode from "jwt-decode";
 
 export const createUser = (newUser, history) => async dispatch => {
   try {
-    const path = properties.serverURL + appConstants.REGISTER_URL;
+    const path = properties.serverURL + REGISTER_URL;
     console.log(path);
     await axios.post(path, newUser);
-    history.push(appConstants.LOGIN_PATH);
+    history.push(LOGIN_PATH);
     dispatch({
       type: GET_ERRORS,
       payload: {}
@@ -26,7 +28,7 @@ export const createUser = (newUser, history) => async dispatch => {
 
 export const login = LoginRequest => async dispatch => {
   try {
-    const path = properties.serverURL + appConstants.LOGIN_URL;
+    const path = properties.serverURL + LOGIN_URL;
     console.log(path);
     const res = await axios.post(path, LoginRequest);
     const { token } = res.data;
@@ -44,4 +46,13 @@ export const login = LoginRequest => async dispatch => {
       payload: err.response.data
     });
   }
+};
+
+export const logout = () => dispatch => {
+  localStorage.removeItem("jwtToken");
+  setJWTToken(false);
+  dispatch({
+    type: SET_CURRENT_USER,
+    payload: {}
+  });
 };

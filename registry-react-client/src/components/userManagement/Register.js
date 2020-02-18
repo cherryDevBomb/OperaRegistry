@@ -4,6 +4,7 @@ import Button from "react-bootstrap/Button";
 import { createUser } from "../../actions/securityActions";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import { DOCUMENTS_PATH } from "../../properties";
 
 class Register extends Component {
   constructor() {
@@ -19,6 +20,12 @@ class Register extends Component {
 
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+  }
+
+  componentDidMount() {
+    if (this.props.security.validToken) {
+      this.props.history.push(DOCUMENTS_PATH);
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -134,10 +141,12 @@ class Register extends Component {
 
 Register.propTypes = {
   errors: PropTypes.object.isRequired,
-  createUser: PropTypes.func.isRequired
+  createUser: PropTypes.func.isRequired,
+  security: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
+  security: state.security,
   errors: state.errors
 });
 
