@@ -5,6 +5,7 @@ import com.operacluj.registry.business.payload.LoginRequest;
 import com.operacluj.registry.business.security.JwtTokenProvider;
 import com.operacluj.registry.business.security.SecurityConstants;
 import com.operacluj.registry.business.service.AuthenticationService;
+import com.operacluj.registry.business.validator.InputValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,8 +22,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Autowired
     private AuthenticationManager authenticationManager;
 
+    @Autowired
+    private InputValidator inputValidator;
+
     @Override
     public JWTLoginSuccessResponse loginUser(LoginRequest loginRequest) {
+        inputValidator.validate(loginRequest);
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword())
         );

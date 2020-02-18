@@ -19,8 +19,10 @@ public class ErrorMessageConstants {
     public static final String USER_ALREADY_EXISTS = "A user with this email is already registered";
     public static final String USER_NOT_FOUND = "User not found";
 
-    public static final String INVALID_LOGIN_MESSAGE = "Invalid Login";
-    public static final String INVALID_LOGIN_CAUSE = "Please use the right credentials";
+    public static final String INVALID_LOGIN = "Incorrect email or password";
 
     public static final String ACCESS_DENIED = "Access denied";
+
+
+    public static final String EMPTY_MESSAGE = " ";
 }

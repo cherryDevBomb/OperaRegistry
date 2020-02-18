@@ -23,8 +23,11 @@ public class ControllerExceptionHandler {
 
     @ExceptionHandler(AuthenticationException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    public ErrorResponse handleAuthException(AuthenticationException e, HttpServletResponse response) {
-        return new ErrorResponse(ErrorMessageConstants.INVALID_LOGIN_MESSAGE, ErrorMessageConstants.INVALID_LOGIN_CAUSE);
+    public Map<String, String> handleAuthException(AuthenticationException e, HttpServletResponse response) {
+        Map<String, String> errorMap = new HashMap<>();
+        errorMap.put("email", ErrorMessageConstants.EMPTY_MESSAGE);
+        errorMap.put("password", ErrorMessageConstants.EMPTY_MESSAGE);
+        return errorMap;
     }
 
     @ExceptionHandler(AccessDeniedException.class)
