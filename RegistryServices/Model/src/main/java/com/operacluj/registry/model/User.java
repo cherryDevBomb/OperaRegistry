@@ -3,25 +3,15 @@ package com.operacluj.registry.model;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
 import java.util.Collection;
 
 public class User implements UserDetails {
 
     private int userId;
-
-    @NotBlank
     private String firstName;
-
-    @NotBlank
     private String lastName;
-
-    @NotBlank
-    @Email
+    private Department department;
     private String email;
-
-    @NotBlank
     private String password;
 
     public int getUserId() {
@@ -46,6 +36,14 @@ public class User implements UserDetails {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
     }
 
     public String getEmail() {

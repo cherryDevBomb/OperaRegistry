@@ -61,6 +61,7 @@ public class UserRepositoryImpl implements UserRepository {
         if (user != null) {
             parameterSource.addValue("firstname", user.getFirstName());
             parameterSource.addValue("lastname", user.getLastName());
+            parameterSource.addValue("department", user.getDepartment());
             parameterSource.addValue("email", user.getEmail());
             parameterSource.addValue("password", user.getPassword());
         }
