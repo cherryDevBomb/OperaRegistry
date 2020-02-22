@@ -3,6 +3,8 @@ package com.operacluj.registry.business.domain;
 import com.operacluj.registry.business.util.ErrorMessageConstants;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.util.List;
 
 
 public class DocumentForm {
@@ -10,14 +12,18 @@ public class DocumentForm {
     @NotBlank(message = ErrorMessageConstants.DOCUMENT_TITLE_REQUIRED)
     private String title;
 
-    @NotBlank(message = ErrorMessageConstants.DOCUMENT_TYPE_REQUIRED)
-    private String docType;
+    private String origin;
+
+    private boolean isOriginExternal;
+
+    private boolean isDestinationExternal;
 
     private String path;
 
-    private String recipientId;
+    @NotNull(message = ErrorMessageConstants.DOCUMENT_RECIPIENT_REQUIRED)
+    private List<String> recipientNames;
 
-    private String deadline;
+    private String sentMessage;
 
     public String getTitle() {
         return title;
@@ -27,12 +33,28 @@ public class DocumentForm {
         this.title = title;
     }
 
-    public String getDocType() {
-        return docType;
+    public String getOrigin() {
+        return origin;
     }
 
-    public void setDocType(String docType) {
-        this.docType = docType;
+    public void setOrigin(String origin) {
+        this.origin = origin;
+    }
+
+    public boolean isOriginExternal() {
+        return isOriginExternal;
+    }
+
+    public void setOriginExternal(boolean originExternal) {
+        isOriginExternal = originExternal;
+    }
+
+    public boolean isDestinationExternal() {
+        return isDestinationExternal;
+    }
+
+    public void setDestinationExternal(boolean destinationExternal) {
+        isDestinationExternal = destinationExternal;
     }
 
     public String getPath() {
@@ -43,19 +65,19 @@ public class DocumentForm {
         this.path = path;
     }
 
-    public String getRecipientId() {
-        return recipientId;
+    public List<String> getRecipientNames() {
+        return recipientNames;
     }
 
-    public void setRecipientId(String recipientId) {
-        this.recipientId = recipientId;
+    public void setRecipientNames(List<String> recipientNames) {
+        this.recipientNames = recipientNames;
     }
 
-    public String getDeadline() {
-        return deadline;
+    public String getSentMessage() {
+        return sentMessage;
     }
 
-    public void setDeadline(String deadline) {
-        this.deadline = deadline;
+    public void setSentMessage(String sentMessage) {
+        this.sentMessage = sentMessage;
     }
 }

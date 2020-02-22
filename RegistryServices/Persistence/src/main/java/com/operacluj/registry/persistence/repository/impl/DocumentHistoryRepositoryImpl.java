@@ -55,11 +55,10 @@ public class DocumentHistoryRepositoryImpl implements DocumentHistoryRepository 
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
         if (documentHistory != null) {
             parameterSource.addValue("registrynumber", documentHistory.getRegistryNumber());
-            parameterSource.addValue("senderid", documentHistory.getSenderId());
-            parameterSource.addValue("recipientid", documentHistory.getRecipientId());
-            parameterSource.addValue("deadline", documentHistory.getDeadline());
-            parameterSource.addValue("status", documentHistory.getStatus());
-
+            parameterSource.addValue("sender", documentHistory.getSender());
+            parameterSource.addValue("sentMessage", documentHistory.getSentMessage());
+            parameterSource.addValue("internalRecipient", documentHistory.getInternalRecipient());
+            parameterSource.addValue("externalRecipient", documentHistory.getExternalRecipient());
         }
         return parameterSource;
     }

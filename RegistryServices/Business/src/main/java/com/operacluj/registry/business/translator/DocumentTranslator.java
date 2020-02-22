@@ -6,6 +6,7 @@ import com.operacluj.registry.business.domain.DocumentHistoryDTO;
 import com.operacluj.registry.business.service.DocumentHistoryService;
 import com.operacluj.registry.business.service.UserService;
 import com.operacluj.registry.model.Document;
+import com.operacluj.registry.model.DocumentType;
 import com.operacluj.registry.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -25,26 +26,41 @@ public class DocumentTranslator {
     public Document translate(DocumentForm documentForm) {
         Document document = new Document();
         document.setTitle(documentForm.getTitle());
-        document.setDocumentType(documentForm.getDocType());
-        document.setPath(documentForm.getPath());
+        if (!documentForm.getOrigin().isEmpty()) {
+            document.setOrigin(documentForm.getOrigin());
+        }
 
+        if (documentForm.isOriginExternal()) {
+            document.setType(DocumentType.ORIGIN_EXTERNAL);
+        }
+        else if (documentForm.isDestinationExternal()) {
+            document.setType(DocumentType.DESTINATION_EXTERNAL);
+        }
+        else {
+            document.setType(DocumentType.INTERNAL);
+        }
+
+        document.setPath(documentForm.getPath());
         return document;
     }
 
     public DocumentDTO translate(Document document) {
         DocumentDTO documentDTO = new DocumentDTO();
         documentDTO.setRegistryNumber(document.getRegistryNumber());
-        documentDTO.setTitle(document.getTitle());
-        documentDTO.setGlobalStatus(document.getGlobalStatus().getStatus());
-        documentDTO.setDocumentType(document.getDocumentType());
-        documentDTO.setPath(document.getPath());
 
         User documentAuthor = userService.getUserById(document.getCreatedBy());
         documentDTO.setCreatedBy(documentAuthor);
 
+        documentDTO.setOrigin(document.getOrigin());
+        documentDTO.setTitle(document.getTitle());
+        documentDTO.setDocumentType(document.getType().toString());
+        documentDTO.setArchived(document.isArchived());
+        documentDTO.setArchivingMessage(document.getArchivingMessage());
+        documentDTO.setPath(document.getPath());
+
         SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
-        String strCreatedDate = formatter.format(document.getCreatedDate());
-        documentDTO.setCreatedDate(strCreatedDate);
+        documentDTO.setCreatedDate(formatter.format(document.getCreatedDate()));
+        documentDTO.setArchivingDate(document.isArchived() ? formatter.format(document.getArchivingDate()) : "");
 
         List<DocumentHistoryDTO> documentHistoryDTOList = documentHistoryService.getDocumentHistoryForDocument(document.getRegistryNumber());
         documentDTO.setDocumentHistory(documentHistoryDTOList);

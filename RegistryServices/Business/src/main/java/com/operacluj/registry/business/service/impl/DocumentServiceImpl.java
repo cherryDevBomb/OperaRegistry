@@ -4,13 +4,14 @@ import com.operacluj.registry.business.domain.DocumentDTO;
 import com.operacluj.registry.business.domain.DocumentForm;
 import com.operacluj.registry.business.exception.CreateEntityException;
 import com.operacluj.registry.business.exception.EntityNotFoundException;
+import com.operacluj.registry.business.service.DocumentHistoryService;
 import com.operacluj.registry.business.service.DocumentService;
+import com.operacluj.registry.business.translator.DocumentHistoryTranslator;
 import com.operacluj.registry.business.translator.DocumentTranslator;
 import com.operacluj.registry.business.translator.UserTranslator;
 import com.operacluj.registry.business.util.ErrorMessageConstants;
 import com.operacluj.registry.business.validator.InputValidator;
 import com.operacluj.registry.model.Document;
-import com.operacluj.registry.model.DocumentStatus;
 import com.operacluj.registry.model.User;
 import com.operacluj.registry.persistence.repository.DocumentRepository;
 import org.apache.logging.log4j.LogManager;
@@ -35,10 +36,16 @@ public class DocumentServiceImpl implements DocumentService {
     private DocumentRepository documentRepository;
 
     @Autowired
+    private DocumentHistoryService documentHistoryService;
+
+    @Autowired
     InputValidator inputValidator;
 
     @Autowired
     private DocumentTranslator documentTranslator;
+
+    @Autowired
+    private DocumentHistoryTranslator documentHistoryTranslator;
 
     @Autowired
     private UserTranslator userTranslator;
@@ -80,15 +87,14 @@ public class DocumentServiceImpl implements DocumentService {
     @Override
     @Transactional
     public Integer addDocument(DocumentForm documentForm, Principal principal) {
+        LOG.info("Enter addDocument");
         inputValidator.validate(documentForm);
         Document newDocument = documentTranslator.translate(documentForm);
-        newDocument.setGlobalStatus(DocumentStatus.PENDING);
         User user = userTranslator.getUserFromPrincipal(principal);
         newDocument.setCreatedBy(user.getUserId());
-
         try {
             int registryNumber = documentRepository.addDocument(newDocument);
-            //TODO add an entry to documenthistory containing recipient & deadline
+            documentHistoryService.addHistoryForNewDocument(documentForm, registryNumber, user);
             return registryNumber;
         } catch (RuntimeException e) {
             LOG.error("Error creating new document");

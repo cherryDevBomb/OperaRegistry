@@ -6,12 +6,17 @@ public class DocumentHistory {
 
     private int documentHistoryId;
     private int registryNumber;
-    private int senderId;
-    private int recipientId;
-    private LocalDate expeditedDate;
-    private LocalDate deadline;
-    private LocalDate solvedDate;
-    private DocumentStatus status;
+
+    private LocalDate sentDate;
+    private int sender;
+    private String sentMessage;
+
+    private int internalRecipient;
+    private String externalRecipient;
+
+    private boolean resolved;
+    private String resolvedMessage;
+    private LocalDate resolvedDate;
 
     public int getDocumentHistoryId() {
         return documentHistoryId;
@@ -29,51 +34,67 @@ public class DocumentHistory {
         this.registryNumber = registryNumber;
     }
 
-    public int getSenderId() {
-        return senderId;
+    public LocalDate getSentDate() {
+        return sentDate;
     }
 
-    public void setSenderId(int senderId) {
-        this.senderId = senderId;
+    public void setSentDate(LocalDate sentDate) {
+        this.sentDate = sentDate;
     }
 
-    public int getRecipientId() {
-        return recipientId;
+    public int getSender() {
+        return sender;
     }
 
-    public void setRecipientId(int recipientId) {
-        this.recipientId = recipientId;
+    public void setSender(int sender) {
+        this.sender = sender;
     }
 
-    public LocalDate getExpeditedDate() {
-        return expeditedDate;
+    public String getSentMessage() {
+        return sentMessage;
     }
 
-    public void setExpeditedDate(LocalDate expeditedDate) {
-        this.expeditedDate = expeditedDate;
+    public void setSentMessage(String sentMessage) {
+        this.sentMessage = sentMessage;
     }
 
-    public LocalDate getDeadline() {
-        return deadline;
+    public int getInternalRecipient() {
+        return internalRecipient;
     }
 
-    public void setDeadline(LocalDate deadline) {
-        this.deadline = deadline;
+    public void setInternalRecipient(int internalRecipient) {
+        this.internalRecipient = internalRecipient;
     }
 
-    public LocalDate getSolvedDate() {
-        return solvedDate;
+    public String getExternalRecipient() {
+        return externalRecipient;
     }
 
-    public void setSolvedDate(LocalDate solvedDate) {
-        this.solvedDate = solvedDate;
+    public void setExternalRecipient(String externalRecipient) {
+        this.externalRecipient = externalRecipient;
     }
 
-    public DocumentStatus getStatus() {
-        return status;
+    public boolean isResolved() {
+        return resolved;
     }
 
-    public void setStatus(DocumentStatus status) {
-        this.status = status;
+    public void setResolved(boolean resolved) {
+        this.resolved = resolved;
+    }
+
+    public String getResolvedMessage() {
+        return resolvedMessage;
+    }
+
+    public void setResolvedMessage(String resolvedMessage) {
+        this.resolvedMessage = resolvedMessage;
+    }
+
+    public LocalDate getResolvedDate() {
+        return resolvedDate;
+    }
+
+    public void setResolvedDate(LocalDate resolvedDate) {
+        this.resolvedDate = resolvedDate;
     }
 }

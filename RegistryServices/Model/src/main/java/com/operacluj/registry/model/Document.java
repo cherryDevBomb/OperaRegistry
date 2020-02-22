@@ -2,33 +2,23 @@ package com.operacluj.registry.model;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.validation.constraints.FutureOrPresent;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Positive;
 import java.time.LocalDate;
 
 
 public class Document {
 
-    @Positive
     private int registryNumber;
 
-    @Positive
-    private int createdBy;
-
-    @FutureOrPresent
-//    @DateTimeFormat(pattern = "dd.MM.yyyy")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate createdDate;
 
-    @NotBlank
     private String title;
-
-    private DocumentStatus globalStatus;
-
-    @NotBlank
-    private String documentType;
-
+    private DocumentType type;
+    private int createdBy;
+    private String origin;
+    private boolean archived;
+    private String archivingMessage;
+    private LocalDate archivingDate;
     private String path;
 
     public int getRegistryNumber() {
@@ -37,14 +27,6 @@ public class Document {
 
     public void setRegistryNumber(int registryNumber) {
         this.registryNumber = registryNumber;
-    }
-
-    public int getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(int createdBy) {
-        this.createdBy = createdBy;
     }
 
     public LocalDate getCreatedDate() {
@@ -63,20 +45,52 @@ public class Document {
         this.title = title;
     }
 
-    public DocumentStatus getGlobalStatus() {
-        return globalStatus;
+    public DocumentType getType() {
+        return type;
     }
 
-    public void setGlobalStatus(DocumentStatus globalStatus) {
-        this.globalStatus = globalStatus;
+    public void setType(DocumentType type) {
+        this.type = type;
     }
 
-    public String getDocumentType() {
-        return documentType;
+    public int getCreatedBy() {
+        return createdBy;
     }
 
-    public void setDocumentType(String documentType) {
-        this.documentType = documentType;
+    public void setCreatedBy(int createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public String getOrigin() {
+        return origin;
+    }
+
+    public void setOrigin(String origin) {
+        this.origin = origin;
+    }
+
+    public boolean isArchived() {
+        return archived;
+    }
+
+    public void setArchived(boolean archived) {
+        this.archived = archived;
+    }
+
+    public String getArchivingMessage() {
+        return archivingMessage;
+    }
+
+    public void setArchivingMessage(String archivingMessage) {
+        this.archivingMessage = archivingMessage;
+    }
+
+    public LocalDate getArchivingDate() {
+        return archivingDate;
+    }
+
+    public void setArchivingDate(LocalDate archivingDate) {
+        this.archivingDate = archivingDate;
     }
 
     public String getPath() {

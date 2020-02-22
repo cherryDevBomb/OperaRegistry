@@ -7,17 +7,14 @@ import java.util.List;
 public class DocumentDTO {
 
     private int registryNumber;
-
-    private User createdBy;
-
     private String createdDate;
-
+    private User createdBy;
+    private String origin;
     private String title;
-
-    private String globalStatus;
-
     private String documentType;
-
+    private boolean archived;
+    private String archivingMessage;
+    private String archivingDate;
     private String path;
 
     private List<DocumentHistoryDTO> documentHistory;
@@ -30,6 +27,14 @@ public class DocumentDTO {
         this.registryNumber = registryNumber;
     }
 
+    public String getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(String createdDate) {
+        this.createdDate = createdDate;
+    }
+
     public User getCreatedBy() {
         return createdBy;
     }
@@ -38,12 +43,12 @@ public class DocumentDTO {
         this.createdBy = createdBy;
     }
 
-    public String getCreatedDate() {
-        return createdDate;
+    public String getOrigin() {
+        return origin;
     }
 
-    public void setCreatedDate(String createdDate) {
-        this.createdDate = createdDate;
+    public void setOrigin(String origin) {
+        this.origin = origin;
     }
 
     public String getTitle() {
@@ -54,20 +59,36 @@ public class DocumentDTO {
         this.title = title;
     }
 
-    public String getGlobalStatus() {
-        return globalStatus;
-    }
-
-    public void setGlobalStatus(String globalStatus) {
-        this.globalStatus = globalStatus;
-    }
-
     public String getDocumentType() {
         return documentType;
     }
 
     public void setDocumentType(String documentType) {
         this.documentType = documentType;
+    }
+
+    public boolean isArchived() {
+        return archived;
+    }
+
+    public void setArchived(boolean archived) {
+        this.archived = archived;
+    }
+
+    public String getArchivingMessage() {
+        return archivingMessage;
+    }
+
+    public void setArchivingMessage(String archivingMessage) {
+        this.archivingMessage = archivingMessage;
+    }
+
+    public String getArchivingDate() {
+        return archivingDate;
+    }
+
+    public void setArchivingDate(String archivingDate) {
+        this.archivingDate = archivingDate;
     }
 
     public String getPath() {

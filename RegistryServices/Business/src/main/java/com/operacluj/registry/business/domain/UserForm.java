@@ -17,6 +17,9 @@ public class UserForm {
     @Email(message = ErrorMessageConstants.EMAIL_NOT_VALID)
     private String email;
 
+    @NotBlank(message = ErrorMessageConstants.DEPARTMENT_REQUIRED)
+    private String department;
+
     @NotBlank(message = ErrorMessageConstants.PASSWORD_REQUIRED)
     private String password;
 
@@ -45,6 +48,14 @@ public class UserForm {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department;
     }
 
     public String getPassword() {

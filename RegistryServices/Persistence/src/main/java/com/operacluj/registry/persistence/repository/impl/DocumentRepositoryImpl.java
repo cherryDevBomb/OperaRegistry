@@ -9,12 +9,10 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Objects;
 
 @Repository
 @PropertySource("classpath:/queries.properties")
@@ -41,6 +39,9 @@ public class DocumentRepositoryImpl implements DocumentRepository {
     @Value("${deleteDocument}")
     private String deleteDocumentQuery;
 
+    @Value("${getLastMatchingDocument}")
+    private String getLastMatchingDocumentQuery;
+
     @Override
     public Document getDocumentByRegistryNumber(int registryNumber) {
         SqlParameterSource sqlParameterSource = new MapSqlParameterSource("registrynumber", registryNumber);
@@ -59,10 +60,10 @@ public class DocumentRepositoryImpl implements DocumentRepository {
     }
 
     @Override
+    @Transactional
     public int addDocument(Document document) {
-        KeyHolder keyHolder = new GeneratedKeyHolder();
-        this.jdbcTemplate.update(addDocumentQuery, getSqlParameterSourceForEntity(document), keyHolder);
-        return Objects.requireNonNull(keyHolder.getKey()).intValue();
+        jdbcTemplate.update(addDocumentQuery, getSqlParameterSourceForEntity(document));
+        return getLastMatchingDocument(document).getRegistryNumber();
     }
 
     @Override
@@ -71,13 +72,17 @@ public class DocumentRepositoryImpl implements DocumentRepository {
         jdbcTemplate.update(deleteDocumentQuery, sqlParameterSource);
     }
 
+    private Document getLastMatchingDocument(Document document) {
+        return jdbcTemplate.queryForObject(getLastMatchingDocumentQuery, getSqlParameterSourceForEntity(document), documentMapper);
+    }
+
     private SqlParameterSource getSqlParameterSourceForEntity(Document document) {
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
         if (document != null) {
-            parameterSource.addValue("creatorid", document.getCreatedBy());
             parameterSource.addValue("title", document.getTitle());
-            parameterSource.addValue("globalstatus", document.getGlobalStatus().getStatus());
-            parameterSource.addValue("doctype", document.getDocumentType());
+            parameterSource.addValue("type", document.getType().toString());
+            parameterSource.addValue("createdBy", document.getCreatedBy());
+            parameterSource.addValue("origin", document.getOrigin());
             parameterSource.addValue("path", document.getPath());
         }
         return parameterSource;

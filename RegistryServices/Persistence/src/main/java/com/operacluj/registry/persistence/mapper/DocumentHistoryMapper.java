@@ -15,11 +15,18 @@ public class DocumentHistoryMapper implements RowMapper<DocumentHistory> {
         DocumentHistory documentHistory = new DocumentHistory();
         documentHistory.setDocumentHistoryId(resultSet.getInt("documenthistoryid"));
         documentHistory.setRegistryNumber(resultSet.getInt("registrynumber"));
-        documentHistory.setSenderId(resultSet.getInt("senderid"));
-        documentHistory.setRecipientId(resultSet.getInt("recipientId"));
-        documentHistory.setExpeditedDate(resultSet.getDate("expediteddate").toLocalDate());
-        documentHistory.setDeadline(resultSet.getDate("deadline").toLocalDate());
-        documentHistory.setSolvedDate(resultSet.getDate("solveddate").toLocalDate());
+
+        documentHistory.setSentDate(resultSet.getDate("sentdate").toLocalDate());
+        documentHistory.setSender(resultSet.getInt("sender"));
+        documentHistory.setSentMessage(resultSet.getString("sentmessage"));
+
+        documentHistory.setInternalRecipient(resultSet.getInt("internalrecipient"));
+        documentHistory.setExternalRecipient(resultSet.getString("externalRecipient"));
+
+        documentHistory.setResolved(resultSet.getBoolean("resolved"));
+        documentHistory.setResolvedMessage(resultSet.getString("resolvedmessage"));
+        documentHistory.setResolvedDate(resultSet.getDate("resolveddate").toLocalDate());
+
         return documentHistory;
     }
 }
