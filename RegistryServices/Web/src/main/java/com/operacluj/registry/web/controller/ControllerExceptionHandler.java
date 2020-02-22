@@ -1,7 +1,9 @@
 package com.operacluj.registry.web.controller;
 
-import com.operacluj.registry.business.exception.*;
-import com.operacluj.registry.business.domain.ErrorResponse;
+import com.operacluj.registry.business.exception.ArgumentNotValidException;
+import com.operacluj.registry.business.exception.CustomConstraintViolationException;
+import com.operacluj.registry.business.exception.EntityNotFoundException;
+import com.operacluj.registry.business.payload.ErrorResponse;
 import com.operacluj.registry.business.util.ErrorMessageConstants;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;

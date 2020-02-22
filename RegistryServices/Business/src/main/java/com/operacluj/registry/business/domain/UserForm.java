@@ -5,7 +5,7 @@ import com.operacluj.registry.business.util.ErrorMessageConstants;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
-public class UserDTO {
+public class UserForm {
 
     @NotBlank(message = ErrorMessageConstants.FIRST_NAME_REQUIRED)
     private String firstName;

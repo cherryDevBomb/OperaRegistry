@@ -1,34 +1,50 @@
 package com.operacluj.registry.business.domain;
 
-import com.operacluj.registry.business.util.ErrorMessageConstants;
+import com.operacluj.registry.model.User;
 
-import javax.validation.constraints.NotBlank;
-
+import java.util.List;
 
 public class DocumentDTO {
 
-//    @NotBlank(message = ErrorMessageConstants.EMAIL_REQUIRED)
-//    private String email;
+    private int registryNumber;
 
-    @NotBlank(message = ErrorMessageConstants.DOCUMENT_TITLE_REQUIRED)
+    private User createdBy;
+
+    private String createdDate;
+
     private String title;
 
-    @NotBlank(message = ErrorMessageConstants.DOCUMENT_TYPE_REQUIRED)
-    private String docType;
+    private String globalStatus;
+
+    private String documentType;
 
     private String path;
 
-    private String recipientId;
+    private List<DocumentHistoryDTO> documentHistory;
 
-    private String deadline;
+    public int getRegistryNumber() {
+        return registryNumber;
+    }
 
-//    public String getEmail() {
-//        return email;
-//    }
-//
-//    public void setEmail(String email) {
-//        this.email = email;
-//    }
+    public void setRegistryNumber(int registryNumber) {
+        this.registryNumber = registryNumber;
+    }
+
+    public User getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(User createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public String getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(String createdDate) {
+        this.createdDate = createdDate;
+    }
 
     public String getTitle() {
         return title;
@@ -38,12 +54,20 @@ public class DocumentDTO {
         this.title = title;
     }
 
-    public String getDocType() {
-        return docType;
+    public String getGlobalStatus() {
+        return globalStatus;
     }
 
-    public void setDocType(String docType) {
-        this.docType = docType;
+    public void setGlobalStatus(String globalStatus) {
+        this.globalStatus = globalStatus;
+    }
+
+    public String getDocumentType() {
+        return documentType;
+    }
+
+    public void setDocumentType(String documentType) {
+        this.documentType = documentType;
     }
 
     public String getPath() {
@@ -54,19 +78,11 @@ public class DocumentDTO {
         this.path = path;
     }
 
-    public String getRecipientId() {
-        return recipientId;
+    public List<DocumentHistoryDTO> getDocumentHistory() {
+        return documentHistory;
     }
 
-    public void setRecipientId(String recipientId) {
-        this.recipientId = recipientId;
-    }
-
-    public String getDeadline() {
-        return deadline;
-    }
-
-    public void setDeadline(String deadline) {
-        this.deadline = deadline;
+    public void setDocumentHistory(List<DocumentHistoryDTO> documentHistory) {
+        this.documentHistory = documentHistory;
     }
 }

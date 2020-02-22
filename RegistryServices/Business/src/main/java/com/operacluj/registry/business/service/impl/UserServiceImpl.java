@@ -1,8 +1,7 @@
 package com.operacluj.registry.business.service.impl;
 
-import com.operacluj.registry.business.domain.UserDTO;
+import com.operacluj.registry.business.domain.UserForm;
 import com.operacluj.registry.business.exception.CustomConstraintViolationException;
-import com.operacluj.registry.business.exception.DuplicateEntityException;
 import com.operacluj.registry.business.exception.EntityNotFoundException;
 import com.operacluj.registry.business.service.UserService;
 import com.operacluj.registry.business.translator.UserTranslator;
@@ -68,9 +67,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public int addUser(UserDTO userDTO) {
-        userValidator.validate(userDTO);
-        User newUser = userTranslator.translate(userDTO);
+    public int addUser(UserForm userForm) {
+        userValidator.validate(userForm);
+        User newUser = userTranslator.translate(userForm);
         try {
             return userRepository.addUser(newUser);
         } catch (DuplicateKeyException e) {

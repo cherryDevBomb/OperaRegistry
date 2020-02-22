@@ -14,11 +14,11 @@ import java.util.Set;
 @Component
 public class InputValidator {
 
-    public void validate(Object dtoObject) {
+    public void validate(Object object) {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         Validator validator = factory.getValidator();
 
-        Set<ConstraintViolation<Object>> constraintViolations = validator.validate(dtoObject);
+        Set<ConstraintViolation<Object>> constraintViolations = validator.validate(object);
         if (!CollectionUtils.isEmpty(constraintViolations)) {
             throw new ArgumentNotValidException(constraintViolations);
         }

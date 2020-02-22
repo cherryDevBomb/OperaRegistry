@@ -10,6 +10,9 @@ public class ErrorMessageConstants {
     public static final String DOCUMENT_NOT_FOUND = "Document not found";
     public static final String DOCUMENT_NOT_CREATED = "Failed to create a new document";
 
+    public static final String DOCUMENT_HISTORY_NOT_CREATED = "Failed to create a new document history entry";
+    public static final String EMPTY_DOCUMENT_HISTORY = "Empty document history";
+
     public static final String EMAIL_REQUIRED = "Email is required";
     public static final String EMAIL_NOT_VALID = "Not a valid email";
     public static final String PASSWORD_REQUIRED = "Password is required";
