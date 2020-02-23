@@ -55,7 +55,7 @@ public class DocumentRepositoryImpl implements DocumentRepository {
 
     @Override
     public List<Document> getAllDocumentsCreatedBy(int userId) {
-        SqlParameterSource sqlParameterSource = new MapSqlParameterSource("createdBy", userId);
+        SqlParameterSource sqlParameterSource = new MapSqlParameterSource("createdby", userId);
         return jdbcTemplate.query(getAllDocumentsCreatedByQuery, sqlParameterSource, documentMapper);
     }
 
@@ -81,7 +81,7 @@ public class DocumentRepositoryImpl implements DocumentRepository {
         if (document != null) {
             parameterSource.addValue("title", document.getTitle());
             parameterSource.addValue("type", document.getType().toString());
-            parameterSource.addValue("createdBy", document.getCreatedBy());
+            parameterSource.addValue("createdby", document.getCreatedBy());
             parameterSource.addValue("origin", document.getOrigin());
             parameterSource.addValue("path", document.getPath());
         }

@@ -56,9 +56,9 @@ public class DocumentHistoryRepositoryImpl implements DocumentHistoryRepository 
         if (documentHistory != null) {
             parameterSource.addValue("registrynumber", documentHistory.getRegistryNumber());
             parameterSource.addValue("sender", documentHistory.getSender());
-            parameterSource.addValue("sentMessage", documentHistory.getSentMessage());
-            parameterSource.addValue("internalRecipient", documentHistory.getInternalRecipient());
-            parameterSource.addValue("externalRecipient", documentHistory.getExternalRecipient());
+            parameterSource.addValue("sentmessage", documentHistory.getSentMessage());
+            parameterSource.addValue("internalrecipient", documentHistory.getInternalRecipient());
+            parameterSource.addValue("externalrecipient", documentHistory.getExternalRecipient());
         }
         return parameterSource;
     }

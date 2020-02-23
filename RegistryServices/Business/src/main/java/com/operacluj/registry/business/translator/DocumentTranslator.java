@@ -10,6 +10,7 @@ import com.operacluj.registry.model.DocumentType;
 import com.operacluj.registry.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -26,7 +27,7 @@ public class DocumentTranslator {
     public Document translate(DocumentForm documentForm) {
         Document document = new Document();
         document.setTitle(documentForm.getTitle());
-        if (!documentForm.getOrigin().isEmpty()) {
+        if (StringUtils.hasText(documentForm.getOrigin())) {
             document.setOrigin(documentForm.getOrigin());
         }
 
