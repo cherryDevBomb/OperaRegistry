@@ -11,7 +11,7 @@ public class DocumentHistory {
     private int sender;
     private String sentMessage;
 
-    private int internalRecipient;
+    private Integer internalRecipient;
     private String externalRecipient;
 
     private boolean resolved;
@@ -58,7 +58,7 @@ public class DocumentHistory {
         this.sentMessage = sentMessage;
     }
 
-    public int getInternalRecipient() {
+    public Integer getInternalRecipient() {
         return internalRecipient;
     }
 

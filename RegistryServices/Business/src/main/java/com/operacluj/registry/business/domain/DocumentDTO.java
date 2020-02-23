@@ -16,7 +16,6 @@ public class DocumentDTO {
     private String archivingMessage;
     private String archivingDate;
     private String path;
-
     private List<DocumentHistoryDTO> documentHistory;
 
     public int getRegistryNumber() {
