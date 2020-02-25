@@ -10,10 +10,10 @@ class CreateDocument extends Component {
     super();
 
     this.state = {
-      email: "testEmail",
       title: "",
-      docType: "",
-      errors: {}
+      origin: "",
+
+      errorReducer: {}
     };
 
     this.onChange = this.onChange.bind(this);
@@ -22,8 +22,8 @@ class CreateDocument extends Component {
 
   //life cycle hooks
   componentWillReceiveProps(nextProps) {
-    if (nextProps.errors) {
-      this.setState({ errors: nextProps.errors });
+    if (nextProps.errorReducer) {
+      this.setState({ errorReducer: nextProps.errorReducer });
     }
   }
 
@@ -42,12 +42,19 @@ class CreateDocument extends Component {
     this.props.createDocument(newDocument, this.props.history);
   }
 
+  
+
   render() {
-    const { errors } = this.state;
+    const { errorReducer } = this.state;
 
     return (
       <React.Fragment>
         <Form onSubmit={this.onSubmit}>
+          <div key={"inline-radio"} className="mb-3">
+            <Form.Check inline label="internă" type="radio" id={"inline-radio-1"} />
+            <Form.Check inline label="externă" type="radio" id={"inline-radio-2"} />
+          </div>
+
           <Form.Group controlId="formGroupDocTitle">
             <Form.Label>Titlu</Form.Label>
             <Form.Control
@@ -56,10 +63,10 @@ class CreateDocument extends Component {
               placeholder="Introduceți titlul"
               value={this.state.title}
               onChange={this.onChange}
-              isInvalid={errors.title}
+              isInvalid={errorReducer.title}
             />
             <Form.Control.Feedback type="invalid">
-              {errors.title}
+              {errorReducer.title}
             </Form.Control.Feedback>
           </Form.Group>
 
@@ -71,10 +78,10 @@ class CreateDocument extends Component {
               placeholder="Introduceți tipul documentului"
               value={this.state.docType}
               onChange={this.onChange}
-              isInvalid={errors.docType}
+              isInvalid={errorReducer.docType}
             />
             <Form.Control.Feedback type="invalid">
-              {errors.docType}
+              {errorReducer.docType}
             </Form.Control.Feedback>
           </Form.Group>
           
@@ -88,12 +95,12 @@ class CreateDocument extends Component {
 }
 
 CreateDocument.propTypes = {
-  errors: PropTypes.object.isRequired,
+  errorReducer: PropTypes.object.isRequired,
   createDocument: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
-  errors: state.errors
+  errorReducer: state.errorReducer
 });
 
 export default connect(mapStateToProps, { createDocument })(CreateDocument);

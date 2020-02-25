@@ -15,7 +15,6 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { logout } from "../../actions/securityActions";
 
-
 class PageHeader extends Component {
   logout() {
     this.props.logout();
@@ -23,7 +22,7 @@ class PageHeader extends Component {
   }
 
   render() {
-    const { validToken, user } = this.props.security;
+    const { validToken, user } = this.props.securityReducer;
     const userIsAuthenticated = (
       <React.Fragment>
         <Nav className="mr-auto">
@@ -109,11 +108,11 @@ class PageHeader extends Component {
 
 PageHeader.propTypes = {
   logout: PropTypes.func.isRequired,
-  security: PropTypes.object.isRequired
+  securityReducer: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-  security: state.security
+  securityReducer: state.securityReducer
 });
 
 export default connect(mapStateToProps, { logout })(PageHeader);

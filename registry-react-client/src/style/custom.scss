@@ -2,12 +2,18 @@
 @import "../../node_modules/bootstrap/scss/variables";
 
 // Colors
+//initial red c11f22
+// #AC1B21 burgundy #87111B
+// #621727 royal violet
+// #CA9048 gold
 
 $theme-colors: (
   primary: #c11f22,
-  secondary: #202020,
-  success: #c6ad82,
-  dark: #000000,
+  secondary: #6b635d,
+  success: #246036,
+  warning: #ac1b21,
+  info: #c6ad82,
+  dark: #1d1c1b,
   light: #ffffff
 );
 
@@ -21,23 +27,91 @@ $theme-colors: (
 // Reassign color vars to semantic color scheme
 $brand-primary: $primary !default;
 $brand-success: $success !default;
-$brand-info: $secondary !default;
-$brand-warning: $success !default;
-$brand-danger: $primary !default;
+$brand-info: $info !default;
+$brand-warning: $warning !default;
+$brand-danger: $warning !default;
 $brand-inverse: $secondary !default;
 
 // Options
 
 $enable-rounded: false !default;
-// $enable-shadows:            false !default;
-// $enable-gradients:          false !default;
-// $enable-transitions:        true !default;
-// $enable-hover-media-query:  false !default;
-// $enable-grid-classes:       true !default;
-// $enable-print-styles:       true !default;
+$enable-shadows: false !default;
+$enable-gradients: false !default;
+$enable-transitions: true !default;
+$enable-hover-media-query: false !default;
+$enable-grid-classes: true !default;
+$enable-print-styles: true !default;
+
+// Border radius
+$border-radius: 0 !default;
+$border-radius-lg: 0 !default;
+$border-radius-sm: 0 !default;
 
 // Nav
+$nav-item-margin: 0.2rem !default;
+
+// Navbar
+
+$navbar-border-radius: $border-radius !default;
+$navbar-padding-x: $spacer !default;
+$navbar-padding-y: ($spacer / 2) !default;
+
+$navbar-brand-padding-y: 0.25rem !default;
+
+$navbar-inverse-color: rgba($white, 0.5) !default;
+$navbar-inverse-hover-color: rgba($white, 0.75) !default;
+$navbar-inverse-active-color: rgba($white, 1) !default;
+$navbar-inverse-disabled-color: rgba($white, 0.25) !default;
+$navbar-inverse-toggler-bg: str-replace(
+  url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='#{$navbar-inverse-color}' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E"),
+  "#",
+  "%23"
+) !default;
+$navbar-inverse-toggler-border: rgba($white, 0.1) !default;
+
+$navbar-light-color: rgba($black, 0.5) !default;
+$navbar-light-hover-color: rgba($black, 0.7) !default;
+$navbar-light-active-color: rgba($black, 0.9) !default;
+$navbar-light-disabled-color: rgba($black, 0.3) !default;
+$navbar-light-toggler-bg: str-replace(
+  url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='#{$navbar-light-color}' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E"),
+  "#",
+  "%23"
+) !default;
+$navbar-light-toggler-border: rgba($black, 0.1) !default;
+
+// Navs
 
 $nav-item-margin: 0.2rem !default;
+$nav-item-inline-spacer: 1rem !default;
+$nav-link-padding: 0.5em 1em !default;
+// $nav-link-hover-bg: $gray-lighter !default;
+// $nav-disabled-link-color: $gray-light !default;
+
+$nav-tabs-border-color: #ddd !default;
+$nav-tabs-border-width: $border-width !default;
+$nav-tabs-border-radius: $border-radius !default;
+// $nav-tabs-link-hover-border-color: $gray-lighter !default;
+// $nav-tabs-active-link-hover-color: $gray !default;
+// $nav-tabs-active-link-hover-bg: $body-bg !default;
+$nav-tabs-active-link-hover-border-color: #ddd !default;
+$nav-tabs-justified-link-border-color: #ddd !default;
+// $nav-tabs-justified-active-link-border-color: $body-bg !default;
+
+$nav-pills-border-radius: $border-radius !default;
+$nav-pills-active-link-color: $component-active-color !default;
+$nav-pills-active-link-bg: $component-active-bg !default;
+
+// Links
+
+$link-color: $primary !default;
+$link-decoration: none !default;
+$link-hover-color: darken($link-color, 15%) !default;
+$link-hover-decoration: underline !default;
+
+//Buttons
+$btn-border-radius: $border-radius !default;
+$btn-border-radius-lg: $border-radius-lg !default;
+$btn-border-radius-sm: $border-radius-sm !default;
 
 @import "../../node_modules/bootstrap/scss/bootstrap.scss";

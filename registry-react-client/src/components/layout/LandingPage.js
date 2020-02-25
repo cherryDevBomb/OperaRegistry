@@ -10,7 +10,7 @@ import PropTypes from "prop-types";
 //sign up or sign in page
 class LandingPage extends Component {
   componentDidMount() {
-    if (this.props.security.validToken) {
+    if (this.props.securityReducer.validToken) {
       this.props.history.push(DOCUMENTS_PATH);
     }
   }
@@ -19,10 +19,10 @@ class LandingPage extends Component {
     return (
       <React.Fragment>
         <ButtonToolbar>
-          <Button variant="light" href={REGISTER_PATH}>
+          <Button variant="primary" href={REGISTER_PATH}>
             Sign up
           </Button>
-          <Button variant="light" href={LOGIN_PATH}>
+          <Button variant="secondary" href={LOGIN_PATH}>
             Sign in
           </Button>
         </ButtonToolbar>
@@ -32,11 +32,11 @@ class LandingPage extends Component {
 }
 
 LandingPage.propTypes = {
-  security: PropTypes.object.isRequired
+  securityReducer: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-  security: state.security
+  securityReducer: state.securityReducer
 });
 
 export default connect(mapStateToProps)(LandingPage);

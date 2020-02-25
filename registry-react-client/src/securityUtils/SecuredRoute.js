@@ -4,11 +4,11 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { LOGIN_PATH } from "../properties";
 
-const SecuredRoute = ({ component: Component, security, ...otherProps }) => (
+const SecuredRoute = ({ component: Component, securityReducer, ...otherProps }) => (
   <Route
     {...otherProps}
     render={props =>
-      security.validToken === true ? (
+      securityReducer.validToken === true ? (
         <Component {...props} />
       ) : (
         <Redirect to={LOGIN_PATH} />
@@ -18,11 +18,11 @@ const SecuredRoute = ({ component: Component, security, ...otherProps }) => (
 );
 
 SecuredRoute.propTypes = {
-  security: PropTypes.object.isRequired
+  securityReducer: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-  security: state.security
+  securityReducer: state.securityReducer
 });
 
 export default connect(mapStateToProps)(SecuredRoute);

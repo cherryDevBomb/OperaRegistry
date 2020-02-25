@@ -12,7 +12,7 @@ class Login extends Component {
     this.state = {
       email: "",
       password: "",
-      errors: {}
+      errorReducer: {}
     };
 
     this.onChange = this.onChange.bind(this);
@@ -20,17 +20,17 @@ class Login extends Component {
   }
 
   componentDidMount() {
-    if (this.props.security.validToken) {
+    if (this.props.securityReducer.validToken) {
       this.props.history.push(DOCUMENTS_PATH);
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.security.validToken) {
+    if (nextProps.securityReducer.validToken) {
       this.props.history.push(DOCUMENTS_PATH);
     }
-    if (nextProps.errors) {
-      this.setState({ errors: nextProps.errors });
+    if (nextProps.errorReducer) {
+      this.setState({ errorReducer: nextProps.errorReducer });
     }
   }
 
@@ -49,7 +49,7 @@ class Login extends Component {
   }
 
   render() {
-    const { errors } = this.state;
+    const { errorReducer } = this.state;
 
     return (
       <Form onSubmit={this.onSubmit}>
@@ -61,10 +61,10 @@ class Login extends Component {
             placeholder="Enter email"
             value={this.state.email}
             onChange={this.onChange}
-            isInvalid={errors.email}
+            isInvalid={errorReducer.email}
           />
           <Form.Control.Feedback type="invalid">
-            {errors.email}
+            {errorReducer.email}
           </Form.Control.Feedback>
         </Form.Group>
 
@@ -76,10 +76,10 @@ class Login extends Component {
             placeholder="Introduceți parola"
             value={this.state.password}
             onChange={this.onChange}
-            isInvalid={errors.password}
+            isInvalid={errorReducer.password}
           />
           <Form.Control.Feedback type="invalid">
-            {errors.password}
+            {errorReducer.password}
           </Form.Control.Feedback>
         </Form.Group>
 
@@ -92,14 +92,14 @@ class Login extends Component {
 }
 
 Login.propTypes = {
-  errors: PropTypes.object.isRequired,
+  errorReducer: PropTypes.object.isRequired,
   login: PropTypes.func.isRequired,
-  security: PropTypes.object.isRequired
+  securityReducer: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-  security: state.security,
-  errors: state.errors
+  securityReducer: state.securityReducer,
+  errorReducer: state.errorReducer
 });
 
 export default connect(mapStateToProps, { login })(Login);

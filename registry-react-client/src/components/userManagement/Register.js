@@ -15,7 +15,7 @@ class Register extends Component {
       email: "",
       password: "",
       confirmPassword: "",
-      errors: {}
+      errorReducer: {}
     };
 
     this.onChange = this.onChange.bind(this);
@@ -23,14 +23,14 @@ class Register extends Component {
   }
 
   componentDidMount() {
-    if (this.props.security.validToken) {
+    if (this.props.securityReducer.validToken) {
       this.props.history.push(DOCUMENTS_PATH);
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.errors) {
-      this.setState({ errors: nextProps.errors });
+    if (nextProps.errorReducer) {
+      this.setState({ errorReducer: nextProps.errorReducer });
     }
   }
 
@@ -52,7 +52,7 @@ class Register extends Component {
   }
 
   render() {
-    const { errors } = this.state;
+    const { errorReducer } = this.state;
 
     return (
       <Form onSubmit={this.onSubmit}>
@@ -64,10 +64,10 @@ class Register extends Component {
             placeholder="Enter email"
             value={this.state.email}
             onChange={this.onChange}
-            isInvalid={errors.email}
+            isInvalid={errorReducer.email}
           />
           <Form.Control.Feedback type="invalid">
-            {errors.email}
+            {errorReducer.email}
           </Form.Control.Feedback>
         </Form.Group>
 
@@ -79,10 +79,10 @@ class Register extends Component {
             placeholder="Introduceți numele"
             value={this.state.lastName}
             onChange={this.onChange}
-            isInvalid={errors.lastName}
+            isInvalid={errorReducer.lastName}
           />
           <Form.Control.Feedback type="invalid">
-            {errors.lastName}
+            {errorReducer.lastName}
           </Form.Control.Feedback>
         </Form.Group>
 
@@ -94,10 +94,10 @@ class Register extends Component {
             placeholder="Introduceți prenumele"
             value={this.state.firstName}
             onChange={this.onChange}
-            isInvalid={errors.firstName}
+            isInvalid={errorReducer.firstName}
           />
           <Form.Control.Feedback type="invalid">
-            {errors.firstName}
+            {errorReducer.firstName}
           </Form.Control.Feedback>
         </Form.Group>
 
@@ -109,10 +109,10 @@ class Register extends Component {
             placeholder="Introduceți parola"
             value={this.state.password}
             onChange={this.onChange}
-            isInvalid={errors.password}
+            isInvalid={errorReducer.password}
           />
           <Form.Control.Feedback type="invalid">
-            {errors.password}
+            {errorReducer.password}
           </Form.Control.Feedback>
         </Form.Group>
 
@@ -124,10 +124,10 @@ class Register extends Component {
             placeholder="Introduceți parola"
             value={this.state.confirmPassword}
             onChange={this.onChange}
-            isInvalid={errors.confirmPassword}
+            isInvalid={errorReducer.confirmPassword}
           />
           <Form.Control.Feedback type="invalid">
-            {errors.confirmPassword}
+            {errorReducer.confirmPassword}
           </Form.Control.Feedback>
         </Form.Group>
 
@@ -140,14 +140,14 @@ class Register extends Component {
 }
 
 Register.propTypes = {
-  errors: PropTypes.object.isRequired,
+  errorReducer: PropTypes.object.isRequired,
   createUser: PropTypes.func.isRequired,
-  security: PropTypes.object.isRequired
+  securityReducer: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-  security: state.security,
-  errors: state.errors
+  securityReducer: state.securityReducer,
+  errorReducer: state.errorReducer
 });
 
 export default connect(mapStateToProps, { createUser })(Register);

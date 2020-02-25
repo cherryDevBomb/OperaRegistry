@@ -13,6 +13,7 @@ import CreateDocument from "./components/document/CreateDocument";
 import LandingPage from "./components/layout/LandingPage";
 import Register from "./components/userManagement/Register";
 import Login from "./components/userManagement/Login";
+import UserDetails from "./components/user/UserDetails";
 import { REGISTER_PATH } from "./properties";
 import { LOGIN_PATH } from "./properties";
 import { DOCUMENTS_PATH } from "./properties";
@@ -62,7 +63,7 @@ class App extends Component {
               <SecuredRoute
                 exact
                 path={MY_DOCUMENTS_PATH}
-                component={DocumentTable}
+                component={UserDetails}
               />
               <SecuredRoute
                 exact

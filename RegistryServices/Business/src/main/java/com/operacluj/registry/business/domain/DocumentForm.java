@@ -3,6 +3,7 @@ package com.operacluj.registry.business.domain;
 import com.operacluj.registry.business.util.ErrorMessageConstants;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
@@ -20,7 +21,7 @@ public class DocumentForm {
 
     private String path;
 
-    @NotNull(message = ErrorMessageConstants.DOCUMENT_RECIPIENT_REQUIRED)
+    @NotEmpty(message = ErrorMessageConstants.DOCUMENT_RECIPIENT_REQUIRED)
     private List<String> recipientNames;
 
     private String sentMessage;

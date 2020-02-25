@@ -14,7 +14,7 @@ class DocumentTable extends Component {
   }
 
   render() {
-    const documents = this.props.document.documents;
+    const documents = this.props.documentReducer.documents;
 
     return (
       <div>
@@ -49,12 +49,12 @@ class DocumentTable extends Component {
 }
 
 DocumentTable.propTypes = {
-  document: PropTypes.object.isRequired,
+  documentReducer: PropTypes.object.isRequired,
   getDocuments: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
-  document: state.document
+  documentReducer: state.documentReducer
 });
 
 export default connect(mapStateToProps, { getDocuments })(DocumentTable);

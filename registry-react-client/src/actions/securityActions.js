@@ -56,3 +56,10 @@ export const logout = () => dispatch => {
     payload: {}
   });
 };
+
+// export const getCurrentUser = () => dispatch => {
+//   dispatch({
+//     type: GET_CURRENT_USER,
+//     payload: {}
+//   });
+// };
