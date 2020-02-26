@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,9 +38,15 @@ public class DocumentHistoryTranslator {
         documentHistoryDTO.setResolved(documentHistory.isResolved());
         documentHistoryDTO.setResolvedMessage(documentHistory.getResolvedMessage());
 
-        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
-        documentHistoryDTO.setSentDate(formatter.format(documentHistory.getSentDate()));
-        documentHistoryDTO.setResolvedDate(documentHistory.isResolved() ? formatter.format(documentHistory.getResolvedDate()) : "");
+//        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
+//        documentHistoryDTO.setSentDate(formatter.format(documentHistory.getSentDate()));
+//        documentHistoryDTO.setResolvedDate(documentHistory.isResolved() ? formatter.format(documentHistory.getResolvedDate()) : "");
+
+//        String formattedSentDate = documentHistory.getSentDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+//        documentHistoryDTO.setSentDate(formattedSentDate);
+//        String formattedResolvedDate = documentHistory.getResolvedDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+//        documentHistoryDTO.setResolvedDate(formattedResolvedDate);
+
 
         return documentHistoryDTO;
     }

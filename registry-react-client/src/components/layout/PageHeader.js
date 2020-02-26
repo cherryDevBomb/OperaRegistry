@@ -23,6 +23,7 @@ class PageHeader extends Component {
 
   render() {
     const { validToken, user } = this.props.securityReducer;
+    
     const userIsAuthenticated = (
       <React.Fragment>
         <Nav className="mr-auto">
