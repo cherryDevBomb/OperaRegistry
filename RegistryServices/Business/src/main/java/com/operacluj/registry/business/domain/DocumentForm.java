@@ -45,7 +45,7 @@ public class DocumentForm {
         return isOriginExternal;
     }
 
-    public void setOriginExternal(boolean originExternal) {
+    public void setIsOriginExternal(boolean originExternal) {
         isOriginExternal = originExternal;
     }
 
@@ -53,7 +53,7 @@ public class DocumentForm {
         return isDestinationExternal;
     }
 
-    public void setDestinationExternal(boolean destinationExternal) {
+    public void setIsDestinationExternal(boolean destinationExternal) {
         isDestinationExternal = destinationExternal;
     }
 

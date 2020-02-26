@@ -1,13 +1,11 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import ButtonGroup from "react-bootstrap/ButtonGroup";
 import ToggleButtonGroup from "react-bootstrap/ToggleButtonGroup";
 import ToggleButton from "react-bootstrap/ToggleButton";
 import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import { createDocument } from "../../actions/documentActions";
-import UserDetails from "../user/UserDetails";
+import {connect} from "react-redux";
+import {createDocument} from "../../actions/documentActions";
 
 class CreateDocument extends Component {
   constructor() {
@@ -31,12 +29,12 @@ class CreateDocument extends Component {
   //life cycle hooks
   componentWillReceiveProps(nextProps) {
     if (nextProps.errorReducer) {
-      this.setState({ errorReducer: nextProps.errorReducer });
+      this.setState({errorReducer: nextProps.errorReducer});
     }
   }
 
   onChange(e) {
-    this.setState({ [e.target.name]: e.target.value });
+    this.setState({[e.target.name]: e.target.value});
   }
 
   onSubmit(e) {
@@ -55,17 +53,31 @@ class CreateDocument extends Component {
 
   onOriginTypeChange(e) {
     if (e === "external") {
-      this.setState({ isOriginExternal: true });
+      this.setState({isOriginExternal: true});
     } else {
-      this.setState({ isOriginExternal: false });
+      this.setState({isOriginExternal: false});
     }
   }
 
-  onClickChangeOrigin(e) {}
+  onDestinationTypeChange(e) {
+    if (e === "external") {
+      this.setState({isDestinationExternal: true});
+    } else {
+      this.setState({isDestinationExternal: false});
+    }
+  }
+
+  onExtDestinationChange(e) {
+    if (e != "") {
+      console.log(e);
+      this.setState({recipientNames: [e.target.value]});
+    }
+  }
 
   render() {
-    const { errorReducer } = this.state;
+    const {errorReducer} = this.state;
 
+    //origin part
     const formGroupOriginType = (
       <ToggleButtonGroup
         type="radio"
@@ -82,10 +94,11 @@ class CreateDocument extends Component {
       </ToggleButtonGroup>
     );
 
+    const user = this.props.securityReducer.user;
     const defaultCreator = (
       <React.Fragment>
-        Originea documentului
-        <UserDetails />
+        <p>Originea documentului </p>
+        <p>{user.email}</p>
       </React.Fragment>
     );
 
@@ -106,6 +119,14 @@ class CreateDocument extends Component {
       </Form.Group>
     );
 
+    let originPart;
+    if (this.state.isOriginExternal) {
+      originPart = formGroupExtOrigin;
+    } else {
+      originPart = defaultCreator;
+    }
+
+    //title
     const formGroupTitle = (
       <Form.Group controlId="formGroupTitle">
         <Form.Label>Titlu</Form.Label>
@@ -123,9 +144,61 @@ class CreateDocument extends Component {
       </Form.Group>
     );
 
-    const originPart = this.state.isOriginExternal
-      ? { formGroupExtOrigin }
-      : { defaultCreator };
+    //destination part
+    const formGroupDestinationType = (
+      <ToggleButtonGroup
+        type="radio"
+        name="destinationType"
+        size="sm"
+        defaultValue="internal"
+        onChange={this.onDestinationTypeChange.bind(this)}
+      >
+        <ToggleButton variant="outline-dark" value="internal">
+          Destinație internă
+        </ToggleButton>
+        <ToggleButton variant="outline-dark" value="external">
+          Destinație externă
+        </ToggleButton>
+      </ToggleButtonGroup>
+    );
+
+    //external destination (plain string)
+    const formGroupExtDestination = (
+      <Form.Group controlId="formGroupExtDestination">
+        <Form.Label>Destinatar</Form.Label>
+        <Form.Control
+          name="recipientNames"
+          type="text"
+          placeholder="Introduceți destinatarul"
+          value={this.state.recipientNames}
+          onChange={this.onExtDestinationChange.bind(this)}
+          isInvalid={errorReducer.recipientNames}
+        />
+        <Form.Control.Feedback type="invalid">
+          {errorReducer.recipientNames}
+        </Form.Control.Feedback>
+      </Form.Group>
+    );
+
+    const formGroupSentMessage = (
+      <Form.Group controlId="formGroupSentMessage">
+        <Form.Label>Mesaj</Form.Label>
+        <Form.Control
+          name="sentMessage"
+          type="text"
+          placeholder="Introduceți un mesaj pentru destinatar (opțional)"
+          value={this.state.sentMessage}
+          onChange={this.onChange}
+        />
+      </Form.Group>
+    );
+
+    let destinationPart;
+    if (this.state.isDestinationExternal) {
+      destinationPart = formGroupExtDestination;
+    } else {
+      destinationPart = "";
+    }
 
     return (
       <React.Fragment>
@@ -133,7 +206,9 @@ class CreateDocument extends Component {
           {formGroupOriginType}
           {originPart}
           {formGroupTitle}
-
+          {formGroupDestinationType}
+          {destinationPart}
+          {formGroupSentMessage}
           <Button variant="primary" type="submit">
             Submit
           </Button>
@@ -145,11 +220,13 @@ class CreateDocument extends Component {
 
 CreateDocument.propTypes = {
   errorReducer: PropTypes.object.isRequired,
+  securityReducer: PropTypes.object.isRequired,
   createDocument: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
-  errorReducer: state.errorReducer
+  errorReducer: state.errorReducer,
+  securityReducer: state.securityReducer
 });
 
-export default connect(mapStateToProps, { createDocument })(CreateDocument);
+export default connect(mapStateToProps, {createDocument})(CreateDocument);
