@@ -6,6 +6,7 @@ import ToggleButton from "react-bootstrap/ToggleButton";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {createDocument} from "../../actions/documentActions";
+import UserAutosuggest from "../user/UserAutosuggest";
 
 class CreateDocument extends Component {
   constructor() {
@@ -162,6 +163,11 @@ class CreateDocument extends Component {
       </ToggleButtonGroup>
     );
 
+    //internal destination (user autosuggest)
+    const formGroupIntDestination = (
+      <UserAutosuggest/>
+    );
+
     //external destination (plain string)
     const formGroupExtDestination = (
       <Form.Group controlId="formGroupExtDestination">
@@ -197,7 +203,7 @@ class CreateDocument extends Component {
     if (this.state.isDestinationExternal) {
       destinationPart = formGroupExtDestination;
     } else {
-      destinationPart = "";
+      destinationPart = formGroupIntDestination;
     }
 
     return (
