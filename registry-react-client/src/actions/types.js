@@ -6,3 +6,5 @@ export const GET_LOGGED_USER_DETAILS = "GET_LOGGED_USER_DETAILS";
 
 export const GET_ERRORS = "GET_ERRORS";
 export const GET_DOCUMENTS = "GET_DOCUMENTS";
+
+export const GET_ALL_USERS = "GET_ALL_USERS";

@@ -1,13 +1,13 @@
-// import axios from "axios";
-// import { GET_LOGGED_USER_DETAILS } from "./types";
-// import { properties } from "../properties.js";
-// import { LOGGED_USER_URL } from "../properties";
+import axios from "axios";
+import { GET_ALL_USERS } from "./types";
+import { properties } from "../properties.js";
+import { USERS_URL } from "../properties";
 
-// export const getLoggedUser = () => async dispatch => {
-//     const path = properties.serverURL + LOGGED_USER_URL;
-//     const res = await axios.get(path);
-//     dispatch({
-//         type: GET_LOGGED_USER_DETAILS,
-//         payload: res.data
-//     });
-// };
+export const getAllUsers = () => async dispatch => {
+  const path = properties.serverURL + USERS_URL;
+  const res = await axios.get(path);
+  dispatch({
+    type: GET_ALL_USERS,
+    payload: res.data
+  });
+};

@@ -3,67 +3,30 @@ import React, {Component} from "react";
 import "../../style/user-autosuggest.css"
 import Badge from "react-bootstrap/Badge";
 import Button from "react-bootstrap/Button";
-
-// Imagine you have a list of languages that you'd like to autosuggest.
-const languages = [
-  {
-    id: 1,
-    name: 'C++',
-    year: 1972
-  },
-  {
-    id: 2,
-    name: 'C1',
-    year: 1972
-  },
-  {
-    id: 3,
-    name: 'C2',
-    year: 1972
-  },
-  {
-    id: 4,
-    name: 'Elm',
-    year: 2012
-  }
-];
-
-// Teach Autosuggest how to calculate suggestions for any given input value.
-const getSuggestions = value => {
-  const inputValue = value.trim().toLowerCase();
-  const inputLength = inputValue.length;
-
-  return inputLength === 0 ? [] : languages.filter(lang =>
-    lang.name.toLowerCase().slice(0, inputLength) === inputValue
-  );
-};
-
-// When suggestion is clicked, Autosuggest needs to populate the input
-// based on the clicked suggestion. Teach Autosuggest how to calculate the
-// input value for every given suggestion.
-const getSuggestionValue = suggestion => suggestion.name;
-
-// Use your imagination to render suggestions.
-const renderSuggestion = suggestion => (
-  <div>
-    {suggestion.name}
-  </div>
-);
+import { getAllUsers } from "../../actions/userActions";
+import PropTypes from "prop-types";
+import {connect} from "react-redux";
 
 class UserAutosuggest extends Component {
+  componentDidMount() {
+    this.props.getAllUsers();
+  }
+
   constructor() {
     super();
 
-    // Autosuggest is a controlled component.
-    // This means that you need to provide an input value
-    // and an onChange handler that updates this value (see below).
-    // Suggestions also need to be provided to the Autosuggest,
-    // and they are initially empty because the Autosuggest is closed.
     this.state = {
       value: '',
       suggestions: [],
-      allValues: []
+      allSelectedUsers: [],
+      userReducer: {}
     };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.userReducer) {
+      this.setState({userReducer: nextProps.userReducer});
+    }
   }
 
   onChange = (event, {newValue}) => {
@@ -72,11 +35,44 @@ class UserAutosuggest extends Component {
     });
   };
 
+  // Teach Autosuggest how to calculate suggestions for any given input value.
+  getSuggestions = value => {
+    const inputValue = value.trim().toLowerCase();
+    const inputLength = inputValue.length;
+
+    // let allUsers = [];
+    // for (let i = 0; i < this.state.userReducer.allUsers.length; i++) {
+    //   allUsers.push(this.state.userReducer.allUsers[i])
+    // }
+    // console.log(allUsers)
+    const allUsers = [
+      {userId: 2, firstName: "Viorel", lastName: "G", department: "GENERAL_MANAGER", email: "gv@gmail.com"},
+      {userId: 3, firstName: "Vasea", lastName: "G", department: "GENERAL_MANAGER", email: "vas@gmail.com"}
+    ]
+
+    return inputLength === 0 ? [] : allUsers.filter(user =>
+      (user.firstName.toLowerCase().slice(0, inputLength) === inputValue ||
+      user.lastName.toLowerCase().slice(0, inputLength) === inputValue)
+    );
+  };
+
+// When suggestion is clicked, Autosuggest needs to populate the input
+// based on the clicked suggestion. Teach Autosuggest how to calculate the
+// input value for every given suggestion.
+  getSuggestionValue = suggestion => suggestion.firstName;
+
+// Use your imagination to render suggestions.
+  renderSuggestion = suggestion => (
+    <div>
+      {suggestion.firstName}
+    </div>
+  );
+
   // Autosuggest will call this function every time you need to update suggestions.
   // You already implemented this logic above, so just use it.
   onSuggestionsFetchRequested = ({value}) => {
     this.setState({
-      suggestions: getSuggestions(value)
+      suggestions: this.getSuggestions(value)
     });
   };
 
@@ -90,38 +86,40 @@ class UserAutosuggest extends Component {
   onSuggestionSelected = (event, {suggestion, suggestionValue, suggestionIndex, sectionIndex, method}) => {
     event.preventDefault();
     this.setState({
-      allValues: [...this.state.allValues, suggestion],
+      allSelectedUsers: [...this.state.allSelectedUsers, suggestion],
       value: ''
     })
   }
 
   onDismissClick = (e) => {
-    console.log(e);
-    let updatedValues = this.state.allValues.filter(function(item) {
-      return item.id != e.id;
+    let updatedValues = this.state.allSelectedUsers.filter(function(item) {
+      return item.userId != e.userId;
     });
     this.setState({
-      allValues: updatedValues
+      allSelectedUsers: updatedValues
     });
   }
 
-  render() {
-    const {value, suggestions} = this.state;
+  getFullName = (user) => {
+    return user.firstName + " " + user.lastName + "   ";
+  }
 
+  render() {
+    const {value, suggestions, allSelectedUsers, userReducer} = this.state;
+    
     // Autosuggest will pass through all these props to the input.
     const inputProps = {
-      placeholder: 'Type a programming language',
+      placeholder: 'Introduceți destinatarul',
       value,
       onChange: this.onChange
     };
 
     let previousValues = [];
-    for (let i = 0; i < this.state.allValues.length; i++) {
+    for (let i = 0; i < this.state.allSelectedUsers.length; i++) {
       const currentValue = (
-        //<Badge variant="secondary" size="lg">
         <Button variant={"outline-dark"}>
-          {this.state.allValues[i].name}
-          <Badge pill variant="primary" onClick={() => this.onDismissClick(this.state.allValues[i])}>
+          {this.getFullName(this.state.allSelectedUsers[i])}
+          <Badge pill variant="primary" onClick={() => this.onDismissClick(this.state.allSelectedUsers[i])}>
             X
           </Badge>
         </Button>
@@ -138,8 +136,8 @@ class UserAutosuggest extends Component {
           onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
           onSuggestionsClearRequested={this.onSuggestionsClearRequested}
           onSuggestionSelected={this.onSuggestionSelected.bind(this)}
-          getSuggestionValue={getSuggestionValue}
-          renderSuggestion={renderSuggestion}
+          getSuggestionValue={this.getSuggestionValue}
+          renderSuggestion={this.renderSuggestion}
           inputProps={inputProps}
         />
       </div>
@@ -147,4 +145,13 @@ class UserAutosuggest extends Component {
   }
 }
 
-export default UserAutosuggest;
+UserAutosuggest.propTypes = {
+  userReducer: PropTypes.object.isRequired,
+  getAllUsers: PropTypes.func.isRequired
+};
+
+const mapStateToProps = state => ({
+  userReducer: state.userReducer
+});
+
+export default connect(mapStateToProps, { getAllUsers })(UserAutosuggest);

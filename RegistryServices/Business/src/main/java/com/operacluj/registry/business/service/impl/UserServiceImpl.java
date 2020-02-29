@@ -19,6 +19,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.Principal;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -76,5 +80,12 @@ public class UserServiceImpl implements UserService {
             LOG.error("User with email {} already exists", newUser.getEmail());
             throw new CustomConstraintViolationException("email", ErrorMessageConstants.USER_ALREADY_EXISTS);
         }
+    }
+
+    @Override
+    public List<User> getAllUsersExceptPrincipal(Principal principal) {
+        LOG.info("Enter getAllUsersExceptPrincipal {}", principal.getName());
+        User user = userTranslator.getUserFromPrincipal(principal);
+        return userRepository.getAllUsersExcept(user);
     }
 }
