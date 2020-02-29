@@ -8,3 +8,4 @@ export const GET_ERRORS = "GET_ERRORS";
 export const GET_DOCUMENTS = "GET_DOCUMENTS";
 
 export const GET_ALL_USERS = "GET_ALL_USERS";
+export const UPDATE_SELECTED_USERS = "UPDATE_SELECTED_USERS";

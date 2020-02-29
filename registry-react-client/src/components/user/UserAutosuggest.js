@@ -3,7 +3,7 @@ import React, {Component} from "react";
 import "../../style/user-autosuggest.css"
 import Badge from "react-bootstrap/Badge";
 import Button from "react-bootstrap/Button";
-import { getAllUsers } from "../../actions/userActions";
+import {getAllUsers, updateSelectedUsers} from "../../actions/userActions";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 
@@ -45,14 +45,14 @@ class UserAutosuggest extends Component {
     //   allUsers.push(this.state.userReducer.allUsers[i])
     // }
     // console.log(allUsers)
-    const allUsers = [
-      {userId: 2, firstName: "Viorel", lastName: "G", department: "GENERAL_MANAGER", email: "gv@gmail.com"},
-      {userId: 3, firstName: "Vasea", lastName: "G", department: "GENERAL_MANAGER", email: "vas@gmail.com"}
-    ]
+    // const allUsers = [
+    //   {userId: 2, firstName: "Viorel", lastName: "G", department: "GENERAL_MANAGER", email: "gv@gmail.com"},
+    //   {userId: 3, firstName: "Vasea", lastName: "G", department: "GENERAL_MANAGER", email: "vas@gmail.com"}
+    // ]
 
-    return inputLength === 0 ? [] : allUsers.filter(user =>
+    return inputLength === 0 ? [] : this.state.userReducer.allUsers.filter(user =>
       (user.firstName.toLowerCase().slice(0, inputLength) === inputValue ||
-      user.lastName.toLowerCase().slice(0, inputLength) === inputValue)
+        user.lastName.toLowerCase().slice(0, inputLength) === inputValue)
     );
   };
 
@@ -85,19 +85,35 @@ class UserAutosuggest extends Component {
 
   onSuggestionSelected = (event, {suggestion, suggestionValue, suggestionIndex, sectionIndex, method}) => {
     event.preventDefault();
+    const newListOfSelectedUsers = [...this.state.allSelectedUsers, suggestion];
+    // console.log(newListOfSelectedUsers);
+
     this.setState({
-      allSelectedUsers: [...this.state.allSelectedUsers, suggestion],
+      allSelectedUsers: newListOfSelectedUsers,
       value: ''
     })
+
+    // console.log("all seleted users in inner state:")
+    // console.log(this.state.allSelectedUsers);
+
+    //update redux store
+    this.props.updateSelectedUsers(newListOfSelectedUsers);
+
+    // console.log("added " + suggestionValue);
+    // console.log(this.state.userReducer.selectedUsers);
   }
 
   onDismissClick = (e) => {
-    let updatedValues = this.state.allSelectedUsers.filter(function(item) {
+    let updatedValues = this.state.allSelectedUsers.filter(function (item) {
       return item.userId != e.userId;
     });
     this.setState({
       allSelectedUsers: updatedValues
     });
+
+    this.props.updateSelectedUsers(updatedValues);
+    //console.log("deleted " + e);
+    //console.log(this.state.userReducer.selectedUsers);
   }
 
   getFullName = (user) => {
@@ -106,7 +122,7 @@ class UserAutosuggest extends Component {
 
   render() {
     const {value, suggestions, allSelectedUsers, userReducer} = this.state;
-    
+
     // Autosuggest will pass through all these props to the input.
     const inputProps = {
       placeholder: 'Introduceți destinatarul',
@@ -114,6 +130,8 @@ class UserAutosuggest extends Component {
       onChange: this.onChange
     };
 
+    console.log(this.state.allSelectedUsers)
+    console.log(this.state.userReducer.selectedUsers)
     let previousValues = [];
     for (let i = 0; i < this.state.allSelectedUsers.length; i++) {
       const currentValue = (
@@ -147,11 +165,12 @@ class UserAutosuggest extends Component {
 
 UserAutosuggest.propTypes = {
   userReducer: PropTypes.object.isRequired,
-  getAllUsers: PropTypes.func.isRequired
+  getAllUsers: PropTypes.func.isRequired,
+  updateSelectedUsers: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
   userReducer: state.userReducer
 });
 
-export default connect(mapStateToProps, { getAllUsers })(UserAutosuggest);
+export default connect(mapStateToProps, {getAllUsers, updateSelectedUsers})(UserAutosuggest);

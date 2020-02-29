@@ -17,7 +17,7 @@ class CreateDocument extends Component {
       origin: "",
       isOriginExternal: false,
       isDestinationExternal: false,
-      recipientNames: [],
+      recipients: [],
       sentMessage: "",
 
       errorReducer: {}
@@ -36,20 +36,6 @@ class CreateDocument extends Component {
 
   onChange(e) {
     this.setState({[e.target.name]: e.target.value});
-  }
-
-  onSubmit(e) {
-    e.preventDefault();
-    const newDocument = {
-      title: this.state.title,
-      origin: this.state.origin,
-      isOriginExternal: this.state.isOriginExternal,
-      isDestinationExternal: this.state.isDestinationExternal,
-      recipientNames: this.state.recipientNames,
-      sentMessage: this.state.sentMessage
-    };
-    console.log(newDocument);
-    this.props.createDocument(newDocument, this.props.history);
   }
 
   onOriginTypeChange(e) {
@@ -71,8 +57,35 @@ class CreateDocument extends Component {
   onExtDestinationChange(e) {
     if (e != "") {
       console.log(e);
-      this.setState({recipientNames: [e.target.value]});
+      this.setState({
+        recipients: [e.target.value]
+      });
     }
+  }
+
+  onSubmit(e) {
+    e.preventDefault();
+    let recipientEmails = [];
+    if (!this.state.isDestinationExternal) {
+      const recipients = this.props.userReducer.selectedUsers;
+      this.setState({
+        recipients: this.props.userReducer.selectedUsers.forEach(rec => recipientEmails.push(rec.email.toString()))
+      });
+    }
+    else {
+      recipientEmails = this.state.recipients;
+    }
+
+    const newDocument = {
+      title: this.state.title,
+      origin: this.state.origin,
+      isOriginExternal: this.state.isOriginExternal,
+      isDestinationExternal: this.state.isDestinationExternal,
+      recipients: recipientEmails,
+      sentMessage: this.state.sentMessage
+    };
+    console.log(newDocument);
+    this.props.createDocument(newDocument, this.props.history);
   }
 
   render() {
@@ -171,17 +184,16 @@ class CreateDocument extends Component {
     //external destination (plain string)
     const formGroupExtDestination = (
       <Form.Group controlId="formGroupExtDestination">
-        <Form.Label>Destinatar</Form.Label>
         <Form.Control
-          name="recipientNames"
+          name="recipients"
           type="text"
           placeholder="Introduceți destinatarul"
-          value={this.state.recipientNames}
+          value={this.state.recipients}
           onChange={this.onExtDestinationChange.bind(this)}
-          isInvalid={errorReducer.recipientNames}
+          isInvalid={errorReducer.recipients}
         />
         <Form.Control.Feedback type="invalid">
-          {errorReducer.recipientNames}
+          {errorReducer.recipients}
         </Form.Control.Feedback>
       </Form.Group>
     );
@@ -227,12 +239,14 @@ class CreateDocument extends Component {
 CreateDocument.propTypes = {
   errorReducer: PropTypes.object.isRequired,
   securityReducer: PropTypes.object.isRequired,
+  userReducer: PropTypes.object.isRequired,
   createDocument: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
   errorReducer: state.errorReducer,
-  securityReducer: state.securityReducer
+  securityReducer: state.securityReducer,
+  userReducer: state.userReducer
 });
 
 export default connect(mapStateToProps, {createDocument})(CreateDocument);

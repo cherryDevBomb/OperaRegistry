@@ -21,7 +21,8 @@ public class DocumentForm {
     private String path;
 
     @NotEmpty(message = ErrorMessageConstants.DOCUMENT_RECIPIENT_REQUIRED)
-    private List<String> recipientNames;
+    private List<String> recipients;
+    //private List<String> recipientNames;
 
     private String sentMessage;
 
@@ -65,12 +66,21 @@ public class DocumentForm {
         this.path = path;
     }
 
-    public List<String> getRecipientNames() {
-        return recipientNames;
+//    public List<String> getRecipientNames() {
+//        return recipientNames;
+//    }
+//
+//    public void setRecipientNames(List<String> recipientNames) {
+//        this.recipientNames = recipientNames;
+//    }
+
+
+    public List<String> getRecipients() {
+        return recipients;
     }
 
-    public void setRecipientNames(List<String> recipientNames) {
-        this.recipientNames = recipientNames;
+    public void setRecipients(List<String> recipients) {
+        this.recipients = recipients;
     }
 
     public String getSentMessage() {
