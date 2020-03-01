@@ -14,6 +14,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Objects;
 
 
@@ -36,6 +37,9 @@ public class UserRepositoryImpl implements UserRepository {
     @Value("${addUser}")
     private String addUserQuery;
 
+    @Value("${getAllUsersExcept}")
+    private String getAllUsersExceptQuery;
+
     @Override
     public User getUserByEmail(String email) {
         SqlParameterSource sqlParameterSource = new MapSqlParameterSource("email", email);
@@ -53,6 +57,12 @@ public class UserRepositoryImpl implements UserRepository {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         this.jdbcTemplate.update(addUserQuery, getSqlParameterSourceForEntity(user), keyHolder);
         return Objects.requireNonNull(keyHolder.getKey()).intValue();
+    }
+
+    @Override
+    public List<User> getAllUsersExcept(User user) {
+        SqlParameterSource sqlParameterSource = new MapSqlParameterSource("userid", user.getUserId());
+        return jdbcTemplate.query(getAllUsersExceptQuery, sqlParameterSource, userMapper);
     }
 
 

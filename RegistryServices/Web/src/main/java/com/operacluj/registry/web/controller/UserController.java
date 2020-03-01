@@ -1,5 +1,7 @@
 package com.operacluj.registry.web.controller;
 
+import com.operacluj.registry.business.domain.DepartmentDTO;
+import com.operacluj.registry.business.domain.DocumentDTO;
 import com.operacluj.registry.business.domain.UserForm;
 import com.operacluj.registry.business.payload.JWTLoginSuccessResponse;
 import com.operacluj.registry.business.payload.LoginRequest;
@@ -10,6 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
+import java.util.List;
+import java.util.Map;
 
 
 @RestController
@@ -39,6 +45,18 @@ public class UserController {
     @ResponseStatus(HttpStatus.OK)
     public JWTLoginSuccessResponse authenticateUser(@RequestBody LoginRequest loginRequest) {
         return authenticationService.loginUser(loginRequest);
+    }
+
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    public List<User> getAllUsersExceptPrincipal(Principal principal) {
+        return userService.getAllUsersExceptPrincipal(principal);
+    }
+
+    @GetMapping("/grouped")
+    @ResponseStatus(HttpStatus.OK)
+    public List<DepartmentDTO> getAllUsersGroupedByDepartment(Principal principal) {
+        return userService.getAllUsersGroupedByDepartment(principal);
     }
 
 }

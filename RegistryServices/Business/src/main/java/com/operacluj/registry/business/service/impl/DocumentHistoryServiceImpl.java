@@ -83,7 +83,21 @@ public class DocumentHistoryServiceImpl implements DocumentHistoryService {
     }
 
     private List<DocumentHistory> getHistoryForDocumentForm(DocumentForm documentForm, int registryNumber, User user) {
-        return documentForm.getRecipientNames().stream().map(recipient -> {
+//        return documentForm.getRecipients().stream().map(recipient -> {
+//            DocumentHistory documentHistory = new DocumentHistory();
+//            documentHistory.setRegistryNumber(registryNumber);
+//            documentHistory.setSender(user.getUserId());
+//            documentHistory.setSentMessage(documentForm.getSentMessage());
+//            if (documentForm.isDestinationExternal()) {
+//                documentHistory.setExternalRecipient(recipient);
+//            }
+//            else {
+//                documentHistory.setInternalRecipient(Integer.parseInt(recipient));
+//            }
+//            return documentHistory;
+//        }).collect(Collectors.toList());
+
+        return documentForm.getRecipients().stream().map(recipient -> {
             DocumentHistory documentHistory = new DocumentHistory();
             documentHistory.setRegistryNumber(registryNumber);
             documentHistory.setSender(user.getUserId());
@@ -92,9 +106,9 @@ public class DocumentHistoryServiceImpl implements DocumentHistoryService {
                 documentHistory.setExternalRecipient(recipient);
             }
             else {
-                //TODO change this to getByName
                 User recipientUser = userService.getUserByEmail(recipient);
                 documentHistory.setInternalRecipient(recipientUser.getUserId());
+                //documentHistory.setInternalRecipient(Integer.parseInt(recipient));
             }
             return documentHistory;
         }).collect(Collectors.toList());

@@ -4,10 +4,12 @@ export const properties = {
 
 // REST URL paths
 export const DOCUMENTS_URL = "/documents";
+
 export const REGISTER_URL = "/users/register";
 export const LOGIN_URL = "/users/login";
 
-export const LOGGED_USER_URL = "/users/logged";
+export const USERS_URL = "/users";
+export const USERS_GROUPED_URL = "/users/grouped";
 
 // client side routes
 export const REGISTER_PATH = "/register";

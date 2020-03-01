@@ -1,5 +1,6 @@
 package com.operacluj.registry.business.service.impl;
 
+import com.operacluj.registry.business.domain.DepartmentDTO;
 import com.operacluj.registry.business.domain.UserForm;
 import com.operacluj.registry.business.exception.CustomConstraintViolationException;
 import com.operacluj.registry.business.exception.EntityNotFoundException;
@@ -7,6 +8,7 @@ import com.operacluj.registry.business.service.UserService;
 import com.operacluj.registry.business.translator.UserTranslator;
 import com.operacluj.registry.business.util.ErrorMessageConstants;
 import com.operacluj.registry.business.validator.UserValidator;
+import com.operacluj.registry.model.Department;
 import com.operacluj.registry.model.User;
 import com.operacluj.registry.persistence.repository.UserRepository;
 import org.apache.logging.log4j.LogManager;
@@ -18,6 +20,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.security.Principal;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -76,5 +83,30 @@ public class UserServiceImpl implements UserService {
             LOG.error("User with email {} already exists", newUser.getEmail());
             throw new CustomConstraintViolationException("email", ErrorMessageConstants.USER_ALREADY_EXISTS);
         }
+    }
+
+    @Override
+    public List<User> getAllUsersExceptPrincipal(Principal principal) {
+        LOG.info("Enter getAllUsersExceptPrincipal {}", principal.getName());
+        User user = userTranslator.getUserFromPrincipal(principal);
+        return userRepository.getAllUsersExcept(user);
+    }
+
+    @Override
+    public List<DepartmentDTO> getAllUsersGroupedByDepartment(Principal principal) {
+        LOG.info("Enter getAllUsersGroupedByDepartment {}", principal.getName());
+        User user = userTranslator.getUserFromPrincipal(principal);
+        List<User> allUsers = userRepository.getAllUsersExcept(user);
+        Map<Department, List<User>> departmentMap = allUsers.stream()
+                .collect(Collectors.groupingBy(User::getDepartment));
+        return departmentMap.keySet().stream()
+                .map(department -> {
+                    DepartmentDTO departmentDTO = new DepartmentDTO();
+                    departmentDTO.setDepartment(department);
+                    departmentDTO.setDepartmentName(department.getTextValue());
+                    departmentDTO.setDepartmentUsers(departmentMap.get(department));
+                    return departmentDTO;
+                })
+                .collect(Collectors.toList());
     }
 }

@@ -6,6 +6,8 @@ import ToggleButton from "react-bootstrap/ToggleButton";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {createDocument} from "../../actions/documentActions";
+import UserAutosuggest from "../user/UserAutosuggest";
+import {getFullName} from "../../securityUtils/userUtils";
 
 class CreateDocument extends Component {
   constructor() {
@@ -16,7 +18,7 @@ class CreateDocument extends Component {
       origin: "",
       isOriginExternal: false,
       isDestinationExternal: false,
-      recipientNames: [],
+      recipients: [],
       sentMessage: "",
 
       errorReducer: {}
@@ -35,20 +37,6 @@ class CreateDocument extends Component {
 
   onChange(e) {
     this.setState({[e.target.name]: e.target.value});
-  }
-
-  onSubmit(e) {
-    e.preventDefault();
-    const newDocument = {
-      title: this.state.title,
-      origin: this.state.origin,
-      isOriginExternal: this.state.isOriginExternal,
-      isDestinationExternal: this.state.isDestinationExternal,
-      recipientNames: this.state.recipientNames,
-      sentMessage: this.state.sentMessage
-    };
-    console.log(newDocument);
-    this.props.createDocument(newDocument, this.props.history);
   }
 
   onOriginTypeChange(e) {
@@ -70,8 +58,34 @@ class CreateDocument extends Component {
   onExtDestinationChange(e) {
     if (e != "") {
       console.log(e);
-      this.setState({recipientNames: [e.target.value]});
+      this.setState({
+        recipients: [e.target.value]
+      });
     }
+  }
+
+  onSubmit(e) {
+    e.preventDefault();
+    let recipientEmails = [];
+    if (!this.state.isDestinationExternal) {
+      const recipients = this.props.userReducer.selectedUsers;
+      this.setState({
+        recipients: this.props.userReducer.selectedUsers.forEach(rec => recipientEmails.push(rec.email.toString()))
+      });
+    } else {
+      recipientEmails = this.state.recipients;
+    }
+
+    const newDocument = {
+      title: this.state.title,
+      origin: this.state.origin,
+      isOriginExternal: this.state.isOriginExternal,
+      isDestinationExternal: this.state.isDestinationExternal,
+      recipients: recipientEmails,
+      sentMessage: this.state.sentMessage
+    };
+    console.log(newDocument);
+    this.props.createDocument(newDocument, this.props.history);
   }
 
   render() {
@@ -79,32 +93,31 @@ class CreateDocument extends Component {
 
     //origin part
     const formGroupOriginType = (
-      <ToggleButtonGroup
-        type="radio"
-        name="originType"
-        defaultValue="internal"
-        onChange={this.onOriginTypeChange.bind(this)}
-      >
-        <ToggleButton variant="outline-dark" value="internal">
-          Document intern
-        </ToggleButton>
-        <ToggleButton variant="outline-dark" value="external">
-          Document extern
-        </ToggleButton>
-      </ToggleButtonGroup>
+      <React.Fragment>
+        <p>Originea documentului </p>
+        <ToggleButtonGroup
+          type="radio"
+          name="originType"
+          defaultValue="internal"
+          onChange={this.onOriginTypeChange.bind(this)}
+        >
+          <ToggleButton variant="outline-dark" value="internal">
+            Document intern
+          </ToggleButton>
+          <ToggleButton variant="outline-dark" value="external" disabled={this.state.isDestinationExternal ? true : false}>
+            Document extern
+          </ToggleButton>
+        </ToggleButtonGroup>
+      </React.Fragment>
     );
 
     const user = this.props.securityReducer.user;
     const defaultCreator = (
-      <React.Fragment>
-        <p>Originea documentului </p>
-        <p>{user.email}</p>
-      </React.Fragment>
+          <Form.Control plaintext readonly defaultValue={getFullName(user)} />
     );
 
     const formGroupExtOrigin = (
       <Form.Group controlId="formGroupExtOrigin">
-        <Form.Label>Originea</Form.Label>
         <Form.Control
           name="origin"
           type="text"
@@ -156,26 +169,30 @@ class CreateDocument extends Component {
         <ToggleButton variant="outline-dark" value="internal">
           Destinație internă
         </ToggleButton>
-        <ToggleButton variant="outline-dark" value="external">
+        <ToggleButton variant="outline-dark" value="external" disabled={this.state.isOriginExternal ? true : false}>
           Destinație externă
         </ToggleButton>
       </ToggleButtonGroup>
     );
 
+    //internal destination (user autosuggest)
+    const formGroupIntDestination = (
+      <UserAutosuggest/>
+    );
+
     //external destination (plain string)
     const formGroupExtDestination = (
       <Form.Group controlId="formGroupExtDestination">
-        <Form.Label>Destinatar</Form.Label>
         <Form.Control
-          name="recipientNames"
+          name="recipients"
           type="text"
           placeholder="Introduceți destinatarul"
-          value={this.state.recipientNames}
+          value={this.state.recipients}
           onChange={this.onExtDestinationChange.bind(this)}
-          isInvalid={errorReducer.recipientNames}
+          isInvalid={errorReducer.recipients}
         />
         <Form.Control.Feedback type="invalid">
-          {errorReducer.recipientNames}
+          {errorReducer.recipients}
         </Form.Control.Feedback>
       </Form.Group>
     );
@@ -197,7 +214,7 @@ class CreateDocument extends Component {
     if (this.state.isDestinationExternal) {
       destinationPart = formGroupExtDestination;
     } else {
-      destinationPart = "";
+      destinationPart = formGroupIntDestination;
     }
 
     return (
@@ -221,12 +238,14 @@ class CreateDocument extends Component {
 CreateDocument.propTypes = {
   errorReducer: PropTypes.object.isRequired,
   securityReducer: PropTypes.object.isRequired,
+  userReducer: PropTypes.object.isRequired,
   createDocument: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
   errorReducer: state.errorReducer,
-  securityReducer: state.securityReducer
+  securityReducer: state.securityReducer,
+  userReducer: state.userReducer
 });
 
 export default connect(mapStateToProps, {createDocument})(CreateDocument);
