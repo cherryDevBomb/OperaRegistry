@@ -42,7 +42,7 @@ public class DocumentHistoryRepositoryImpl implements DocumentHistoryRepository 
     @Override
     public int addDocumentHistory(DocumentHistory documentHistory) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
-        this.jdbcTemplate.update(addDocumentHistoryQuery, getSqlParameterSourceForEntity(documentHistory), keyHolder);
+        jdbcTemplate.update(addDocumentHistoryQuery, getSqlParameterSourceForEntity(documentHistory), keyHolder);
         return Objects.requireNonNull(keyHolder.getKey()).intValue();
     }
 

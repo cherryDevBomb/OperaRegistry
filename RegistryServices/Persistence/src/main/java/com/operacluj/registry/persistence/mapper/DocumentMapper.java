@@ -22,7 +22,6 @@ public class DocumentMapper implements RowMapper<Document> {
         document.setOrigin(resultSet.getString("origin"));
         document.setArchived(resultSet.getBoolean("archived"));
         document.setCreatedDate(resultSet.getDate("createddate").toLocalDate());
-        document.setPath(resultSet.getString("path"));
         return document;
     }
 }

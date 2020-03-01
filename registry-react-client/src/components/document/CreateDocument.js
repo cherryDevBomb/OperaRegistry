@@ -104,7 +104,8 @@ class CreateDocument extends Component {
           <ToggleButton variant="outline-dark" value="internal">
             Document intern
           </ToggleButton>
-          <ToggleButton variant="outline-dark" value="external" disabled={this.state.isDestinationExternal ? true : false}>
+          <ToggleButton variant="outline-dark" value="external"
+                        disabled={this.state.isDestinationExternal ? true : false}>
             Document extern
           </ToggleButton>
         </ToggleButtonGroup>
@@ -113,7 +114,7 @@ class CreateDocument extends Component {
 
     const user = this.props.securityReducer.user;
     const defaultCreator = (
-          <Form.Control plaintext readonly defaultValue={getFullName(user)} />
+      <Form.Control plaintext readonly defaultValue={getFullName(user)}/>
     );
 
     const formGroupExtOrigin = (

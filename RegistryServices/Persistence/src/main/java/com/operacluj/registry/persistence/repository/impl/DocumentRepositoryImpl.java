@@ -83,7 +83,6 @@ public class DocumentRepositoryImpl implements DocumentRepository {
             parameterSource.addValue("type", document.getType().toString());
             parameterSource.addValue("createdby", document.getCreatedBy());
             parameterSource.addValue("origin", document.getOrigin());
-            parameterSource.addValue("path", document.getPath());
         }
         return parameterSource;
     }
