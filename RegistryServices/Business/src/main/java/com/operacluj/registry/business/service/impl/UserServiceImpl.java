@@ -8,6 +8,7 @@ import com.operacluj.registry.business.service.UserService;
 import com.operacluj.registry.business.translator.UserTranslator;
 import com.operacluj.registry.business.util.ErrorMessageConstants;
 import com.operacluj.registry.business.validator.UserValidator;
+import com.operacluj.registry.model.Department;
 import com.operacluj.registry.model.User;
 import com.operacluj.registry.persistence.repository.UserRepository;
 import org.apache.logging.log4j.LogManager;
@@ -96,10 +97,16 @@ public class UserServiceImpl implements UserService {
         LOG.info("Enter getAllUsersGroupedByDepartment {}", principal.getName());
         User user = userTranslator.getUserFromPrincipal(principal);
         List<User> allUsers = userRepository.getAllUsersExcept(user);
-        Map<String, List<User>> departmentMap = allUsers.stream()
-                .collect(Collectors.groupingBy(u -> u.getDepartment().getTextValue()));
+        Map<Department, List<User>> departmentMap = allUsers.stream()
+                .collect(Collectors.groupingBy(User::getDepartment));
         return departmentMap.keySet().stream()
-                .map(department -> new DepartmentDTO(department, departmentMap.get(department)))
+                .map(department -> {
+                    DepartmentDTO departmentDTO = new DepartmentDTO();
+                    departmentDTO.setDepartment(department);
+                    departmentDTO.setDepartmentName(department.getTextValue());
+                    departmentDTO.setDepartmentUsers(departmentMap.get(department));
+                    return departmentDTO;
+                })
                 .collect(Collectors.toList());
     }
 }

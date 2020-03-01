@@ -1,4 +1,4 @@
-import {GET_ALL_USERS, UPDATE_SELECTED_USERS} from "../actions/types";
+import {GET_ALL_USERS, UPDATE_ALL_USERS, UPDATE_SELECTED_USERS} from "../actions/types";
 
 const initialState = {
   allUsers: [],
@@ -16,6 +16,11 @@ export default function(state = initialState, action) {
       return {
         ...state,
         selectedUsers: action.payload
+      };
+    case UPDATE_ALL_USERS:
+      return {
+        ...state,
+        allUsers: action.payload
       };
     default:
       return state;

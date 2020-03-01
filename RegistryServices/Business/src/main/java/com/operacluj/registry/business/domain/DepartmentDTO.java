@@ -1,17 +1,22 @@
 package com.operacluj.registry.business.domain;
 
+import com.operacluj.registry.model.Department;
 import com.operacluj.registry.model.User;
 
 import java.util.List;
 
 public class DepartmentDTO {
 
+    private Department department;
     private String departmentName;
     private List<User> departmentUsers;
 
-    public DepartmentDTO(String departmentName, List<User> departmentUsers) {
-        this.departmentName = departmentName;
-        this.departmentUsers = departmentUsers;
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
     }
 
     public String getDepartmentName() {
