@@ -104,7 +104,7 @@ class CreateDocument extends Component {
           <ToggleButton variant="outline-dark" value="internal">
             Document intern
           </ToggleButton>
-          <ToggleButton variant="outline-dark" value="external">
+          <ToggleButton variant="outline-dark" value="external" disabled={this.state.isDestinationExternal ? true : false}>
             Document extern
           </ToggleButton>
         </ToggleButtonGroup>
@@ -169,7 +169,7 @@ class CreateDocument extends Component {
         <ToggleButton variant="outline-dark" value="internal">
           Destinație internă
         </ToggleButton>
-        <ToggleButton variant="outline-dark" value="external">
+        <ToggleButton variant="outline-dark" value="external" disabled={this.state.isOriginExternal ? true : false}>
           Destinație externă
         </ToggleButton>
       </ToggleButtonGroup>
