@@ -2,6 +2,8 @@ import React, {Component} from "react";
 import FileUpload from "./FileUpload";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
+import Button from "react-bootstrap/Button";
+import {MY_DOCUMENTS_PATH} from "../../properties";
 
 class UploadAfterCreate extends Component {
 
@@ -11,13 +13,22 @@ class UploadAfterCreate extends Component {
     }
   }
 
+  onSkipClick = () => {
+    this.props.history.push(MY_DOCUMENTS_PATH);
+  }
+
   render() {
     return (
       <React.Fragment>
-        <h1>In UploadAfterCreate</h1>
         <FileUpload
           history={this.props.history}
-          registryNumber={this.props.documentReducer.mostRecentRegNr}/>
+          registryNumber={this.props.documentReducer.mostRecentRegNr}>
+        </FileUpload>
+        <Button
+          variant="outline-secondary"
+          onClick={this.onSkipClick}>
+          Skip for now
+        </Button>
       </React.Fragment>
     );
   }
