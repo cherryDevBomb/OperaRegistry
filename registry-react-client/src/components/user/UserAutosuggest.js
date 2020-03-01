@@ -3,7 +3,7 @@ import React, {Component} from "react";
 import "../../style/user-autosuggest.css"
 import Badge from "react-bootstrap/Badge";
 import Button from "react-bootstrap/Button";
-import {getAllUsers, updateSelectedUsers, updateAllUsers} from "../../actions/userActions";
+import {getAllUsers, updateAllUsers, updateSelectedUsers} from "../../actions/userActions";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {getFullName} from "../../securityUtils/userUtils";
@@ -55,7 +55,7 @@ class UserAutosuggest extends Component {
   }
 
 // returns value which will populate input whn suggestion is selected
-  getSuggestionValue = suggestion => {getFullName(suggestion)};
+  getSuggestionValue = suggestion => getFullName(suggestion);
 
   renderSuggestion = suggestion => (
     <div>
@@ -99,13 +99,14 @@ class UserAutosuggest extends Component {
     //update remaining suggestion possibilities
     let remainingUsers = this.state.userReducer.allUsers
       .map(section => {
-          return {
-            department: section.department,
-            departmentName: section.departmentName,
-            departmentUsers: section.departmentUsers.filter(item =>
-              item.userId !== suggestion.userId
-          )};
-        })
+        return {
+          department: section.department,
+          departmentName: section.departmentName,
+          departmentUsers: section.departmentUsers.filter(item =>
+            item.userId !== suggestion.userId
+          )
+        };
+      })
     this.props.updateAllUsers(remainingUsers);
   }
 
@@ -127,7 +128,8 @@ class UserAutosuggest extends Component {
           departmentName: section.departmentName,
 
           departmentUsers: (e.department === section.department) ? [...section.departmentUsers, e] : section.departmentUsers
-      }});
+        }
+      });
     this.props.updateAllUsers(newListOfPossibilities);
   }
 
