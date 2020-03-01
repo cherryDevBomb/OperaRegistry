@@ -3,6 +3,7 @@ package com.operacluj.registry.web.controller;
 import com.operacluj.registry.business.exception.ArgumentNotValidException;
 import com.operacluj.registry.business.exception.CustomConstraintViolationException;
 import com.operacluj.registry.business.exception.EntityNotFoundException;
+import com.operacluj.registry.business.exception.UploadFailedException;
 import com.operacluj.registry.business.payload.ErrorResponse;
 import com.operacluj.registry.business.util.ErrorMessageConstants;
 import org.springframework.http.HttpStatus;
@@ -60,6 +61,14 @@ public class ControllerExceptionHandler {
         for (ConstraintViolation<Object> constraintViolation : e.getConstraintViolations()) {
             errorMap.put(constraintViolation.getPropertyPath().toString(), constraintViolation.getMessage());
         }
+        return errorMap;
+    }
+
+    @ExceptionHandler({UploadFailedException.class})
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public Map<String, String> handleException(UploadFailedException e) {
+        Map<String, String> errorMap = new HashMap<>();
+        errorMap.put(e.getPropertyName(), e.getMessage());
         return errorMap;
     }
 

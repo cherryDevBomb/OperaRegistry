@@ -55,7 +55,7 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public int addUser(User user) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
-        this.jdbcTemplate.update(addUserQuery, getSqlParameterSourceForEntity(user), keyHolder);
+        jdbcTemplate.update(addUserQuery, getSqlParameterSourceForEntity(user), keyHolder);
         return Objects.requireNonNull(keyHolder.getKey()).intValue();
     }
 

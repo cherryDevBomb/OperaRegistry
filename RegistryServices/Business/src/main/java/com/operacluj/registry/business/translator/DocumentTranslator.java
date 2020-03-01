@@ -42,7 +42,6 @@ public class DocumentTranslator {
             document.setType(DocumentType.INTERNAL);
         }
 
-        document.setPath(documentForm.getPath());
         return document;
     }
 
@@ -58,7 +57,6 @@ public class DocumentTranslator {
         documentDTO.setDocumentType(document.getType().toString());
         documentDTO.setArchived(document.isArchived());
         documentDTO.setArchivingMessage(document.getArchivingMessage());
-        documentDTO.setPath(document.getPath());
 
 //        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
 //        documentDTO.setCreatedDate(formatter.format(document.getCreatedDate()));

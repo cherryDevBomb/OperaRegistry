@@ -1,17 +1,16 @@
 import axios from "axios";
-import { GET_ERRORS, GET_DOCUMENTS } from "./types";
-import { properties } from "../properties.js";
-import { DOCUMENTS_URL } from "../properties";
-import { MY_DOCUMENTS_PATH } from "../properties";
+import {DOCUMENT_CREATED, GET_DOCUMENTS, GET_ERRORS} from "./types";
+import {properties} from "../properties.js";
+import {DOCUMENTS_URL, NEW_DOCUMENT_UPLOAD_FILE_PATH} from "../properties";
 
 export const createDocument = (document, history) => async dispatch => {
   try {
     const path = properties.serverURL + DOCUMENTS_URL;
-    await axios.post(path, document);
-    history.push(MY_DOCUMENTS_PATH);
+    const res = await axios.post(path, document);
+    history.push(NEW_DOCUMENT_UPLOAD_FILE_PATH);
     dispatch({
-      type: GET_ERRORS,
-      payload: {}
+      type: DOCUMENT_CREATED,
+      payload: res.data
     });
   } catch (err) {
     dispatch({

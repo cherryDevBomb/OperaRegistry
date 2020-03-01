@@ -1,8 +1,5 @@
 package com.operacluj.registry.business.util;
 
-import org.springframework.beans.factory.annotation.Value;
-
-
 public class ErrorMessageConstants {
 
     public static final String DOCUMENT_TITLE_REQUIRED = "Document title is required";
@@ -22,6 +19,8 @@ public class ErrorMessageConstants {
     public static final String PASSWORD_DOES_NOT_MATCH = "Password does not match";
     public static final String USER_ALREADY_EXISTS = "A user with this email is already registered";
     public static final String USER_NOT_FOUND = "User not found";
+
+    public static final String FILE_UPLOAD_FAILED = "Failed to upload file";
 
     public static final String INVALID_LOGIN = "Incorrect email or password";
 

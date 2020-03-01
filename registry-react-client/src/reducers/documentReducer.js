@@ -1,8 +1,9 @@
-import { GET_DOCUMENTS } from "../actions/types";
+import {DOCUMENT_CREATED, GET_DOCUMENTS} from "../actions/types";
 
 const initialState = {
   documents: [],
-  document: {}
+  document: {},
+  mostRecentRegNr: null
 };
 
 export default function(state = initialState, action) {
@@ -11,6 +12,11 @@ export default function(state = initialState, action) {
       return {
         ...state,
         documents: action.payload
+      };
+    case DOCUMENT_CREATED:
+      return {
+        ...state,
+        mostRecentRegNr: action.payload
       };
     default:
       return state;
