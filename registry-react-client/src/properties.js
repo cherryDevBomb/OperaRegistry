@@ -9,6 +9,7 @@ export const REGISTER_URL = "/users/register";
 export const LOGIN_URL = "/users/login";
 
 export const USERS_URL = "/users";
+export const USERS_GROUPED_URL = "/users/grouped";
 
 // client side routes
 export const REGISTER_PATH = "/register";

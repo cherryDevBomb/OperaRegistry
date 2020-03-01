@@ -1,5 +1,6 @@
 package com.operacluj.registry.business.service.impl;
 
+import com.operacluj.registry.business.domain.DepartmentDTO;
 import com.operacluj.registry.business.domain.UserForm;
 import com.operacluj.registry.business.exception.CustomConstraintViolationException;
 import com.operacluj.registry.business.exception.EntityNotFoundException;
@@ -21,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -87,5 +89,17 @@ public class UserServiceImpl implements UserService {
         LOG.info("Enter getAllUsersExceptPrincipal {}", principal.getName());
         User user = userTranslator.getUserFromPrincipal(principal);
         return userRepository.getAllUsersExcept(user);
+    }
+
+    @Override
+    public List<DepartmentDTO> getAllUsersGroupedByDepartment(Principal principal) {
+        LOG.info("Enter getAllUsersGroupedByDepartment {}", principal.getName());
+        User user = userTranslator.getUserFromPrincipal(principal);
+        List<User> allUsers = userRepository.getAllUsersExcept(user);
+        Map<String, List<User>> departmentMap = allUsers.stream()
+                .collect(Collectors.groupingBy(u -> u.getDepartment().getTextValue()));
+        return departmentMap.keySet().stream()
+                .map(department -> new DepartmentDTO(department, departmentMap.get(department)))
+                .collect(Collectors.toList());
     }
 }

@@ -7,6 +7,7 @@ import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {createDocument} from "../../actions/documentActions";
 import UserAutosuggest from "../user/UserAutosuggest";
+import {getFullName} from "../../securityUtils/userUtils";
 
 class CreateDocument extends Component {
   constructor() {
@@ -71,8 +72,7 @@ class CreateDocument extends Component {
       this.setState({
         recipients: this.props.userReducer.selectedUsers.forEach(rec => recipientEmails.push(rec.email.toString()))
       });
-    }
-    else {
+    } else {
       recipientEmails = this.state.recipients;
     }
 
@@ -93,32 +93,31 @@ class CreateDocument extends Component {
 
     //origin part
     const formGroupOriginType = (
-      <ToggleButtonGroup
-        type="radio"
-        name="originType"
-        defaultValue="internal"
-        onChange={this.onOriginTypeChange.bind(this)}
-      >
-        <ToggleButton variant="outline-dark" value="internal">
-          Document intern
-        </ToggleButton>
-        <ToggleButton variant="outline-dark" value="external">
-          Document extern
-        </ToggleButton>
-      </ToggleButtonGroup>
+      <React.Fragment>
+        <p>Originea documentului </p>
+        <ToggleButtonGroup
+          type="radio"
+          name="originType"
+          defaultValue="internal"
+          onChange={this.onOriginTypeChange.bind(this)}
+        >
+          <ToggleButton variant="outline-dark" value="internal">
+            Document intern
+          </ToggleButton>
+          <ToggleButton variant="outline-dark" value="external">
+            Document extern
+          </ToggleButton>
+        </ToggleButtonGroup>
+      </React.Fragment>
     );
 
     const user = this.props.securityReducer.user;
     const defaultCreator = (
-      <React.Fragment>
-        <p>Originea documentului </p>
-        <p>{user.email}</p>
-      </React.Fragment>
+          <Form.Control plaintext readonly defaultValue={getFullName(user)} />
     );
 
     const formGroupExtOrigin = (
       <Form.Group controlId="formGroupExtOrigin">
-        <Form.Label>Originea</Form.Label>
         <Form.Control
           name="origin"
           type="text"

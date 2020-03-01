@@ -6,6 +6,7 @@ import Button from "react-bootstrap/Button";
 import {getAllUsers, updateSelectedUsers} from "../../actions/userActions";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
+import {getFullName} from "../../securityUtils/userUtils";
 
 class UserAutosuggest extends Component {
   componentDidMount() {
@@ -40,21 +41,24 @@ class UserAutosuggest extends Component {
     const inputValue = value.trim().toLowerCase();
     const inputLength = inputValue.length;
 
-    // let allUsers = [];
-    // for (let i = 0; i < this.state.userReducer.allUsers.length; i++) {
-    //   allUsers.push(this.state.userReducer.allUsers[i])
-    // }
-    // console.log(allUsers)
-    // const allUsers = [
-    //   {userId: 2, firstName: "Viorel", lastName: "G", department: "GENERAL_MANAGER", email: "gv@gmail.com"},
-    //   {userId: 3, firstName: "Vasea", lastName: "G", department: "GENERAL_MANAGER", email: "vas@gmail.com"}
-    // ]
+    return this.state.userReducer.allUsers
+      .map(section => {
+        return {
+          departmentName: section.departmentName,
+          departmentUsers: section.departmentUsers.filter(user =>
+            (user.firstName.toLowerCase().slice(0, inputLength) === inputValue ||
+              user.lastName.toLowerCase().slice(0, inputLength) === inputValue))
+        };
+      })
+      .filter(section => section.departmentUsers.length > 0);
+  }
 
-    return inputLength === 0 ? [] : this.state.userReducer.allUsers.filter(user =>
-      (user.firstName.toLowerCase().slice(0, inputLength) === inputValue ||
-        user.lastName.toLowerCase().slice(0, inputLength) === inputValue)
-    );
-  };
+//WORKIIIIIIIIIIIING
+    // return inputLength === 0 ? [] : this.state.userReducer.allUsers.filter(user =>
+    //   (user.firstName.toLowerCase().slice(0, inputLength) === inputValue ||
+    //     user.lastName.toLowerCase().slice(0, inputLength) === inputValue)
+    // );
+  // };
 
 // When suggestion is clicked, Autosuggest needs to populate the input
 // based on the clicked suggestion. Teach Autosuggest how to calculate the
@@ -67,6 +71,16 @@ class UserAutosuggest extends Component {
       {suggestion.firstName}
     </div>
   );
+
+  renderSectionTitle(section) {
+    return (
+      <strong>{section.departmentName}</strong>
+    );
+  }
+
+  getSectionSuggestions(section) {
+    return section.departmentUsers;
+  }
 
   // Autosuggest will call this function every time you need to update suggestions.
   // You already implemented this logic above, so just use it.
@@ -116,12 +130,9 @@ class UserAutosuggest extends Component {
     //console.log(this.state.userReducer.selectedUsers);
   }
 
-  getFullName = (user) => {
-    return user.firstName + " " + user.lastName + "   ";
-  }
-
   render() {
     const {value, suggestions, allSelectedUsers, userReducer} = this.state;
+    console.log(this.state.userReducer.allUsers)
 
     // Autosuggest will pass through all these props to the input.
     const inputProps = {
@@ -136,7 +147,7 @@ class UserAutosuggest extends Component {
     for (let i = 0; i < this.state.allSelectedUsers.length; i++) {
       const currentValue = (
         <Button variant={"outline-dark"}>
-          {this.getFullName(this.state.allSelectedUsers[i])}
+          {getFullName(this.state.allSelectedUsers[i])}
           <Badge pill variant="primary" onClick={() => this.onDismissClick(this.state.allSelectedUsers[i])}>
             X
           </Badge>
@@ -150,12 +161,15 @@ class UserAutosuggest extends Component {
       <div className={"autosuggest-container"}>
         {previousValues}
         <Autosuggest
+          multiSection={true}
           suggestions={suggestions}
           onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
           onSuggestionsClearRequested={this.onSuggestionsClearRequested}
           onSuggestionSelected={this.onSuggestionSelected.bind(this)}
           getSuggestionValue={this.getSuggestionValue}
           renderSuggestion={this.renderSuggestion}
+          renderSectionTitle={this.renderSectionTitle}
+          getSectionSuggestions={this.getSectionSuggestions}
           inputProps={inputProps}
         />
       </div>
