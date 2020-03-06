@@ -7,9 +7,9 @@ import com.operacluj.registry.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
@@ -27,8 +27,9 @@ public class DocumentHistoryTranslator {
         documentHistoryDTO.setSender(sender);
         documentHistoryDTO.setSentMessage(documentHistory.getSentMessage());
 
-        if (documentHistory.getInternalRecipient() != null) {
-            User internalRecipient = userService.getUserById(documentHistory.getInternalRecipient());
+        Optional<Integer> optionalInternalRecipientId = Optional.ofNullable(documentHistory.getInternalRecipient());
+        if (optionalInternalRecipientId.orElse(0) != 0) {
+            User internalRecipient = userService.getUserById(optionalInternalRecipientId.get());
             documentHistoryDTO.setInternalRecipient(internalRecipient);
         }
         else {
@@ -38,15 +39,9 @@ public class DocumentHistoryTranslator {
         documentHistoryDTO.setResolved(documentHistory.isResolved());
         documentHistoryDTO.setResolvedMessage(documentHistory.getResolvedMessage());
 
-//        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
-//        documentHistoryDTO.setSentDate(formatter.format(documentHistory.getSentDate()));
-//        documentHistoryDTO.setResolvedDate(documentHistory.isResolved() ? formatter.format(documentHistory.getResolvedDate()) : "");
-
-//        String formattedSentDate = documentHistory.getSentDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
-//        documentHistoryDTO.setSentDate(formattedSentDate);
-//        String formattedResolvedDate = documentHistory.getResolvedDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
-//        documentHistoryDTO.setResolvedDate(formattedResolvedDate);
-
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.YYYY");
+        documentHistoryDTO.setSentDate(formatter.format(documentHistory.getSentDate()));
+        documentHistoryDTO.setResolvedDate(documentHistory.isResolved() ? formatter.format(documentHistory.getResolvedDate()) : null);
 
         return documentHistoryDTO;
     }

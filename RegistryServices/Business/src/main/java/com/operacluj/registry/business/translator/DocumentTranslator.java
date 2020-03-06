@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
-import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -58,14 +57,9 @@ public class DocumentTranslator {
         documentDTO.setArchived(document.isArchived());
         documentDTO.setArchivingMessage(document.getArchivingMessage());
 
-//        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
-//        documentDTO.setCreatedDate(formatter.format(document.getCreatedDate()));
-//        documentDTO.setArchivingDate(document.isArchived() ? formatter.format(document.getArchivingDate()) : "");
-
-//        String formattedCreatedDate = document.getCreatedDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
-//        documentDTO.setCreatedDate(formattedCreatedDate);
-//        String formattedArchivingDate = document.getArchivingDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
-//        documentDTO.setArchivingDate(formattedArchivingDate);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.YYYY");
+        documentDTO.setCreatedDate(formatter.format(document.getCreatedDate()));
+        documentDTO.setArchivingDate(document.isArchived() ? formatter.format(document.getArchivingDate()) : null);
 
         List<DocumentHistoryDTO> documentHistoryDTOList = documentHistoryService.getDocumentHistoryForDocument(document.getRegistryNumber());
         documentDTO.setDocumentHistory(documentHistoryDTOList);
