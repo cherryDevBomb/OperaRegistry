@@ -34,8 +34,8 @@ public class DocumentController {
 
     @GetMapping("/my-documents")
     @ResponseStatus(HttpStatus.OK)
-    public List<DocumentDTO> getAllDocumentsByCreator(Principal principal) {
-        return documentService.getAllDocumentsCreatedBy(principal);
+    public List<DocumentDTO> getAllDocumentsByCreator(Principal principal, @RequestParam boolean archived) {
+        return documentService.getAllDocumentsCreatedBy(principal, archived);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)

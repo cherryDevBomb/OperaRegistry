@@ -75,10 +75,10 @@ public class DocumentServiceImpl implements DocumentService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<DocumentDTO> getAllDocumentsCreatedBy(Principal principal) {
+    public List<DocumentDTO> getAllDocumentsCreatedBy(Principal principal, boolean archived) {
         LOG.info("Enter getAllDocumentsCreatedBy");
         User user = userTranslator.getUserFromPrincipal(principal);
-        return documentRepository.getAllDocumentsCreatedBy(user.getUserId())
+        return documentRepository.getAllDocumentsCreatedBy(user.getUserId(), archived)
                 .stream()
                 .map(document -> documentTranslator.translate(document))
                 .collect(Collectors.toList());

@@ -56,11 +56,6 @@ public class DocumentHistoryServiceImpl implements DocumentHistoryService {
         //TODO refactor this method
         inputValidator.validate(documentHistory);
 
-        //Document newDocument = documentTranslator.translate(documentForm);
-        //newDocument.setGlobalStatus(DocumentStatus.PENDING);
-//        User user = userTranslator.getUserFromPrincipal(principal);
-//        newDocument.setCreatedBy(user.getUserId());
-
         try {
             return documentHistoryRepository.addDocumentHistory(documentHistory);
         } catch (RuntimeException e) {
@@ -108,7 +103,6 @@ public class DocumentHistoryServiceImpl implements DocumentHistoryService {
             else {
                 User recipientUser = userService.getUserByEmail(recipient);
                 documentHistory.setInternalRecipient(recipientUser.getUserId());
-                //documentHistory.setInternalRecipient(Integer.parseInt(recipient));
             }
             return documentHistory;
         }).collect(Collectors.toList());
