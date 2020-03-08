@@ -42,14 +42,14 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public User getUserByEmail(String email) {
-        SqlParameterSource sqlParameterSource = new MapSqlParameterSource("email", email);
-        return jdbcTemplate.queryForObject(getUserByEmailQuery, sqlParameterSource, userMapper);
+        SqlParameterSource parameterSource = new MapSqlParameterSource("email", email);
+        return jdbcTemplate.queryForObject(getUserByEmailQuery, parameterSource, userMapper);
     }
 
     @Override
     public User getUserById(int userId) {
-        SqlParameterSource sqlParameterSource = new MapSqlParameterSource("userid", userId);
-        return jdbcTemplate.queryForObject(getUserByIdQuery, sqlParameterSource, userMapper);
+        SqlParameterSource parameterSource = new MapSqlParameterSource("userid", userId);
+        return jdbcTemplate.queryForObject(getUserByIdQuery, parameterSource, userMapper);
     }
 
     @Override
@@ -61,8 +61,8 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public List<User> getAllUsersExcept(User user) {
-        SqlParameterSource sqlParameterSource = new MapSqlParameterSource("userid", user.getUserId());
-        return jdbcTemplate.query(getAllUsersExceptQuery, sqlParameterSource, userMapper);
+        SqlParameterSource parameterSource = new MapSqlParameterSource("userid", user.getUserId());
+        return jdbcTemplate.query(getAllUsersExceptQuery, parameterSource, userMapper);
     }
 
 

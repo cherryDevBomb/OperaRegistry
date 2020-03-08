@@ -9,7 +9,13 @@ import {
   GET_MY_DOCUMENTS_OPEN
 } from "./types";
 import {properties} from "../properties.js";
-import {DOCUMENTS_RECEIVED_URL, DOCUMENTS_URL, MY_DOCUMENTS_URL, NEW_DOCUMENT_UPLOAD_FILE_PATH} from "../properties";
+import {
+  ARCHIVE_DOCUMENT_URL,
+  DOCUMENTS_RECEIVED_URL,
+  DOCUMENTS_URL,
+  MY_DOCUMENTS_URL,
+  NEW_DOCUMENT_UPLOAD_FILE_PATH
+} from "../properties";
 
 export const createDocument = (document, history) => async dispatch => {
   try {
@@ -72,3 +78,19 @@ export const getDocumentsReceivedArchived = () => async dispatch => {
     payload: res.data
   });
 };
+
+export const archiveDocument = (registryNumber) => async dispatch => {
+  const path = properties.serverURL + DOCUMENTS_URL + "/" + registryNumber + ARCHIVE_DOCUMENT_URL;
+  await axios.put(path);
+  const getMyDocumentsPath = properties.serverURL + MY_DOCUMENTS_URL;
+  const resOpen = await axios.get(getMyDocumentsPath, { params: {archived: false}});
+  const resArchived = await axios.get(getMyDocumentsPath, { params: {archived: true}});
+  dispatch({
+    type: GET_MY_DOCUMENTS_OPEN,
+    payload: resOpen.data
+  });
+  dispatch({
+    type: GET_MY_DOCUMENTS_ARCHIVED,
+    payload: resArchived.data
+  })
+}

@@ -15,5 +15,6 @@ public interface DocumentService {
     List<DocumentDTO> getAllDocuments();
     List<DocumentDTO> getAllDocumentsCreatedBy(Principal principal, boolean archived);
     Integer addDocument(DocumentForm documentForm, Principal principal);
+    void archiveDocument(int registryNumber, Principal principal);
     void deleteDocument(int registryNumber, Principal principal);
 }

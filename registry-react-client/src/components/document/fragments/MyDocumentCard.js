@@ -7,6 +7,9 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import DocumentCardDescriptionTab from "./DocumentCardDescriptionTab";
 import Button from "react-bootstrap/Button";
+import PropTypes from "prop-types";
+import {connect} from "react-redux";
+import {archiveDocument} from "../../../actions/documentActions";
 
 
 class MyDocumentCard extends Component {
@@ -20,7 +23,8 @@ class MyDocumentCard extends Component {
 
   onArchiveClick(e) {
     e.preventDefault();
-    console.log("archive clicked");
+    const {document} = this.props;
+    this.props.archiveDocument(document.registryNumber);
   }
 
   render() {
@@ -40,10 +44,16 @@ class MyDocumentCard extends Component {
     }
 
     let archiveButton;
-    if (!document.isArchived) {
+    if (!document.archived) {
       archiveButton = (
-        <Button variant="success" onClick={this.onArchiveClick}>
+        <Button variant="success" onClick={this.onArchiveClick.bind(this)}>
           Arhivează
+        </Button>
+      )
+    } else {
+      archiveButton = (
+        <Button variant="success" disabled={true}>
+          Arhivat
         </Button>
       )
     }
@@ -87,4 +97,8 @@ class MyDocumentCard extends Component {
   }
 }
 
-export default MyDocumentCard;
+MyDocumentCard.propTypes = {
+  archiveDocument: PropTypes.func.isRequired
+};
+
+export default connect(null, {archiveDocument})(MyDocumentCard);

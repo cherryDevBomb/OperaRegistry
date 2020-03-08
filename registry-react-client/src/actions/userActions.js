@@ -4,7 +4,6 @@ import { properties } from "../properties.js";
 import {USERS_GROUPED_URL} from "../properties";
 
 export const getAllUsers = () => async dispatch => {
-  //const path = properties.serverURL + USERS_URL;
   const path = properties.serverURL + USERS_GROUPED_URL;
   const res = await axios.get(path);
   dispatch({

@@ -52,14 +52,14 @@ public class DocumentHistoryRepositoryImpl implements DocumentHistoryRepository 
     }
 
     private SqlParameterSource getSqlParameterSourceForEntity(DocumentHistory documentHistory) {
-        MapSqlParameterSource parameterSource = new MapSqlParameterSource();
+        MapSqlParameterSource sqlparameterSource = new MapSqlParameterSource();
         if (documentHistory != null) {
-            parameterSource.addValue("registrynumber", documentHistory.getRegistryNumber());
-            parameterSource.addValue("sender", documentHistory.getSender());
-            parameterSource.addValue("sentmessage", documentHistory.getSentMessage());
-            parameterSource.addValue("internalrecipient", documentHistory.getInternalRecipient());
-            parameterSource.addValue("externalrecipient", documentHistory.getExternalRecipient());
+            sqlparameterSource.addValue("registrynumber", documentHistory.getRegistryNumber());
+            sqlparameterSource.addValue("sender", documentHistory.getSender());
+            sqlparameterSource.addValue("sentmessage", documentHistory.getSentMessage());
+            sqlparameterSource.addValue("internalrecipient", documentHistory.getInternalRecipient());
+            sqlparameterSource.addValue("externalrecipient", documentHistory.getExternalRecipient());
         }
-        return parameterSource;
+        return sqlparameterSource;
     }
 }

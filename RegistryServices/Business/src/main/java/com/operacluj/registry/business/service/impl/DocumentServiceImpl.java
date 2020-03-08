@@ -104,12 +104,32 @@ public class DocumentServiceImpl implements DocumentService {
 
     @Override
     @Transactional
+    public void archiveDocument(int registryNumber, Principal principal) {
+        User user = userTranslator.getUserFromPrincipal(principal);
+        LOG.info("Enter archiveDocument {} by {}", registryNumber, user.getEmail());
+        Document document = documentRepository.getDocumentByRegistryNumber(registryNumber);
+        if (user.getUserId() == document.getCreatedBy()) {
+            document.setArchived(true);
+            try {
+                documentRepository.updateDocument(document);
+            } catch (Exception e) {
+                LOG.error("Document with registry number {} not deleted", registryNumber);
+                throw e;
+            }
+        }
+        else {
+            throw new AccessDeniedException(ErrorMessageConstants.ACCESS_DENIED);
+        }
+    }
+
+    @Override
+    @Transactional
     public void deleteDocument(int registryNumber, Principal principal) {
         User user = userTranslator.getUserFromPrincipal(principal);
         Document document = documentRepository.getDocumentByRegistryNumber(registryNumber);
         if (user.getUserId() == document.getCreatedBy()) {
             try {
-                LOG.info("Enter deleteDocument {} by {}", registryNumber, principal.getName());
+                LOG.info("Enter deleteDocument {} by {}", registryNumber, user.getEmail());
                 documentRepository.deleteDocument(registryNumber);
             } catch (EmptyResultDataAccessException e) {
                 LOG.error("Document with registry number {} not deleted", registryNumber);

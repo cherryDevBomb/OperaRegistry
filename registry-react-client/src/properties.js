@@ -10,8 +10,9 @@ export const USERS_URL = "/users";
 export const USERS_GROUPED_URL = "/users/grouped";
 
 export const DOCUMENTS_URL = "/documents";
-export const MY_DOCUMENTS_URL = "/documents/my-documents"
-export const DOCUMENTS_RECEIVED_URL = "/documents/received"
+export const MY_DOCUMENTS_URL = "/documents/my-documents";
+export const DOCUMENTS_RECEIVED_URL = "/documents/received";
+export const ARCHIVE_DOCUMENT_URL = "/archive";
 
 export const FILES_URL = "/files";
 

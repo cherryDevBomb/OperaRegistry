@@ -41,11 +41,14 @@ public class DocumentRepositoryImpl implements DocumentRepository {
 
     @Value("${getLastMatchingDocument}")
     private String getLastMatchingDocumentQuery;
+    
+    @Value("${updateDocument}")
+    private String updateDocumentQuery;
 
     @Override
     public Document getDocumentByRegistryNumber(int registryNumber) {
-        SqlParameterSource sqlParameterSource = new MapSqlParameterSource("registrynumber", registryNumber);
-        return jdbcTemplate.queryForObject(getDocumentByRegistryNumberQuery, sqlParameterSource, documentMapper);
+        SqlParameterSource parameterSource = new MapSqlParameterSource("registrynumber", registryNumber);
+        return jdbcTemplate.queryForObject(getDocumentByRegistryNumberQuery, parameterSource, documentMapper);
     }
 
     @Override
@@ -55,10 +58,10 @@ public class DocumentRepositoryImpl implements DocumentRepository {
 
     @Override
     public List<Document> getAllDocumentsCreatedBy(int userId, boolean archived) {
-        MapSqlParameterSource sqlParameterSource = new MapSqlParameterSource();
-        sqlParameterSource.addValue("createdby", userId);
-        sqlParameterSource.addValue("archived", archived);
-        return jdbcTemplate.query(getAllDocumentsCreatedByQuery, sqlParameterSource, documentMapper);
+        MapSqlParameterSource parameterSource = new MapSqlParameterSource();
+        parameterSource.addValue("createdby", userId);
+        parameterSource.addValue("archived", archived);
+        return jdbcTemplate.query(getAllDocumentsCreatedByQuery, parameterSource, documentMapper);
     }
 
     @Override
@@ -69,9 +72,18 @@ public class DocumentRepositoryImpl implements DocumentRepository {
     }
 
     @Override
+    public void updateDocument(Document document) {
+        MapSqlParameterSource parameterSource = new MapSqlParameterSource();
+        parameterSource.addValue("archived", document.isArchived());
+        parameterSource.addValue("archivingmessage", document.getArchivingMessage());
+        parameterSource.addValue("registrynumber", document.getRegistryNumber());
+        jdbcTemplate.update(updateDocumentQuery, parameterSource);
+    }
+
+    @Override
     public void deleteDocument(int registryNumber) {
-        SqlParameterSource sqlParameterSource = new MapSqlParameterSource("registrynumber", registryNumber);
-        jdbcTemplate.update(deleteDocumentQuery, sqlParameterSource);
+        SqlParameterSource parameterSource = new MapSqlParameterSource("registrynumber", registryNumber);
+        jdbcTemplate.update(deleteDocumentQuery, parameterSource);
     }
 
     private Document getLastMatchingDocument(Document document) {

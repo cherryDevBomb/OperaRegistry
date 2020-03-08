@@ -1,0 +1,12 @@
+@import "colors";
+
+.btn-flat {
+  background-color: $brand-warning;
+  border-radius: 0;
+  color: white;
+}
+
+.btn-xxl {
+  padding: 1rem 1.5rem;
+  font-size: 1.5rem;
+}

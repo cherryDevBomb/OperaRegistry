@@ -44,6 +44,12 @@ public class DocumentController {
         return documentService.addDocument(documentForm, principal);
     }
 
+    @PutMapping("/{registryNumber}/archive")
+    @ResponseStatus(HttpStatus.OK)
+    public void archiveDocument(@PathVariable int registryNumber, Principal principal) {
+        documentService.archiveDocument(registryNumber, principal);
+    }
+
     @DeleteMapping("/{registryNumber}")
     @ResponseStatus(HttpStatus.OK)
     public void deleteDocumentByRegistryNumber(@PathVariable int registryNumber, Principal principal) {

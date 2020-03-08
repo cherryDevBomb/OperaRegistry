@@ -2,18 +2,28 @@ import React, {Component} from "react";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {getMyDocumentsArchived, getMyDocumentsOpen} from "../../actions/documentActions";
-import Card from "react-bootstrap/Card";
-import Nav from "react-bootstrap/Nav";
-import Button from "react-bootstrap/Button";
 import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
-import DocumentRow from "./fragments/DocumentRow";
 import MyDocumentCard from "./fragments/MyDocumentCard";
 
 class MyDocuments extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      documentReducer: {}
+    };
+  }
+
   componentDidMount() {
     this.props.getMyDocumentsOpen();
     this.props.getMyDocumentsArchived();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.documentReducer) {
+      this.setState({documentReducer: nextProps.documentReducer});
+    }
   }
 
   render() {
