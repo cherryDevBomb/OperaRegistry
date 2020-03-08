@@ -113,7 +113,7 @@ class UserAutosuggest extends Component {
   onDismissClick = (e) => {
     //update selectedUsers list
     let updatedValues = this.state.allSelectedUsers.filter(function (item) {
-      return item.userId != e.userId;
+      return item.userId !== e.userId;
     });
     this.setState({
       allSelectedUsers: updatedValues

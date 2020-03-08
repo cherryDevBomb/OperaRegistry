@@ -52,6 +52,7 @@ public class DocumentHistoryServiceImpl implements DocumentHistoryService {
 
     @Override
     public int addDocumentHistory(DocumentHistory documentHistory, User user) {
+        LOG.info("Enter addDocumentHistory for document {}", documentHistory.getRegistryNumber());
         //will be a form in the future
         //TODO refactor this method
         inputValidator.validate(documentHistory);

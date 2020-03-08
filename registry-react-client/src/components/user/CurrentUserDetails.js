@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
-class UserDetails extends Component {
+class CurrentUserDetails extends Component {
   render() {
     const user = this.props.securityReducer.user;
     console.log("Props in userDetails: " + this.props);
@@ -15,7 +15,7 @@ class UserDetails extends Component {
   }
 }
 
-UserDetails.propTypes = {
+CurrentUserDetails.propTypes = {
   securityReducer: PropTypes.object.isRequired
 };
 
@@ -23,4 +23,4 @@ const mapStateToProps = state => ({
   securityReducer: state.securityReducer
 });
 
-export default connect(mapStateToProps)(UserDetails);
+export default connect(mapStateToProps)(CurrentUserDetails);

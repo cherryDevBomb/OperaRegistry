@@ -3,7 +3,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
-import {uploadFile} from "../../actions/fileActions";
+import {uploadFile} from "../../../actions/fileActions";
 
 class FileUpload extends Component {
   constructor(props) {

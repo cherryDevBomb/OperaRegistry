@@ -56,7 +56,7 @@ class CreateDocument extends Component {
   }
 
   onExtDestinationChange(e) {
-    if (e != "") {
+    if (e !== "") {
       console.log(e);
       this.setState({
         recipients: [e.target.value]

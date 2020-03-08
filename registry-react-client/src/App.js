@@ -1,8 +1,9 @@
 import React, {Component} from "react";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./style/custom.css";
+import "./style/theme.css";
 import "./style/overrides.css";
+import "./style/btn.css";
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import {Provider} from "react-redux";
 import store from "./store";
@@ -17,7 +18,7 @@ import {
   LOGIN_PATH,
   MY_DOCUMENTS_PATH,
   NEW_DOCUMENT_PATH,
-  NEW_DOCUMENT_UPLOAD_FILE_PATH,
+  NEW_DOCUMENT_UPLOAD_FILE_PATH, RECEIVED_DOCUMENTS_PATH,
   REGISTER_PATH
 } from "./properties";
 import jwt_decode from "jwt-decode";
@@ -26,6 +27,8 @@ import {SET_CURRENT_USER} from "./actions/types";
 import {logout} from "./actions/securityActions";
 import SecuredRoute from "./securityUtils/SecuredRoute";
 import UploadAfterCreate from "./components/document/UploadAfterCreate";
+import MyDocuments from "./components/document/MyDocuments";
+import ReceivedDocuments from "./components/document/ReceivedDocuments";
 
 const jwtToken = localStorage.jwtToken;
 
@@ -65,7 +68,12 @@ class App extends Component {
               <SecuredRoute
                 exact
                 path={MY_DOCUMENTS_PATH}
-                component={DocumentTable}
+                component={MyDocuments}
+              />
+              <SecuredRoute
+                exact
+                path={RECEIVED_DOCUMENTS_PATH}
+                component={ReceivedDocuments}
               />
               <SecuredRoute
                 exact

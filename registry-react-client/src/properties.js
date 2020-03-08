@@ -22,5 +22,11 @@ export const LOGOUT_PATH = "/logout";
 
 export const DOCUMENTS_PATH = "/documents";
 export const MY_DOCUMENTS_PATH = "/my-documents";
+export const RECEIVED_DOCUMENTS_PATH = "/received-documents";
 export const NEW_DOCUMENT_PATH = "/new-document";
 export const NEW_DOCUMENT_UPLOAD_FILE_PATH = "/upload";
+
+//app constants
+export const INTERNAL_DOC_TYPE = "INTERNAL";
+export const ORIGIN_EXTERNAL_DOC_TYPE = "ORIGIN_EXTERNAL";
+export const DESTINATION_EXTERNAL_DOC_TYPE = "DESTINATION_EXTERNAL";

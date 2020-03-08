@@ -14,6 +14,7 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { logout } from "../../actions/securityActions";
+import {RECEIVED_DOCUMENTS_PATH} from "../../properties";
 
 class PageHeader extends Component {
   logout() {
@@ -30,11 +31,11 @@ class PageHeader extends Component {
           <LinkContainer to={DOCUMENTS_PATH}>
             <Nav.Link>Documente</Nav.Link>
           </LinkContainer>
-          <LinkContainer to="/documents-in-work">
-            <Nav.Link>Documente in lucru</Nav.Link>
-          </LinkContainer>
           <LinkContainer to={MY_DOCUMENTS_PATH}>
             <Nav.Link>Documentele mele</Nav.Link>
+          </LinkContainer>
+          <LinkContainer to={RECEIVED_DOCUMENTS_PATH}>
+            <Nav.Link>Documente primite</Nav.Link>
           </LinkContainer>
         </Nav>
 

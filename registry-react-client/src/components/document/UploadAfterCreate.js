@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import FileUpload from "./FileUpload";
+import FileUpload from "./fragments/FileUpload";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import Button from "react-bootstrap/Button";

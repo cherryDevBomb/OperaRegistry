@@ -76,8 +76,8 @@ public class DocumentServiceImpl implements DocumentService {
     @Override
     @Transactional(readOnly = true)
     public List<DocumentDTO> getAllDocumentsCreatedBy(Principal principal, boolean archived) {
-        LOG.info("Enter getAllDocumentsCreatedBy");
         User user = userTranslator.getUserFromPrincipal(principal);
+        LOG.info("Enter getAllDocumentsCreatedBy {}, archived = {}", user.getEmail(), archived);
         return documentRepository.getAllDocumentsCreatedBy(user.getUserId(), archived)
                 .stream()
                 .map(document -> documentTranslator.translate(document))
@@ -87,11 +87,11 @@ public class DocumentServiceImpl implements DocumentService {
     @Override
     @Transactional
     public Integer addDocument(DocumentForm documentForm, Principal principal) {
-        LOG.info("Enter addDocument");
         inputValidator.validate(documentForm);
         Document newDocument = documentTranslator.translate(documentForm);
         User user = userTranslator.getUserFromPrincipal(principal);
         newDocument.setCreatedBy(user.getUserId());
+        LOG.info("Enter addDocument created by {}", user.getEmail());
         try {
             int registryNumber = documentRepository.addDocument(newDocument);
             documentHistoryService.addHistoryForNewDocument(documentForm, registryNumber, user);
@@ -109,7 +109,7 @@ public class DocumentServiceImpl implements DocumentService {
         Document document = documentRepository.getDocumentByRegistryNumber(registryNumber);
         if (user.getUserId() == document.getCreatedBy()) {
             try {
-                LOG.info("Enter deleteDocument {}", registryNumber);
+                LOG.info("Enter deleteDocument {} by {}", registryNumber, principal.getName());
                 documentRepository.deleteDocument(registryNumber);
             } catch (EmptyResultDataAccessException e) {
                 LOG.error("Document with registry number {} not deleted", registryNumber);
