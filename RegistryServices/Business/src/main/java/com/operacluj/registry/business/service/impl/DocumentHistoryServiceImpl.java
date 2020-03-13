@@ -40,8 +40,8 @@ public class DocumentHistoryServiceImpl implements DocumentHistoryService {
 
     @Override
     public List<DocumentHistoryDTO> getDocumentHistoryForDocument(int registryNumber) {
+        LOG.info("Enter getDocumentHistoryForDocument {}", registryNumber);
         try {
-            LOG.info("Enter getDocumentHistoryForDocument for document {}", registryNumber);
             List<DocumentHistory> documentHistoryList = documentHistoryRepository.getDocumentHistoryForDocument(registryNumber);
             return documentHistoryTranslator.translate(documentHistoryList);
         } catch (RuntimeException e) {
@@ -92,7 +92,7 @@ public class DocumentHistoryServiceImpl implements DocumentHistoryService {
 //            }
 //            return documentHistory;
 //        }).collect(Collectors.toList());
-
+        LOG.info("Enter getHistoryForDocumentForm {}", registryNumber);
         return documentForm.getRecipients().stream().map(recipient -> {
             DocumentHistory documentHistory = new DocumentHistory();
             documentHistory.setRegistryNumber(registryNumber);

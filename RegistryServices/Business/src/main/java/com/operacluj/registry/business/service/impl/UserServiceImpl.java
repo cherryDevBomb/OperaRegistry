@@ -42,6 +42,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        LOG.info("Enter loadUserByUsername {}", email);
         try {
             return userRepository.getUserByEmail(email);
         } catch (EmptyResultDataAccessException e) {
@@ -53,6 +54,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional(readOnly = true)
     public User getUserById(int userId) {
+        LOG.info("Enter getUserById {}", userId);
         try {
             return userRepository.getUserById(userId);
         } catch (EmptyResultDataAccessException e) {
@@ -64,6 +66,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public User getUserByEmail(String email) {
+        LOG.info("Enter getUserByEmail email {}", email);
         try {
             return userRepository.getUserByEmail(email);
         } catch (EmptyResultDataAccessException e) {
@@ -75,6 +78,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public int addUser(UserForm userForm) {
+        LOG.info("Enter addUser with email {}", userForm.getEmail());
         userValidator.validate(userForm);
         User newUser = userTranslator.translate(userForm);
         try {

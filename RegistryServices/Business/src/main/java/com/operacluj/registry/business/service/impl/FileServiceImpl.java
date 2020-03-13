@@ -2,6 +2,7 @@ package com.operacluj.registry.business.service.impl;
 
 import com.operacluj.registry.business.exception.FileOperationException;
 import com.operacluj.registry.business.service.FileService;
+import com.operacluj.registry.business.translator.FileTranslator;
 import com.operacluj.registry.model.DocumentFile;
 import com.operacluj.registry.persistence.repository.FileRepository;
 import org.apache.logging.log4j.LogManager;
@@ -19,11 +20,16 @@ public class FileServiceImpl implements FileService {
     @Autowired
     private FileRepository fileRepository;
 
+    @Autowired
+    private FileTranslator fileTranslator;
+
     @Override
     @Transactional
     public void uploadFile(MultipartFile file, int registryNumber) {
+        LOG.info("Entering uploadFile for document {}", registryNumber);
         try {
-            fileRepository.saveFile(file.getBytes(), registryNumber);
+            DocumentFile documentFile = fileTranslator.translate(file, registryNumber);
+            fileRepository.saveFile(documentFile);
         } catch (Exception e) {
             LOG.error("Failed to upload document {} for registry number {}", file.getName(), registryNumber);
             throw new FileOperationException(e.getMessage());
@@ -32,6 +38,7 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public DocumentFile getFile(int registryNumber) {
+        LOG.info("Entering getFile for document {}", registryNumber);
         try {
             return fileRepository.getFile(registryNumber);
         } catch (Exception e) {
@@ -42,6 +49,7 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public boolean hasAttachedFiles(int registryNumber) {
+        LOG.info("Entering hasAttachedFile for document {}", registryNumber);
         try {
             return fileRepository.getAttachmentsNumber(registryNumber) != 0;
         } catch (Exception e) {

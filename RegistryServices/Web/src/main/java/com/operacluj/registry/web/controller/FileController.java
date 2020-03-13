@@ -8,6 +8,8 @@ import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Arrays;
+
 @RestController
 @CrossOrigin
 @RequestMapping("/files")
@@ -24,17 +26,16 @@ public class FileController {
     }
 
     @GetMapping(value = "/{registryNumber}", produces = MediaType.APPLICATION_PDF_VALUE)
-    @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<ByteArrayResource> downloadFile(@PathVariable int registryNumber) {
         DocumentFile documentFile = fileService.getFile(registryNumber);
         byte[] encodedBytes = java.util.Base64.getEncoder().encode(documentFile.getFileData());
         ByteArrayResource byteArrayResource = new ByteArrayResource(encodedBytes);
 
-        String dispositionHeaderValue = "attachment; filename=" + "doc.pdf";
+        String dispositionHeaderValue = "attachment; filename=" + documentFile.getFilename();
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setContentLength(byteArrayResource.contentLength());
+        httpHeaders.setAccessControlExposeHeaders(Arrays.asList("Content-Disposition"));
         httpHeaders.setContentDisposition(ContentDisposition.builder(dispositionHeaderValue).build());
-        String filename = "Document_nr_" + registryNumber + ".pdf";
+        httpHeaders.setContentLength(byteArrayResource.contentLength());
         return new ResponseEntity<>(byteArrayResource, httpHeaders, HttpStatus.OK);
     }
 

@@ -33,13 +33,13 @@ public class FileRepositoryImpl implements FileRepository {
     private String getAttachmentsNumberQuery;
 
     @Override
-    public void saveFile(byte[] byteData, int registryNumber) {
+    public void saveFile(DocumentFile documentFile) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
-        parameterSource.addValue("file", byteData);
-        parameterSource.addValue("registrynumber", registryNumber);
+        parameterSource.addValue("file", documentFile.getFileData());
+        parameterSource.addValue("registrynumber", documentFile.getRegistryNumber());
+        parameterSource.addValue("filename", documentFile.getFilename());
         jdbcTemplate.update(saveFileQuery, parameterSource, keyHolder);
-//        return Objects.requireNonNull(keyHolder.getKey()).intValue();
     }
 
     @Override

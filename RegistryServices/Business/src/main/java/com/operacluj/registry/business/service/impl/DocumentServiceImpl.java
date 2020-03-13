@@ -53,8 +53,8 @@ public class DocumentServiceImpl implements DocumentService {
     @Override
     @Transactional(readOnly = true)
     public DocumentDTO getDocumentByRegistryNumber(int registryNumber) {
+        LOG.info("Enter getDocumentByRegistryNumber {}", registryNumber);
         try {
-            LOG.info("Enter getDocumentByRegistryNumber {}", registryNumber);
             Document document = documentRepository.getDocumentByRegistryNumber(registryNumber);
             return documentTranslator.translate(document);
         } catch (EmptyResultDataAccessException e) {
@@ -105,8 +105,8 @@ public class DocumentServiceImpl implements DocumentService {
     @Override
     @Transactional
     public void archiveDocument(int registryNumber, Principal principal) {
+        LOG.info("Enter archiveDocument {}", registryNumber);
         User user = userTranslator.getUserFromPrincipal(principal);
-        LOG.info("Enter archiveDocument {} by {}", registryNumber, user.getEmail());
         Document document = documentRepository.getDocumentByRegistryNumber(registryNumber);
         if (user.getUserId() == document.getCreatedBy()) {
             document.setArchived(true);
@@ -125,11 +125,11 @@ public class DocumentServiceImpl implements DocumentService {
     @Override
     @Transactional
     public void deleteDocument(int registryNumber, Principal principal) {
+        LOG.info("Enter deleteDocument {}", registryNumber);
         User user = userTranslator.getUserFromPrincipal(principal);
         Document document = documentRepository.getDocumentByRegistryNumber(registryNumber);
         if (user.getUserId() == document.getCreatedBy()) {
             try {
-                LOG.info("Enter deleteDocument {} by {}", registryNumber, user.getEmail());
                 documentRepository.deleteDocument(registryNumber);
             } catch (EmptyResultDataAccessException e) {
                 LOG.error("Document with registry number {} not deleted", registryNumber);

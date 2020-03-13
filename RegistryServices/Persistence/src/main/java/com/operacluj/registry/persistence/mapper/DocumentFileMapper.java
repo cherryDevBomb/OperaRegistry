@@ -16,6 +16,7 @@ public class DocumentFileMapper implements RowMapper<DocumentFile> {
         documentFile.setRegistryNumber(resultSet.getInt("registrynumber"));
         documentFile.setFileData(resultSet.getBytes("file"));
         documentFile.setUploadDate(resultSet.getDate("uploaddate").toLocalDate());
+        documentFile.setFilename(resultSet.getString("filename"));
         return documentFile;
     }
 }

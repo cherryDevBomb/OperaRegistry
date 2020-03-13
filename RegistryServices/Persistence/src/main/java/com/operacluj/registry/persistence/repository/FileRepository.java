@@ -4,7 +4,7 @@ import com.operacluj.registry.model.DocumentFile;
 
 public interface FileRepository {
 
-    void saveFile(byte[] byteData, int registryNumber);
+    void saveFile(DocumentFile documentFile);
     DocumentFile getFile(int registryNumber);
     int getAttachmentsNumber(int registryNumber);
 }
