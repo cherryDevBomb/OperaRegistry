@@ -7,7 +7,7 @@ import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {createDocument} from "../../actions/documentActions";
 import UserAutosuggest from "../user/UserAutosuggest";
-import {getFullName} from "../../securityUtils/userUtils";
+import {getFullName} from "../../utils/userUtils";
 
 class CreateDocument extends Component {
   constructor() {

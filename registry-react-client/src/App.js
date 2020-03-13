@@ -22,10 +22,10 @@ import {
   REGISTER_PATH
 } from "./properties";
 import jwt_decode from "jwt-decode";
-import setJWTToken from "./securityUtils/setJWTToken";
+import setJWTToken from "./utils/setJWTToken";
 import {SET_CURRENT_USER} from "./actions/types";
 import {logout} from "./actions/securityActions";
-import SecuredRoute from "./securityUtils/SecuredRoute";
+import SecuredRoute from "./utils/SecuredRoute";
 import UploadAfterCreate from "./components/document/UploadAfterCreate";
 import MyDocuments from "./components/document/MyDocuments";
 import ReceivedDocuments from "./components/document/ReceivedDocuments";

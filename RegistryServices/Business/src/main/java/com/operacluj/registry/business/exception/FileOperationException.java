@@ -1,10 +1,10 @@
 package com.operacluj.registry.business.exception;
 
-public class UploadFailedException extends RuntimeException {
+public class FileOperationException extends RuntimeException {
 
     private String propertyName = "file";
 
-    public UploadFailedException(String message) {
+    public FileOperationException(String message) {
         super(message);
     }
 

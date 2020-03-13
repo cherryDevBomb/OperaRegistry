@@ -88,7 +88,7 @@ $brand-inverse: $gray-dark !default;
 //
 // Quickly modify global styling by enabling or disabling optional features.
 
-$enable-rounded:            false;
+$enable-rounded:            true;
 $enable-shadows:            false;
 $enable-gradients:          false !default;
 $enable-transitions:        true !default;
@@ -203,9 +203,9 @@ $list-inline-padding: 5px !default;
 $line-height-lg:         (4 / 3) !default;
 $line-height-sm:         1.5 !default;
 
-$border-radius:          0;
-$border-radius-lg:       0;
-$border-radius-sm:       0;
+$border-radius:          .25rem;
+$border-radius-lg:       .25rem;
+$border-radius-sm:       .25rem;
 
 $component-active-color: $white !default;
 $component-active-bg:    $brand-primary !default;
@@ -285,9 +285,9 @@ $btn-block-spacing-y:            .5rem !default;
 $btn-toolbar-margin:             .5rem !default;
 
 // Allows for customizing button radius independently from global border radius
-$btn-border-radius:              .1rem !default;
-$btn-border-radius-lg:           .1rem !default;
-$btn-border-radius-sm:           .1rem !default;
+$btn-border-radius:              .25rem;
+$btn-border-radius-lg:           .25rem;
+$btn-border-radius-sm:           .25rem;
 
 $btn-transition:                 all .2s ease-in-out !default;
 
@@ -306,9 +306,9 @@ $input-border-color:             rgba($black,.15) !default;
 $input-btn-border-width:         $border-width !default; // For form controls and buttons
 $input-box-shadow:               inset 0 1px 1px rgba($black,.075) !default;
 
-$input-border-radius:            0 !default;
-$input-border-radius-lg:         0 !default;
-$input-border-radius-sm:         0 !default;
+$input-border-radius:            $border-radius !default;
+$input-border-radius-lg:         $border-radius-lg !default;
+$input-border-radius-sm:         $border-radius-sm !default;
 
 $input-bg-focus:                 $input-bg !default;
 $input-border-focus:             lighten($brand-primary, 25%);

@@ -10,6 +10,7 @@ import Button from "react-bootstrap/Button";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {archiveDocument} from "../../../actions/documentActions";
+import {downloadFile} from "../../../actions/fileActions";
 
 
 class MyDocumentCard extends Component {
@@ -98,7 +99,8 @@ class MyDocumentCard extends Component {
 }
 
 MyDocumentCard.propTypes = {
-  archiveDocument: PropTypes.func.isRequired
+  archiveDocument: PropTypes.func.isRequired,
+  downloadFile: PropTypes.func.isRequired
 };
 
-export default connect(null, {archiveDocument})(MyDocumentCard);
+export default connect(null, {archiveDocument, downloadFile})(MyDocumentCard);

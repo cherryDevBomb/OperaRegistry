@@ -4,6 +4,7 @@ import com.operacluj.registry.business.domain.DocumentDTO;
 import com.operacluj.registry.business.domain.DocumentForm;
 import com.operacluj.registry.business.domain.DocumentHistoryDTO;
 import com.operacluj.registry.business.service.DocumentHistoryService;
+import com.operacluj.registry.business.service.FileService;
 import com.operacluj.registry.business.service.UserService;
 import com.operacluj.registry.model.Document;
 import com.operacluj.registry.model.DocumentType;
@@ -23,6 +24,9 @@ public class DocumentTranslator {
 
     @Autowired
     private DocumentHistoryService documentHistoryService;
+
+    @Autowired
+    private FileService fileService;
 
     public Document translate(DocumentForm documentForm) {
         Document document = new Document();
@@ -60,6 +64,8 @@ public class DocumentTranslator {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.YYYY");
         documentDTO.setCreatedDate(formatter.format(document.getCreatedDate()));
         documentDTO.setArchivingDate(document.isArchived() ? formatter.format(document.getArchivingDate()) : null);
+
+        documentDTO.setHasAttachment(fileService.hasAttachedFiles(document.getRegistryNumber()));
 
         List<DocumentHistoryDTO> documentHistoryDTOList = documentHistoryService.getDocumentHistoryForDocument(document.getRegistryNumber());
         documentDTO.setDocumentHistory(documentHistoryDTOList);

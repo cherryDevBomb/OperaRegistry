@@ -15,7 +15,7 @@ public class DocumentDTO {
     private boolean archived;
     private String archivingMessage;
     private String archivingDate;
-    private String path;
+    private boolean hasAttachment;
     private List<DocumentHistoryDTO> documentHistory;
 
     public int getRegistryNumber() {
@@ -90,12 +90,12 @@ public class DocumentDTO {
         this.archivingDate = archivingDate;
     }
 
-    public String getPath() {
-        return path;
+    public boolean isHasAttachment() {
+        return hasAttachment;
     }
 
-    public void setPath(String path) {
-        this.path = path;
+    public void setHasAttachment(boolean hasAttachment) {
+        this.hasAttachment = hasAttachment;
     }
 
     public List<DocumentHistoryDTO> getDocumentHistory() {

@@ -6,7 +6,7 @@ import Button from "react-bootstrap/Button";
 import {getAllUsers, updateAllUsers, updateSelectedUsers} from "../../actions/userActions";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
-import {getFullName} from "../../securityUtils/userUtils";
+import {getFullName} from "../../utils/userUtils";
 
 class UserAutosuggest extends Component {
   componentDidMount() {

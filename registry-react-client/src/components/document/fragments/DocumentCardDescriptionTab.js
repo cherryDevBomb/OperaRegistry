@@ -3,11 +3,22 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import {DESTINATION_EXTERNAL_DOC_TYPE} from "../../../properties";
 import Button from "react-bootstrap/Button";
-import {getFullName} from "../../../securityUtils/userUtils";
+import {getFullName} from "../../../utils/userUtils";
 import Badge from "react-bootstrap/Badge";
 import Container from "react-bootstrap/Container";
+import PropTypes from "prop-types";
+import {connect} from "react-redux";
+import {archiveDocument} from "../../../actions/documentActions";
+import {downloadFile} from "../../../actions/fileActions";
 
-export default class DocumentCardDescriptionTab extends Component {
+class DocumentCardDescriptionTab extends Component {
+
+  onDownloadClick(e) {
+    e.preventDefault();
+    const {document} = this.props;
+    this.props.downloadFile(document.registryNumber);
+  }
+
   render() {
     const {document} = this.props;
 
@@ -66,6 +77,19 @@ export default class DocumentCardDescriptionTab extends Component {
       )
     }
 
+    let downloadLinkRow;
+    if (document.hasAttachment) {
+      downloadLinkRow = (
+        <Row>
+          <Col>
+            <Button variant="outline-info" onClick={this.onDownloadClick.bind(this)}>
+              Descarcă fișier
+            </Button>
+          </Col>
+        </Row>
+      )
+    }
+
     return (
       <Container>
         {createdByRow}
@@ -78,7 +102,14 @@ export default class DocumentCardDescriptionTab extends Component {
             {receiversRow}
           </Row>
         </Row>
+        {downloadLinkRow}
       </Container>
     )
   }
 }
+
+DocumentCardDescriptionTab.propTypes = {
+  downloadFile: PropTypes.func.isRequired
+};
+
+export default connect(null, {downloadFile})(DocumentCardDescriptionTab);

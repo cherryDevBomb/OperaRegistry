@@ -1,7 +1,8 @@
-import {UPLOAD_FILE} from "../actions/types";
+import {DOWNLOAD_FILE, UPLOAD_FILE} from "../actions/types";
 
 const initialState = {
-  uploadedFile: null
+  uploadedFile: null,
+  downloadedFile: ""
 };
 
 export default function(state = initialState, action) {
@@ -10,6 +11,11 @@ export default function(state = initialState, action) {
       return {
         ...state,
         uploadedFile: action.payload
+      };
+    case DOWNLOAD_FILE:
+      return {
+        ...state,
+        downloadedFile: action.payload
       };
     default:
       return state;
