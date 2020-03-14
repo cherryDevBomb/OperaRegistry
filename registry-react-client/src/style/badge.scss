@@ -1,0 +1,20 @@
+@import "colors";
+
+.badge-regNr {
+  padding: .5rem .3rem;
+  color: darken($gold, 15);
+  font-size: medium;
+}
+
+.badge-archived {
+  background-color: lighten($green, 40);
+  text-align: center;
+  color: black;
+}
+
+.badge-notarchived {
+  background-color: lighten($brick-red, 40);
+  text-align: center;
+  color: black;
+  alignment-baseline: middle;
+}

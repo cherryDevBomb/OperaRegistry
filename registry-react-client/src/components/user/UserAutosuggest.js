@@ -134,7 +134,7 @@ class UserAutosuggest extends Component {
   }
 
   render() {
-    const {value, suggestions, allSelectedUsers, userReducer} = this.state;
+    const {value, suggestions} = this.state;
 
     const inputProps = {
       placeholder: 'Introduceți destinatarul',
@@ -145,7 +145,7 @@ class UserAutosuggest extends Component {
     let previousValues = [];
     for (let i = 0; i < this.state.allSelectedUsers.length; i++) {
       const currentValue = (
-        <Button variant={"outline-dark"}>
+        <Button variant={"outline-dark"} key={this.state.allSelectedUsers[i].userId}>
           {getFullName(this.state.allSelectedUsers[i])}
           <Badge pill variant="primary" onClick={() => this.onDismissClick(this.state.allSelectedUsers[i])}>
             X

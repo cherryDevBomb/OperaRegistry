@@ -26,12 +26,13 @@ class DocumentTable extends Component {
         <Table responsive>
           <thead>
             <tr>
-              <th>Nr. înregistrare</th>
-              <th>Data înregistrării</th>
-              <th>Emitent</th>
-              <th>Titlu</th>
-              <th>Tip document</th>
-              <th>Stare</th>
+              <th className="th">Nr. înregistrare</th>
+              <th className="th">Emitent</th>
+              <th className="th">Data înregistrării</th>
+              <th className="th">Titlu</th>
+              <th className="th">Destinație</th>
+              <th className="th">Arhivat</th>
+              <th className="th">Atașament</th>
             </tr>
           </thead>
           <tbody>

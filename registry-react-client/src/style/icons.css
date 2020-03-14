@@ -1,0 +1,23 @@
+.fa-check-circle {
+  color: #659816;
+  font-size: 1.2em;
+  margin-right: 0.2em;
+}
+
+.fa-times-circle {
+  color: #9d3528;
+  font-size: 1.2em;
+  margin-right: 0.2em;
+}
+
+.fa-file-download {
+  color: #4f4538;
+  font-size: 1.5rem;
+}
+
+.fa-file-download:hover {
+  color: #bd8f3a;
+  cursor: pointer;
+}
+
+/*# sourceMappingURL=icons.css.map */

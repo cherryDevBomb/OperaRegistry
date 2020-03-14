@@ -1,5 +1,6 @@
 @import "../../node_modules/bootstrap/scss/functions";
 @import "../../node_modules/bootstrap/scss/variables";
+@import "colors.scss";
 
 
 
@@ -45,28 +46,22 @@
 //
 // Grayscale and brand colors for use across Bootstrap.
 
-// Start with assigning color names to specific hex values.
+//// Start with assigning color names to specific hex values.
 
 $theme-colors: (
-        primary: #ac1b21 ,
-        secondary: #999999,
-        success: #246036,
-        warning: $orange,
-        info: #c6ad82,
-        dark: #1d1c1b,
-        light: #ffffff
+        "primary": $primary-red ,
+        "secondary": $gold,
+        "info": $light-gold,
+        "success": $green,
+        "warning": $brick-red,
+        "danger": $red,
+        "dark": $dark,
+        "light": #ffffff
 );
 
-//$white:  #fff !default;
-//$black:  #000 !default;
-//$red:    #d9534f !default;
-//$orange: #f0ad4e !default;
-//$yellow: #ffd500 !default;
-//$green:  #5cb85c !default;
-//$blue:   #0275d8 !default;
-//$teal:   #5bc0de !default;
-//$pink:   #ff5b77 !default;
-//$purple: #613d7c !default;
+//@function theme-color($key: "primary") {
+//        @return map-get($theme-colors, $key);
+//}
 
 // Create grayscale
 $gray-dark:                 #292b2c !default;
@@ -76,12 +71,12 @@ $gray-lighter:              #eceeef !default;
 $gray-lightest:             #f7f7f9 !default;
 
 // Reassign color vars to semantic color scheme
-$brand-primary: #87111B !default;
-$brand-success: #246036 !default;
-$brand-info: #c6ad82 !default;
-$brand-warning: $orange !default;
-$brand-danger: #c11f22 !default;
-$brand-inverse: $gray-dark !default;
+$brand-primary: $primary-red;
+$brand-success: $green;
+$brand-info: $light-gold;
+$brand-warning: $brick-red;
+$brand-danger: $red;
+$brand-inverse: $dark;
 
 
 // Options
@@ -273,7 +268,7 @@ $btn-danger-color:               $white !default;
 $btn-danger-bg:                  $brand-danger !default;
 $btn-danger-border:              $btn-danger-bg !default;
 
-$btn-link-disabled-color:        $gray-light !default;
+$btn-link-disabled-color:        $brownish-gray;
 
 $btn-padding-x-sm:               .5rem !default;
 $btn-padding-y-sm:               .25rem !default;
@@ -477,8 +472,8 @@ $navbar-toggler-padding-y:           .25rem !default;
 $navbar-toggler-font-size:           $font-size-lg !default;
 $navbar-toggler-border-radius:       $btn-border-radius !default;
 
-$navbar-inverse-color:                 rgba($white,.5) !default;
-$navbar-inverse-hover-color:           rgba($white,.75) !default;
+$navbar-inverse-color:                 rgba($white,.75);
+$navbar-inverse-hover-color:           rgba($white,.9);
 $navbar-inverse-active-color:          rgba($white,1) !default;
 $navbar-inverse-disabled-color:        rgba($white,.25) !default;
 $navbar-inverse-toggler-bg: str-replace(url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='#{$navbar-inverse-color}' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E"), "#", "%23") !default;
@@ -499,10 +494,10 @@ $nav-link-padding:              .5em 1em !default;
 $nav-link-hover-bg:             $white;
 $nav-disabled-link-color:       $gray-lighter;
 
-$nav-tabs-border-color:                       $gray-lighter;
+$nav-tabs-border-color:                       $gray-lightest;
 $nav-tabs-border-width:                       $border-width !default;
 $nav-tabs-border-radius:                      $border-radius;
-$nav-tabs-link-hover-border-color:            $gray-lighter ;
+$nav-tabs-link-hover-border-color:            $gray-lightest;
 $nav-tabs-active-link-hover-color:            $gray-lightest;
 $nav-tabs-active-link-hover-bg:               $body-bg !default;
 $nav-tabs-active-link-hover-border-color:     #ddd !default;

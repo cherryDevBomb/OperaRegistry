@@ -1,0 +1,19 @@
+@import "colors";
+
+.btn-link {
+  font-weight: 400;
+  color: darken($brownish-gray, 10);
+  text-decoration: none;
+}
+.btn-link:hover {
+  color: $gold;
+  text-decoration: underline;
+}
+.btn-link:focus, .btn-link.focus {
+  text-decoration: underline;
+  box-shadow: none;
+}
+.btn-link:disabled, .btn-link.disabled {
+  color: #4f4538;
+  pointer-events: none;
+}

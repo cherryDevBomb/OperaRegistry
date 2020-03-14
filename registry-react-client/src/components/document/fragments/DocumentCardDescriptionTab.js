@@ -8,7 +8,6 @@ import Badge from "react-bootstrap/Badge";
 import Container from "react-bootstrap/Container";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
-import {archiveDocument} from "../../../actions/documentActions";
 import {downloadFile} from "../../../actions/fileActions";
 
 class DocumentCardDescriptionTab extends Component {

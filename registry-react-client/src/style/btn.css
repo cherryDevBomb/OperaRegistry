@@ -1,12 +1,11 @@
-.btn-flat {
-  background-color: #fd7e14;
-  border-radius: 0;
+.btn-initials {
+  background-color: #c6ad82;
+  width: 2.5em;
+  height: 2.5em;
+  padding: 6px 0px;
+  border-radius: 8em;
+  text-align: center;
   color: white;
-}
-
-.btn-xxl {
-  padding: 1rem 1.5rem;
-  font-size: 1.5rem;
 }
 
 /*# sourceMappingURL=btn.css.map */

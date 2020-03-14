@@ -1,0 +1,20 @@
+.badge-regNr {
+  padding: 0.5rem 0.3rem;
+  color: #826328;
+  font-size: medium;
+}
+
+.badge-archived {
+  background-color: #c8ee8c;
+  text-align: center;
+  color: black;
+}
+
+.badge-notarchived {
+  background-color: #e9afa8;
+  text-align: center;
+  color: black;
+  alignment-baseline: middle;
+}
+
+/*# sourceMappingURL=badge.css.map */

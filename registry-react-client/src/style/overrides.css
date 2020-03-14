@@ -1,0 +1,22 @@
+.btn-link {
+  font-weight: 400;
+  color: #312b23;
+  text-decoration: none;
+}
+
+.btn-link:hover {
+  color: #bd8f3a;
+  text-decoration: underline;
+}
+
+.btn-link:focus, .btn-link.focus {
+  text-decoration: underline;
+  box-shadow: none;
+}
+
+.btn-link:disabled, .btn-link.disabled {
+  color: #4f4538;
+  pointer-events: none;
+}
+
+/*# sourceMappingURL=overrides.css.map */

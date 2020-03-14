@@ -28,7 +28,6 @@ class CreateDocument extends Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
-  //life cycle hooks
   componentWillReceiveProps(nextProps) {
     if (nextProps.errorReducer) {
       this.setState({errorReducer: nextProps.errorReducer});
@@ -68,7 +67,6 @@ class CreateDocument extends Component {
     e.preventDefault();
     let recipientEmails = [];
     if (!this.state.isDestinationExternal) {
-      const recipients = this.props.userReducer.selectedUsers;
       this.setState({
         recipients: this.props.userReducer.selectedUsers.forEach(rec => recipientEmails.push(rec.email.toString()))
       });
@@ -114,7 +112,7 @@ class CreateDocument extends Component {
 
     const user = this.props.securityReducer.user;
     const defaultCreator = (
-      <Form.Control plaintext readonly defaultValue={getFullName(user)}/>
+      <Form.Control plaintext readOnly defaultValue={getFullName(user)}/>
     );
 
     const formGroupExtOrigin = (
