@@ -6,7 +6,7 @@ import ToggleButton from "react-bootstrap/ToggleButton";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {createDocument} from "../../actions/documentActions";
-import UserAutosuggest from "../user/UserAutosuggest";
+import UserAutosuggest from "../fragments/user/UserAutosuggest";
 import {getFullName} from "../../utils/userUtils";
 
 class CreateDocument extends Component {

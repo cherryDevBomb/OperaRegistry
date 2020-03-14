@@ -1,12 +1,12 @@
 import Autosuggest from 'react-autosuggest';
 import React, {Component} from "react";
-import "../../style/user-autosuggest.css"
+import "../../../style/user-autosuggest.css"
 import Badge from "react-bootstrap/Badge";
 import Button from "react-bootstrap/Button";
-import {getAllUsers, updateAllUsers, updateSelectedUsers} from "../../actions/userActions";
+import {getAllUsers, updateAllUsers, updateSelectedUsers} from "../../../actions/userActions";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
-import {getFullName} from "../../utils/userUtils";
+import {getFullName} from "../../../utils/userUtils";
 
 class UserAutosuggest extends Component {
   componentDidMount() {

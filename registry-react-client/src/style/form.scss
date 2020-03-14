@@ -1,0 +1,13 @@
+@import "colors";
+
+.form-control:focus {
+  color: $gray-dark;
+  background-color: #fff;
+  border-color: $gold;
+  outline: 0;
+  box-shadow: 0 0 0 0.07em $light-gold;
+}
+.form-control::placeholder {
+  color: $brownish-gray;
+  opacity: 1;
+}

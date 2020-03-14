@@ -1,0 +1,52 @@
+.landing-div {
+  min-height: calc(100vh - 3.5em);
+  display: flex;
+  margin: 0;
+  padding: 0;
+}
+
+.bg {
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("../resources/landing-bg-poster.jpg") no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+.jumbotron-login {
+  position: absolute;
+  right: 16vw;
+  display: block;
+  float: right;
+  padding: 2rem 1rem;
+  margin-bottom: 4rem;
+  margin-top: 3rem;
+  background-color: #fdfcf9;
+  border-radius: 0.25rem;
+  width: 25em;
+}
+
+.login-btn {
+  margin-top: 2em;
+}
+
+.btn-sign-up {
+  background-color: #fdfcf9;
+  color: #ac1b21;
+  width: fit-content;
+  padding-left: 0;
+  margin-left: -1.5em;
+}
+
+.btn-sign-up:hover {
+  background-color: #fdfcf9;
+  color: #ac1b21;
+  text-decoration: underline;
+}
+
+.signup-row {
+  margin-top: 5em;
+  align-items: center;
+}
+
+/*# sourceMappingURL=landing.css.map */

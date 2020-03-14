@@ -1,21 +1,24 @@
 import React, {Component} from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./App.css";
 import "./style/theme.css";
+import "./App.css";
 import "./style/overrides.css"
 import "./style/badge.css"
 import "./style/btn.css"
+import "./style/form.css"
 import "./style/icons.css"
+import "./style/nav.css"
+import "./style/landing.css"
 import "./style/table.css"
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import {Provider} from "react-redux";
 import store from "./store";
-import PageHeader from "./components/layout/PageHeader";
-import DocumentTable from "./components/document/DocumentTable";
-import CreateDocument from "./components/document/CreateDocument";
+import PageHeader from "./components/fragments/navigation/PageHeader";
+import DocumentTable from "./components/layout/DocumentTable";
+import CreateDocument from "./components/layout/CreateDocument";
 import LandingPage from "./components/layout/LandingPage";
-import Register from "./components/userManagement/Register";
-import Login from "./components/userManagement/Login";
+import Register from "./components/fragments/userManagement/Register";
+import Login from "./components/fragments/userManagement/Login";
 import {
   DOCUMENTS_PATH,
   LOGIN_PATH,
@@ -30,9 +33,9 @@ import setJWTToken from "./utils/setJWTToken";
 import {SET_CURRENT_USER} from "./actions/types";
 import {logout} from "./actions/securityActions";
 import SecuredRoute from "./utils/SecuredRoute";
-import UploadAfterCreate from "./components/document/UploadAfterCreate";
-import MyDocuments from "./components/document/MyDocuments";
-import ReceivedDocuments from "./components/document/ReceivedDocuments";
+import UploadAfterCreate from "./components/fragments/document/UploadAfterCreate";
+import MyDocuments from "./components/layout/MyDocuments";
+import ReceivedDocuments from "./components/layout/ReceivedDocuments";
 
 const jwtToken = localStorage.jwtToken;
 

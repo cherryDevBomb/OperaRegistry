@@ -1,0 +1,14 @@
+.form-control:focus {
+  color: #292b2c;
+  background-color: #fff;
+  border-color: #bd8f3a;
+  outline: 0;
+  box-shadow: 0 0 0 0.07em #c6ad82;
+}
+
+.form-control::placeholder {
+  color: #4f4538;
+  opacity: 1;
+}
+
+/*# sourceMappingURL=form.css.map */

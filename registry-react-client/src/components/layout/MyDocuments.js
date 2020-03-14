@@ -4,7 +4,7 @@ import {connect} from "react-redux";
 import {getMyDocumentsArchived, getMyDocumentsOpen} from "../../actions/documentActions";
 import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
-import MyDocumentCard from "./fragments/MyDocumentCard";
+import MyDocumentCard from "../fragments/document/MyDocumentCard";
 
 class MyDocuments extends Component {
   constructor(props) {

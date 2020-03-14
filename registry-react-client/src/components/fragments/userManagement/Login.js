@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import { login } from "../../actions/securityActions";
+import { login } from "../../../actions/securityActions";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { DOCUMENTS_PATH } from "../../properties";
+import { DOCUMENTS_PATH } from "../../../properties";
 
 class Login extends Component {
   constructor() {
@@ -54,11 +54,11 @@ class Login extends Component {
     return (
       <Form onSubmit={this.onSubmit}>
         <Form.Group controlId="formBasicEmail">
-          <Form.Label>Email address</Form.Label>
+          {/*<Form.Label>Email address</Form.Label>*/}
           <Form.Control
             name="email"
             type="text"
-            placeholder="Enter email"
+            placeholder="Introduceți adresa de email"
             value={this.state.email}
             onChange={this.onChange}
             isInvalid={errorReducer.email}
@@ -69,7 +69,7 @@ class Login extends Component {
         </Form.Group>
 
         <Form.Group controlId="formBasicPassword">
-          <Form.Label>Parola</Form.Label>
+          {/*<Form.Label>Parola</Form.Label>*/}
           <Form.Control
             name="password"
             type="password"
@@ -83,7 +83,7 @@ class Login extends Component {
           </Form.Control.Feedback>
         </Form.Group>
 
-        <Button variant="primary" type="submit">
+        <Button variant="primary" type="submit" block className="login-btn">
           Submit
         </Button>
       </Form>

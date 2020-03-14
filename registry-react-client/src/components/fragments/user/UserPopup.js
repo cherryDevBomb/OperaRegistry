@@ -1,11 +1,11 @@
 import React, {Component} from "react";
 import Popover from "react-bootstrap/Popover";
 import {Button} from "react-bootstrap";
-import {getFullName, getInitials} from "../../utils/userUtils";
+import {getFullName, getInitials} from "../../../utils/userUtils";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import "../../style/btn.css"
+import "../../../style/btn.css"
 
 export default class UserPopup extends Component {
   render() {

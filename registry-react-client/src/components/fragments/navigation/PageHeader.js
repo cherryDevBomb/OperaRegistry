@@ -2,19 +2,19 @@ import React, { Component } from "react";
 
 import { LinkContainer } from "react-router-bootstrap";
 import { Link } from "react-router-dom";
-import { DOCUMENTS_PATH } from "../../properties.js";
-import { MY_DOCUMENTS_PATH } from "../../properties.js";
-import { NEW_DOCUMENT_PATH } from "../../properties.js";
-import { REGISTER_PATH } from "../../properties.js";
-import { LOGIN_PATH } from "../../properties.js";
-import { LOGOUT_PATH } from "../../properties.js";
+import { DOCUMENTS_PATH } from "../../../properties.js";
+import { MY_DOCUMENTS_PATH } from "../../../properties.js";
+import { NEW_DOCUMENT_PATH } from "../../../properties.js";
+import { REGISTER_PATH } from "../../../properties.js";
+import { LOGIN_PATH } from "../../../properties.js";
+import { LOGOUT_PATH } from "../../../properties.js";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { logout } from "../../actions/securityActions";
-import {RECEIVED_DOCUMENTS_PATH} from "../../properties";
+import { logout } from "../../../actions/securityActions";
+import {RECEIVED_DOCUMENTS_PATH} from "../../../properties";
 
 class PageHeader extends Component {
   logout() {
