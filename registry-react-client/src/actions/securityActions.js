@@ -18,10 +18,10 @@ export const createUser = (newUser, history) => async dispatch => {
       type: GET_ERRORS,
       payload: {}
     });
-  } catch (err) {
+  } catch (error) {
     dispatch({
       type: GET_ERRORS,
-      payload: err.response.data
+      payload: error.response.data
     });
   }
 };
@@ -40,11 +40,14 @@ export const login = LoginRequest => async dispatch => {
       type: SET_CURRENT_USER,
       payload: decoded
     });
-  } catch (err) {
-    dispatch({
-      type: GET_ERRORS,
-      payload: err.response.data
-    });
+  } catch (error) {
+    console.log(error);
+    if (error.response) {
+      dispatch({
+        type: GET_ERRORS,
+        payload: error.response.data
+      });
+    }
   }
 };
 

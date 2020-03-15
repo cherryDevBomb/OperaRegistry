@@ -7,8 +7,8 @@ import { connect } from "react-redux";
 import { DOCUMENTS_PATH } from "../../../properties";
 
 class Login extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       email: "",
       password: "",
@@ -54,7 +54,6 @@ class Login extends Component {
     return (
       <Form onSubmit={this.onSubmit}>
         <Form.Group controlId="formBasicEmail">
-          {/*<Form.Label>Email address</Form.Label>*/}
           <Form.Control
             name="email"
             type="text"
@@ -69,7 +68,6 @@ class Login extends Component {
         </Form.Group>
 
         <Form.Group controlId="formBasicPassword">
-          {/*<Form.Label>Parola</Form.Label>*/}
           <Form.Control
             name="password"
             type="password"
@@ -84,7 +82,7 @@ class Login extends Component {
         </Form.Group>
 
         <Button variant="primary" type="submit" block className="login-btn">
-          Submit
+          Continuă
         </Button>
       </Form>
     );

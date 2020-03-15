@@ -38,7 +38,7 @@ class LandingPage extends Component {
           <ButtonToolbar>
             <Container>
               <Row><Col>
-                <Login/>
+                <Login {...this.props}/>
               </Col></Row>
               <Row className="signup-row">
                 <Col xs={1}/>

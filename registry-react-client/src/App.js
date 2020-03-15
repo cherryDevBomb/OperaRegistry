@@ -64,7 +64,7 @@ class App extends Component {
 
             <Route exact path="/" component={LandingPage} />
             <Route exact path={REGISTER_PATH} component={Register} />
-            <Route exact path={LOGIN_PATH} component={Login} />
+            {/*<Route exact path={LOGIN_PATH} component={Login} />*/}
 
             <Switch>
               <SecuredRoute
