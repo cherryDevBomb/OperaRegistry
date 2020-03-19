@@ -81,7 +81,7 @@ class Login extends Component {
           </Form.Control.Feedback>
         </Form.Group>
 
-        <Button variant="primary" type="submit" block className="login-btn">
+        <Button variant="primary" type="submit" block className="mt-5">
           Continuă
         </Button>
       </Form>

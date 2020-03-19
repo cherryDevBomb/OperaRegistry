@@ -5,7 +5,7 @@ import {getFullName, getInitials} from "../../../utils/userUtils";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import "../../../style/btn.css"
+import "../../../style/reusables/btn-toggle.css"
 
 export default class UserPopup extends Component {
   render() {

@@ -7,7 +7,11 @@ import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {createDocument} from "../../actions/documentActions";
 import UserAutosuggest from "../fragments/user/UserAutosuggest";
-import {getFullName} from "../../utils/userUtils";
+import {getFullName, getInitials} from "../../utils/userUtils";
+import Jumbotron from "react-bootstrap/Jumbotron";
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 
 class CreateDocument extends Component {
   constructor() {
@@ -89,46 +93,76 @@ class CreateDocument extends Component {
   render() {
     const {errorReducer} = this.state;
 
-    //origin part
+    //origin
     const formGroupOriginType = (
       <React.Fragment>
-        <p>Originea documentului </p>
-        <ToggleButtonGroup
-          type="radio"
-          name="originType"
-          defaultValue="internal"
-          onChange={this.onOriginTypeChange.bind(this)}
-        >
-          <ToggleButton variant="outline-dark" value="internal">
-            Document intern
-          </ToggleButton>
-          <ToggleButton variant="outline-dark" value="external"
-                        disabled={this.state.isDestinationExternal ? true : false}>
-            Document extern
-          </ToggleButton>
-        </ToggleButtonGroup>
+        <Container>
+          <Row className="mt-5">
+            <Col className="col-sm-4 my-auto">
+              <strong className="float-right">Originea documentului</strong>
+            </Col>
+
+            <Col className="col-sm-8 my-auto">
+              <ToggleButtonGroup
+                type="radio"
+                name="originType"
+                size="sm"
+                defaultValue="internal"
+                onChange={this.onOriginTypeChange.bind(this)}
+              >
+                <ToggleButton variant="toggle" value="internal">
+                  Document intern
+                </ToggleButton>
+                <ToggleButton variant="toggle" value="external"
+                              disabled={this.state.isDestinationExternal ? true : false}>
+                  Document extern
+                </ToggleButton>
+              </ToggleButtonGroup>
+            </Col>
+          </Row>
+        </Container>
       </React.Fragment>
     );
 
     const user = this.props.securityReducer.user;
     const defaultCreator = (
-      <Form.Control plaintext readOnly defaultValue={getFullName(user)}/>
+      <Container>
+        <Row className="mt-3">
+          <Col className="col-sm-4 my-auto">
+            <strong className="float-right">Autor</strong>
+          </Col>
+
+          <Col className="col-sm-8 my-auto">
+            {getFullName(user)}
+          </Col>
+        </Row>
+      </Container>
     );
 
     const formGroupExtOrigin = (
-      <Form.Group controlId="formGroupExtOrigin">
-        <Form.Control
-          name="origin"
-          type="text"
-          placeholder="Introduceți de unde provine documentul"
-          value={this.state.origin}
-          onChange={this.onChange}
-          isInvalid={errorReducer.origin}
-        />
-        <Form.Control.Feedback type="invalid">
-          {errorReducer.origin}
-        </Form.Control.Feedback>
-      </Form.Group>
+      <Container>
+        <Row className="mt-2 align-items-center">
+          <Col className="col-sm-4 my-auto">
+            <strong className="float-right">Autor</strong>
+          </Col>
+
+          <Col className="col-sm-8 my-auto">
+            <Form.Group controlId="formGroupExtOrigin" className="mb-0">
+              <Form.Control
+                name="origin"
+                type="text"
+                placeholder="Introduceți de unde provine documentul"
+                value={this.state.origin}
+                onChange={this.onChange}
+                isInvalid={errorReducer.origin}
+              />
+              <Form.Control.Feedback type="invalid">
+                {errorReducer.origin}
+              </Form.Control.Feedback>
+            </Form.Group>
+          </Col>
+        </Row>
+      </Container>
     );
 
     let originPart;
@@ -140,73 +174,114 @@ class CreateDocument extends Component {
 
     //title
     const formGroupTitle = (
-      <Form.Group controlId="formGroupTitle">
-        <Form.Label>Titlu</Form.Label>
-        <Form.Control
-          name="title"
-          type="text"
-          placeholder="Introduceți titlul (conținutul pe scurt al documentului)"
-          value={this.state.title}
-          onChange={this.onChange}
-          isInvalid={errorReducer.title}
-        />
-        <Form.Control.Feedback type="invalid">
-          {errorReducer.title}
-        </Form.Control.Feedback>
-      </Form.Group>
+      <Container>
+        <Row className="mt-3 align-items-center">
+          <Col className="col-sm-4 my-auto">
+            <strong className="float-right">Titlu</strong>
+          </Col>
+
+          <Col className="col-sm-8 my-auto">
+            <Form.Group controlId="formGroupTitle" className="mb-0">
+              <Form.Control
+                id="title"
+                name="title"
+                type="text"
+                placeholder="Introduceți conținutul pe scurt al documentului"
+                value={this.state.title}
+                onChange={this.onChange}
+                isInvalid={errorReducer.title}
+              />
+              <Form.Control.Feedback type="invalid">
+                {errorReducer.title}
+              </Form.Control.Feedback>
+            </Form.Group>
+          </Col>
+        </Row>
+      </Container>
     );
 
-    //destination part
+    //destination
     const formGroupDestinationType = (
-      <ToggleButtonGroup
-        type="radio"
-        name="destinationType"
-        size="sm"
-        defaultValue="internal"
-        onChange={this.onDestinationTypeChange.bind(this)}
-      >
-        <ToggleButton variant="outline-dark" value="internal">
-          Destinație internă
-        </ToggleButton>
-        <ToggleButton variant="outline-dark" value="external" disabled={this.state.isOriginExternal ? true : false}>
-          Destinație externă
-        </ToggleButton>
-      </ToggleButtonGroup>
+      <Container>
+        <Row className="mt-3 align-items-center">
+          <Col className="col-sm-4 my-auto">
+            <strong className="float-right">Destinație</strong>
+          </Col>
+
+          <Col className="col-sm-8 my-auto">
+            <ToggleButtonGroup
+              type="radio"
+              name="destinationType"
+              size="sm"
+              defaultValue="internal"
+              onChange={this.onDestinationTypeChange.bind(this)}
+            >
+              <ToggleButton variant="toggle" value="internal">
+                Destinație internă
+              </ToggleButton>
+              <ToggleButton variant="toggle" value="external" disabled={this.state.isOriginExternal ? true : false}>
+                Destinație externă
+              </ToggleButton>
+            </ToggleButtonGroup>
+          </Col>
+        </Row>
+      </Container>
     );
 
-    //internal destination (user autosuggest)
     const formGroupIntDestination = (
-      <UserAutosuggest/>
+      <Container>
+        <Row className="mt-2 align-items-center">
+          <Col className="col-sm-4"></Col>
+          <Col className="col-sm-8 my-auto">
+            <UserAutosuggest/>
+          </Col>
+        </Row>
+      </Container>
     );
 
-    //external destination (plain string)
     const formGroupExtDestination = (
-      <Form.Group controlId="formGroupExtDestination">
-        <Form.Control
-          name="recipients"
-          type="text"
-          placeholder="Introduceți destinatarul"
-          value={this.state.recipients}
-          onChange={this.onExtDestinationChange.bind(this)}
-          isInvalid={errorReducer.recipients}
-        />
-        <Form.Control.Feedback type="invalid">
-          {errorReducer.recipients}
-        </Form.Control.Feedback>
-      </Form.Group>
+      <Container>
+        <Row className="mt-2 align-items-center">
+          <Col className="col-sm-4"></Col>
+          <Col className="col-sm-8 my-auto">
+            <Form.Group controlId="formGroupExtDestination" className="mb-0">
+              <Form.Control
+                name="recipients"
+                type="text"
+                placeholder="Introduceți destinatarul"
+                value={this.state.recipients}
+                onChange={this.onExtDestinationChange.bind(this)}
+                isInvalid={errorReducer.recipients}
+              />
+              <Form.Control.Feedback type="invalid">
+                {errorReducer.recipients}
+              </Form.Control.Feedback>
+            </Form.Group>
+          </Col>
+        </Row>
+      </Container>
     );
 
     const formGroupSentMessage = (
-      <Form.Group controlId="formGroupSentMessage">
-        <Form.Label>Mesaj</Form.Label>
-        <Form.Control
-          name="sentMessage"
-          type="text"
-          placeholder="Introduceți un mesaj pentru destinatar (opțional)"
-          value={this.state.sentMessage}
-          onChange={this.onChange}
-        />
-      </Form.Group>
+      <Container>
+        <Row className="mt-3 mb-5 align-items-center">
+          <Col className="col-sm-4 my-auto">
+            <strong className="float-right">Mesaj</strong>
+          </Col>
+
+          <Col className="col-sm-8 my-auto">
+            <Form.Group controlId="formGroupSentMessage" className="mb-0">
+              <Form.Control
+                name="sentMessage"
+                type="text"
+                placeholder="Introduceți un mesaj pentru destinatar (opțional)"
+                value={this.state.sentMessage}
+                onChange={this.onChange}
+              />
+            </Form.Group>
+          </Col>
+        </Row>
+      </Container>
     );
 
     let destinationPart;
@@ -217,19 +292,23 @@ class CreateDocument extends Component {
     }
 
     return (
-      <React.Fragment>
+      <Jumbotron className="mx-5 my-4 shadow p-5">
+        <h4 className="text-center">Document nou</h4>
         <Form onSubmit={this.onSubmit}>
+          <hr/>
           {formGroupOriginType}
           {originPart}
           {formGroupTitle}
           {formGroupDestinationType}
           {destinationPart}
           {formGroupSentMessage}
-          <Button variant="primary" type="submit">
+          <Row className="mt-3 mb=3"><Col>
+          <Button variant="primary" type="submit" className="float-right">
             Submit
           </Button>
+          </Col></Row>
         </Form>
-      </React.Fragment>
+      </Jumbotron>
     );
   }
 }

@@ -1,0 +1,34 @@
+@import "../colors";
+
+$toggle-color: $brownish-gray;
+$toggle-color-active-bg: lighten($toggle-color, 55);
+$toggle-color-hover: darken($toggle-color, 15);
+$toggle-color-disabled: lighten($toggle-color, 15);
+
+.btn-toggle {
+  color: $toggle-color;
+  border-color: $toggle-color;
+}
+.btn-toggle:active, .btn-toggle.active {
+  background-color: $toggle-color-active-bg;
+  font-weight: bold;
+  border: 2px solid $toggle-color;
+}
+.btn-toggle:hover, .btn-toggle.hover {
+  color: $toggle-color-hover;
+  border-color: $toggle-color-hover;
+  background-color: lighten($toggle-color-active-bg, 15);
+}
+.btn-toggle:not(:disabled):not(.disabled):active:hover, .btn-toggle:not(:disabled):not(.disabled).active:hover {
+  color: $toggle-color;
+  border-color: $toggle-color;
+}
+.btn-toggle:active:hover, .btn-toggle.active:hover {
+  background-color: $toggle-color-active-bg;
+}
+.btn-toggle.disabled, .btn-toggle:disabled {
+  color: $toggle-color-disabled;
+  border-color: $toggle-color-disabled;
+  background-color: transparent;
+  cursor: default;
+}

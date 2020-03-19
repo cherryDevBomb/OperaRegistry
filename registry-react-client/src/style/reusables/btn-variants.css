@@ -1,0 +1,22 @@
+.btn-initials {
+  background-color: #c6ad82;
+  width: 2.5em;
+  height: 2.5em;
+  padding: 6px 0px;
+  border-radius: 8em;
+  text-align: center;
+  color: white;
+}
+
+.btn-autosuggest {
+  border: 1px solid #4f4538;
+  color: #4f4538;
+  margin-right: 0.5em;
+  margin-bottom: 0.2em;
+}
+
+.btn-autosuggest:hover {
+  background-color: #f7f7f9;
+}
+
+/*# sourceMappingURL=btn-variants.css.map */

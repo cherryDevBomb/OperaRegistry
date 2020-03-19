@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import "../../../style/icons.css";
+import "../../../style/reusables/icons.css";
 import "../../../style/badge.css";
 import {Badge} from "react-bootstrap";
 import {getFullName} from "../../../utils/userUtils";

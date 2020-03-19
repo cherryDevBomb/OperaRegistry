@@ -77,7 +77,7 @@ $brand-inverse: $dark;
 // Quickly modify global styling by enabling or disabling optional features.
 
 $enable-rounded:            true;
-$enable-shadows:            false;
+$enable-shadows:            true;
 $enable-gradients:          false !default;
 $enable-transitions:        true !default;
 $enable-hover-media-query:  false !default;

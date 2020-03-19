@@ -1,0 +1,55 @@
+@import "../colors";
+
+$nav-link-color: $gray-lightest;
+$nav-link-color-hover: $gold;
+
+.navbar {
+  height: fit-content;
+  padding-top: 0;
+  padding-bottom: 0;
+  display: flex;
+  align-items: stretch;
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  color: $nav-link-color;
+}
+
+.dropdown-toggle {
+  height: fit-content;
+  padding-top: 0;
+  padding-bottom: 0;
+  display: flex;
+  align-items: stretch;
+  white-space: unset;
+}
+
+.nav-link {
+  color: $nav-link-color;
+  height: 100%;
+  padding-top: 16px;
+  padding-bottom: 16px;
+  display: flex;
+  align-items: center;
+}
+.nav-link:hover {
+  color: $nav-link-color-hover;
+  padding-bottom: 12px;
+  border-bottom: 4px solid $nav-link-color-hover;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+  color: $nav-link-color;
+}
+.navbar-dark:hover .navbar-nav:hover .nav-link:hover {
+  color: $nav-link-color-hover;
+}
+
+.fa-home{
+  color: $nav-link-color;
+}
+.fa-home:hover {
+  color: $nav-link-color-hover;
+}

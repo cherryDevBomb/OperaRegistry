@@ -10,6 +10,13 @@
   margin-right: 0.2em;
 }
 
+.fa-times-circle-close {
+  color: #ac1b21;
+  font-size: 1.1em;
+  margin-right: 0;
+  margin-left: 0.5em;
+}
+
 .fa-file-download {
   color: #4f4538;
   font-size: 1.5rem;

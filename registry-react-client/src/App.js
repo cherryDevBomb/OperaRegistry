@@ -1,13 +1,17 @@
 import React, {Component} from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./style/theme.css";
-import "./App.css";
+import "./style/App.css";
 import "./style/overrides.css"
 import "./style/badge.css"
-import "./style/btn.css"
-import "./style/form.css"
-import "./style/icons.css"
-import "./style/nav.css"
+import "./style/reusables/autosuggest.css"
+import "./style/reusables/btn-variants.css"
+import "./style/reusables/btn-toggle.css"
+import "./style/reusables/font.css"
+import "./style/reusables/form.css"
+import "./style/reusables/icons.css"
+import "./style/reusables/nav.css"
+import "./style/create.css"
 import "./style/landing.css"
 import "./style/table.css"
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
@@ -17,8 +21,8 @@ import PageHeader from "./components/fragments/navigation/PageHeader";
 import DocumentTable from "./components/layout/DocumentTable";
 import CreateDocument from "./components/layout/CreateDocument";
 import LandingPage from "./components/layout/LandingPage";
-import Register from "./components/fragments/userManagement/Register";
-import Login from "./components/fragments/userManagement/Login";
+import Register from "./components/fragments/security/Register";
+import Login from "./components/fragments/security/Login";
 import {
   DOCUMENTS_PATH,
   LOGIN_PATH,

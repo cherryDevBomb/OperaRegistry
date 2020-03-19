@@ -1,17 +1,14 @@
 import React, {Component} from "react";
 import Button from "react-bootstrap/Button";
 import ButtonToolbar from "react-bootstrap/ButtonToolbar";
-import {REGISTER_PATH} from "../../properties.js";
-import {DOCUMENTS_PATH} from "../../properties.js";
-import {LOGIN_PATH} from "../../properties.js";
+import {DOCUMENTS_PATH, REGISTER_PATH} from "../../properties.js";
 import {connect} from "react-redux";
 import PropTypes from "prop-types";
 import Jumbotron from "react-bootstrap/Jumbotron";
-import Login from "../fragments/userManagement/Login";
+import Login from "../fragments/security/Login";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import background from "../../resources/landing-bg-poster.jpg"
 
 class LandingPage extends Component {
   componentDidMount() {
@@ -27,14 +24,6 @@ class LandingPage extends Component {
           <p className="text-center">
             <h3>Intră în cont</h3>
           </p>
-          {/*<p>*/}
-          {/*  This is a simple hero unit, a simple jumbotron-style component for calling*/}
-          {/*  extra attention to featured content or information.*/}
-          {/*</p>*/}
-          {/*<p>*/}
-          {/*  <Button variant="primary">Learn more</Button>*/}
-          {/*</p>*/}
-
           <ButtonToolbar>
             <Container>
               <Row><Col>

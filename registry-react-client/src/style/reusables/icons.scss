@@ -1,4 +1,4 @@
-@import "colors";
+@import "../colors";
 
 .fa-check-circle {
   color: $green ;
@@ -12,21 +12,17 @@
   margin-right: .2em;
 }
 
-//.fa-check-circle {
-//  color: $green ;
-//  font-size: 1.5em;
-//}
-//
-//.fa-times-circle {
-//  color: $brick-red ;
-//  font-size: 1.5em;
-//}
+.fa-times-circle-close {
+  color: $primary-red;
+  font-size: 1.1em;
+  margin-right: 0;
+  margin-left: .5em;
+}
 
 .fa-file-download {
   color: $brownish-gray ;
   font-size: 1.5rem;
 }
-
 .fa-file-download:hover {
   color: $gold;
   cursor: pointer;

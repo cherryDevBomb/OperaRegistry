@@ -1,6 +1,6 @@
 import Autosuggest from 'react-autosuggest';
 import React, {Component} from "react";
-import "../../../style/user-autosuggest.css"
+import "../../../style/reusables/autosuggest.css"
 import Badge from "react-bootstrap/Badge";
 import Button from "react-bootstrap/Button";
 import {getAllUsers, updateAllUsers, updateSelectedUsers} from "../../../actions/userActions";
@@ -145,11 +145,9 @@ class UserAutosuggest extends Component {
     let previousValues = [];
     for (let i = 0; i < this.state.allSelectedUsers.length; i++) {
       const currentValue = (
-        <Button variant={"outline-dark"} key={this.state.allSelectedUsers[i].userId}>
+        <Button variant="autosuggest" size="sm" key={this.state.allSelectedUsers[i].userId}>
           {getFullName(this.state.allSelectedUsers[i])}
-          <Badge pill variant="primary" onClick={() => this.onDismissClick(this.state.allSelectedUsers[i])}>
-            X
-          </Badge>
+            <i className="fas fa-times-circle fa-times-circle-close" onClick={() => this.onDismissClick(this.state.allSelectedUsers[i])}/>
         </Button>
       );
       previousValues = [...previousValues, currentValue];
