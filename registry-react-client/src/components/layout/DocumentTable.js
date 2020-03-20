@@ -1,12 +1,13 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import DocumentRow from "../fragments/document/DocumentRow";
 import Form from "react-bootstrap/Form";
 import FormControl from "react-bootstrap/FormControl";
 import Button from "react-bootstrap/Button";
 import Table from "react-bootstrap/Table";
-import { connect } from "react-redux";
-import { getDocuments } from "../../actions/documentActions";
+import {connect} from "react-redux";
+import {getDocuments} from "../../actions/documentActions";
 import PropTypes from "prop-types";
+import Jumbotron from "react-bootstrap/Jumbotron";
 
 class DocumentTable extends Component {
   componentDidMount() {
@@ -19,12 +20,13 @@ class DocumentTable extends Component {
     return (
       <div>
         <Form inline>
-          <FormControl type="text" placeholder="Search" className="mr-sm-2" />
+          <FormControl type="text" placeholder="Search" className="mr-sm-2"/>
           <Button variant="outline-primary">Search</Button>
         </Form>
 
-        <Table responsive>
-          <thead>
+        <Jumbotron className="mx-3 my-4 shadow px-3 py-3">
+          <Table responsive>
+            <thead>
             <tr>
               <th className="th">Nr. înregistrare</th>
               <th className="th">Emitent</th>
@@ -34,16 +36,17 @@ class DocumentTable extends Component {
               <th className="th">Stare</th>
               <th className="th">Atașament</th>
             </tr>
-          </thead>
-          <tbody>
+            </thead>
+            <tbody>
             {documents.map(document => (
               <DocumentRow
                 key={document.registryNumber}
                 document={document}
               ></DocumentRow>
             ))}
-          </tbody>
-        </Table>
+            </tbody>
+          </Table>
+        </Jumbotron>
       </div>
     );
   }
@@ -58,4 +61,4 @@ const mapStateToProps = state => ({
   documentReducer: state.documentReducer
 });
 
-export default connect(mapStateToProps, { getDocuments })(DocumentTable);
+export default connect(mapStateToProps, {getDocuments})(DocumentTable);

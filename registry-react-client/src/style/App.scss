@@ -7,9 +7,15 @@ body {
   sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #e6e6e6;
+  //background-color: #e6e6e6;
+  background-color: lighten($light-gold, 30);;
 }
 
 .jumbotron {
   background-color: white;
+}
+
+.btn:focus, .btn.focus {
+  outline: 0;
+  box-shadow: 0 0 0 0 black;
 }

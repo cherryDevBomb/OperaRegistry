@@ -1,27 +1,25 @@
+@import "../colors";
+
+.th {
+  background-color: lighten($light-gold, 10);
+}
+
 .btn-link {
   font-weight: 400;
-  color: #312b23;
+  color: darken($brownish-gray, 10);
   text-decoration: none;
 }
-
 .btn-link:hover {
-  color: #bd8f3a;
+  color: $gold;
   text-decoration: underline;
 }
-
 .btn-link:focus, .btn-link.focus {
   text-decoration: underline;
   box-shadow: none;
 }
-
 .btn-link:disabled, .btn-link.disabled {
   color: #4f4538;
   pointer-events: none;
-}
-
-.btn:focus, .btn.focus {
-  outline: 0;
-  box-shadow: 0 0 0 0 black;
 }
 
 .page-link {
@@ -30,23 +28,19 @@
   padding: 0.5rem 0.75rem;
   margin-left: -1px;
   line-height: 1.25;
-  color: #4f4538;
+  color: $brownish-gray;
   background-color: #fff;
   border: 1px solid #dee2e6;
 }
-
 .page-link:hover {
   z-index: 2;
-  color: #c6ad82;
+  color: $light-gold;
   text-decoration: none;
   background-color: #e9ecef;
   border-color: #dee2e6;
 }
-
 .page-link:focus {
   z-index: 3;
   outline: 0;
   box-shadow: 0 0 0 0 black;
 }
-
-/*# sourceMappingURL=overrides.css.map */

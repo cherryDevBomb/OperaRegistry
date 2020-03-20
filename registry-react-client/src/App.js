@@ -2,8 +2,7 @@ import React, {Component} from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./style/theme.css";
 import "./style/App.css";
-import "./style/overrides.css"
-import "./style/badge.css"
+import "./style/reusables/badge.css"
 import "./style/reusables/autosuggest.css"
 import "./style/reusables/btn-variants.css"
 import "./style/reusables/btn-toggle.css"
@@ -11,9 +10,8 @@ import "./style/reusables/font.css"
 import "./style/reusables/form.css"
 import "./style/reusables/icons.css"
 import "./style/reusables/nav.css"
-import "./style/create.css"
-import "./style/landing.css"
-import "./style/table.css"
+import "./style/components/landing.css"
+import "./style/components/table.css"
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import {Provider} from "react-redux";
 import store from "./store";

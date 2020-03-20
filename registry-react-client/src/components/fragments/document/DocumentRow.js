@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import "../../../style/reusables/icons.css";
-import "../../../style/badge.css";
+import "../../../style/reusables/badge.css";
 import {Badge} from "react-bootstrap";
 import {getFullName} from "../../../utils/userUtils";
 import {DESTINATION_EXTERNAL_DOC_TYPE, ORIGIN_EXTERNAL_DOC_TYPE} from "../../../properties";
