@@ -48,7 +48,7 @@ class PageHeader extends Component {
           </LinkContainer>
 
           <NavDropdown
-            className="dropdown-menu-left"
+            className="dropdown-menu-right"
             title={
               <span>
                 <i className="fas fa-user" />

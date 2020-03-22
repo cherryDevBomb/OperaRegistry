@@ -6,7 +6,6 @@ import {getFullName} from "../../../utils/userUtils";
 import {DESTINATION_EXTERNAL_DOC_TYPE, ORIGIN_EXTERNAL_DOC_TYPE} from "../../../properties";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import UserPopup from "../user/UserPopup";
-import {FaFileDownload} from "react-icons/fa";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {downloadFile} from "../../../actions/fileActions";

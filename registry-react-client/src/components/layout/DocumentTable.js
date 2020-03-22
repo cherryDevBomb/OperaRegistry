@@ -8,6 +8,7 @@ import {connect} from "react-redux";
 import {getDocuments} from "../../actions/documentActions";
 import PropTypes from "prop-types";
 import Jumbotron from "react-bootstrap/Jumbotron";
+import DocumentSearch from "../fragments/document/DocumentSearch";
 
 class DocumentTable extends Component {
   componentDidMount() {
@@ -19,10 +20,7 @@ class DocumentTable extends Component {
 
     return (
       <div>
-        <Form inline>
-          <FormControl type="text" placeholder="Search" className="mr-sm-2"/>
-          <Button variant="outline-primary">Search</Button>
-        </Form>
+        <DocumentSearch/>
 
         <Jumbotron className="mx-3 my-4 shadow px-3 py-3">
           <Table responsive>

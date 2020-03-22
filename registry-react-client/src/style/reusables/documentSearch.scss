@@ -1,0 +1,60 @@
+@import "../colors";
+
+.searchContainer {
+  max-width: 60vw;
+  padding-left: 0;
+  background-color: white;
+  border-radius: .25em;
+}
+
+.btn-searchbar {
+  color: $brownish-gray;
+  background-color: white;
+  border: 0;
+  margin-top: 0.2em;
+  margin-bottom: 0.2em;
+  margin-left: 0;
+  transition: none;
+  border-radius: 8em;
+}
+.btn-searchbar:hover {
+  background-color: lighten($brownish-gray, 65);
+}
+
+.search-input {
+  margin-top: 0.2em;
+  margin-bottom: 0.2em;
+  border: 0;
+  box-shadow: none;
+}
+.search-input:focus {
+  outline: none;
+  border: 0;
+  box-shadow: none;
+}
+
+.dropdown-search {
+  min-width: 60vw;
+  max-width: 60vw;
+  border: 1px solid lighten($brownish-gray, 70);
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.input-group > .input-group-prepend > .btn, .input-group > .input-group-prepend > .input-group-text, .input-group > .input-group-append:not(:last-child) > .btn, .input-group > .input-group-append:not(:last-child) > .input-group-text, .input-group > .input-group-append:last-child > .btn:not(:last-child):not(.dropdown-toggle), .input-group > .input-group-append:last-child > .input-group-text:not(:last-child) {
+  border-top-right-radius: 8em;
+  border-bottom-right-radius: 8em;
+}
+
+.btn:not(:disabled):not(.disabled):active:focus, .btn:not(:disabled):not(.disabled).active:focus {
+  box-shadow: none;
+}
+.btn:focus, .btn.focus {
+  outline: 0;
+  box-shadow: none;
+}
+
+.form-control::placeholder {
+  color: $light-gray;
+  opacity: 1;
+}
