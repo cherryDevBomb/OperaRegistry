@@ -68,7 +68,7 @@ class DocumentSearch extends Component {
     if (this.state.originType === "Creat de o anumită persoană") {
       specificPersonInput = (
         <Col className="col-sm-5 my-auto">
-          <UserAutosuggest/>
+          <UserAutosuggest placeholder="Introduceți numele"/>
         </Col>
       );
     }
@@ -144,7 +144,7 @@ class DocumentSearch extends Component {
             <FormControl type="text"
                          name="searchStr"
                          aria-describedby="search-btn"
-                         placeholder="Search"
+                         placeholder="Căutați documente"
                          value={this.state.searchStr}
                          onChange={this.onChange}
                          className="mx-auto search-input">

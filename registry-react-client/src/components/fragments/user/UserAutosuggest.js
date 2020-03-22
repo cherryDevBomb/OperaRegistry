@@ -13,8 +13,8 @@ class UserAutosuggest extends Component {
     this.props.getAllUsers();
   }
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
       value: '',
@@ -135,9 +135,10 @@ class UserAutosuggest extends Component {
 
   render() {
     const {value, suggestions} = this.state;
+    const {placeholder} = this.props
 
     const inputProps = {
-      placeholder: 'Introduceți destinatarul',
+      placeholder: placeholder,
       value,
       onChange: this.onChange
     };

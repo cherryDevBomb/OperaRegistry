@@ -233,7 +233,7 @@ class CreateDocument extends Component {
         <Row className="mt-2 align-items-center">
           <Col className="col-sm-4"></Col>
           <Col className="col-sm-8 my-auto">
-            <UserAutosuggest/>
+            <UserAutosuggest placeholder="Introduceți destinatarul"/>
           </Col>
         </Row>
       </Container>
