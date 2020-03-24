@@ -30,7 +30,7 @@ class DocumentTable extends Component {
               <th className="th">Emitent</th>
               <th className="th">Data înregistrării</th>
               <th className="th">Titlu</th>
-              <th className="th">Destinație</th>
+              <th className="th">Destinatar</th>
               <th className="th">Stare</th>
               <th className="th">Atașament</th>
             </tr>

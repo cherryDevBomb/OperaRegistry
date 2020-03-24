@@ -1,7 +1,6 @@
 import Autosuggest from 'react-autosuggest';
 import React, {Component} from "react";
 import "../../../style/reusables/autosuggest.css"
-import Badge from "react-bootstrap/Badge";
 import Button from "react-bootstrap/Button";
 import {getAllUsers, updateAllUsers, updateSelectedUsers} from "../../../actions/userActions";
 import PropTypes from "prop-types";
@@ -137,8 +136,9 @@ class UserAutosuggest extends Component {
     const {value, suggestions} = this.state;
     const {placeholder} = this.props
 
+    const showPlaceholder = this.state.allSelectedUsers.length === 0 ? placeholder : "";
     const inputProps = {
-      placeholder: placeholder,
+      placeholder: showPlaceholder,
       value,
       onChange: this.onChange
     };
@@ -154,7 +154,6 @@ class UserAutosuggest extends Component {
       previousValues = [...previousValues, currentValue];
     }
 
-    // Finally, render it!
     return (
       <div className={"autosuggest-container"}>
         {previousValues}

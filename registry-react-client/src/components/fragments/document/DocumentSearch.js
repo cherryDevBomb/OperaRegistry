@@ -5,9 +5,7 @@ import Button from "react-bootstrap/Button";
 import {connect} from "react-redux";
 import {getDocuments} from "../../../actions/documentActions";
 import PropTypes from "prop-types";
-import Jumbotron from "react-bootstrap/Jumbotron";
 import InputGroup from "react-bootstrap/InputGroup";
-import DropdownButton from "react-bootstrap/DropdownButton";
 import Dropdown from "react-bootstrap/Dropdown";
 import "../../../style/reusables/documentSearch.css"
 import Container from "react-bootstrap/Container";
@@ -16,8 +14,8 @@ import Row from "react-bootstrap/Row";
 import UserAutosuggest from "../user/UserAutosuggest";
 
 class DocumentSearch extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
       originType: "Oricare",
@@ -37,14 +35,10 @@ class DocumentSearch extends Component {
     this.setState({[e.target.name]: e.target.value});
   }
 
-  // onChangeOriginType(e) {
-  //   console.log(e.target.value);
-  //   this.setState({originType: e.target.value});
-  // }
-
   onSubmit(e) {
     e.preventDefault();
-    console.log(this.state.searchStr);
+    console.log(this.state.originType);
+    console.log(this.state.destinationType);
     // const {document} = this.props;
     // this.props.downloadFile(document.registryNumber);
   }
@@ -64,9 +58,18 @@ class DocumentSearch extends Component {
       </Button>
     ));
 
-    let specificPersonInput;
-    if (this.state.originType === "Creat de o anumită persoană") {
-      specificPersonInput = (
+    let specificPersonOriginInput;
+    if (this.state.originType === "O anumită persoană") {
+      specificPersonOriginInput = (
+        <Col className="col-sm-5 my-auto">
+          <UserAutosuggest placeholder="Introduceți numele"/>
+        </Col>
+      );
+    }
+
+    let specificPersonDestinationInput;
+    if (this.state.destinationType === "O anumită persoană") {
+      specificPersonDestinationInput = (
         <Col className="col-sm-5 my-auto">
           <UserAutosuggest placeholder="Introduceți numele"/>
         </Col>
@@ -85,21 +88,39 @@ class DocumentSearch extends Component {
             <Container>
               <Row className="mt-3 align-items-center">
                 <Col className="col-sm-2 my-auto">
-                  <strong className="float-right">Origine</strong>
+                  <strong className="float-right">Emitent</strong>
                 </Col>
 
                 <Col className="col-sm-5 my-auto">
                   <Form.Control as="select"
+                                name="originType"
                                 value={this.state.originType}
-                                // onChange={(e) => this.onChangeOriginType(e)}>
-                                onChange={(e) => this.setState( {originType: e.target.value})}>
-                    <option value="Oricare">Oricare</option>
-                    <option value="Internă">Internă</option>
-                    <option value="Externă">Externă</option>
-                    <option value="Creat de o anumită persoană">Creat de o anumită persoană</option>
+                                onChange={this.onChange}>
+                    <option value="Oricine">Oricine</option>
+                    <option value="Intern">Intern</option>
+                    <option value="Extern">Extern</option>
+                    <option value="O anumită persoană">O anumită persoană</option>
                   </Form.Control>
+                </Col>
 
+                {specificPersonOriginInput}
+              </Row>
 
+              <Row className="mt-3 align-items-center">
+                <Col className="col-sm-2 my-auto">
+                  <strong className="float-right">Destinatar</strong>
+                </Col>
+
+                <Col className="col-sm-5 my-auto">
+                  <Form.Control as="select"
+                                value={this.state.destinationType}
+                                name="destinationType"
+                                onChange={this.onChange}>
+                    <option value="Oricine">Oricine</option>
+                    <option value="Intern">Intern</option>
+                    <option value="Extern">Extern</option>
+                    <option value="O anumită persoană">O anumită persoană</option>
+                  </Form.Control>
 
                   {/*<Form.Group controlId="formGroupTitle" className="mb-0">*/}
                   {/*  <Form.Control*/}
@@ -112,8 +133,11 @@ class DocumentSearch extends Component {
                   {/*  />*/}
                   {/*</Form.Group>*/}
                 </Col>
-                {specificPersonInput}
+
+                {specificPersonDestinationInput}
               </Row>
+
+
             </Container>
             <FormControl
               autoFocus
