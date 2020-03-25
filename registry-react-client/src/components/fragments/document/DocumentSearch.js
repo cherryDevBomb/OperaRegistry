@@ -12,15 +12,24 @@ import Container from "react-bootstrap/Container";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import UserAutosuggest from "../user/UserAutosuggest";
+import {
+  UPDATE_SELECTED_USERS_FOR_DESTINATION_SEARCH,
+  UPDATE_SELECTED_USERS_FOR_ORIGIN_SEARCH
+} from "../../../actions/types";
 
 class DocumentSearch extends Component {
   constructor(props) {
     super(props);
 
+    this.refOrigin = React.createRef();
+    this.refDestination = React.createRef();
+
     this.state = {
       originType: "Oricare",
+      originUsers: [],
       origin: "",
       destinationType: "Oricare",
+      destinationUsers: [],
       destination: "",
       state: "Oricare",
       searchStr: "",
@@ -31,14 +40,42 @@ class DocumentSearch extends Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
+  getSnapshotBeforeUpdate(prevProps, prevState) {
+    let snapshot = {};
+    if (this.refOrigin && this.refOrigin.current) {
+      let selectedUsersForOriginSearch = this.refOrigin.current.props.userReducer.selectedUsersForOriginSearch
+      if (selectedUsersForOriginSearch && selectedUsersForOriginSearch !== this.state.originUsers) {
+        snapshot.origin = selectedUsersForOriginSearch;
+      }
+    }
+    if (this.refDestination && this.refDestination.current) {
+      let selectedUsersForDestinationSearch = this.refDestination.current.props.userReducer.selectedUsersForDestinationSearch;
+      if (selectedUsersForDestinationSearch && selectedUsersForDestinationSearch !== this.state.destinationUsers) {
+        snapshot.destination = selectedUsersForDestinationSearch;
+      }
+    }
+    return snapshot;
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (snapshot) {
+      if (snapshot.origin) {
+        this.setState({originUsers: snapshot.origin});
+      }
+      if (snapshot.destination) {
+        this.setState({destinationUsers: snapshot.destination});
+      }
+    }
+  }
+
   onChange(e) {
     this.setState({[e.target.name]: e.target.value});
   }
 
   onSubmit(e) {
     e.preventDefault();
-    console.log(this.state.originType);
-    console.log(this.state.destinationType);
+
+
     // const {document} = this.props;
     // this.props.downloadFile(document.registryNumber);
   }
@@ -62,7 +99,10 @@ class DocumentSearch extends Component {
     if (this.state.originType === "O anumită persoană") {
       specificPersonOriginInput = (
         <Col className="col-sm-5 my-auto">
-          <UserAutosuggest placeholder="Introduceți numele"/>
+          <UserAutosuggest ref={this.refOrigin}
+                           placeholder="Introduceți numele"
+                           prevSelectedUsers={this.state.originUsers}
+                           actionType={UPDATE_SELECTED_USERS_FOR_ORIGIN_SEARCH}/>
         </Col>
       );
     }
@@ -71,7 +111,10 @@ class DocumentSearch extends Component {
     if (this.state.destinationType === "O anumită persoană") {
       specificPersonDestinationInput = (
         <Col className="col-sm-5 my-auto">
-          <UserAutosuggest placeholder="Introduceți numele"/>
+          <UserAutosuggest ref={this.refDestination}
+                           placeholder="Introduceți numele"
+                           prevSelectedUsers={this.state.destinationUsers}
+                           actionType={UPDATE_SELECTED_USERS_FOR_DESTINATION_SEARCH}/>
         </Col>
       );
     }
@@ -193,7 +236,7 @@ DocumentSearch.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  documentReducer: state.documentReducer
+  documentReducer: state.documentReducer,
 });
 
 export default connect(mapStateToProps, {getDocuments})(DocumentSearch);

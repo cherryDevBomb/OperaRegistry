@@ -1,8 +1,15 @@
-import {GET_ALL_USERS, UPDATE_ALL_USERS, UPDATE_SELECTED_USERS} from "../actions/types";
+import {
+  GET_ALL_USERS,
+  UPDATE_ALL_USERS,
+  UPDATE_SELECTED_USERS, UPDATE_SELECTED_USERS_FOR_DESTINATION_SEARCH,
+  UPDATE_SELECTED_USERS_FOR_DOCUMENT_HISTORY, UPDATE_SELECTED_USERS_FOR_ORIGIN_SEARCH
+} from "../actions/types";
 
 const initialState = {
   allUsers: [],
-  selectedUsers: []
+  selectedUsersForDocumentHistory: [],
+  selectedUsersForOriginSearch: [],
+  selectedUsersForDestinationSearch: []
 };
 
 export default function(state = initialState, action) {
@@ -12,10 +19,20 @@ export default function(state = initialState, action) {
         ...state,
         allUsers: action.payload
       };
-    case UPDATE_SELECTED_USERS:
+    case UPDATE_SELECTED_USERS_FOR_DOCUMENT_HISTORY:
       return {
         ...state,
-        selectedUsers: action.payload
+        selectedUsersForDocumentHistory: action.payload
+      };
+    case UPDATE_SELECTED_USERS_FOR_ORIGIN_SEARCH:
+      return {
+        ...state,
+        selectedUsersForOriginSearch: action.payload
+      };
+    case UPDATE_SELECTED_USERS_FOR_DESTINATION_SEARCH:
+      return {
+        ...state,
+        selectedUsersForDestinationSearch: action.payload
       };
     case UPDATE_ALL_USERS:
       return {

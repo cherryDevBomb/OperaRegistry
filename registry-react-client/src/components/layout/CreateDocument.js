@@ -12,6 +12,7 @@ import Jumbotron from "react-bootstrap/Jumbotron";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import {UPDATE_SELECTED_USERS_FOR_DOCUMENT_HISTORY} from "../../actions/types";
 
 class CreateDocument extends Component {
   constructor() {
@@ -72,7 +73,7 @@ class CreateDocument extends Component {
     let recipientEmails = [];
     if (!this.state.isDestinationExternal) {
       this.setState({
-        recipients: this.props.userReducer.selectedUsers.forEach(rec => recipientEmails.push(rec.email.toString()))
+        recipients: this.props.userReducer.selectedUsersForDocumentHistory.forEach(rec => recipientEmails.push(rec.email.toString()))
       });
     } else {
       recipientEmails = this.state.recipients;
@@ -233,7 +234,7 @@ class CreateDocument extends Component {
         <Row className="mt-2 align-items-center">
           <Col className="col-sm-4"></Col>
           <Col className="col-sm-8 my-auto">
-            <UserAutosuggest placeholder="Introduceți destinatarul"/>
+            <UserAutosuggest placeholder="Introduceți destinatarul" actionType={UPDATE_SELECTED_USERS_FOR_DOCUMENT_HISTORY}/>
           </Col>
         </Row>
       </Container>

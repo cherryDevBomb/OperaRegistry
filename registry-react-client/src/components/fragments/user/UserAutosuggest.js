@@ -9,24 +9,22 @@ import {getFullName} from "../../../utils/userUtils";
 
 class UserAutosuggest extends Component {
   componentDidMount() {
-    this.props.getAllUsers();
+    if (this.props.userReducer.allUsers.length === 0) {
+      this.props.getAllUsers();
+    }
   }
 
   constructor(props) {
     super(props);
 
+    let {prevSelectedUsers} = this.props;
+
     this.state = {
       value: '',
       suggestions: [],
-      allSelectedUsers: [],
+      allSelectedUsers: prevSelectedUsers,
       userReducer: {}
     };
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.userReducer) {
-      this.setState({userReducer: nextProps.userReducer});
-    }
   }
 
   onChange = (event, {newValue}) => {
@@ -40,7 +38,7 @@ class UserAutosuggest extends Component {
     const inputValue = value.trim().toLowerCase();
     const inputLength = inputValue.length;
 
-    return inputLength === 0 ? [] : this.state.userReducer.allUsers
+    return inputLength === 0 ? [] : this.props.userReducer.allUsers
       .map(section => {
         return {
           department: section.department,
@@ -53,7 +51,7 @@ class UserAutosuggest extends Component {
       .filter(section => section.departmentUsers.length > 0);
   }
 
-// returns value which will populate input whn suggestion is selected
+// returns value which will populate input when suggestion is selected
   getSuggestionValue = suggestion => getFullName(suggestion);
 
   renderSuggestion = suggestion => (
@@ -93,10 +91,11 @@ class UserAutosuggest extends Component {
       allSelectedUsers: newListOfSelectedUsers,
       value: ''
     })
-    this.props.updateSelectedUsers(newListOfSelectedUsers);
+    const {actionType} = this.props
+    this.props.updateSelectedUsers(newListOfSelectedUsers, actionType);
 
     //update remaining suggestion possibilities
-    let remainingUsers = this.state.userReducer.allUsers
+    let remainingUsers = this.props.userReducer.allUsers
       .map(section => {
         return {
           department: section.department,
@@ -117,10 +116,11 @@ class UserAutosuggest extends Component {
     this.setState({
       allSelectedUsers: updatedValues
     });
-    this.props.updateSelectedUsers(updatedValues);
+    const {actionType} = this.props
+    this.props.updateSelectedUsers(updatedValues, actionType);
 
     //update remaining suggestion possibilities
-    let newListOfPossibilities = this.state.userReducer.allUsers
+    let remainingUsers = this.props.userReducer.allUsers
       .map(section => {
         return {
           department: section.department,
@@ -129,12 +129,12 @@ class UserAutosuggest extends Component {
           departmentUsers: (e.department === section.department) ? [...section.departmentUsers, e] : section.departmentUsers
         }
       });
-    this.props.updateAllUsers(newListOfPossibilities);
+    this.props.updateAllUsers(remainingUsers);
   }
 
   render() {
     const {value, suggestions} = this.state;
-    const {placeholder} = this.props
+    const {placeholder} = this.props;
 
     const showPlaceholder = this.state.allSelectedUsers.length === 0 ? placeholder : "";
     const inputProps = {
@@ -148,7 +148,8 @@ class UserAutosuggest extends Component {
       const currentValue = (
         <Button variant="autosuggest" size="sm" key={this.state.allSelectedUsers[i].userId}>
           {getFullName(this.state.allSelectedUsers[i])}
-            <i className="fas fa-times-circle fa-times-circle-close" onClick={() => this.onDismissClick(this.state.allSelectedUsers[i])}/>
+          <i className="fas fa-times-circle fa-times-circle-close"
+             onClick={() => this.onDismissClick(this.state.allSelectedUsers[i])}/>
         </Button>
       );
       previousValues = [...previousValues, currentValue];
@@ -185,4 +186,8 @@ const mapStateToProps = state => ({
   userReducer: state.userReducer
 });
 
-export default connect(mapStateToProps, {getAllUsers, updateSelectedUsers, updateAllUsers})(UserAutosuggest);
+export default connect(mapStateToProps, {
+  getAllUsers,
+  updateSelectedUsers,
+  updateAllUsers
+}, null, {forwardRef: true})(UserAutosuggest);

@@ -1,6 +1,6 @@
 import axios from "axios";
-import {GET_ALL_USERS, UPDATE_ALL_USERS, UPDATE_SELECTED_USERS} from "./types";
-import { properties } from "../properties.js";
+import {GET_ALL_USERS, UPDATE_ALL_USERS} from "./types";
+import {properties} from "../properties.js";
 import {USERS_GROUPED_URL} from "../properties";
 
 export const getAllUsers = () => async dispatch => {
@@ -12,9 +12,9 @@ export const getAllUsers = () => async dispatch => {
   });
 };
 
-export const updateSelectedUsers = (selectedUsers) => dispatch => {
+export const updateSelectedUsers = (selectedUsers, actionType) => dispatch => {
   dispatch({
-    type: UPDATE_SELECTED_USERS,
+    type: actionType,
     payload: selectedUsers
   });
 };
