@@ -10,11 +10,11 @@
 
 .btn-link:hover {
   color: #bd8f3a;
-  text-decoration: underline;
+  text-decoration: none;
 }
 
 .btn-link:focus, .btn-link.focus {
-  text-decoration: underline;
+  text-decoration: none;
   box-shadow: none;
 }
 

@@ -26,11 +26,15 @@ export const createDocument = (document, history) => async dispatch => {
       type: DOCUMENT_CREATED,
       payload: res.data
     });
-  } catch (err) {
-    dispatch({
-      type: GET_ERRORS,
-      payload: err.response.data
-    });
+  } catch (error) {
+    if (error.response) {
+      dispatch({
+        type: GET_ERRORS,
+        payload: error.response.data
+      });
+    } else {
+      alert('Something went wrong');
+    }
   }
 };
 

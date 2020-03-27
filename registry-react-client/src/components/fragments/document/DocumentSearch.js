@@ -16,6 +16,7 @@ import {
   UPDATE_SELECTED_USERS_FOR_DESTINATION_SEARCH,
   UPDATE_SELECTED_USERS_FOR_ORIGIN_SEARCH
 } from "../../../actions/types";
+import {getAllUsers} from "../../../actions/userActions";
 
 class DocumentSearch extends Component {
   constructor(props) {
@@ -66,6 +67,10 @@ class DocumentSearch extends Component {
         this.setState({destinationUsers: snapshot.destination});
       }
     }
+  }
+
+  componentWillUnmount() {
+    this.props.getAllUsers();
   }
 
   onChange(e) {
@@ -232,11 +237,12 @@ class DocumentSearch extends Component {
 
 DocumentSearch.propTypes = {
   documentReducer: PropTypes.object.isRequired,
-  getDocuments: PropTypes.func.isRequired
+  getDocuments: PropTypes.func.isRequired,
+  getAllUsers: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
   documentReducer: state.documentReducer,
 });
 
-export default connect(mapStateToProps, {getDocuments})(DocumentSearch);
+export default connect(mapStateToProps, {getDocuments, getAllUsers})(DocumentSearch);

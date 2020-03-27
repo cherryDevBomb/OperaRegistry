@@ -1,8 +1,5 @@
 import React, {Component} from "react";
 import DocumentRow from "../fragments/document/DocumentRow";
-import Form from "react-bootstrap/Form";
-import FormControl from "react-bootstrap/FormControl";
-import Button from "react-bootstrap/Button";
 import Table from "react-bootstrap/Table";
 import {connect} from "react-redux";
 import {getDocuments} from "../../actions/documentActions";

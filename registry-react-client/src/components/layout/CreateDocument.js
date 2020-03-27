@@ -7,12 +7,13 @@ import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {createDocument} from "../../actions/documentActions";
 import UserAutosuggest from "../fragments/user/UserAutosuggest";
-import {getFullName, getInitials} from "../../utils/userUtils";
+import {getFullName} from "../../utils/userUtils";
 import Jumbotron from "react-bootstrap/Jumbotron";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import {UPDATE_SELECTED_USERS_FOR_DOCUMENT_HISTORY} from "../../actions/types";
+import {updateAllUsers} from "../../actions/userActions";
 
 class CreateDocument extends Component {
   constructor() {
@@ -37,6 +38,10 @@ class CreateDocument extends Component {
     if (nextProps.errorReducer) {
       this.setState({errorReducer: nextProps.errorReducer});
     }
+  }
+
+  componentWillUnmount() {
+    this.props.updateAllUsers([]);
   }
 
   onChange(e) {
@@ -234,7 +239,9 @@ class CreateDocument extends Component {
         <Row className="mt-2 align-items-center">
           <Col className="col-sm-4"></Col>
           <Col className="col-sm-8 my-auto">
-            <UserAutosuggest placeholder="Introduceți destinatarul" actionType={UPDATE_SELECTED_USERS_FOR_DOCUMENT_HISTORY}/>
+            <UserAutosuggest placeholder="Introduceți destinatarul"
+                             prevSelectedUsers={[]}
+                             actionType={UPDATE_SELECTED_USERS_FOR_DOCUMENT_HISTORY}/>
           </Col>
         </Row>
       </Container>
@@ -318,7 +325,8 @@ CreateDocument.propTypes = {
   errorReducer: PropTypes.object.isRequired,
   securityReducer: PropTypes.object.isRequired,
   userReducer: PropTypes.object.isRequired,
-  createDocument: PropTypes.func.isRequired
+  createDocument: PropTypes.func.isRequired,
+  updateAllUsers: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -327,4 +335,4 @@ const mapStateToProps = state => ({
   userReducer: state.userReducer
 });
 
-export default connect(mapStateToProps, {createDocument})(CreateDocument);
+export default connect(mapStateToProps, {createDocument, updateAllUsers})(CreateDocument);
