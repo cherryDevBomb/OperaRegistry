@@ -20,10 +20,8 @@ import DocumentTable from "./components/layout/DocumentTable";
 import CreateDocument from "./components/layout/CreateDocument";
 import LandingPage from "./components/layout/LandingPage";
 import Register from "./components/fragments/security/Register";
-import Login from "./components/fragments/security/Login";
 import {
   DOCUMENTS_PATH,
-  LOGIN_PATH,
   MY_DOCUMENTS_PATH,
   NEW_DOCUMENT_PATH,
   NEW_DOCUMENT_UPLOAD_FILE_PATH,

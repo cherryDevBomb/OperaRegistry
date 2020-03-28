@@ -126,7 +126,6 @@ class UserAutosuggest extends Component {
         return {
           department: section.department,
           departmentName: section.departmentName,
-
           departmentUsers: (e.department === section.department) ? [...section.departmentUsers, e] : section.departmentUsers
         }
       });

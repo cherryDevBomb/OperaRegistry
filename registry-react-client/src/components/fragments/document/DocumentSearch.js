@@ -58,7 +58,9 @@ class DocumentSearch extends Component {
     return snapshot;
   }
 
+  //save selected users to state before updating component
   componentDidUpdate(prevProps, prevState, snapshot) {
+    console.log("DocSearch componentDidUpdate");
     if (snapshot) {
       if (snapshot.origin) {
         this.setState({originUsers: snapshot.origin});
@@ -74,12 +76,22 @@ class DocumentSearch extends Component {
   }
 
   onChange(e) {
+    // console.log("onChange in DocSearch triggered");
     this.setState({[e.target.name]: e.target.value});
   }
 
   onSubmit(e) {
     e.preventDefault();
-
+    let origin = this.refOrigin.current.props.userReducer.selectedUsersForOriginSearch;
+    let destination = this.refDestination.current.props.userReducer.selectedUsersForDestinationSearch;
+    if (origin !== this.state.originUsers) {
+      this.setState({originUsers: origin});
+    }
+    if (destination !== this.state.destinationUsers) {
+      this.setState({destinationUsers: destination}, function () {
+        console.log(this.state);
+      });
+    }
 
     // const {document} = this.props;
     // this.props.downloadFile(document.registryNumber);

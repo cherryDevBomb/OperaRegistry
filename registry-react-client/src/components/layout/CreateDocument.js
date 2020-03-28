@@ -34,9 +34,18 @@ class CreateDocument extends Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
-  componentWillReceiveProps(nextProps) {
+  static getDerivedStateFromProps(nextProps, prevState) {
     if (nextProps.errorReducer) {
-      this.setState({errorReducer: nextProps.errorReducer});
+      return {errorReducer: nextProps.errorReducer};
+    }
+    else {
+      return null;
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState, ss) {
+    if(prevProps.errorReducer && prevProps.errorReducer !== this.props.errorReducer) {
+      this.setState({errorReducer: prevProps.errorReducer});
     }
   }
 
@@ -153,7 +162,7 @@ class CreateDocument extends Component {
           </Col>
 
           <Col className="col-sm-8 my-auto">
-            <Form.Group controlId="formGroupExtOrigin" className="mb-0">
+            <Form.Group className="mb-0">
               <Form.Control
                 name="origin"
                 type="text"
@@ -187,7 +196,7 @@ class CreateDocument extends Component {
           </Col>
 
           <Col className="col-sm-8 my-auto">
-            <Form.Group controlId="formGroupTitle" className="mb-0">
+            <Form.Group className="mb-0">
               <Form.Control
                 id="title"
                 name="title"
@@ -252,7 +261,7 @@ class CreateDocument extends Component {
         <Row className="mt-2 align-items-center">
           <Col className="col-sm-4"></Col>
           <Col className="col-sm-8 my-auto">
-            <Form.Group controlId="formGroupExtDestination" className="mb-0">
+            <Form.Group className="mb-0">
               <Form.Control
                 name="recipients"
                 type="text"
@@ -278,7 +287,7 @@ class CreateDocument extends Component {
           </Col>
 
           <Col className="col-sm-8 my-auto">
-            <Form.Group controlId="formGroupSentMessage" className="mb-0">
+            <Form.Group className="mb-0">
               <Form.Control
                 name="sentMessage"
                 type="text"
