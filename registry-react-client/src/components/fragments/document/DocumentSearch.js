@@ -7,7 +7,7 @@ import {getDocuments} from "../../../actions/documentActions";
 import PropTypes from "prop-types";
 import InputGroup from "react-bootstrap/InputGroup";
 import Dropdown from "react-bootstrap/Dropdown";
-import "../../../style/reusables/documentSearch.css"
+import "../../../style/reusables/document-search.css"
 import Container from "react-bootstrap/Container";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
@@ -17,6 +17,8 @@ import {
   UPDATE_SELECTED_USERS_FOR_ORIGIN_SEARCH
 } from "../../../actions/types";
 import {getAllUsers} from "../../../actions/userActions";
+import DatePicker from "react-datepicker/es";
+import 'react-datepicker/dist/react-datepicker.css';
 
 class DocumentSearch extends Component {
   constructor(props) {
@@ -34,7 +36,9 @@ class DocumentSearch extends Component {
       destination: "",
       state: "Oricare",
       searchStr: "",
-      createdDate: "Oricând"
+      createdDate: "Oricând",
+      from: new Date(),
+      to: new Date()
     };
 
     this.onChange = this.onChange.bind(this);
@@ -60,7 +64,6 @@ class DocumentSearch extends Component {
 
   //save selected users to state before updating component
   componentDidUpdate(prevProps, prevState, snapshot) {
-    console.log("DocSearch componentDidUpdate");
     if (snapshot) {
       if (snapshot.origin) {
         this.setState({originUsers: snapshot.origin});
@@ -76,14 +79,28 @@ class DocumentSearch extends Component {
   }
 
   onChange(e) {
-    // console.log("onChange in DocSearch triggered");
     this.setState({[e.target.name]: e.target.value});
+  }
+
+  onDateChange(field, newDate) {
+    this.setState({
+      [field]: newDate
+    });
   }
 
   onSubmit(e) {
     e.preventDefault();
-    let origin = this.refOrigin.current.props.userReducer.selectedUsersForOriginSearch;
-    let destination = this.refDestination.current.props.userReducer.selectedUsersForDestinationSearch;
+    console.log("submit called")
+
+    // check of origin & destinaton should be updated
+    let origin;
+    let destination;
+    if (this.refOrigin && this.refOrigin.current) {
+      origin = this.refOrigin.current.props.userReducer.selectedUsersForOriginSearch;
+    }
+    if (this.refDestination && this.refDestination.current) {
+      destination = this.refDestination.current.props.userReducer.selectedUsersForDestinationSearch;
+    }
     if (origin !== this.state.originUsers) {
       this.setState({originUsers: origin});
     }
@@ -93,6 +110,7 @@ class DocumentSearch extends Component {
       });
     }
 
+    // perform search
     // const {document} = this.props;
     // this.props.downloadFile(document.registryNumber);
   }
@@ -136,6 +154,33 @@ class DocumentSearch extends Component {
       );
     }
 
+    let specificDateInput;
+    if (this.state.createdDate === "Personalizat") {
+      specificDateInput = (
+        <React.Fragment>
+          <Row>
+            <Col className="col-sm-2 my-auto"/>
+            <Col className="mt-3">Între:</Col>
+          </Row>
+          <Row>
+            <Col className="col-sm-2 my-auto"/>
+            <Col className="col-sm-5 my-auto">
+              <DatePicker id="from"
+                          name="from"
+                          value={this.state.from.toLocaleDateString("en-GB")}
+                          onChange={(e) => this.onDateChange("from", e)}/>
+            </Col>
+            <Col className="col-sm-5 my-auto">
+              <DatePicker id="to"
+                          name="to"
+                          value={this.state.to.toLocaleDateString("en-GB")}
+                          onChange={(e) => this.onDateChange("to", e)}/>
+            </Col>
+          </Row>
+        </React.Fragment>
+      )
+    }
+
     const CustomDropdown = React.forwardRef(
       ({children, style, className, 'aria-labelledby': labeledBy}, ref) => {
         return (
@@ -145,12 +190,11 @@ class DocumentSearch extends Component {
             className={className}
             aria-labelledby={labeledBy}
           >
-            <Container>
+            <Container className="search-dropdown-inner">
               <Row className="mt-3 align-items-center">
                 <Col className="col-sm-2 my-auto">
-                  <strong className="float-right">Emitent</strong>
+                  <strong>Emitent</strong>
                 </Col>
-
                 <Col className="col-sm-5 my-auto">
                   <Form.Control as="select"
                                 name="originType"
@@ -162,15 +206,13 @@ class DocumentSearch extends Component {
                     <option value="O anumită persoană">O anumită persoană</option>
                   </Form.Control>
                 </Col>
-
                 {specificPersonOriginInput}
               </Row>
 
               <Row className="mt-3 align-items-center">
                 <Col className="col-sm-2 my-auto">
-                  <strong className="float-right">Destinatar</strong>
+                  <strong>Destinatar</strong>
                 </Col>
-
                 <Col className="col-sm-5 my-auto">
                   <Form.Control as="select"
                                 value={this.state.destinationType}
@@ -181,39 +223,84 @@ class DocumentSearch extends Component {
                     <option value="Extern">Extern</option>
                     <option value="O anumită persoană">O anumită persoană</option>
                   </Form.Control>
-
-                  {/*<Form.Group controlId="formGroupTitle" className="mb-0">*/}
-                  {/*  <Form.Control*/}
-                  {/*    id="title"*/}
-                  {/*    name="title"*/}
-                  {/*    type="text"*/}
-                  {/*    placeholder="Introduceți conținutul pe scurt al documentului"*/}
-                  {/*    value={this.state.title}*/}
-                  {/*    onChange={this.onChange}*/}
-                  {/*  />*/}
-                  {/*</Form.Group>*/}
                 </Col>
-
                 {specificPersonDestinationInput}
               </Row>
 
+              <Row className="mt-3 align-items-center">
+                <Col className="col-sm-2 my-auto">
+                  <strong>Stare</strong>
+                </Col>
+                <Col className="col-sm-5 my-auto">
+                  <Form.Control as="select"
+                                name="state"
+                                value={this.state.state}
+                                onChange={this.onChange}>
+                    <option value="Oricare">Oricare</option>
+                    <option value="Arhivate">Arhivate</option>
+                    <option value="Nearhivate">Nearhivate</option>
+                  </Form.Control>
+                </Col>
+              </Row>
+
+              <Row className="mt-3 align-items-center">
+                <Col className="col-sm-2 my-auto">
+                  <strong>Nume</strong>
+                </Col>
+                <Col className="col-sm-10 my-auto w-100">
+                  <FormControl
+                    name="searchStr"
+                    className="my-2 w-100"
+                    placeholder="Introduceți un termen care face parte din titlu sau numărul de înregistrare"
+                    onChange={this.onChange}
+                    value={this.state.searchStr}
+                  />
+                </Col>
+              </Row>
+
+              <Row className="mt-3 align-items-center">
+                <Col className="col-sm-2 my-auto">
+                  <strong>Data înregistrării</strong>
+                </Col>
+                <Col className="col-sm-5 my-auto">
+                  <Form.Control as="select"
+                                value={this.state.destinationType}
+                                name="createdDate"
+                                onChange={this.onChange}>
+                    <option value="Oricând">Oricând</option>
+                    <option value="Astăzi">Astăzi</option>
+                    <option value="Ieri">Ieri</option>
+                    <option value="În ultimile 7 zile">În ultimile 7 zile</option>
+                    <option value="În ultimile 30 de zile">În ultimile 30 de zile</option>
+                    <option value="Personalizat">Personalizat</option>
+                  </Form.Control>
+                </Col>
+              </Row>
+              {specificDateInput}
+
+              <Row className="mt-3 mb-2 justify-content-end">
+                <Col xs="auto" className="my-auto">
+                  <Button variant="light" type="submit" className="mr-n2"
+                  >
+                    <strong>Resetați</strong>
+                  </Button>
+                </Col>
+                <Col xs="auto" className="my-auto">
+                  <Button variant="primary" type="submit" className="mr-0"
+                  >
+                    Căutați
+                  </Button>
+                </Col>
+              </Row>
 
             </Container>
-            <FormControl
-              autoFocus
-              name="searchStr"
-              className="mx-3 my-2 w-auto"
-              placeholder="Part of title"
-              onChange={this.onChange}
-              value={this.state.searchStr}
-            />
           </div>
         );
       },
     );
 
     return (
-      <Container className="searchContainer mx-auto shadow">
+      <Container className="search-container mx-auto shadow">
         <Form onSubmit={this.onSubmit}>
           <InputGroup className="mt-3 mx-2 align-self-center">
             <InputGroup.Prepend>
@@ -237,7 +324,7 @@ class DocumentSearch extends Component {
             <InputGroup.Append className="ml-3">
               <Dropdown alignRight>
                 <Dropdown.Toggle as={CustomToggle}/>
-                <Dropdown.Menu as={CustomDropdown} className="dropdown-search mr-n2 mt-n1"/>
+                <Dropdown.Menu as={CustomDropdown} className="dropdown-search mr-n2 mt-0"/>
               </Dropdown>
             </InputGroup.Append>
           </InputGroup>
