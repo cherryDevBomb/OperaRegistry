@@ -4,8 +4,14 @@ import {
   GET_DOCUMENTS_RECEIVED_ARCHIVED,
   GET_DOCUMENTS_RECEIVED_OPEN,
   GET_MY_DOCUMENTS_ARCHIVED,
-  GET_MY_DOCUMENTS_OPEN
+  GET_MY_DOCUMENTS_OPEN,
+  SAVE_SEARCH_DETAILS
 } from "../actions/types";
+import {getDefaultSearchDetails} from "../utils/documentUtils";
+
+// let prevSearch = localStorage.searchDetails;
+// let searchDetails = prevSearch ? prevSearch : getDefaultSearchDetails();
+let searchDetails = getDefaultSearchDetails();
 
 const initialState = {
   documents: [],
@@ -13,6 +19,8 @@ const initialState = {
   myDocumentsArchived: [],
   documentsReceivedOpen: [],
   documentsReceivedArchived: [],
+  // searchDetails: {},
+  searchDetails: searchDetails,
   mostRecentRegNr: null
 };
 
@@ -22,6 +30,11 @@ export default function (state = initialState, action) {
       return {
         ...state,
         documents: action.payload
+      };
+    case SAVE_SEARCH_DETAILS:
+      return {
+        ...state,
+        searchDetails: action.payload
       };
     case GET_MY_DOCUMENTS_OPEN:
       return {

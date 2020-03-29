@@ -3,7 +3,7 @@ import Form from "react-bootstrap/Form";
 import FormControl from "react-bootstrap/FormControl";
 import Button from "react-bootstrap/Button";
 import {connect} from "react-redux";
-import {getDocuments} from "../../../actions/documentActions";
+import {getDocuments, saveSearchDetails} from "../../../actions/documentActions";
 import PropTypes from "prop-types";
 import InputGroup from "react-bootstrap/InputGroup";
 import Dropdown from "react-bootstrap/Dropdown";
@@ -19,6 +19,7 @@ import {
 import {getAllUsers} from "../../../actions/userActions";
 import DatePicker from "react-datepicker/es";
 import 'react-datepicker/dist/react-datepicker.css';
+import {getDefaultSearchDetails} from "../../../utils/documentUtils";
 
 class DocumentSearch extends Component {
   constructor(props) {
@@ -27,19 +28,10 @@ class DocumentSearch extends Component {
     this.refOrigin = React.createRef();
     this.refDestination = React.createRef();
 
-    this.state = {
-      originType: "Oricare",
-      originUsers: [],
-      origin: "",
-      destinationType: "Oricare",
-      destinationUsers: [],
-      destination: "",
-      state: "Oricare",
-      searchStr: "",
-      createdDate: "Oricând",
-      from: new Date(),
-      to: new Date()
-    };
+    const {searchDetails} = this.props.documentReducer;
+    this.state = searchDetails;
+
+    this.lastFieldChanged = "";
 
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
@@ -72,6 +64,9 @@ class DocumentSearch extends Component {
         this.setState({destinationUsers: snapshot.destination});
       }
     }
+
+    console.log("prevProps", prevProps);
+    console.log("state", this.state);
   }
 
   componentWillUnmount() {
@@ -80,19 +75,26 @@ class DocumentSearch extends Component {
 
   onChange(e) {
     this.setState({[e.target.name]: e.target.value});
+    this.lastFieldChanged = e.target.name;
   }
 
   onDateChange(field, newDate) {
     this.setState({
       [field]: newDate
     });
+    this.lastFieldChanged = field;
+  }
+
+  resetSearchDetails() {
+    this.props.saveSearchDetails(getDefaultSearchDetails());
+    this.state = this.props.documentReducer.searchDetails;
   }
 
   onSubmit(e) {
     e.preventDefault();
     console.log("submit called")
 
-    // check of origin & destinaton should be updated
+    // check if origin & destination should be updated & saved to store
     let origin;
     let destination;
     if (this.refOrigin && this.refOrigin.current) {
@@ -102,17 +104,17 @@ class DocumentSearch extends Component {
       destination = this.refDestination.current.props.userReducer.selectedUsersForDestinationSearch;
     }
     if (origin !== this.state.originUsers) {
-      this.setState({originUsers: origin});
+      this.setState({originUsers: origin}, () => {
+        this.props.saveSearchDetails(this.state);
+      });
     }
     if (destination !== this.state.destinationUsers) {
-      this.setState({destinationUsers: destination}, function () {
-        console.log(this.state);
+      this.setState({destinationUsers: destination}, () => {
+        this.props.saveSearchDetails(this.state);
       });
     }
 
     // perform search
-    // const {document} = this.props;
-    // this.props.downloadFile(document.registryNumber);
   }
 
   render() {
@@ -249,6 +251,7 @@ class DocumentSearch extends Component {
                 </Col>
                 <Col className="col-sm-10 my-auto w-100">
                   <FormControl
+                    autoFocus={this.lastFieldChanged === "state" || this.lastFieldChanged === "searchStr"}
                     name="searchStr"
                     className="my-2 w-100"
                     placeholder="Introduceți un termen care face parte din titlu sau numărul de înregistrare"
@@ -280,7 +283,8 @@ class DocumentSearch extends Component {
 
               <Row className="mt-3 mb-2 justify-content-end">
                 <Col xs="auto" className="my-auto">
-                  <Button variant="light" type="submit" className="mr-n2"
+                  <Button variant="light" className="mr-n2"
+                          onClick={this.resetSearchDetails.bind(this)}
                   >
                     <strong>Resetați</strong>
                   </Button>
@@ -337,11 +341,12 @@ class DocumentSearch extends Component {
 DocumentSearch.propTypes = {
   documentReducer: PropTypes.object.isRequired,
   getDocuments: PropTypes.func.isRequired,
-  getAllUsers: PropTypes.func.isRequired
+  getAllUsers: PropTypes.func.isRequired,
+  saveSearchDetails: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
   documentReducer: state.documentReducer,
 });
 
-export default connect(mapStateToProps, {getDocuments, getAllUsers})(DocumentSearch);
+export default connect(mapStateToProps, {getDocuments, getAllUsers, saveSearchDetails})(DocumentSearch);

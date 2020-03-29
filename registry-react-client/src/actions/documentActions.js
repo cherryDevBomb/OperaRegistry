@@ -6,7 +6,8 @@ import {
   GET_DOCUMENTS_RECEIVED_OPEN,
   GET_ERRORS,
   GET_MY_DOCUMENTS_ARCHIVED,
-  GET_MY_DOCUMENTS_OPEN
+  GET_MY_DOCUMENTS_OPEN,
+  SAVE_SEARCH_DETAILS
 } from "./types";
 import {properties} from "../properties.js";
 import {
@@ -16,6 +17,7 @@ import {
   MY_DOCUMENTS_URL,
   NEW_DOCUMENT_UPLOAD_FILE_PATH
 } from "../properties";
+import {getSearchParams} from "../utils/documentUtils";
 
 export const createDocument = (document, history) => async dispatch => {
   try {
@@ -46,6 +48,24 @@ export const getDocuments = () => async dispatch => {
     payload: res.data
   });
 };
+
+export const searchDocuments = (searchDetails) => async dispatch => {
+    const path = properties.serverURL + DOCUMENTS_URL;
+    const searchParams = getSearchParams(searchDetails);
+    const res = await axios.get(path, { params: searchParams});
+    dispatch({
+      type: GET_DOCUMENTS,
+      payload: res.data
+    });
+};
+
+export const saveSearchDetails = searchDetails => async dispatch => {
+  console.log("saveSearchDetails in actions", searchDetails);
+  dispatch({
+    type: SAVE_SEARCH_DETAILS,
+    payload: searchDetails
+  });
+}
 
 export const getMyDocumentsOpen = () => async dispatch => {
   const path = properties.serverURL + MY_DOCUMENTS_URL;
