@@ -38,7 +38,9 @@
   border: 0px solid #ffffff;
   border-radius: 4px;
   padding: 0 0;
+  margin: 0;
   max-width: fit-content;
+  background-color: transparent;
 }
 
 .react-autosuggest__input--focused {

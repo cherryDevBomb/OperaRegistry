@@ -9,6 +9,7 @@
     "@testing-library/user-event": "^7.2.1",
     "axios": "^0.19.2",
     "bootstrap": "^4.4.1",
+    "bootstrap-select": "^1.13.12",
     "file-saver": "^2.0.2",
     "js-base64": "^2.5.2",
     "jwt-decode": "^2.2.0",

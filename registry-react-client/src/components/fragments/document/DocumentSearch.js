@@ -7,7 +7,6 @@ import {getDocuments, saveSearchDetails} from "../../../actions/documentActions"
 import PropTypes from "prop-types";
 import InputGroup from "react-bootstrap/InputGroup";
 import Dropdown from "react-bootstrap/Dropdown";
-import "../../../style/reusables/document-search.css"
 import Container from "react-bootstrap/Container";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
@@ -19,6 +18,8 @@ import {
 import {getAllUsers} from "../../../actions/userActions";
 import DatePicker from "react-datepicker/es";
 import 'react-datepicker/dist/react-datepicker.css';
+import "../../../style/reusables/document-search.css"
+// import 'bootstrap-select/dist/css/bootstrap-select.css'
 import {getDefaultSearchDetails} from "../../../utils/documentUtils";
 
 class DocumentSearch extends Component {
@@ -64,9 +65,6 @@ class DocumentSearch extends Component {
         this.setState({destinationUsers: snapshot.destination});
       }
     }
-
-    console.log("prevProps", prevProps);
-    console.log("state", this.state);
   }
 
   componentWillUnmount() {
@@ -87,14 +85,29 @@ class DocumentSearch extends Component {
 
   resetSearchDetails() {
     this.props.saveSearchDetails(getDefaultSearchDetails());
-    this.state = this.props.documentReducer.searchDetails;
+
+    const newState = this.props.documentReducer.searchDetails;
+    this.setState(
+      {
+      originType: "Oricare",
+      originUsers: [],
+      origin: "",
+      destinationType: "Oricare",
+      destinationUsers: [],
+      destination: "",
+      state: "Oricare",
+      searchStr: "",
+      createdDate: "Oricând",
+      from: new Date(),
+      to: new Date()
+      }
+    )
   }
 
   onSubmit(e) {
     e.preventDefault();
-    console.log("submit called")
 
-    // check if origin & destination should be updated & saved to store
+    // check if origin & destination should be updated before saving state to store
     let origin;
     let destination;
     if (this.refOrigin && this.refOrigin.current) {
@@ -103,15 +116,18 @@ class DocumentSearch extends Component {
     if (this.refDestination && this.refDestination.current) {
       destination = this.refDestination.current.props.userReducer.selectedUsersForDestinationSearch;
     }
-    if (origin !== this.state.originUsers) {
+    if (origin && (origin !== this.state.originUsers)) {
       this.setState({originUsers: origin}, () => {
         this.props.saveSearchDetails(this.state);
       });
     }
-    if (destination !== this.state.destinationUsers) {
+    else if (destination && (destination !== this.state.destinationUsers)) {
       this.setState({destinationUsers: destination}, () => {
         this.props.saveSearchDetails(this.state);
       });
+    }
+    else {
+      this.props.saveSearchDetails(this.state);
     }
 
     // perform search
@@ -135,7 +151,7 @@ class DocumentSearch extends Component {
     let specificPersonOriginInput;
     if (this.state.originType === "O anumită persoană") {
       specificPersonOriginInput = (
-        <Col className="col-sm-5 my-auto">
+        <Col className="col-sm-6 ">
           <UserAutosuggest ref={this.refOrigin}
                            placeholder="Introduceți numele"
                            prevSelectedUsers={this.state.originUsers}
@@ -147,7 +163,7 @@ class DocumentSearch extends Component {
     let specificPersonDestinationInput;
     if (this.state.destinationType === "O anumită persoană") {
       specificPersonDestinationInput = (
-        <Col className="col-sm-5 my-auto">
+        <Col className="col-sm-6">
           <UserAutosuggest ref={this.refDestination}
                            placeholder="Introduceți numele"
                            prevSelectedUsers={this.state.destinationUsers}
@@ -164,18 +180,24 @@ class DocumentSearch extends Component {
             <Col className="col-sm-2 my-auto"/>
             <Col className="mt-3">Între:</Col>
           </Row>
-          <Row>
+          <Row className="mt-2">
             <Col className="col-sm-2 my-auto"/>
-            <Col className="col-sm-5 my-auto">
+            <Col className="col-sm-4 my-auto">
               <DatePicker id="from"
                           name="from"
+                          className="mr-2"
+                          maxDate={this.state.to}
                           value={this.state.from.toLocaleDateString("en-GB")}
+                          selected={this.state.from}
                           onChange={(e) => this.onDateChange("from", e)}/>
             </Col>
-            <Col className="col-sm-5 my-auto">
+            <Col className="col-sm-4 my-auto">
               <DatePicker id="to"
                           name="to"
+                          minDate={this.state.from}
+                          maxDate={new Date()}
                           value={this.state.to.toLocaleDateString("en-GB")}
+                          selected={this.state.to}
                           onChange={(e) => this.onDateChange("to", e)}/>
             </Col>
           </Row>
@@ -193,11 +215,11 @@ class DocumentSearch extends Component {
             aria-labelledby={labeledBy}
           >
             <Container className="search-dropdown-inner">
-              <Row className="mt-3 align-items-center">
-                <Col className="col-sm-2 my-auto">
+              <Row className="mt-3 align-items-baseline">
+                <Col className="col-sm-2">
                   <strong>Emitent</strong>
                 </Col>
-                <Col className="col-sm-5 my-auto">
+                <Col className="col-sm-4">
                   <Form.Control as="select"
                                 name="originType"
                                 value={this.state.originType}
@@ -211,11 +233,11 @@ class DocumentSearch extends Component {
                 {specificPersonOriginInput}
               </Row>
 
-              <Row className="mt-3 align-items-center">
-                <Col className="col-sm-2 my-auto">
+              <Row className="mt-3 align-items-baseline">
+                <Col className="col-sm-2">
                   <strong>Destinatar</strong>
                 </Col>
-                <Col className="col-sm-5 my-auto">
+                <Col className="col-sm-4">
                   <Form.Control as="select"
                                 value={this.state.destinationType}
                                 name="destinationType"
@@ -233,7 +255,7 @@ class DocumentSearch extends Component {
                 <Col className="col-sm-2 my-auto">
                   <strong>Stare</strong>
                 </Col>
-                <Col className="col-sm-5 my-auto">
+                <Col className="col-sm-4 my-auto">
                   <Form.Control as="select"
                                 name="state"
                                 value={this.state.state}
@@ -265,9 +287,9 @@ class DocumentSearch extends Component {
                 <Col className="col-sm-2 my-auto">
                   <strong>Data înregistrării</strong>
                 </Col>
-                <Col className="col-sm-5 my-auto">
+                <Col className="col-sm-4 my-auto">
                   <Form.Control as="select"
-                                value={this.state.destinationType}
+                                value={this.state.createdDate}
                                 name="createdDate"
                                 onChange={this.onChange}>
                     <option value="Oricând">Oricând</option>

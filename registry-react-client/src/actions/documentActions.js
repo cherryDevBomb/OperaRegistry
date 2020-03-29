@@ -60,7 +60,6 @@ export const searchDocuments = (searchDetails) => async dispatch => {
 };
 
 export const saveSearchDetails = searchDetails => async dispatch => {
-  console.log("saveSearchDetails in actions", searchDetails);
   dispatch({
     type: SAVE_SEARCH_DETAILS,
     payload: searchDetails
