@@ -1,0 +1,133 @@
+\documentclass[a4paper,12pt]{report}
+
+\usepackage{algorithmic}
+\usepackage{algorithm} 
+\usepackage{array}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{caption}
+\usepackage{comment} 
+\usepackage{epsfig} 
+\usepackage{fancyhdr}
+\usepackage[T1]{fontenc}
+\usepackage{geometry} 
+\usepackage{graphicx}
+\usepackage[colorlinks]{hyperref} 
+\usepackage[latin1]{inputenc}
+\usepackage{multicol}
+\usepackage{multirow} 
+\usepackage{rotating}
+\usepackage{setspace}
+\usepackage{subfigure}
+\usepackage{url}
+\usepackage{verbatim}
+\usepackage{xcolor}
+
+\geometry{a4paper,top=3cm,left=2cm,right=2cm,bottom=3cm}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{Project's name}
+\fancyhead[R]{Author's name}
+\fancyfoot[C]{\thepage}
+
+\renewcommand{\headrulewidth}{0.5pt}
+\renewcommand{\footrulewidth}{0pt}
+\renewcommand{\headrule}{\hbox to\headwidth{%
+  \color{black}\leaders\hrule height \headrulewidth\hfill}}
+\renewcommand{\footrule}{\hbox to\headwidth{%
+  \color{black}\leaders\hrule height \footrulewidth\hfill}}
+
+\hypersetup{
+pdftitle={diplomaThesis},
+pdfauthor={name},
+pdfkeywords={pdf, latex, tex, ps2pdf, dvipdfm, pdflatex},
+bookmarksnumbered,
+pdfstartview={FitH},
+urlcolor=cyan,
+colorlinks=true,
+linkcolor=black,
+citecolor=cyan,
+}
+% \pagestyle{plain}
+
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
+
+\linespread{1}
+
+% \pagestyle{myheadings}
+
+\makeindex
+
+
+\begin{document}
+
+\begin{titlepage}
+  \sloppy
+  \begin{center}
+    BABE\c S BOLYAI UNIVERSITY, CLUJ NAPOCA, ROM\^ ANIA
+
+    FACULTY OF MATHEMATICS AND COMPUTER SCIENCE
+
+    \vspace{6cm}
+
+    \Huge \textbf{TITLE}
+
+    \vspace{1cm}
+
+    \normalsize Diploma thesis
+
+  \end{center}
+
+
+  \vspace{5cm}
+
+  \begin{flushright}
+    \Large{\textbf{Author}}\\
+    \c Turcan Olga
+  \end{flushright}
+
+  \vspace{4cm}
+
+  \begin{center}
+    2020
+  \end{center}
+
+\end{titlepage}
+
+\pagenumbering{gobble}
+
+\begin{abstract}
+  Text of abstract.
+\end{abstract}
+
+
+\tableofcontents
+
+\newpage
+
+\listoffigures
+\listoftables
+
+\newpage
+
+\setstretch{1.25}
+
+\newpage
+
+\pagenumbering{arabic}
+
+\include{chapters/introduction}
+\include{chapters/problem}
+\include{chapters/technologies}
+\include{chapters/application}
+\include{chapters/conclusions}
+
+\bibliographystyle{plain}
+\bibliography{BibAll}
+
+\end{document}
+
