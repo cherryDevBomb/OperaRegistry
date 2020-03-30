@@ -1,12 +1,10 @@
 
 export const getDefaultSearchDetails = () => {
   return {
-    originType: "Oricare",
+    originType: "Oricine",
     originUsers: [],
-    origin: "",
-    destinationType: "Oricare",
+    destinationType: "Oricine",
     destinationUsers: [],
-    destination: "",
     state: "Oricare",
     searchStr: "",
     createdDate: "Oricând",
@@ -16,5 +14,41 @@ export const getDefaultSearchDetails = () => {
 }
 
 export const getSearchParams = searchDetails => {
-  return {};
+  let searchParams = {};
+
+  const docTypes = mapSearchDetailsTypesToDocTypes(searchDetails.originType, searchDetails.destinationType);
+
+  
 };
+
+const mapSearchDetailsTypesToDocTypes = (origin, destination) => {
+  const INTERNAL = "INTERNAL";
+  const ORIGIN_EXTERNAL = "ORIGIN_EXTERNAL";
+  const DESTINATION_EXTERNAL = "DESTINATION_EXTERNAL";
+  
+  let docTypes;
+  
+  if (origin === "Extern" && destination === "Extern") {
+    docTypes = [];
+  }
+  else if (origin === "Extern") {
+    docTypes = [ORIGIN_EXTERNAL];
+  }
+  else if (destination === "Extern") {
+    docTypes = [DESTINATION_EXTERNAL];
+  }
+  else if (origin === "Oricine" && destination === "Oricine") {
+    docTypes = [INTERNAL, ORIGIN_EXTERNAL, DESTINATION_EXTERNAL]
+  }
+  else if (origin === "Oricine") {
+    docTypes = [INTERNAL, ORIGIN_EXTERNAL]
+  }
+  else if (destination === "Oricine") {
+    docTypes = [INTERNAL, DESTINATION_EXTERNAL]
+  }
+  else {
+    docTypes = [INTERNAL]
+  }
+  
+  return docTypes;
+}

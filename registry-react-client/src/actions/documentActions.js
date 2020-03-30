@@ -49,7 +49,7 @@ export const getDocuments = () => async dispatch => {
   });
 };
 
-export const searchDocuments = (searchDetails) => async dispatch => {
+export const searchDocuments = searchDetails => async dispatch => {
     const path = properties.serverURL + DOCUMENTS_URL;
     const searchParams = getSearchParams(searchDetails);
     const res = await axios.get(path, { params: searchParams});

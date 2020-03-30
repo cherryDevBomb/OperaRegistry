@@ -3,7 +3,7 @@ import Form from "react-bootstrap/Form";
 import FormControl from "react-bootstrap/FormControl";
 import Button from "react-bootstrap/Button";
 import {connect} from "react-redux";
-import {getDocuments, saveSearchDetails} from "../../../actions/documentActions";
+import {getDocuments, saveSearchDetails, searchDocuments} from "../../../actions/documentActions";
 import PropTypes from "prop-types";
 import InputGroup from "react-bootstrap/InputGroup";
 import Dropdown from "react-bootstrap/Dropdown";
@@ -89,17 +89,15 @@ class DocumentSearch extends Component {
     const newState = this.props.documentReducer.searchDetails;
     this.setState(
       {
-      originType: "Oricare",
-      originUsers: [],
-      origin: "",
-      destinationType: "Oricare",
-      destinationUsers: [],
-      destination: "",
-      state: "Oricare",
-      searchStr: "",
-      createdDate: "Oricând",
-      from: new Date(),
-      to: new Date()
+        originType: newState.originType,
+        originUsers: newState.originUsers,
+        destinationType: newState.destinationType,
+        destinationUsers: newState.destinationUsers,
+        state: newState.state,
+        searchStr: newState.searchStr,
+        createdDate: newState.createdDate,
+        from: newState.from,
+        to: newState.to
       }
     )
   }
@@ -120,17 +118,17 @@ class DocumentSearch extends Component {
       this.setState({originUsers: origin}, () => {
         this.props.saveSearchDetails(this.state);
       });
-    }
-    else if (destination && (destination !== this.state.destinationUsers)) {
+    } else if (destination && (destination !== this.state.destinationUsers)) {
       this.setState({destinationUsers: destination}, () => {
         this.props.saveSearchDetails(this.state);
       });
-    }
-    else {
+    } else {
       this.props.saveSearchDetails(this.state);
     }
 
     // perform search
+    const searchDetails = this.props.documentReducer.searchDetails;
+    this.props.searchDocuments(searchDetails);
   }
 
   render() {
@@ -362,13 +360,14 @@ class DocumentSearch extends Component {
 
 DocumentSearch.propTypes = {
   documentReducer: PropTypes.object.isRequired,
-  getDocuments: PropTypes.func.isRequired,
   getAllUsers: PropTypes.func.isRequired,
-  saveSearchDetails: PropTypes.func.isRequired
+  getDocuments: PropTypes.func.isRequired,
+  saveSearchDetails: PropTypes.func.isRequired,
+  searchDocuments: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
   documentReducer: state.documentReducer,
 });
 
-export default connect(mapStateToProps, {getDocuments, getAllUsers, saveSearchDetails})(DocumentSearch);
+export default connect(mapStateToProps, {getAllUsers, getDocuments, saveSearchDetails, searchDocuments})(DocumentSearch);

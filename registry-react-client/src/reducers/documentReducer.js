@@ -19,7 +19,6 @@ const initialState = {
   myDocumentsArchived: [],
   documentsReceivedOpen: [],
   documentsReceivedArchived: [],
-  // searchDetails: {},
   searchDetails: searchDetails,
   mostRecentRegNr: null
 };
