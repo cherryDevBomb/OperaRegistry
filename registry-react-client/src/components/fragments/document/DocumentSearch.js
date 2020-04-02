@@ -3,7 +3,7 @@ import Form from "react-bootstrap/Form";
 import FormControl from "react-bootstrap/FormControl";
 import Button from "react-bootstrap/Button";
 import {connect} from "react-redux";
-import {getDocuments, saveSearchDetails, searchDocuments} from "../../../actions/documentActions";
+import {getDocuments, saveSearchDetails} from "../../../actions/documentActions";
 import PropTypes from "prop-types";
 import InputGroup from "react-bootstrap/InputGroup";
 import Dropdown from "react-bootstrap/Dropdown";
@@ -117,18 +117,17 @@ class DocumentSearch extends Component {
     if (origin && (origin !== this.state.originUsers)) {
       this.setState({originUsers: origin}, () => {
         this.props.saveSearchDetails(this.state);
+        this.props.getDocuments(this.state);
       });
     } else if (destination && (destination !== this.state.destinationUsers)) {
       this.setState({destinationUsers: destination}, () => {
         this.props.saveSearchDetails(this.state);
+        this.props.getDocuments(this.state);
       });
     } else {
       this.props.saveSearchDetails(this.state);
+      this.props.getDocuments(this.state);
     }
-
-    // perform search
-    const searchDetails = this.props.documentReducer.searchDetails;
-    this.props.searchDocuments(searchDetails);
   }
 
   render() {
@@ -363,11 +362,10 @@ DocumentSearch.propTypes = {
   getAllUsers: PropTypes.func.isRequired,
   getDocuments: PropTypes.func.isRequired,
   saveSearchDetails: PropTypes.func.isRequired,
-  searchDocuments: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
   documentReducer: state.documentReducer,
 });
 
-export default connect(mapStateToProps, {getAllUsers, getDocuments, saveSearchDetails, searchDocuments})(DocumentSearch);
+export default connect(mapStateToProps, {getAllUsers, getDocuments, saveSearchDetails})(DocumentSearch);

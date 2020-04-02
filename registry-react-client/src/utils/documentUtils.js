@@ -1,3 +1,6 @@
+const INTERNAL = "INTERNAL";
+const ORIGIN_EXTERNAL = "ORIGIN_EXTERNAL";
+const DESTINATION_EXTERNAL = "DESTINATION_EXTERNAL";
 
 export const getDefaultSearchDetails = () => {
   return {
@@ -17,17 +20,39 @@ export const getSearchParams = searchDetails => {
   let searchParams = {};
 
   const docTypes = mapSearchDetailsTypesToDocTypes(searchDetails.originType, searchDetails.destinationType);
+  if (docTypes.length < 3) {
+    searchParams.docTypes = docTypes;
+  }
 
-  
+  if (searchDetails.originType === "O anumită persoană") {
+    searchParams.createdByList = searchDetails.originUsers.map(user => user.userId);
+  }
+
+  if (searchDetails.destinationType === "O anumită persoană") {
+    searchParams.recipientList = searchDetails.destinationUsers.map(user => user.userId);
+  }
+
+  if (searchDetails.state != "Oricare") {
+    searchParams.archived = searchDetails.state === "Arhivate" ? true : false;
+  }
+
+  if (searchDetails.searchStr !== "") {
+    searchParams.searchString = searchDetails.searchStr;
+  }
+
+  if (searchDetails.createdDate !== "Oricând") {
+    const interval = mapSearchDetailsCreatedDate(searchDetails);
+    searchParams.from = interval.from;
+    searchParams.to = interval.to;
+  }
+
+  console.log(searchParams);
+  return new URLSearchParams(searchParams);
 };
 
 const mapSearchDetailsTypesToDocTypes = (origin, destination) => {
-  const INTERNAL = "INTERNAL";
-  const ORIGIN_EXTERNAL = "ORIGIN_EXTERNAL";
-  const DESTINATION_EXTERNAL = "DESTINATION_EXTERNAL";
-  
   let docTypes;
-  
+
   if (origin === "Extern" && destination === "Extern") {
     docTypes = [];
   }
@@ -49,6 +74,39 @@ const mapSearchDetailsTypesToDocTypes = (origin, destination) => {
   else {
     docTypes = [INTERNAL]
   }
-  
   return docTypes;
+}
+
+const mapSearchDetailsCreatedDate = searchDetails => {
+  let interval = {};
+  let fromDate;
+  let toDate;
+
+  const today = new Date();
+  if (searchDetails.createdDate === "Astăzi") {
+    fromDate = today;
+    toDate = today;
+  }
+  else if (searchDetails.createdDate === "Ieri") {
+    toDate = today;
+    fromDate = new Date(new Date().setDate(today.getDate() - 1));
+  }
+  else if (searchDetails.createdDate === "În ultimile 7 zile") {
+    toDate = today;
+    fromDate = new Date(new Date().setDate(today.getDate() - 7));
+  }
+  else if (searchDetails.createdDate === "În ultimile 30 de zile") {
+    toDate = today;
+    fromDate = new Date(new Date().setDate(today.getDate() - 30));
+  }
+  else if (searchDetails.createdDate === "Personalizat") {
+    fromDate = searchDetails.from;
+    toDate = searchDetails.to;
+  }
+
+  interval = {
+    from: fromDate.toLocaleDateString("en-GB"),
+    to: toDate.toLocaleDateString("en-GB")
+  }
+  return interval;
 }

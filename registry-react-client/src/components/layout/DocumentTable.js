@@ -9,7 +9,8 @@ import DocumentSearch from "../fragments/document/DocumentSearch";
 
 class DocumentTable extends Component {
   componentDidMount() {
-    this.props.getDocuments();
+    const searchDetails = this.props.documentReducer.searchDetails;
+    this.props.getDocuments(searchDetails);
   }
 
   render() {

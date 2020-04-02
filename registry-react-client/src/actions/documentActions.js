@@ -40,16 +40,7 @@ export const createDocument = (document, history) => async dispatch => {
   }
 };
 
-export const getDocuments = () => async dispatch => {
-  const path = properties.serverURL + DOCUMENTS_URL;
-  const res = await axios.get(path);
-  dispatch({
-    type: GET_DOCUMENTS,
-    payload: res.data
-  });
-};
-
-export const searchDocuments = searchDetails => async dispatch => {
+export const getDocuments = searchDetails => async dispatch => {
     const path = properties.serverURL + DOCUMENTS_URL;
     const searchParams = getSearchParams(searchDetails);
     const res = await axios.get(path, { params: searchParams});

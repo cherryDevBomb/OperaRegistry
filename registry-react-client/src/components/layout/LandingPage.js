@@ -21,9 +21,9 @@ class LandingPage extends Component {
     return (
       <div className="landing-div bg">
         <Jumbotron className="jumbotron-login">
-          <p className="text-center">
+          <div className="text-center">
             <h3>Intră în cont</h3>
-          </p>
+          </div>
           <ButtonToolbar>
             <Container>
               <Row><Col>
