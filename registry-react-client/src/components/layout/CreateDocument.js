@@ -249,6 +249,7 @@ class CreateDocument extends Component {
           <Col className="col-sm-4"></Col>
           <Col className="col-sm-8 my-auto">
             <UserAutosuggest placeholder="Introduceți destinatarul"
+                             includePrincipal={false}
                              prevSelectedUsers={[]}
                              actionType={UPDATE_SELECTED_USERS_FOR_DOCUMENT_HISTORY}/>
           </Col>

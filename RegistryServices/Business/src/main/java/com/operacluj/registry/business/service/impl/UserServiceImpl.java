@@ -20,6 +20,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
 import java.util.List;
@@ -90,17 +91,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> getAllUsersExceptPrincipal(Principal principal) {
-        LOG.info("Enter getAllUsersExceptPrincipal {}", principal.getName());
-        User user = userTranslator.getUserFromPrincipal(principal);
-        return userRepository.getAllUsersExcept(user);
+    public List<User> getAllUsers(boolean includePrincipal, Principal principal) {
+        LOG.info("Enter getAllUsers requested by {}", principal.getName());
+        if (includePrincipal) {
+            return userRepository.getAllUsers();
+        }
+        else {
+            User user = userTranslator.getUserFromPrincipal(principal);
+            return userRepository.getAllUsersExcept(user);
+        }
     }
 
     @Override
-    public List<DepartmentDTO> getAllUsersGroupedByDepartment(Principal principal) {
-        LOG.info("Enter getAllUsersGroupedByDepartment {}", principal.getName());
-        User user = userTranslator.getUserFromPrincipal(principal);
-        List<User> allUsers = userRepository.getAllUsersExcept(user);
+    public List<DepartmentDTO> getAllUsersGroupedByDepartment(boolean includePrincipal, Principal principal) {
+        LOG.info("Enter getAllUsersGroupedByDepartment requested by {}", principal.getName());
+        List<User> allUsers = getAllUsers(includePrincipal, principal);
         Map<Department, List<User>> departmentMap = allUsers.stream()
                 .collect(Collectors.groupingBy(User::getDepartment));
         return departmentMap.keySet().stream()

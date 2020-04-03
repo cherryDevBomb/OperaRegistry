@@ -9,8 +9,9 @@ import {getFullName} from "../../../utils/userUtils";
 
 class UserAutosuggest extends Component {
   componentDidMount() {
+    let {includePrincipal} = this.props;
     if (this.props.userReducer.allUsers.length === 0) {
-      this.props.getAllUsers();
+      this.props.getAllUsers(includePrincipal);
     }
   }
 

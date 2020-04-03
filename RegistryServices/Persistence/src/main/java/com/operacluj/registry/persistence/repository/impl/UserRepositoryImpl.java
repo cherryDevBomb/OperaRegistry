@@ -40,6 +40,9 @@ public class UserRepositoryImpl implements UserRepository {
     @Value("${getAllUsersExcept}")
     private String getAllUsersExceptQuery;
 
+    @Value("${getAllUsers}")
+    private String getAllUsersQuery;
+
     @Override
     public User getUserByEmail(String email) {
         SqlParameterSource parameterSource = new MapSqlParameterSource("email", email);
@@ -57,6 +60,11 @@ public class UserRepositoryImpl implements UserRepository {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(addUserQuery, getSqlParameterSourceForEntity(user), keyHolder);
         return Objects.requireNonNull(keyHolder.getKey()).intValue();
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+        return jdbcTemplate.query(getAllUsersQuery, userMapper);
     }
 
     @Override

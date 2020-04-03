@@ -49,14 +49,14 @@ public class UserController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<User> getAllUsersExceptPrincipal(Principal principal) {
-        return userService.getAllUsersExceptPrincipal(principal);
+    public List<User> getAllUsers(@RequestParam boolean includePrincipal, Principal principal) {
+        return userService.getAllUsers(principal, includePrincipal);
     }
 
     @GetMapping("/grouped")
     @ResponseStatus(HttpStatus.OK)
-    public List<DepartmentDTO> getAllUsersGroupedByDepartment(Principal principal) {
-        return userService.getAllUsersGroupedByDepartment(principal);
+    public List<DepartmentDTO> getAllUsersGroupedByDepartment(@RequestParam boolean includePrincipal, Principal principal) {
+        return userService.getAllUsersGroupedByDepartment(principal, includePrincipal);
     }
 
 }

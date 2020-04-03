@@ -74,6 +74,18 @@ class DocumentSearch extends Component {
   onChange(e) {
     this.setState({[e.target.name]: e.target.value});
     this.lastFieldChanged = e.target.name;
+
+    //check if you need to reset origin/destination users
+    if (e.target.name === "originType" && e.target.value !== "O anumită persoană") {
+      this.setState({originUsers: []}, () => {
+        this.props.saveSearchDetails(this.state);
+      });
+    }
+    if (e.target.name === "destinationType" && e.target.value !== "O anumită persoană") {
+      this.setState({destinationUsers: []}, () => {
+        this.props.saveSearchDetails(this.state);
+      });
+    }
   }
 
   onDateChange(field, newDate) {
@@ -84,9 +96,9 @@ class DocumentSearch extends Component {
   }
 
   resetSearchDetails() {
-    this.props.saveSearchDetails(getDefaultSearchDetails());
+    const newState = getDefaultSearchDetails();
 
-    const newState = this.props.documentReducer.searchDetails;
+    this.props.saveSearchDetails(newState);
     this.setState(
       {
         originType: newState.originType,
@@ -98,6 +110,9 @@ class DocumentSearch extends Component {
         createdDate: newState.createdDate,
         from: newState.from,
         to: newState.to
+      },
+      () => {
+        this.props.getDocuments(this.state);
       }
     )
   }
@@ -151,6 +166,7 @@ class DocumentSearch extends Component {
         <Col className="col-sm-6 ">
           <UserAutosuggest ref={this.refOrigin}
                            placeholder="Introduceți numele"
+                           includePrincipal={true}
                            prevSelectedUsers={this.state.originUsers}
                            actionType={UPDATE_SELECTED_USERS_FOR_ORIGIN_SEARCH}/>
         </Col>
@@ -163,6 +179,7 @@ class DocumentSearch extends Component {
         <Col className="col-sm-6">
           <UserAutosuggest ref={this.refDestination}
                            placeholder="Introduceți numele"
+                           includePrincipal={true}
                            prevSelectedUsers={this.state.destinationUsers}
                            actionType={UPDATE_SELECTED_USERS_FOR_DESTINATION_SEARCH}/>
         </Col>

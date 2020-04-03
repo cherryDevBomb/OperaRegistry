@@ -3,9 +3,9 @@ import {GET_ALL_USERS, UPDATE_ALL_USERS} from "./types";
 import {properties} from "../properties.js";
 import {USERS_GROUPED_URL} from "../properties";
 
-export const getAllUsers = () => async dispatch => {
+export const getAllUsers = includePrincipal => async dispatch => {
   const path = properties.serverURL + USERS_GROUPED_URL;
-  const res = await axios.get(path);
+  const res = await axios.get(path, { params: {includePrincipal: includePrincipal}});
   dispatch({
     type: GET_ALL_USERS,
     payload: res.data

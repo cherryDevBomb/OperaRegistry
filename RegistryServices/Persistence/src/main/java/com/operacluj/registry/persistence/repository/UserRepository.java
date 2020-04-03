@@ -14,6 +14,8 @@ public interface UserRepository {
 
     int addUser(User user);
 
+    List<User> getAllUsers();
+
     List<User> getAllUsersExcept(User user);
 }
 
