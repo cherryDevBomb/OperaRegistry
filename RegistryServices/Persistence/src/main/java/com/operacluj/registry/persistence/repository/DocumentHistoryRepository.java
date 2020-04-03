@@ -7,6 +7,8 @@ import java.util.List;
 public interface DocumentHistoryRepository {
 
     List<DocumentHistory> getDocumentHistoryForDocument(int registryNumber);
+
     int addDocumentHistory(DocumentHistory documentHistory);
+
     void updateDocumentHistoryStatus(DocumentHistory documentHistory);
 }

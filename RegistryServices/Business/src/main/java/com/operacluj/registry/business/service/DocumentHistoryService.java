@@ -10,6 +10,8 @@ import java.util.List;
 public interface DocumentHistoryService {
 
     List<DocumentHistoryDTO> getDocumentHistoryForDocument(int registryNumber);
+
     int addDocumentHistory(DocumentHistory documentHistory, User user);
+
     void addHistoryForNewDocument(DocumentForm documentForm, int registryNumber, User user);
 }

@@ -2,14 +2,18 @@ package com.operacluj.registry.web.controller;
 
 import com.operacluj.registry.business.domain.DocumentDTO;
 import com.operacluj.registry.business.domain.DocumentForm;
+import com.operacluj.registry.business.domain.SearchCriteria;
 import com.operacluj.registry.business.service.DocumentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.reflect.Array;
 import java.security.Principal;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 
 @RestController
@@ -28,7 +32,10 @@ public class DocumentController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<DocumentDTO> getAllDocuments() {
+    public List<DocumentDTO> getDocuments(SearchCriteria searchCriteria) {
+        if (searchCriteria.isPresent()) {
+            return documentService.getDocumentsByCriteria(searchCriteria);
+        }
         return documentService.getAllDocuments();
     }
 

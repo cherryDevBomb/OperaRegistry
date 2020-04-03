@@ -2,6 +2,7 @@ package com.operacluj.registry.business.service.impl;
 
 import com.operacluj.registry.business.domain.DocumentDTO;
 import com.operacluj.registry.business.domain.DocumentForm;
+import com.operacluj.registry.business.domain.SearchCriteria;
 import com.operacluj.registry.business.exception.CreateEntityException;
 import com.operacluj.registry.business.exception.EntityNotFoundException;
 import com.operacluj.registry.business.service.DocumentHistoryService;
@@ -21,8 +22,13 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import java.security.Principal;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -80,6 +86,63 @@ public class DocumentServiceImpl implements DocumentService {
         LOG.info("Enter getAllDocumentsCreatedBy {}, archived = {}", user.getEmail(), archived);
         return documentRepository.getAllDocumentsCreatedBy(user.getUserId(), archived)
                 .stream()
+                .map(document -> documentTranslator.translate(document))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<DocumentDTO> getDocumentsByCriteria(SearchCriteria searchCriteria) {
+        LOG.info("Enter getDocumentsByCriteria");
+        List<Document> allDocuments = documentRepository.getAllDocuments();
+
+        if (!CollectionUtils.isEmpty(searchCriteria.getDocTypes())) {
+            allDocuments = allDocuments.stream()
+                    .filter(document -> searchCriteria.getDocTypes().contains(document.getType().toString()))
+                    .collect(Collectors.toList());
+        }
+
+        if (!CollectionUtils.isEmpty(searchCriteria.getCreatedByList())) {
+            allDocuments = allDocuments.stream()
+                    .filter(document -> searchCriteria.getCreatedByList().contains(document.getCreatedBy()))
+                    .collect(Collectors.toList());
+        }
+
+        if (searchCriteria.getArchived() != null) {
+            allDocuments = allDocuments.stream()
+                    .filter(document -> searchCriteria.isArchived() == document.isArchived())
+                    .collect(Collectors.toList());
+        }
+
+        if (StringUtils.hasText(searchCriteria.getSearchString())) {
+            String searchStrLower = searchCriteria.getSearchString().toLowerCase();
+            allDocuments = allDocuments.stream()
+                    .filter(document -> (document.getTitle().toLowerCase().contains(searchStrLower) ||
+                            String.valueOf(document.getRegistryNumber()).contains(searchStrLower)))
+                    .collect(Collectors.toList());
+        }
+
+        if (searchCriteria.getFrom() != null && searchCriteria.getTo() != null) {
+            DateTimeFormatter formatter = new DateTimeFormatterBuilder()
+                    .parseStrict()
+                    .appendPattern("dd/MM/yyyy")
+                    .toFormatter();
+            LocalDate fromDate = LocalDate.parse(searchCriteria.getFrom(), formatter).atStartOfDay().toLocalDate();
+            LocalDate toDate = LocalDate.parse(searchCriteria.getTo(), formatter).atStartOfDay().toLocalDate();
+            allDocuments = allDocuments.stream()
+                    .filter(document -> (document.getCreatedDate().isAfter(fromDate) && document.getCreatedDate().isBefore(toDate)))
+                    .collect(Collectors.toList());
+        }
+
+        if (!CollectionUtils.isEmpty(searchCriteria.getRecipientList())) {
+            List<Integer> recipientIds = searchCriteria.getRecipientList();
+            allDocuments = allDocuments.stream()
+                    .filter(document -> documentHistoryService.getDocumentHistoryForDocument(document.getRegistryNumber())
+                            .stream()
+                            .anyMatch(dh -> (dh.getInternalRecipient() != null && recipientIds.contains(dh.getInternalRecipient().getUserId()))))
+                    .collect(Collectors.toList());
+        }
+
+        return allDocuments.stream()
                 .map(document -> documentTranslator.translate(document))
                 .collect(Collectors.toList());
     }

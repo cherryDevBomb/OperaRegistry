@@ -11,8 +11,12 @@ import java.util.List;
 public interface UserService extends UserDetailsService {
 
     User getUserById(int id);
+
     User getUserByEmail(String email);
+
     int addUser(UserForm userForm);
+
     List<User> getAllUsersExceptPrincipal(Principal principal);
+
     List<DepartmentDTO> getAllUsersGroupedByDepartment(Principal principal);
 }

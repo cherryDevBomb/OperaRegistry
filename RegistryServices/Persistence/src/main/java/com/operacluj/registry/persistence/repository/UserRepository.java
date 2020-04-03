@@ -9,8 +9,11 @@ import java.util.List;
 public interface UserRepository {
 
     User getUserByEmail(String email);
+
     User getUserById(int userId);
+
     int addUser(User user);
+
     List<User> getAllUsersExcept(User user);
 }
 
