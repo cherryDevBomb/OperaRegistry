@@ -1,7 +1,6 @@
 package com.operacluj.registry.web.controller;
 
 import com.operacluj.registry.business.domain.DepartmentDTO;
-import com.operacluj.registry.business.domain.DocumentDTO;
 import com.operacluj.registry.business.domain.UserForm;
 import com.operacluj.registry.business.payload.JWTLoginSuccessResponse;
 import com.operacluj.registry.business.payload.LoginRequest;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
-import java.util.Map;
 
 
 @RestController
@@ -50,13 +48,12 @@ public class UserController {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<User> getAllUsers(@RequestParam boolean includePrincipal, Principal principal) {
-        return userService.getAllUsers(principal, includePrincipal);
+        return userService.getAllUsers(includePrincipal, principal);
     }
 
     @GetMapping("/grouped")
     @ResponseStatus(HttpStatus.OK)
     public List<DepartmentDTO> getAllUsersGroupedByDepartment(@RequestParam boolean includePrincipal, Principal principal) {
-        return userService.getAllUsersGroupedByDepartment(principal, includePrincipal);
+        return userService.getAllUsersGroupedByDepartment(includePrincipal, principal);
     }
-
 }

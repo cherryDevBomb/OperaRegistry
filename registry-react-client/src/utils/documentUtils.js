@@ -12,7 +12,8 @@ export const getDefaultSearchDetails = () => {
     searchStr: "",
     createdDate: "Oricând",
     from: new Date(),
-    to: new Date()
+    to: new Date(),
+    showDropdown: false
   };
 }
 

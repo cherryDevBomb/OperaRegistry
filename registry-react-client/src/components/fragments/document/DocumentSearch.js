@@ -28,6 +28,7 @@ class DocumentSearch extends Component {
 
     this.refOrigin = React.createRef();
     this.refDestination = React.createRef();
+    this.toggleButtonRef = React.createRef();
 
     const {searchDetails} = this.props.documentReducer;
     this.state = searchDetails;
@@ -115,6 +116,8 @@ class DocumentSearch extends Component {
         this.props.getDocuments(this.state);
       }
     )
+    this.toggleDropdown();
+    this.toggleButtonRef.click();
   }
 
   onSubmit(e) {
@@ -143,6 +146,13 @@ class DocumentSearch extends Component {
       this.props.saveSearchDetails(this.state);
       this.props.getDocuments(this.state);
     }
+
+    this.toggleDropdown();
+    this.toggleButtonRef.click();
+  }
+
+  toggleDropdown() {
+    this.setState({showDropdown: !this.state.showDropdown});
   }
 
   render() {
@@ -152,6 +162,7 @@ class DocumentSearch extends Component {
               ref={ref}
               onClick={e => {
                 e.preventDefault();
+                this.toggleDropdown();
                 onClick(e);
               }}
       >
@@ -363,8 +374,8 @@ class DocumentSearch extends Component {
 
             <InputGroup.Append className="ml-3">
               <Dropdown alignRight>
-                <Dropdown.Toggle as={CustomToggle}/>
-                <Dropdown.Menu as={CustomDropdown} className="dropdown-search mr-n2 mt-0"/>
+                <Dropdown.Toggle as={CustomToggle} ref={(node) => this.toggleButtonRef = node}/>
+                <Dropdown.Menu as={CustomDropdown} show={this.state.showDropdown} className="dropdown-search mr-n2 mt-0"/>
               </Dropdown>
             </InputGroup.Append>
           </InputGroup>
