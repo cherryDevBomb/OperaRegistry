@@ -21,16 +21,16 @@ class DocumentTable extends Component {
         <DocumentSearch/>
 
         <Jumbotron className="mx-3 my-4 shadow px-3 py-3">
-          <Table responsive>
+          <Table responsive className="table-fixed">
             <thead>
             <tr>
-              <th className="th">Nr. înregistrare</th>
-              <th className="th">Emitent</th>
-              <th className="th">Data înregistrării</th>
-              <th className="th">Titlu</th>
-              <th className="th">Destinatar</th>
-              <th className="th">Stare</th>
-              <th className="th">Atașament</th>
+              <th className="th text-center" style={{width: "12%"}}>Nr. înregistrare</th>
+              <th className="th" style={{width: "13%"}}>Emitent</th>
+              <th className="th text-center" style={{width: "15%"}}>Data înregistrării</th>
+              <th className="th" style={{width: "30%"}}>Titlu</th>
+              <th className="th" style={{width: "15%"}}>Destinatar</th>
+              <th className="th text-center" style={{width: "10%"}}>Stare</th>
+              <th className="th text-center" style={{width: "5%"}}>Atașament</th>
             </tr>
             </thead>
             <tbody>

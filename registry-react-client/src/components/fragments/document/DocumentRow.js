@@ -98,13 +98,13 @@ class DocumentRow extends Component {
 
     return (
       <tr>
-        <td className="text-center">{registryNumber}</td>
-        <td>{origin}</td>
-        <td className="text-center">{document.createdDate}</td>
-        <td>{document.title}</td>
-        <td>{destination}</td>
-        <td className="text-center">{archivingState}</td>
-        <td className="text-center">{download}</td>
+        <td style={{width: "12%"}} className="text-center">{registryNumber}</td>
+        <td style={{width: "13%"}}>{origin}</td>
+        <td style={{width: "15%"}} className="text-center">{document.createdDate}</td>
+        <td style={{width: "30%"}}>{document.title}</td>
+        <td style={{width: "15%"}}>{destination}</td>
+        <td style={{width: "10%"}} className="text-center">{archivingState}</td>
+        <td style={{width: "5%"}} className="text-center">{download}</td>
       </tr>
     );
   }

@@ -90,6 +90,16 @@ class DocumentSearch extends Component {
     }
   }
 
+  onChangeSearchStr(e) {
+    const key = e.target.name;
+    this.setState({searchStr: e.target.value}, () => {
+      if (key == "searchStr") {
+        this.props.getDocuments(this.state);
+      }
+    });
+    this.lastFieldChanged = e.target.name;
+  }
+
   onDateChange(field, newDate) {
     this.setState({
       [field]: newDate
@@ -302,11 +312,11 @@ class DocumentSearch extends Component {
                 </Col>
                 <Col className="col-sm-10 my-auto w-100">
                   <FormControl
-                    autoFocus={this.lastFieldChanged === "state" || this.lastFieldChanged === "searchStr"}
-                    name="searchStr"
+                    autoFocus={this.lastFieldChanged === "state" || this.lastFieldChanged === "searchStrDropdown"}
+                    name="searchStrDropdown"
                     className="my-2 w-100"
                     placeholder="Introduceți un termen care face parte din titlu sau numărul de înregistrare"
-                    onChange={this.onChange}
+                    onChange={this.onChangeSearchStr.bind(this)}
                     value={this.state.searchStr}
                   />
                 </Col>
@@ -372,7 +382,7 @@ class DocumentSearch extends Component {
                          aria-describedby="search-btn"
                          placeholder="Căutați documente"
                          value={this.state.searchStr}
-                         onChange={this.onChange}
+                         onChange={this.onChangeSearchStr.bind(this)}
                          className="mx-auto search-input">
             </FormControl>
 
