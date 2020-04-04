@@ -66,6 +66,7 @@ class DocumentSearch extends Component {
         this.setState({destinationUsers: snapshot.destination});
       }
     }
+    console.log(this.state.showDropdown);
   }
 
   componentWillUnmount() {
@@ -116,8 +117,10 @@ class DocumentSearch extends Component {
         this.props.getDocuments(this.state);
       }
     )
-    this.toggleDropdown();
-    this.toggleButtonRef.click();
+
+    if (this.state.showDropdown === true) {
+      this.toggleButtonRef.click();
+    }
   }
 
   onSubmit(e) {
@@ -147,8 +150,9 @@ class DocumentSearch extends Component {
       this.props.getDocuments(this.state);
     }
 
-    this.toggleDropdown();
-    this.toggleButtonRef.click();
+    if (this.state.showDropdown === true) {
+      this.toggleButtonRef.click();
+    }
   }
 
   toggleDropdown() {
@@ -373,9 +377,9 @@ class DocumentSearch extends Component {
             </FormControl>
 
             <InputGroup.Append className="ml-3">
-              <Dropdown alignRight>
+              <Dropdown alignRight show={this.state.showDropdown}>
                 <Dropdown.Toggle as={CustomToggle} ref={(node) => this.toggleButtonRef = node}/>
-                <Dropdown.Menu as={CustomDropdown} show={this.state.showDropdown} className="dropdown-search mr-n2 mt-0"/>
+                <Dropdown.Menu as={CustomDropdown} className="dropdown-search mr-n2 mt-0"/>
               </Dropdown>
             </InputGroup.Append>
           </InputGroup>
