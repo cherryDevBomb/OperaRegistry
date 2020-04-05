@@ -2,6 +2,8 @@ package com.operacluj.registry.business.util;
 
 public class ErrorMessageConstants {
 
+    public static final String REQUIRED_FIELD = "Câmp obligatoriu";
+
     public static final String DOCUMENT_TITLE_REQUIRED = "Document title is required";
     public static final String DOCUMENT_RECIPIENT_REQUIRED = "Document recipient is required";
     public static final String DOCUMENT_NOT_FOUND = "Document not found";
@@ -25,7 +27,6 @@ public class ErrorMessageConstants {
     public static final String INVALID_LOGIN = "Incorrect email or password";
 
     public static final String ACCESS_DENIED = "Access denied";
-
 
     public static final String EMPTY_MESSAGE = " ";
 }

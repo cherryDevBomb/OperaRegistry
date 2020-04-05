@@ -41,14 +41,13 @@ class CreateDocument extends Component {
   static getDerivedStateFromProps(nextProps, prevState) {
     if (nextProps.errorReducer) {
       return {errorReducer: nextProps.errorReducer};
-    }
-    else {
+    } else {
       return null;
     }
   }
 
   componentDidUpdate(prevProps, prevState, ss) {
-    if(prevProps.errorReducer && prevProps.errorReducer !== this.props.errorReducer) {
+    if (prevProps.errorReducer && prevProps.errorReducer !== this.props.errorReducer) {
       this.setState({errorReducer: prevProps.errorReducer});
     }
   }
@@ -58,9 +57,14 @@ class CreateDocument extends Component {
   }
 
   isInputValid() {
-    // errorReducer.origin
-    // errorReducer.title
-    // errorReducer.recipients
+    const errorReducer = this.state.errorReducer;
+    if ((this.state.isOriginExternal && this.state.origin === "") ||
+      (this.state.title === "") ||
+      (this.state.isDestinationExternal && (!this.state.recipients || this.state.recipients.length === 0)) ||
+      (!this.state.isDestinationExternal && this.props.userReducer.selectedUsersForDocumentHistory.length === 0)) {
+      return false;
+    }
+    return true;
   }
 
   onChange(e) {
@@ -85,7 +89,6 @@ class CreateDocument extends Component {
 
   onExtDestinationChange(e) {
     if (e !== "") {
-      console.log(e);
       this.setState({
         recipients: [e.target.value]
       });
@@ -112,8 +115,9 @@ class CreateDocument extends Component {
       sentMessage: this.state.sentMessage
     };
     await this.props.createDocument(newDocument, this.props.history);
-    console.log(this.props.documentReducer.mostRecentRegNr);
-    this.uploadModalRef.current.handleShow(this.props.documentReducer.mostRecentRegNr);
+    if (this.isInputValid()) {
+      this.uploadModalRef.current.handleShow(this.props.documentReducer.mostRecentRegNr);
+    }
   }
 
   render() {
@@ -254,6 +258,12 @@ class CreateDocument extends Component {
       </Container>
     );
 
+    let internalReceiversFeedback;
+    if (!this.state.isDestinationExternal && !this.state.recipients) {
+      internalReceiversFeedback = (
+        <div className="small error-feedback">Câmp obligatoriu</div>
+      )
+    }
     const formGroupIntDestination = (
       <Container>
         <Row className="mt-2 align-items-center">
@@ -263,6 +273,12 @@ class CreateDocument extends Component {
                              includePrincipal={false}
                              prevSelectedUsers={[]}
                              actionType={UPDATE_SELECTED_USERS_FOR_DOCUMENT_HISTORY}/>
+          </Col>
+        </Row>
+        <Row className="mt-1 align-items-center">
+          <Col className="col-sm-4"></Col>
+          <Col className="col-sm-8 my-auto">
+            {internalReceiversFeedback}
           </Col>
         </Row>
       </Container>
@@ -322,24 +338,24 @@ class CreateDocument extends Component {
 
     return (
       <React.Fragment>
-      <FileUploadModal history={this.props.history} ref={this.uploadModalRef} />
-      <Jumbotron className="mx-5 my-4 shadow p-5">
-        <h4 className="text-center">Document nou</h4>
-        <Form onSubmit={this.onSubmit}>
-          <hr/>
-          {formGroupOriginType}
-          {originPart}
-          {formGroupTitle}
-          {formGroupDestinationType}
-          {destinationPart}
-          {formGroupSentMessage}
-          <Row className="mt-3 mb=3"><Col>
-          <Button variant="primary" type="submit" className="float-right">
-            Submit
-          </Button>
-          </Col></Row>
-        </Form>
-      </Jumbotron>
+        <FileUploadModal history={this.props.history} ref={this.uploadModalRef}/>
+        <Jumbotron className="mx-5 my-4 shadow p-5">
+          <h4 className="text-center">Document nou</h4>
+          <Form onSubmit={this.onSubmit}>
+            <hr/>
+            {formGroupOriginType}
+            {originPart}
+            {formGroupTitle}
+            {formGroupDestinationType}
+            {destinationPart}
+            {formGroupSentMessage}
+            <Row className="mt-3 mb=3"><Col>
+              <Button variant="primary" type="submit" className="float-right">
+                Submit
+              </Button>
+            </Col></Row>
+          </Form>
+        </Jumbotron>
       </React.Fragment>
     );
   }

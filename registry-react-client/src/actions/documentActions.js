@@ -10,23 +10,28 @@ import {
   SAVE_SEARCH_DETAILS
 } from "./types";
 import {properties} from "../properties.js";
-import {
-  ARCHIVE_DOCUMENT_URL,
-  DOCUMENTS_RECEIVED_URL,
-  DOCUMENTS_URL,
-  MY_DOCUMENTS_URL,
-  NEW_DOCUMENT_UPLOAD_FILE_PATH
-} from "../properties";
+import {ARCHIVE_DOCUMENT_URL, DOCUMENTS_RECEIVED_URL, DOCUMENTS_URL, MY_DOCUMENTS_URL} from "../properties";
 import {getSearchParams} from "../utils/documentUtils";
 
 export const createDocument = (document, history) => async dispatch => {
   try {
-    const path = properties.serverURL + DOCUMENTS_URL;
-    const res = await axios.post(path, document);
-    dispatch({
-      type: DOCUMENT_CREATED,
-      payload: res.data
-    });
+    if (document.isOriginExternal && document.origin === "") {
+      dispatch({
+        type: GET_ERRORS,
+        payload: {origin: "Câmp obligatoriu"}
+      })
+    } else {
+      const path = properties.serverURL + DOCUMENTS_URL;
+      const res = await axios.post(path, document);
+      dispatch({
+        type: DOCUMENT_CREATED,
+        payload: res.data
+      });
+      dispatch({
+        type: GET_ERRORS,
+        payload: {}
+      })
+    }
   } catch (error) {
     if (error.response) {
       dispatch({

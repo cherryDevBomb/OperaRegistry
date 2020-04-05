@@ -12,6 +12,10 @@
   opacity: 1;
 }
 
+.error-feedback {
+  color: $red
+}
+
 .custom-control-input:checked ~ .custom-control-label::before {
   color: #fff;
   border-color: $light-gold;

@@ -9,7 +9,7 @@ import java.util.List;
 
 public class DocumentForm {
 
-    @NotBlank(message = ErrorMessageConstants.DOCUMENT_TITLE_REQUIRED)
+    @NotBlank(message = ErrorMessageConstants.REQUIRED_FIELD)
     private String title;
 
     private String origin;
@@ -18,11 +18,8 @@ public class DocumentForm {
 
     private boolean isDestinationExternal;
 
-    private String path;
-
-    @NotEmpty(message = ErrorMessageConstants.DOCUMENT_RECIPIENT_REQUIRED)
+    @NotEmpty(message = ErrorMessageConstants.REQUIRED_FIELD)
     private List<String> recipients;
-    //private List<String> recipientNames;
 
     private String sentMessage;
 
@@ -57,23 +54,6 @@ public class DocumentForm {
     public void setIsDestinationExternal(boolean destinationExternal) {
         isDestinationExternal = destinationExternal;
     }
-
-    public String getPath() {
-        return path;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
-    }
-
-//    public List<String> getRecipientNames() {
-//        return recipientNames;
-//    }
-//
-//    public void setRecipientNames(List<String> recipientNames) {
-//        this.recipientNames = recipientNames;
-//    }
-
 
     public List<String> getRecipients() {
         return recipients;

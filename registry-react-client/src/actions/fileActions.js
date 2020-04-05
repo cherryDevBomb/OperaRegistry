@@ -1,6 +1,6 @@
 import {FILES_URL, MY_DOCUMENTS_PATH, properties} from "../properties";
 import axios from "axios";
-import {DOWNLOAD_FILE, UPLOAD_FILE} from "./types";
+import {DOWNLOAD_FILE, GET_ERRORS, UPLOAD_FILE} from "./types";
 
 export const uploadFile = (file, registryNumber, history) => async dispatch => {
   try {
@@ -14,18 +14,16 @@ export const uploadFile = (file, registryNumber, history) => async dispatch => {
     // }
     //await axios.post(path, formData, config);
     await axios.post(path, formData);
-    history.push(MY_DOCUMENTS_PATH);
     dispatch({
-      type: UPLOAD_FILE,
+      type: GET_ERRORS,
       payload: {}
-    });
+    })
+    history.push(MY_DOCUMENTS_PATH);
   } catch (error) {
-    console.log(error);
-    if (error.response) {
-      alert(error.response.data.message);
-    } else {
-      alert('Something went wrong while uploading this file');
-    }
+    dispatch({
+      type: GET_ERRORS,
+      payload: {file: "Alegeți un fișier sau apăsați \"Skip\""}
+    })
   }
 };
 

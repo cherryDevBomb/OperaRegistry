@@ -82,11 +82,11 @@ class FileUploadModal extends Component {
                   placeholder="Alegeți fișierul"
                   className="mb-3"
                   onChange={this.onChange}
-                  //isInvalid={errorReducer.recipients}
+                  isInvalid={this.props.errorReducer.file}
                 />
-                {/*<Form.Control.Feedback type="invalid">*/}
-                {/*  {errorReducer.recipients}*/}
-                {/*</Form.Control.Feedback>*/}
+                <Form.Control.Feedback type="invalid">
+                  {this.props.errorReducer.file}
+                </Form.Control.Feedback>
               </Form.Group>
 
               <hr/>
@@ -106,23 +106,6 @@ class FileUploadModal extends Component {
               </Row>
             </Form>
           </Modal.Body>
-
-          {/*<Modal.Footer>*/}
-          {/*  <Row className="mt-3 mb-2 mr-2 justify-content-end">*/}
-          {/*    <Col xs="auto" className="my-auto">*/}
-          {/*      <Button*/}
-          {/*        variant="light"*/}
-          {/*        onClick={this.onSkipClick}>*/}
-          {/*        Skip*/}
-          {/*      </Button>*/}
-          {/*    </Col>*/}
-          {/*    <Col xs="auto" className="my-auto">*/}
-          {/*      <Button variant="primary" type="submit" onSubmit={this.onSubmit}>*/}
-          {/*        Confirmă*/}
-          {/*      </Button>*/}
-          {/*    </Col>*/}
-          {/*  </Row>*/}
-          {/*</Modal.Footer>*/}
         </Modal>
       </React.Fragment>
     );
@@ -136,7 +119,6 @@ FileUploadModal.propTypes = {
 
 const mapStateToProps = state => ({
   errorReducer: state.errorReducer,
-  // fileReducer: state.fileReducer
 });
 
 export default connect(mapStateToProps, {uploadFile}, null, {forwardRef: true})(FileUploadModal);
