@@ -14,6 +14,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import {UPDATE_SELECTED_USERS_FOR_DOCUMENT_HISTORY} from "../../actions/types";
 import {updateAllUsers} from "../../actions/userActions";
+import FileUploadModal from "../fragments/document/FileUploadModal";
 
 class CreateDocument extends Component {
   constructor() {
@@ -27,8 +28,11 @@ class CreateDocument extends Component {
       recipients: [],
       sentMessage: "",
 
-      errorReducer: {}
+      documentReducer: {},
+      errorReducer: {},
     };
+
+    this.uploadModalRef = React.createRef();
 
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
@@ -51,6 +55,12 @@ class CreateDocument extends Component {
 
   componentWillUnmount() {
     this.props.updateAllUsers([]);
+  }
+
+  isInputValid() {
+    // errorReducer.origin
+    // errorReducer.title
+    // errorReducer.recipients
   }
 
   onChange(e) {
@@ -82,7 +92,7 @@ class CreateDocument extends Component {
     }
   }
 
-  onSubmit(e) {
+  async onSubmit(e) {
     e.preventDefault();
     let recipientEmails = [];
     if (!this.state.isDestinationExternal) {
@@ -101,8 +111,9 @@ class CreateDocument extends Component {
       recipients: recipientEmails,
       sentMessage: this.state.sentMessage
     };
-    console.log(newDocument);
-    this.props.createDocument(newDocument, this.props.history);
+    await this.props.createDocument(newDocument, this.props.history);
+    console.log(this.props.documentReducer.mostRecentRegNr);
+    this.uploadModalRef.current.handleShow(this.props.documentReducer.mostRecentRegNr);
   }
 
   render() {
@@ -310,6 +321,8 @@ class CreateDocument extends Component {
     }
 
     return (
+      <React.Fragment>
+      <FileUploadModal history={this.props.history} ref={this.uploadModalRef} />
       <Jumbotron className="mx-5 my-4 shadow p-5">
         <h4 className="text-center">Document nou</h4>
         <Form onSubmit={this.onSubmit}>
@@ -327,11 +340,13 @@ class CreateDocument extends Component {
           </Col></Row>
         </Form>
       </Jumbotron>
+      </React.Fragment>
     );
   }
 }
 
 CreateDocument.propTypes = {
+  documentReducer: PropTypes.object.isRequired,
   errorReducer: PropTypes.object.isRequired,
   securityReducer: PropTypes.object.isRequired,
   userReducer: PropTypes.object.isRequired,
@@ -340,6 +355,7 @@ CreateDocument.propTypes = {
 };
 
 const mapStateToProps = state => ({
+  documentReducer: state.documentReducer,
   errorReducer: state.errorReducer,
   securityReducer: state.securityReducer,
   userReducer: state.userReducer

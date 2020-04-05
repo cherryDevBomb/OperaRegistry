@@ -9,6 +9,7 @@ import "./style/reusables/btn-toggle.css"
 import "./style/reusables/font.css"
 import "./style/reusables/form.css"
 import "./style/reusables/icons.css"
+import "./style/reusables/modal.css"
 import "./style/reusables/nav.css"
 import "./style/components/landing.css"
 import "./style/components/table.css"
@@ -24,7 +25,6 @@ import {
   DOCUMENTS_PATH,
   MY_DOCUMENTS_PATH,
   NEW_DOCUMENT_PATH,
-  NEW_DOCUMENT_UPLOAD_FILE_PATH,
   RECEIVED_DOCUMENTS_PATH,
   REGISTER_PATH
 } from "./properties";
@@ -33,7 +33,6 @@ import setJWTToken from "./utils/setJWTToken";
 import {SET_CURRENT_USER} from "./actions/types";
 import {logout} from "./actions/securityActions";
 import SecuredRoute from "./utils/SecuredRoute";
-import UploadAfterCreate from "./components/fragments/document/UploadAfterCreate";
 import MyDocuments from "./components/layout/MyDocuments";
 import ReceivedDocuments from "./components/layout/ReceivedDocuments";
 
@@ -87,11 +86,11 @@ class App extends Component {
                 path={NEW_DOCUMENT_PATH}
                 component={CreateDocument}
               />
-              <SecuredRoute
-                exact
-                path={NEW_DOCUMENT_UPLOAD_FILE_PATH}
-                component={UploadAfterCreate}
-              />
+              {/*<SecuredRoute*/}
+              {/*  exact*/}
+              {/*  path={NEW_DOCUMENT_UPLOAD_FILE_PATH}*/}
+              {/*  component={UploadAfterCreate}*/}
+              {/*/>*/}
             </Switch>
           </div>
         </Router>

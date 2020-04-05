@@ -26,7 +26,6 @@ export const uploadFile = (file, registryNumber, history) => async dispatch => {
     } else {
       alert('Something went wrong while uploading this file');
     }
-
   }
 };
 

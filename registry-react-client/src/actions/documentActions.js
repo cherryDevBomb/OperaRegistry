@@ -23,7 +23,6 @@ export const createDocument = (document, history) => async dispatch => {
   try {
     const path = properties.serverURL + DOCUMENTS_URL;
     const res = await axios.post(path, document);
-    history.push(NEW_DOCUMENT_UPLOAD_FILE_PATH);
     dispatch({
       type: DOCUMENT_CREATED,
       payload: res.data
