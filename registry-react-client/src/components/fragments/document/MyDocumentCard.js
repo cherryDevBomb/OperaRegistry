@@ -1,7 +1,6 @@
 import React, {Component} from "react";
 import Card from "react-bootstrap/Card";
 import Nav from "react-bootstrap/Nav";
-import Badge from "react-bootstrap/Badge";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -47,13 +46,13 @@ class MyDocumentCard extends Component {
     let archiveButton;
     if (!document.archived) {
       archiveButton = (
-        <Button variant="success" onClick={this.onArchiveClick.bind(this)}>
+        <Button variant="success" className="float-right" onClick={this.onArchiveClick.bind(this)}>
           Arhivează
         </Button>
       )
     } else {
       archiveButton = (
-        <Button variant="success" disabled={true}>
+        <Button variant="success" className="float-right" disabled={true}>
           Arhivat
         </Button>
       )
@@ -61,23 +60,23 @@ class MyDocumentCard extends Component {
 
     return (
       <React.Fragment>
-        <Card>
+        <Card className="mx-2 mt-3 shadow-sm">
 
           <Card.Header>
             <Container>
-              <Row>
-                <Col xs={1}>
-                  <Badge variant="primary">{document.registryNumber}</Badge>
+              <Row className="mt-2 mb-1">
+                <Col className="col-sm-1 my-auto">
+                  <Button variant="number">{document.registryNumber}</Button>
                 </Col>
-                <Col xs="auto">
+                <Col className="col-sm-8 my-auto">
                   <Card.Title>{document.title}</Card.Title>
                 </Col>
-                <Col>
+                <Col className="col-sm-3 my-auto">
                   {archiveButton}
                 </Col>
               </Row>
             </Container>
-            <Nav variant="tabs" defaultActiveKey="#description"
+            <Nav variant="pills" defaultActiveKey="#description"
                  onSelect={selectedKey => this.setState({selectedTab: selectedKey})}>
               <Nav.Item>
                 <Nav.Link href="#description">Descriere</Nav.Link>
@@ -86,6 +85,7 @@ class MyDocumentCard extends Component {
                 <Nav.Link href="#history">Istoric</Nav.Link>
               </Nav.Item>
             </Nav>
+            <hr className="hr-tabs"/>
           </Card.Header>
 
           <Card.Body>

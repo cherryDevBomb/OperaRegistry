@@ -13,6 +13,7 @@ import "./style/reusables/modal.css"
 import "./style/reusables/nav.css"
 import "./style/components/landing.css"
 import "./style/components/table.css"
+import "./style/reusables/tab.css"
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import {Provider} from "react-redux";
 import store from "./store";

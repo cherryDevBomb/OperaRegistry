@@ -61,40 +61,38 @@ export const saveSearchDetails = searchDetails => async dispatch => {
   });
 }
 
-export const getMyDocumentsOpen = () => async dispatch => {
+export const getMyDocuments = archived => async dispatch => {
   const path = properties.serverURL + MY_DOCUMENTS_URL;
-  const res = await axios.get(path, { params: {archived: false}});
-  dispatch({
-    type: GET_MY_DOCUMENTS_OPEN,
-    payload: res.data
-  });
+  const res = await axios.get(path, { params: {archived: archived}});
+  if (archived) {
+    dispatch({
+      type: GET_MY_DOCUMENTS_ARCHIVED,
+      payload: res.data
+    });
+  }
+  else {
+    dispatch({
+      type: GET_MY_DOCUMENTS_OPEN,
+      payload: res.data
+    });
+  }
 };
 
-export const getMyDocumentsArchived = () => async dispatch => {
-  const path = properties.serverURL + MY_DOCUMENTS_URL;
-  const res = await axios.get(path, { params: {archived: true}});
-  dispatch({
-    type: GET_MY_DOCUMENTS_ARCHIVED,
-    payload: res.data
-  });
-};
-
-export const getDocumentsReceivedOpen = () => async dispatch => {
+export const getDocumentsReceived = archived => async dispatch => {
   const path = properties.serverURL + DOCUMENTS_RECEIVED_URL;
-  const res = await axios.get(path, { params: {archived: false}});
-  dispatch({
-    type: GET_DOCUMENTS_RECEIVED_OPEN,
-    payload: res.data
-  });
-};
-
-export const getDocumentsReceivedArchived = () => async dispatch => {
-  const path = properties.serverURL + DOCUMENTS_RECEIVED_URL;
-  const res = await axios.get(path, { params: {archived: true}});
-  dispatch({
-    type: GET_DOCUMENTS_RECEIVED_ARCHIVED,
-    payload: res.data
-  });
+  const res = await axios.get(path, { params: {archived: archived}});
+  if (archived) {
+    dispatch({
+      type: GET_DOCUMENTS_RECEIVED_ARCHIVED,
+      payload: res.data
+    });
+  }
+  else {
+    dispatch({
+      type: GET_DOCUMENTS_RECEIVED_OPEN,
+      payload: res.data
+    });
+  }
 };
 
 export const archiveDocument = (registryNumber) => async dispatch => {

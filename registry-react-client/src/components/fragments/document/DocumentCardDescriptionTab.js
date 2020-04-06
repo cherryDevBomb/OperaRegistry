@@ -4,13 +4,21 @@ import Col from "react-bootstrap/Col";
 import {DESTINATION_EXTERNAL_DOC_TYPE} from "../../../properties";
 import Button from "react-bootstrap/Button";
 import {getFullName} from "../../../utils/userUtils";
-import Badge from "react-bootstrap/Badge";
 import Container from "react-bootstrap/Container";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {downloadFile} from "../../../actions/fileActions";
+import UserPopup from "../user/UserPopup";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import {getReceiverItem} from "../../../utils/uiUtils";
+import Tooltip from "react-bootstrap/Tooltip";
+import FileUploadModal from "./FileUploadModal";
 
 class DocumentCardDescriptionTab extends Component {
+  constructor(props) {
+    super(props);
+    this.uploadModalRef = React.createRef();
+  }
 
   onDownloadClick(e) {
     e.preventDefault();
@@ -18,21 +26,28 @@ class DocumentCardDescriptionTab extends Component {
     this.props.downloadFile(document.registryNumber);
   }
 
+  openUploadFileModal(e) {
+    this.uploadModalRef.current.handleShow(this.props.document.registryNumber);
+  }
+
   render() {
     const {document} = this.props;
 
     const createdByRow = (
-      <Row>
-        <Col sm={2}>
-          Creat de:
+      <Row className="mt-1">
+        <Col className="col-sm-3 my-auto">
+          <strong>Înregistrat de către:</strong>
         </Col>
-        <Col xs={1}>
-          <Badge variant="info" pill={true}>
-            {document.createdBy.firstName[0] + document.createdBy.lastName[0]}
-          </Badge>
-        </Col>
-        <Col xs="auto">
-          {getFullName(document.createdBy)}
+        <Col className="col-sm-6 my-auto">
+          <OverlayTrigger
+            trigger={['hover', 'focus']}
+            placement="bottom-start"
+            overlay={<UserPopup user={document.createdBy}/>}
+          >
+            <div className="btn-link">
+              {getFullName(document.createdBy)}
+            </div>
+          </OverlayTrigger>
         </Col>
       </Row>
     );
@@ -40,11 +55,11 @@ class DocumentCardDescriptionTab extends Component {
     let originRow;
     if (document.origin !== null) {
       originRow = (
-        <Row>
-          <Col sm={2} className="justify-content-end">
-            Origine:
+        <Row className="mt-2">
+          <Col className="col-sm-3 my-auto">
+            <strong>Origine:</strong>
           </Col>
-          <Col sm="auto" className="align-items-start">
+          <Col className="col-sm-6 my-auto">
             {document.origin}
           </Col>
         </Row>
@@ -55,8 +70,8 @@ class DocumentCardDescriptionTab extends Component {
     if (document.documentType === DESTINATION_EXTERNAL_DOC_TYPE) {
       receiversRow = (
         document.documentHistory.map(dh => (
-            <Col key={dh.documentHistoryId}>
-              <Button variant="secondary">
+            <Col className="col-xs-auto my-auto px-0" key={dh.documentHistoryId}>
+              <Button variant="recipient" size="sm" className="mr-3">
                 {dh.externalRecipient}
               </Button>
             </Col>
@@ -66,43 +81,70 @@ class DocumentCardDescriptionTab extends Component {
     } else {
       receiversRow = (
         document.documentHistory.map(dh => (
-            <Col key={dh.documentHistoryId}>
-              <Button variant="secondary">
-                {getFullName(dh.internalRecipient)}
-              </Button>
+            <Col md="auto" className="my-auto px-0" key={dh.documentHistoryId}>
+              <OverlayTrigger
+                trigger={['hover', 'focus']}
+                placement="bottom-start"
+                overlay={<UserPopup user={dh.internalRecipient}/>}
+              >
+                {getReceiverItem(dh.internalRecipient, dh.resolved)}
+              </OverlayTrigger>
             </Col>
           )
         )
       )
     }
 
-    let downloadLinkRow;
+    let downloadLinkColumn;
     if (document.hasAttachment) {
-      downloadLinkRow = (
-        <Row>
-          <Col>
-            <Button variant="outline-info" onClick={this.onDownloadClick.bind(this)}>
-              Descarcă fișier
+      downloadLinkColumn = (
+        <Col className="col-sm-6 pl-0 my-auto">
+          <OverlayTrigger placement="right" overlay={<Tooltip>Descarcă fișier</Tooltip>}>
+            <Button variant="light-pure" onClick={this.onDownloadClick.bind(this)}>
+              <i className="fas fa-file-download ml-1 mr-2"/>
             </Button>
-          </Col>
-        </Row>
+          </OverlayTrigger>
+        </Col>
+      )
+    } else {
+      downloadLinkColumn = (
+        <Col className="col-sm-6 my-auto">
+          Nu exista nici un fișier atașat.
+          <OverlayTrigger placement="right" overlay={<Tooltip>Încarcă un fișier</Tooltip>}>
+            <Button variant="light-pure" onClick={this.openUploadFileModal.bind(this)}>
+              <i className="fas fa-file-upload ml-1 mr-2"/>
+            </Button>
+          </OverlayTrigger>
+        </Col>
       )
     }
 
     return (
-      <Container>
-        {createdByRow}
-        {originRow}
-        <Row>
-          <Col sm={2}>
-            Destinatari:
-          </Col>
-          <Row>
-            {receiversRow}
+      <React.Fragment>
+        <FileUploadModal history={this.props.history} ref={this.uploadModalRef}/>
+        <Container>
+          {createdByRow}
+          {originRow}
+
+          <Row className="mt-1">
+            <Col className="col-sm-3 my-auto">
+              <strong>Destinatari:</strong>
+            </Col>
+            <Col className="col-xs-auto my-auto ml-3">
+              <Row>
+                {receiversRow}
+              </Row>
+            </Col>
           </Row>
-        </Row>
-        {downloadLinkRow}
-      </Container>
+
+          <Row className="mt-3">
+            <Col className="col-sm-3 my-auto">
+              <strong>Fișier:</strong>
+            </Col>
+            {downloadLinkColumn}
+          </Row>
+        </Container>
+      </React.Fragment>
     )
   }
 }

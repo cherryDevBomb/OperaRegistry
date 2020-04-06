@@ -27,9 +27,30 @@
   cursor: pointer;
 }
 
+.fa-file-upload {
+  color: #4f4538;
+  font-size: 1.5rem;
+}
+
+.fa-file-upload:hover {
+  color: #bd8f3a;
+  cursor: pointer;
+}
+
 .fa-search {
   color: #4f4538;
   font-size: 1em;
+}
+
+.fa-check-circle-regular {
+  color: white;
+  background-color: #659816;
+  font-size: 1.3em;
+  margin-left: -0.7em;
+  margin-top: -1em;
+  padding-top: 0;
+  margin-right: 0.5em;
+  border-radius: 2rem;
 }
 
 /*# sourceMappingURL=icons.css.map */
