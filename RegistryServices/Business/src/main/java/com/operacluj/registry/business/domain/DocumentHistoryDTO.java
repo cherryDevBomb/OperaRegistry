@@ -8,10 +8,10 @@ public class DocumentHistoryDTO {
     private int registryNumber;
 
     private String sentDate;
-    private User sender;
+    private UserDTO sender;
     private String sentMessage;
 
-    private User internalRecipient;
+    private UserDTO internalRecipient;
     private String externalRecipient;
 
     private boolean resolved;
@@ -42,11 +42,11 @@ public class DocumentHistoryDTO {
         this.sentDate = sentDate;
     }
 
-    public User getSender() {
+    public UserDTO getSender() {
         return sender;
     }
 
-    public void setSender(User sender) {
+    public void setSender(UserDTO sender) {
         this.sender = sender;
     }
 
@@ -58,11 +58,11 @@ public class DocumentHistoryDTO {
         this.sentMessage = sentMessage;
     }
 
-    public User getInternalRecipient() {
+    public UserDTO getInternalRecipient() {
         return internalRecipient;
     }
 
-    public void setInternalRecipient(User internalRecipient) {
+    public void setInternalRecipient(UserDTO internalRecipient) {
         this.internalRecipient = internalRecipient;
     }
 

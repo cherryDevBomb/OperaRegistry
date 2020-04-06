@@ -8,7 +8,7 @@ public class DocumentDTO {
 
     private int registryNumber;
     private String createdDate;
-    private User createdBy;
+    private UserDTO createdBy;
     private String origin;
     private String title;
     private String documentType;
@@ -34,11 +34,11 @@ public class DocumentDTO {
         this.createdDate = createdDate;
     }
 
-    public User getCreatedBy() {
+    public UserDTO getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(User createdBy) {
+    public void setCreatedBy(UserDTO createdBy) {
         this.createdBy = createdBy;
     }
 

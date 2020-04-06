@@ -18,19 +18,22 @@ public class DocumentHistoryTranslator {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private UserTranslator userTranslator;
+
     public DocumentHistoryDTO translate(DocumentHistory documentHistory) {
         DocumentHistoryDTO documentHistoryDTO = new DocumentHistoryDTO();
         documentHistoryDTO.setDocumentHistoryId(documentHistory.getDocumentHistoryId());
         documentHistoryDTO.setRegistryNumber(documentHistory.getRegistryNumber());
 
         User sender = userService.getUserById(documentHistory.getSender());
-        documentHistoryDTO.setSender(sender);
+        documentHistoryDTO.setSender(userTranslator.translate(sender));
         documentHistoryDTO.setSentMessage(documentHistory.getSentMessage());
 
         Optional<Integer> optionalInternalRecipientId = Optional.ofNullable(documentHistory.getInternalRecipient());
         if (optionalInternalRecipientId.orElse(0) != 0) {
             User internalRecipient = userService.getUserById(optionalInternalRecipientId.get());
-            documentHistoryDTO.setInternalRecipient(internalRecipient);
+            documentHistoryDTO.setInternalRecipient(userTranslator.translate(internalRecipient));
         }
         else {
             documentHistoryDTO.setExternalRecipient(documentHistory.getExternalRecipient());

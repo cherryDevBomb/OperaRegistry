@@ -28,6 +28,8 @@ public class DocumentTranslator {
     @Autowired
     private FileService fileService;
 
+    @Autowired UserTranslator userTranslator;
+
     public Document translate(DocumentForm documentForm) {
         Document document = new Document();
         document.setTitle(documentForm.getTitle());
@@ -53,7 +55,7 @@ public class DocumentTranslator {
         documentDTO.setRegistryNumber(document.getRegistryNumber());
 
         User documentAuthor = userService.getUserById(document.getCreatedBy());
-        documentDTO.setCreatedBy(documentAuthor);
+        documentDTO.setCreatedBy(userTranslator.translate(documentAuthor));
 
         documentDTO.setOrigin(document.getOrigin());
         documentDTO.setTitle(document.getTitle());
