@@ -46,13 +46,13 @@ class MyDocumentCard extends Component {
     let archiveButton;
     if (!document.archived) {
       archiveButton = (
-        <Button variant="success" className="float-right" onClick={this.onArchiveClick.bind(this)}>
+        <Button variant="archive" size="sm" className="float-right" onClick={this.onArchiveClick.bind(this)}>
           Arhivează
         </Button>
       )
     } else {
       archiveButton = (
-        <Button variant="success" className="float-right" disabled={true}>
+        <Button variant="archive" size="sm" className="float-right" disabled={true}>
           Arhivat
         </Button>
       )

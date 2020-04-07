@@ -58,4 +58,26 @@
   background-color: white;
 }
 
+.btn-archive {
+  color: white;
+  background-color: #4f4538;
+}
+
+.btn-archive:hover {
+  color: white;
+  background-color: #bd8f3a;
+}
+
+.btn-archive:disabled {
+  cursor: auto;
+  color: white;
+  background-color: #736451;
+}
+
+.btn-archive:disabled:hover {
+  cursor: auto;
+  color: white;
+  background-color: #736451;
+}
+
 /*# sourceMappingURL=btn-variants.css.map */

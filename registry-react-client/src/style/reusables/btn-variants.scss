@@ -55,5 +55,23 @@
 }
 .btn-light-pure:hover {
   background-color: white;
-  //color: $gold;
+}
+
+.btn-archive {
+  color: white;
+  background-color: $brownish-gray;
+}
+.btn-archive:hover {
+  color: white;
+  background-color: $gold;
+}
+.btn-archive:disabled {
+  cursor: auto;
+  color: white;
+  background-color: lighten($brownish-gray, 12);
+}
+.btn-archive:disabled:hover {
+  cursor: auto;
+  color: white;
+  background-color: lighten($brownish-gray, 12);
 }
