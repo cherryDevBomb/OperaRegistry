@@ -338,7 +338,7 @@ class CreateDocument extends Component {
 
     return (
       <React.Fragment>
-        <FileUploadModal history={this.props.history} ref={this.uploadModalRef}/>
+        <FileUploadModal history={this.props.history} skipButtonText="Skip" ref={this.uploadModalRef}/>
         <Jumbotron className="mx-5 my-4 shadow p-5">
           <h4 className="text-center">Document nou</h4>
           <Form onSubmit={this.onSubmit}>

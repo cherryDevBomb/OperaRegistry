@@ -45,11 +45,18 @@ class FileUploadModal extends Component {
   onSubmit(e) {
     e.preventDefault();
     this.props.uploadFile(this.state.file, this.state.registryNumber, this.props.history);
-    console.log("submit")
+    if (!this.props.history) {
+      this.handleClose();
+      this.props.refreshCallback();
+    }
   }
 
   onSkipClick = () => {
-    this.props.history.push(MY_DOCUMENTS_PATH);
+    if (this.props.history) {
+      this.props.history.push(MY_DOCUMENTS_PATH);
+    } else {
+      this.handleClose();
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -95,7 +102,7 @@ class FileUploadModal extends Component {
                   <Button
                     variant="light"
                     onClick={this.onSkipClick}>
-                       Skip
+                    {this.props.skipButtonText}
                   </Button>
                 </Col>
                 <Col xs="auto" className="my-auto">

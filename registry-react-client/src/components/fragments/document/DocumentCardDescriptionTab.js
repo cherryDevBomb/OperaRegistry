@@ -18,6 +18,10 @@ class DocumentCardDescriptionTab extends Component {
   constructor(props) {
     super(props);
     this.uploadModalRef = React.createRef();
+
+    this.state = {
+      hasAttachment: this.props.document.hasAttachment
+    }
   }
 
   onDownloadClick(e) {
@@ -28,6 +32,10 @@ class DocumentCardDescriptionTab extends Component {
 
   openUploadFileModal(e) {
     this.uploadModalRef.current.handleShow(this.props.document.registryNumber);
+  }
+
+  refresh() {
+    this.setState({hasAttachment: true});
   }
 
   render() {
@@ -96,7 +104,7 @@ class DocumentCardDescriptionTab extends Component {
     }
 
     let downloadLinkColumn;
-    if (document.hasAttachment) {
+    if (this.state.hasAttachment) {
       downloadLinkColumn = (
         <Col className="col-sm-6 pl-0 my-auto">
           <OverlayTrigger placement="right" overlay={<Tooltip>Descarcă fișier</Tooltip>}>
@@ -121,7 +129,7 @@ class DocumentCardDescriptionTab extends Component {
 
     return (
       <React.Fragment>
-        <FileUploadModal history={this.props.history} ref={this.uploadModalRef}/>
+        <FileUploadModal refreshCallback={this.refresh.bind(this)} skipButtonText="Anulează" ref={this.uploadModalRef}/>
         <Container>
           {createdByRow}
           {originRow}
@@ -139,7 +147,7 @@ class DocumentCardDescriptionTab extends Component {
 
           <Row className="mt-3">
             <Col className="col-sm-3 my-auto">
-              <strong>Fișier:</strong>
+              <strong>Atașament:</strong>
             </Col>
             {downloadLinkColumn}
           </Row>

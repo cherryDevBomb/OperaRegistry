@@ -18,11 +18,13 @@ export const uploadFile = (file, registryNumber, history) => async dispatch => {
       type: GET_ERRORS,
       payload: {}
     })
-    history.push(MY_DOCUMENTS_PATH);
+    if (history) {
+      history.push(MY_DOCUMENTS_PATH);
+    }
   } catch (error) {
     dispatch({
       type: GET_ERRORS,
-      payload: {file: "Alegeți un fișier sau apăsați \"Skip\""}
+      payload: {file: "Nu a fost ales nici un fișier"}
     })
   }
 };
