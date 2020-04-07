@@ -13,19 +13,23 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import {UPDATE_SELECTED_USERS_FOR_DOCUMENT_HISTORY} from "../../actions/types";
-import {updateAllUsers} from "../../actions/userActions";
+import {updateAllUsers, updateSelectedUsers} from "../../actions/userActions";
 import FileUploadModal from "../fragments/document/FileUploadModal";
 
 class CreateDocument extends Component {
-  constructor() {
-    super();
+  componentDidMount() {
+    this.props.updateSelectedUsers([], UPDATE_SELECTED_USERS_FOR_DOCUMENT_HISTORY);
+  }
+
+  constructor(props) {
+    super(props);
 
     this.state = {
       title: "",
       origin: "",
       isOriginExternal: false,
       isDestinationExternal: false,
-      recipients: [],
+      recipients: null,
       sentMessage: "",
 
       documentReducer: {},
@@ -95,28 +99,34 @@ class CreateDocument extends Component {
     }
   }
 
-  async onSubmit(e) {
-    e.preventDefault();
-    let recipientEmails = [];
-    if (!this.state.isDestinationExternal) {
-      this.setState({
-        recipients: this.props.userReducer.selectedUsersForDocumentHistory.forEach(rec => recipientEmails.push(rec.email.toString()))
-      });
-    } else {
-      recipientEmails = this.state.recipients;
-    }
-
+  async createDocument() {
     const newDocument = {
       title: this.state.title,
       origin: this.state.origin,
       isOriginExternal: this.state.isOriginExternal,
       isDestinationExternal: this.state.isDestinationExternal,
-      recipients: recipientEmails,
+      recipients: this.state.recipients,
       sentMessage: this.state.sentMessage
     };
     await this.props.createDocument(newDocument, this.props.history);
     if (this.isInputValid()) {
       this.uploadModalRef.current.handleShow(this.props.documentReducer.mostRecentRegNr);
+    }
+  }
+
+  async onSubmit(e) {
+    e.preventDefault();
+    if (!this.state.isDestinationExternal) {
+      let recipientEmails = [];
+      this.props.userReducer.selectedUsersForDocumentHistory.forEach(rec => recipientEmails.push(rec.email.toString()));
+      this.setState({
+        recipients: recipientEmails
+      }, () => {
+        console.log("recipients in onSubmit", this.state.recipients);
+        this.createDocument()
+      });
+    } else {
+      this.createDocument()
     }
   }
 
@@ -259,7 +269,7 @@ class CreateDocument extends Component {
     );
 
     let internalReceiversFeedback;
-    if (!this.state.isDestinationExternal && !this.state.recipients) {
+    if (!this.state.isDestinationExternal && this.state.recipients && this.state.recipients.length === 0) {
       internalReceiversFeedback = (
         <div className="small error-feedback">Câmp obligatoriu</div>
       )
@@ -367,7 +377,8 @@ CreateDocument.propTypes = {
   securityReducer: PropTypes.object.isRequired,
   userReducer: PropTypes.object.isRequired,
   createDocument: PropTypes.func.isRequired,
-  updateAllUsers: PropTypes.func.isRequired
+  updateAllUsers: PropTypes.func.isRequired,
+  updateSelectedUsers: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -377,4 +388,4 @@ const mapStateToProps = state => ({
   userReducer: state.userReducer
 });
 
-export default connect(mapStateToProps, {createDocument, updateAllUsers})(CreateDocument);
+export default connect(mapStateToProps, {createDocument, updateAllUsers, updateSelectedUsers})(CreateDocument);

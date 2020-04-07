@@ -7,7 +7,7 @@ import {
   GET_ERRORS,
   GET_MY_DOCUMENTS_ARCHIVED,
   GET_MY_DOCUMENTS_OPEN,
-  SAVE_SEARCH_DETAILS
+  SAVE_SEARCH_DETAILS, UPDATE_SELECTED_USERS_FOR_DOCUMENT_HISTORY
 } from "./types";
 import {properties} from "../properties.js";
 import {ARCHIVE_DOCUMENT_URL, DOCUMENTS_RECEIVED_URL, DOCUMENTS_URL, MY_DOCUMENTS_URL} from "../properties";
@@ -30,7 +30,7 @@ export const createDocument = (document, history) => async dispatch => {
       dispatch({
         type: GET_ERRORS,
         payload: {}
-      })
+      });
     }
   } catch (error) {
     if (error.response) {
