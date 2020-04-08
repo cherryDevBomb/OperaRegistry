@@ -39,13 +39,13 @@ class DocumentTable extends Component {
     const documents = this.props.documentReducer.documents;
 
     let pages = [];
-      for (let number = 1; number <= this.props.documentReducer.documentsPageCount; number++) {
-        pages.push(
-          <Pagination.Item key={number} active={number === this.state.activePage}>
-            {number}
-          </Pagination.Item>,
-        );
-      }
+    for (let number = 1; number <= this.props.documentReducer.documentsPageCount; number++) {
+      pages.push(
+        <Pagination.Item key={number} active={number === this.state.activePage}>
+          {number}
+        </Pagination.Item>,
+      );
+    }
 
     return (
       <div>
@@ -77,7 +77,7 @@ class DocumentTable extends Component {
 
         <Row className="mt-4 mx-auto">
           <Col xs={"auto"} className="mx-auto">
-        <Pagination onClick={this.pageChanged.bind(this)}>{pages}</Pagination>
+            <Pagination onClick={this.pageChanged.bind(this)}>{pages}</Pagination>
           </Col>
         </Row>
       </div>

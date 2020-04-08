@@ -57,23 +57,17 @@ const mapSearchDetailsTypesToDocTypes = (origin, destination) => {
 
   if (origin === "Extern" && destination === "Extern") {
     docTypes = [];
-  }
-  else if (origin === "Extern") {
+  } else if (origin === "Extern") {
     docTypes = [ORIGIN_EXTERNAL];
-  }
-  else if (destination === "Extern") {
+  } else if (destination === "Extern") {
     docTypes = [DESTINATION_EXTERNAL];
-  }
-  else if (origin === "Oricine" && destination === "Oricine") {
+  } else if (origin === "Oricine" && destination === "Oricine") {
     docTypes = [INTERNAL, ORIGIN_EXTERNAL, DESTINATION_EXTERNAL]
-  }
-  else if (origin === "Oricine") {
+  } else if (origin === "Oricine") {
     docTypes = [INTERNAL, ORIGIN_EXTERNAL]
-  }
-  else if (destination === "Oricine") {
+  } else if (destination === "Oricine") {
     docTypes = [INTERNAL, DESTINATION_EXTERNAL]
-  }
-  else {
+  } else {
     docTypes = [INTERNAL]
   }
   return docTypes;
@@ -88,20 +82,16 @@ const mapSearchDetailsCreatedDate = searchDetails => {
   if (searchDetails.createdDate === "Astăzi") {
     fromDate = today;
     toDate = today;
-  }
-  else if (searchDetails.createdDate === "Ieri") {
+  } else if (searchDetails.createdDate === "Ieri") {
     toDate = today;
     fromDate = new Date(new Date().setDate(today.getDate() - 1));
-  }
-  else if (searchDetails.createdDate === "În ultimile 7 zile") {
+  } else if (searchDetails.createdDate === "În ultimile 7 zile") {
     toDate = today;
     fromDate = new Date(new Date().setDate(today.getDate() - 7));
-  }
-  else if (searchDetails.createdDate === "În ultimile 30 de zile") {
+  } else if (searchDetails.createdDate === "În ultimile 30 de zile") {
     toDate = today;
     fromDate = new Date(new Date().setDate(today.getDate() - 30));
-  }
-  else if (searchDetails.createdDate === "Personalizat") {
+  } else if (searchDetails.createdDate === "Personalizat") {
     fromDate = searchDetails.from;
     toDate = searchDetails.to;
   }
