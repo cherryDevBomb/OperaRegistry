@@ -54,7 +54,7 @@ class DocumentRow extends Component {
           const item = (
             <OverlayTrigger
               trigger={['hover', 'focus']}
-              placement="bottom-start"
+              placement="auto-start"
               overlay={<UserPopup user={dh.internalRecipient}/>}
             >
               <div className="btn-link">

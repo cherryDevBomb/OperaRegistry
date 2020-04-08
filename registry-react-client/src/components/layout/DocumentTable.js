@@ -6,15 +6,46 @@ import {getDocuments} from "../../actions/documentActions";
 import PropTypes from "prop-types";
 import Jumbotron from "react-bootstrap/Jumbotron";
 import DocumentSearch from "../fragments/document/DocumentSearch";
+import Pagination from "react-bootstrap/Pagination";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 
 class DocumentTable extends Component {
-  componentDidMount() {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      activePage: 1,
+    }
+  }
+
+  loadCurrentPage() {
     const searchDetails = this.props.documentReducer.searchDetails;
-    this.props.getDocuments(searchDetails);
+    this.props.getDocuments(searchDetails, this.state.activePage);
+  }
+
+  componentDidMount() {
+    this.loadCurrentPage();
+  }
+
+  pageChanged(e) {
+    const newPageNumber = parseInt(e.target.text)
+    this.setState({activePage: newPageNumber}, () => {
+      this.loadCurrentPage();
+    });
   }
 
   render() {
     const documents = this.props.documentReducer.documents;
+
+    let pages = [];
+      for (let number = 1; number <= this.props.documentReducer.documentsPageCount; number++) {
+        pages.push(
+          <Pagination.Item key={number} active={number === this.state.activePage}>
+            {number}
+          </Pagination.Item>,
+        );
+      }
 
     return (
       <div>
@@ -43,6 +74,12 @@ class DocumentTable extends Component {
             </tbody>
           </Table>
         </Jumbotron>
+
+        <Row className="mt-4 mx-auto">
+          <Col xs={"auto"} className="mx-auto">
+        <Pagination onClick={this.pageChanged.bind(this)}>{pages}</Pagination>
+          </Col>
+        </Row>
       </div>
     );
   }

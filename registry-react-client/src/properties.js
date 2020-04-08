@@ -14,6 +14,8 @@ export const MY_DOCUMENTS_URL = "/documents/my-documents";
 export const DOCUMENTS_RECEIVED_URL = "/documents/received";
 export const ARCHIVE_DOCUMENT_URL = "/archive";
 
+export const PAGE_COUNT_PATH = "/page-count"
+
 export const FILES_URL = "/files";
 
 // client side routes

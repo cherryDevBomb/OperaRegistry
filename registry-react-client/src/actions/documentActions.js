@@ -7,10 +7,16 @@ import {
   GET_ERRORS,
   GET_MY_DOCUMENTS_ARCHIVED,
   GET_MY_DOCUMENTS_OPEN,
-  SAVE_SEARCH_DETAILS, UPDATE_SELECTED_USERS_FOR_DOCUMENT_HISTORY
+  SAVE_SEARCH_DETAILS
 } from "./types";
 import {properties} from "../properties.js";
-import {ARCHIVE_DOCUMENT_URL, DOCUMENTS_RECEIVED_URL, DOCUMENTS_URL, MY_DOCUMENTS_URL} from "../properties";
+import {
+  ARCHIVE_DOCUMENT_URL,
+  DOCUMENTS_RECEIVED_URL,
+  DOCUMENTS_URL,
+  MY_DOCUMENTS_URL,
+  PAGE_COUNT_PATH
+} from "../properties";
 import {getSearchParams} from "../utils/documentUtils";
 
 export const createDocument = (document, history) => async dispatch => {
@@ -44,22 +50,20 @@ export const createDocument = (document, history) => async dispatch => {
   }
 };
 
-export const getDocuments = searchDetails => async dispatch => {
+export const getDocuments = (searchDetails, pageNumber) => async dispatch => {
     const path = properties.serverURL + DOCUMENTS_URL;
-    const searchParams = getSearchParams(searchDetails);
+    const searchParams = getSearchParams(searchDetails, pageNumber);
     const res = await axios.get(path, { params: searchParams});
+
+    const pageCountPath = path + PAGE_COUNT_PATH;
+    const pageCountRes = await axios.get(pageCountPath, { params: searchParams});
+
     dispatch({
       type: GET_DOCUMENTS,
-      payload: res.data
+      payload: {documentList: res.data, pageCount: pageCountRes.data}
     });
 };
 
-export const saveSearchDetails = searchDetails => async dispatch => {
-  dispatch({
-    type: SAVE_SEARCH_DETAILS,
-    payload: searchDetails
-  });
-}
 
 export const getMyDocuments = archived => async dispatch => {
   const path = properties.serverURL + MY_DOCUMENTS_URL;
@@ -94,6 +98,13 @@ export const getDocumentsReceived = archived => async dispatch => {
     });
   }
 };
+
+export const saveSearchDetails = searchDetails => async dispatch => {
+  dispatch({
+    type: SAVE_SEARCH_DETAILS,
+    payload: searchDetails
+  });
+}
 
 export const archiveDocument = (registryNumber) => async dispatch => {
   const path = properties.serverURL + DOCUMENTS_URL + "/" + registryNumber + ARCHIVE_DOCUMENT_URL;

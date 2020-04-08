@@ -7,7 +7,7 @@ import com.operacluj.registry.business.exception.CreateEntityException;
 import com.operacluj.registry.business.exception.EntityNotFoundException;
 import com.operacluj.registry.business.service.DocumentHistoryService;
 import com.operacluj.registry.business.service.DocumentService;
-import com.operacluj.registry.business.translator.DocumentHistoryTranslator;
+import com.operacluj.registry.business.service.PaginationService;
 import com.operacluj.registry.business.translator.DocumentTranslator;
 import com.operacluj.registry.business.translator.UserTranslator;
 import com.operacluj.registry.business.util.ErrorMessageConstants;
@@ -29,6 +29,7 @@ import java.security.Principal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -45,13 +46,13 @@ public class DocumentServiceImpl implements DocumentService {
     private DocumentHistoryService documentHistoryService;
 
     @Autowired
+    private PaginationService paginationService;
+
+    @Autowired
     InputValidator inputValidator;
 
     @Autowired
     private DocumentTranslator documentTranslator;
-
-    @Autowired
-    private DocumentHistoryTranslator documentHistoryTranslator;
 
     @Autowired
     private UserTranslator userTranslator;
@@ -71,9 +72,9 @@ public class DocumentServiceImpl implements DocumentService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<DocumentDTO> getAllDocuments() {
-        LOG.info("Enter getAllDocuments");
-        return documentRepository.getAllDocuments()
+    public List<DocumentDTO> getAllDocuments(int page) {
+        LOG.info("Enter getAllDocuments for page {}", page);
+        return documentRepository.getAllDocuments(page)
                 .stream()
                 .map(document -> documentTranslator.translate(document))
                 .collect(Collectors.toList());
@@ -81,16 +82,6 @@ public class DocumentServiceImpl implements DocumentService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<DocumentDTO> getAllDocumentsCreatedBy(Principal principal, boolean archived) {
-        User user = userTranslator.getUserFromPrincipal(principal);
-        LOG.info("Enter getAllDocumentsCreatedBy {}, archived = {}", user.getEmail(), archived);
-        return documentRepository.getAllDocumentsCreatedBy(user.getUserId(), archived)
-                .stream()
-                .map(document -> documentTranslator.translate(document))
-                .collect(Collectors.toList());
-    }
-
-    @Override
     public List<DocumentDTO> getDocumentsByCriteria(SearchCriteria searchCriteria) {
         LOG.info("Enter getDocumentsByCriteria");
         List<Document> allDocuments = documentRepository.getAllDocuments();
@@ -143,6 +134,33 @@ public class DocumentServiceImpl implements DocumentService {
         }
 
         return allDocuments.stream()
+                .map(document -> documentTranslator.translate(document))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<DocumentDTO> getDocumentsByCriteria(SearchCriteria searchCriteria, int page) {
+        List<DocumentDTO> allDocumentsMatchingSearchCriteria = getDocumentsByCriteria(searchCriteria);
+
+        if (!CollectionUtils.isEmpty(allDocumentsMatchingSearchCriteria)) {
+            int limit = paginationService.getPageLimit();
+            int start = (page - 1) * limit;
+            int end = start + limit > allDocumentsMatchingSearchCriteria.size() ? allDocumentsMatchingSearchCriteria.size() : start + limit;
+
+            return allDocumentsMatchingSearchCriteria.subList(start, end);
+        }
+        else {
+            return Collections.emptyList();
+        }
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<DocumentDTO> getAllDocumentsCreatedBy(Principal principal, boolean archived) {
+        User user = userTranslator.getUserFromPrincipal(principal);
+        LOG.info("Enter getAllDocumentsCreatedBy {}, archived = {}", user.getEmail(), archived);
+        return documentRepository.getAllDocumentsCreatedBy(user.getUserId(), archived)
+                .stream()
                 .map(document -> documentTranslator.translate(document))
                 .collect(Collectors.toList());
     }

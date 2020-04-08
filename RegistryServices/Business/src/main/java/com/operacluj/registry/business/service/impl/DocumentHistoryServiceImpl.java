@@ -40,7 +40,7 @@ public class DocumentHistoryServiceImpl implements DocumentHistoryService {
 
     @Override
     public List<DocumentHistoryDTO> getDocumentHistoryForDocument(int registryNumber) {
-        LOG.info("Enter getDocumentHistoryForDocument {}", registryNumber);
+        LOG.debug("Enter getDocumentHistoryForDocument {}", registryNumber);
         try {
             List<DocumentHistory> documentHistoryList = documentHistoryRepository.getDocumentHistoryForDocument(registryNumber);
             return documentHistoryTranslator.translate(documentHistoryList);
@@ -79,20 +79,6 @@ public class DocumentHistoryServiceImpl implements DocumentHistoryService {
     }
 
     private List<DocumentHistory> getHistoryForDocumentForm(DocumentForm documentForm, int registryNumber, User user) {
-//        return documentForm.getRecipients().stream().map(recipient -> {
-//            DocumentHistory documentHistory = new DocumentHistory();
-//            documentHistory.setRegistryNumber(registryNumber);
-//            documentHistory.setSender(user.getUserId());
-//            documentHistory.setSentMessage(documentForm.getSentMessage());
-//            if (documentForm.isDestinationExternal()) {
-//                documentHistory.setExternalRecipient(recipient);
-//            }
-//            else {
-//                documentHistory.setInternalRecipient(Integer.parseInt(recipient));
-//            }
-//            return documentHistory;
-//        }).collect(Collectors.toList());
-        LOG.info("Enter getHistoryForDocumentForm {}", registryNumber);
         return documentForm.getRecipients().stream().map(recipient -> {
             DocumentHistory documentHistory = new DocumentHistory();
             documentHistory.setRegistryNumber(registryNumber);

@@ -1,6 +1,6 @@
 import {FILES_URL, MY_DOCUMENTS_PATH, properties} from "../properties";
 import axios from "axios";
-import {DOWNLOAD_FILE, GET_ERRORS, UPLOAD_FILE} from "./types";
+import {DOWNLOAD_FILE, GET_ERRORS} from "./types";
 
 export const uploadFile = (file, registryNumber, history) => async dispatch => {
   try {

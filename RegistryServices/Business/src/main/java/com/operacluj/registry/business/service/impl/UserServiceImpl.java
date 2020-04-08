@@ -55,7 +55,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional(readOnly = true)
     public User getUserById(int userId) {
-        LOG.info("Enter getUserById {}", userId);
+        LOG.debug("Enter getUserById {}", userId);
         try {
             return userRepository.getUserById(userId);
         } catch (EmptyResultDataAccessException e) {
@@ -92,7 +92,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> getAllUsers(boolean includePrincipal, Principal principal) {
-        LOG.info("Enter getAllUsers requested by {}", principal.getName());
+        LOG.debug("Enter getAllUsers requested by {}", principal.getName());
         if (includePrincipal) {
             return userRepository.getAllUsers();
         }
@@ -104,7 +104,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<DepartmentDTO> getAllUsersGroupedByDepartment(boolean includePrincipal, Principal principal) {
-        LOG.info("Enter getAllUsersGroupedByDepartment requested by {}", principal.getName());
+        LOG.debug("Enter getAllUsersGroupedByDepartment requested by {}", principal.getName());
         List<User> allUsers = getAllUsers(includePrincipal, principal);
         Map<Department, List<User>> departmentMap = allUsers.stream()
                 .collect(Collectors.groupingBy(User::getDepartment));

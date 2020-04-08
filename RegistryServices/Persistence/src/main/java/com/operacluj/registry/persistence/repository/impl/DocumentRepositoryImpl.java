@@ -16,6 +16,7 @@ import java.util.List;
 
 @Repository
 @PropertySource("classpath:/queries.properties")
+@PropertySource("classpath:/pagination.properties")
 public class DocumentRepositoryImpl implements DocumentRepository {
 
     @Autowired
@@ -24,11 +25,17 @@ public class DocumentRepositoryImpl implements DocumentRepository {
     @Autowired
     private RowMapper<Document> documentMapper;
 
+    @Value("${page_limit}")
+    private int pageLimit;
+
     @Value("${getDocumentByRegistryNumber}")
     private String getDocumentByRegistryNumberQuery;
 
     @Value("${getAllDocuments}")
     private String getAllDocumentsQuery;
+
+    @Value("${getAllDocumentsPaged}")
+    private String getAllDocumentsPagedQuery;
 
     @Value("${getAllDocumentsCreatedBy}")
     private String getAllDocumentsCreatedByQuery;
@@ -36,14 +43,14 @@ public class DocumentRepositoryImpl implements DocumentRepository {
     @Value("${addDocument}")
     private String addDocumentQuery;
 
+    @Value("${updateDocument}")
+    private String updateDocumentQuery;
+
     @Value("${deleteDocument}")
     private String deleteDocumentQuery;
 
     @Value("${getLastMatchingDocument}")
     private String getLastMatchingDocumentQuery;
-    
-    @Value("${updateDocument}")
-    private String updateDocumentQuery;
 
     @Override
     public Document getDocumentByRegistryNumber(int registryNumber) {
@@ -54,6 +61,11 @@ public class DocumentRepositoryImpl implements DocumentRepository {
     @Override
     public List<Document> getAllDocuments() {
         return jdbcTemplate.query(getAllDocumentsQuery, documentMapper);
+    }
+
+    @Override
+    public List<Document> getAllDocuments(int page) {
+        return jdbcTemplate.query(getAllDocumentsPagedQuery, getSqlParameterSourceForPagination(page), documentMapper);
     }
 
     @Override
@@ -101,5 +113,10 @@ public class DocumentRepositoryImpl implements DocumentRepository {
         return parameterSource;
     }
 
-
+    private SqlParameterSource getSqlParameterSourceForPagination(int page) {
+        MapSqlParameterSource parameterSource = new MapSqlParameterSource();
+        parameterSource.addValue("offset", (page - 1) * pageLimit);
+        parameterSource.addValue("rowcount", pageLimit);
+        return parameterSource;
+    }
 }

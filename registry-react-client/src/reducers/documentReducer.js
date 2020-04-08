@@ -9,8 +9,6 @@ import {
 } from "../actions/types";
 import {getDefaultSearchDetails} from "../utils/documentUtils";
 
-// let prevSearch = localStorage.searchDetails;
-// let searchDetails = prevSearch ? prevSearch : getDefaultSearchDetails();
 let searchDetails = getDefaultSearchDetails();
 
 const initialState = {
@@ -20,7 +18,9 @@ const initialState = {
   documentsReceivedOpen: [],
   documentsReceivedArchived: [],
   searchDetails: searchDetails,
-  mostRecentRegNr: null
+  mostRecentRegNr: null,
+
+  documentsPageCount: 1,
 };
 
 export default function (state = initialState, action) {
@@ -28,7 +28,8 @@ export default function (state = initialState, action) {
     case GET_DOCUMENTS:
       return {
         ...state,
-        documents: action.payload
+        documents: action.payload.documentList,
+        documentsPageCount: action.payload.pageCount
       };
     case SAVE_SEARCH_DETAILS:
       return {

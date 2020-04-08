@@ -11,6 +11,8 @@ public interface DocumentRepository {
 
     List<Document> getAllDocuments();
 
+    List<Document> getAllDocuments(int page);
+
     List<Document> getAllDocumentsCreatedBy(int userId, boolean archived);
 
     int addDocument(Document document);

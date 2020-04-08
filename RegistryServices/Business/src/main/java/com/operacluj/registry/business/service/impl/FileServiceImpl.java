@@ -49,7 +49,7 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public boolean hasAttachedFiles(int registryNumber) {
-        LOG.info("Entering hasAttachedFile for document {}", registryNumber);
+        LOG.debug("Entering hasAttachedFile for document {}", registryNumber);
         try {
             return fileRepository.getAttachmentsNumber(registryNumber) != 0;
         } catch (Exception e) {

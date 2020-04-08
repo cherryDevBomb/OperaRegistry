@@ -4,16 +4,14 @@ import com.operacluj.registry.business.domain.DocumentDTO;
 import com.operacluj.registry.business.domain.DocumentForm;
 import com.operacluj.registry.business.domain.SearchCriteria;
 import com.operacluj.registry.business.service.DocumentService;
+import com.operacluj.registry.business.service.PaginationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import java.lang.reflect.Array;
 import java.security.Principal;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 
 @RestController
@@ -24,6 +22,9 @@ public class DocumentController {
     @Autowired
     private DocumentService documentService;
 
+    @Autowired
+    private PaginationService paginationService;
+
     @GetMapping("/{registryNumber}")
     @ResponseStatus(HttpStatus.OK)
     public DocumentDTO getDocumentByRegistryNumber(@PathVariable int registryNumber) {
@@ -32,11 +33,11 @@ public class DocumentController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<DocumentDTO> getDocuments(SearchCriteria searchCriteria) {
+    public List<DocumentDTO> getDocuments(SearchCriteria searchCriteria, @RequestParam int page) {
         if (searchCriteria.isPresent()) {
-            return documentService.getDocumentsByCriteria(searchCriteria);
+            return documentService.getDocumentsByCriteria(searchCriteria, page);
         }
-        return documentService.getAllDocuments();
+        return documentService.getAllDocuments(page);
     }
 
     @GetMapping("/my-documents")
@@ -61,5 +62,14 @@ public class DocumentController {
     @ResponseStatus(HttpStatus.OK)
     public void deleteDocumentByRegistryNumber(@PathVariable int registryNumber, Principal principal) {
         documentService.deleteDocument(registryNumber, principal);
+    }
+
+    @GetMapping("/page-count")
+    @ResponseStatus(HttpStatus.OK)
+    public Integer getDocumentsPageCount(SearchCriteria searchCriteria) {
+        if (searchCriteria.isPresent()) {
+            return paginationService.getPageCountByTotalNumber(documentService.getDocumentsByCriteria(searchCriteria).size());
+        }
+        return paginationService.getAllDocumentsPageCount();
     }
 }

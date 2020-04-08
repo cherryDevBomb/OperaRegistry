@@ -66,7 +66,6 @@ class DocumentSearch extends Component {
         this.setState({destinationUsers: snapshot.destination});
       }
     }
-    console.log(this.state.showDropdown);
   }
 
   componentWillUnmount() {
@@ -93,8 +92,8 @@ class DocumentSearch extends Component {
   onChangeSearchStr(e) {
     const key = e.target.name;
     this.setState({searchStr: e.target.value}, () => {
-      if (key == "searchStr") {
-        this.props.getDocuments(this.state);
+      if (key === "searchStr") {
+        this.props.getDocuments(this.state, 1);
       }
     });
     this.lastFieldChanged = e.target.name;
@@ -124,7 +123,7 @@ class DocumentSearch extends Component {
         to: newState.to
       },
       () => {
-        this.props.getDocuments(this.state);
+        this.props.getDocuments(this.state, 1);
       }
     )
 
@@ -148,16 +147,16 @@ class DocumentSearch extends Component {
     if (origin && (origin !== this.state.originUsers)) {
       this.setState({originUsers: origin}, () => {
         this.props.saveSearchDetails(this.state);
-        this.props.getDocuments(this.state);
+        this.props.getDocuments(this.state, 1);
       });
     } else if (destination && (destination !== this.state.destinationUsers)) {
       this.setState({destinationUsers: destination}, () => {
         this.props.saveSearchDetails(this.state);
-        this.props.getDocuments(this.state);
+        this.props.getDocuments(this.state, 1);
       });
     } else {
       this.props.saveSearchDetails(this.state);
-      this.props.getDocuments(this.state);
+      this.props.getDocuments(this.state, 1);
     }
 
     if (this.state.showDropdown === true) {

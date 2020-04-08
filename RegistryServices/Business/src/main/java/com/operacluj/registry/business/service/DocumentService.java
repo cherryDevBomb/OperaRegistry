@@ -12,16 +12,17 @@ public interface DocumentService {
 
     DocumentDTO getDocumentByRegistryNumber(int registryNumber);
 
-    List<DocumentDTO> getAllDocuments();
-
-    List<DocumentDTO> getAllDocumentsCreatedBy(Principal principal, boolean archived);
+    List<DocumentDTO> getAllDocuments(int page);
 
     List<DocumentDTO> getDocumentsByCriteria(SearchCriteria searchCriteria);
+
+    List<DocumentDTO> getDocumentsByCriteria(SearchCriteria searchCriteria, int page);
+
+    List<DocumentDTO> getAllDocumentsCreatedBy(Principal principal, boolean archived);
 
     Integer addDocument(DocumentForm documentForm, Principal principal);
 
     void archiveDocument(int registryNumber, Principal principal);
 
     void deleteDocument(int registryNumber, Principal principal);
-
 }

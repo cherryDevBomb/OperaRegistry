@@ -17,7 +17,7 @@ export const getDefaultSearchDetails = () => {
   };
 }
 
-export const getSearchParams = searchDetails => {
+export const getSearchParams = (searchDetails, pageNumber) => {
   let searchParams = {};
 
   const docTypes = mapSearchDetailsTypesToDocTypes(searchDetails.originType, searchDetails.destinationType);
@@ -33,7 +33,7 @@ export const getSearchParams = searchDetails => {
     searchParams.recipientList = searchDetails.destinationUsers.map(user => user.userId);
   }
 
-  if (searchDetails.state != "Oricare") {
+  if (searchDetails.state !== "Oricare") {
     searchParams.archived = searchDetails.state === "Arhivate" ? true : false;
   }
 
@@ -47,7 +47,8 @@ export const getSearchParams = searchDetails => {
     searchParams.to = interval.to;
   }
 
-  console.log(searchParams);
+  searchParams.page = pageNumber;
+
   return new URLSearchParams(searchParams);
 };
 
