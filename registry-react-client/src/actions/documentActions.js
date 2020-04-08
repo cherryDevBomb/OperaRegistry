@@ -19,7 +19,7 @@ import {
 } from "../properties";
 import {getSearchParams} from "../utils/documentUtils";
 
-export const createDocument = (document, history) => async dispatch => {
+export const createDocument = document => async dispatch => {
   try {
     if (document.isOriginExternal && document.origin === "") {
       dispatch({

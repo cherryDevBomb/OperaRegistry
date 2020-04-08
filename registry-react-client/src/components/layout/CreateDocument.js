@@ -108,7 +108,7 @@ class CreateDocument extends Component {
       recipients: this.state.recipients,
       sentMessage: this.state.sentMessage
     };
-    await this.props.createDocument(newDocument, this.props.history);
+    await this.props.createDocument(newDocument);
     if (this.isInputValid()) {
       this.uploadModalRef.current.handleShow(this.props.documentReducer.mostRecentRegNr);
     }

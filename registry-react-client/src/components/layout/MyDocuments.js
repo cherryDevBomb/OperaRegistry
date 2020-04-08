@@ -12,19 +12,14 @@ class MyDocuments extends Component {
     super(props);
 
     this.state = {
-      documentReducer: {}
+      documentReducer: {},
+      activePage: 1
     };
   }
 
   componentDidMount() {
     this.props.getMyDocuments(false);
     this.props.getMyDocuments(true);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.documentReducer) {
-      this.setState({documentReducer: nextProps.documentReducer});
-    }
   }
 
   render() {
