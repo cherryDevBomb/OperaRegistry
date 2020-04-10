@@ -5,6 +5,51 @@
 \section{Problem definition}
 \label{section:problemDefinition}
 
+Before defining the proposed solution, we should first illustrate the problem and analyze it in detail. Based on this in-depth analysis, decisions will be made to choose the best fitted approach from a software development perspective.
+
+Software is a vast term generally used to refer to applications, scripts and programs that run on a device. Yet there are different kinds of software, each one having its own challenges and things to be taken into consideration. Designing and implementing an operating system would involve low-level programming and hardware interaction. On the other hand, this becomes absolutely unnecessary if you're developing an eCommerce software product. Indeed, there are practices and patterns that could be applied to all kinds of software, but many are relevant for only one particular branch. That is why, as a first step, we should describe the main characteristics of the application that will be built and identify under what type of software it fits.
+
+First of all, our application would involve persistent data. The data about documents which were added by the users should be stored for several years, allowing users to access it, filter it, generate data reports and make conclusions based on them.
+
+As it will be used by the majority of the employees rather that a single person, the application should ensure that many people can access the data concurrently without causing errors. This is especcialy important for web applications which have thousands or millions of users, but even for a small application like ours, concurrency should be handled in a way that would exclude data consistency and integrity problems.
+
+Then there is the most important part of the application: its business logic. What data should be stored for each document? What input values are considered valid for each field? Who is allowed to view and edit the data? What functionalities should the app provide? The answer to all this questions can only be found by analyzing the requirements of the client and turning them in business rules that would serve as the functional engine of the application.
+
+Last but not least, the application needs to provide a GUI\footnote{Graphical User Interface} that would present the data to the user. The challenge here would be to design the application keeping in mind that usability is as important as functionality. A software system meant to improve the effectiveness of processes in an organization should also offer effectiveness and efficiency in its usage. To bring users satisfaction from interactiong with the app, the GUI must provide all desired features, yet keep things simple and intuitive.
+
+
+
+% - performance (big amount of data)
+% - relational vs non-relational db
+% - where to store files? (db vs cloud)
+% - db stuff (indexing / speeding up things ? highPerformanceMySQL)
+% There's usually a lot of data, a moderate system will have over 1GB of data
+% organized in tens of millions of records, so much data that managing it is a major part
+% of the system. Older systems used indexed file structure such as IBM's VSAM and
+% ISAM. Modern systems usually use databases, mostly relational databases. The
+% design and feeding of these databases has turned into a sub-profession of its own.
+
+
+% - top-down vs bottom-up design (used top-down)
+% - multilayer
+% - REST vs SOAP
+% - client-server
+
+% - architecture
+% - "It is not enough for code to work." Robert C. Martin, Clean Code: A Handbook of Agile Software Craftsmanship
+
+
+
+% - security
+
+% - usability (provide all features, yet keep it simple & intuitive)
+% - responsiveness vs response time (progress bars page 14)
+
+
+
+
+
+
 \section{Theoretical foundations}
 \label{section:theoreticalFoundations}
 
