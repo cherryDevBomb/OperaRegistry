@@ -34,8 +34,8 @@ In this section of the thesis we will analyze the theoretical foundations that w
 A first and important decision we have to make is whether to develop a desktop application or a web-based one. Indeed, a traditional desktop app doesn't need internet connection in order to be used. However, this seems to be its biggest and only advantage. Web applications, on the other hand, have a wide range of advantages. To start with, a web application runs on a web browser, which means there is no need to install additional software on the the computer from which it will be used. This makes it accessible from a wide range of devices and operating systems. In addition, it gives users freedom to access the app from anywhere, anytime, via any device with an Internet connection, allowing them to solve urgent tasks without a trip to the office. App maintainance is also less complicated - once an update is made on the host server, users can access it without manual updates on their computer. This are the main reasons why building a web application was chosen over a classical desktop one.
 
 % think about the title?
-\subsection{Layering architecture}
-\label{subsection:layeringArchitecture}
+\subsection{Layer architecture}
+\label{subsection:layerArchitecture}
 
 A web application architecture is based on a client-server model, which is a distributed application system that divides tasks between the server - the provider of resources, and the client, which communicates with the server via requests made over the network. As stated in \cite{databaseProgrammingWithJdbcAndJava}, the simplest shape a client-server architecture can take is a two-tier architecture. This originated back in the 90s long before the rise of the popularity of web applications. Back then, it was used in database applications so that the server layer was responsible for data storage and retrieval and the client handled data manipulation and presentation. Nowadays however, applications are much more complex, which calls for the necessity of adding an additional layer responsible for the business logic. This is known as the "three-tier architecture", which consists of three primary layers: Presentation Layer, Application Layer and Database Layer (See Figure \ref{threeTierArchitecture}).
 
@@ -82,7 +82,7 @@ In the previous subsection, we have talked about the separation of client and se
 
 This could be accomplished by using Representational State Transfer (REST), which is an architectural style for providing standards for communication between web systems. It was designed as an alternative to Simple Object Access Protocol (SOAP), which has been, for a long time, the mainly used architectural style for building web services. However, due to its simplicity, lightweightness and scalability, REST has quickly gained popularity and is nowadays the most popular style chosen for web service development.
 
-The decoupling of the client and server is one of the 6 constraints of the REST architectural style. The communication is made via the defined API\footnote{Application Programming Interface} using requests and responses. Clients will send requests using the HTTP protocol and wait for responses. The server will receive those requests and do whatever the client needs, i.e. query the database or perform some other operations. When the REST service will finish processing the reuqest, it will send back a response to the client (See Figure \ref{rest}). It is worth mentioning that the communication is always initiated by the client. The server will never share information about its resources on its own: it will wait and only send responses as reactions to incoming requests.
+The decoupling of the client and server is one of the 6 constraints of the REST architectural style. The communication is made via the defined Application Programming Interface (API) using requests and responses. Clients will send requests using the HTTP protocol and wait for responses. The server will receive those requests and do whatever the client needs, i.e. query the database or perform some other operations. When the REST service will finish processing the reuqest, it will send back a response to the client (See Figure \ref{rest}). It is worth mentioning that the communication is always initiated by the client. The server will never share information about its resources on its own: it will wait and only send responses as reactions to incoming requests.
 
 \begin{figure}[H]
     \centering
@@ -114,46 +114,29 @@ What operation will be triggered on the server is determined by the information 
 Another important REST constraint says that the client-server communication is \textbf{stateless}, meaning that each single client request should contain all the information that the server needs for processing. It does not store a history of the requests and thus cannot use some previous context. Session state management is therefore entirely the client's responsibility. This is one of the main reasons why RESTful web services are so lightweight, scalable and easy to implement.
 
 
+\subsection{Usability in the context of Enterprise Application Design}
+\label{subsection:usability}
 
+We had already mentioned in the previous section that usability is an important ingredient for a successful application. Now is the time to analyze in more detail what usability means and how it should be achived in our application.
 
+In regard to web applications and software applications in general, usability is defined as the ease at which an average person can use the software to benefit from its functionality. This includes a wide range of characteristics: how intuitive the UI is, how memorable the workflows are, how time-efficients is each operation as well as how much satisfaction it bring to the user. In the context of enterprise applications all this seems especialy important, as tools made to improve efficiency become useless if they are not efficient to use.
 
-% - performance (big amount of data)
-% - relational vs non-relational db
-% - where to store files? (db vs cloud)
-% - db stuff (indexing / speeding up things ? highPerformanceMySQL)
-% There's usually a lot of data, a moderate system will have over 1GB of data
-% organized in tens of millions of records, so much data that managing it is a major part
-% of the system. Older systems used indexed file structure such as IBM's VSAM and
-% ISAM. Modern systems usually use databases, mostly relational databases. The
-% design and feeding of these databases has turned into a sub-profession of its own.
+It may seem at first sight that achieving usability is only a matter of design, a correct placement of widgets on a page and a tasteful combination of colors. However, usability is much more than that. Some decisions made to improve usability can even influence the backend implementation of the system. Consider for example the application which is the subject of this thesis. As one of its primary functions will be tracking all documents in the organization, it will have to display all the existing data, so the UI will most probably contain a table of some sort. What will start as a couple of documents to be displayed will quickly grow to be a large collection of data registered into the system. Yet displaying all the data on one single page will be hard to interpret for the human eye. A best practice for avoiding this is using pagination to split the documents into multiple pages, thus limiting the number of rows diplayed on one page \cite{modernEnterpriseUiDesign}. This is exactly the case when for achieving a task which will improve usability, we will have to also change the backend implementation to support handling paginated requests.
+
+Another way of dealing with a lot of data as an alternative to pagination is loading the next chunk of data when the user scrolls to the bottom of the screen. This, however, makes the user unaware of the total amount of data and provides less control over navigation between data rows. This makes it more suitable for apps with and endless stream of data that the user should consume, while pagination is more suitable for enterprise applications like ours.
+
+Another thing to keep in mind is the responsiveness of the application. After the client sends a request, receiving a response will occur with a certain delay called "response time" - the time it will take the server to process the request. The amount of time needed will depend on the nature of the request, as well as the latency - the minimum delay that is present even when no processing from the server is required. While there are a number of things to be considered when implementing the application that could improve overall performance and minimize response time, you could also do something to improve the experience on the UI side. Improve \textbf{responsiveness}, which represents the time in which the system aknowledges the request. Responsiveness and response time are the same if during a request processing the system is waiting without any indicator to the user. However, adding a progress bar will improve responsiveness as the user will be aware that the request is processing. This will improve the overall experience, even if the response time will be the same.
+
 
 
 % - architecture/patterns
 % - "It is not enough for code to work." Robert C. Martin, Clean Code: A Handbook of Agile Software Craftsmanship
 
 
-% - security
-
-% - usability (provide all features, yet keep it simple & intuitive)
-% - responsiveness vs response time (progress bars page 14)
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 % just so items from .bib would show up in bibliography
-\cite{patternsOfEnterpriseApplicationArchitecture}
 \cite{buildingRESTfulWebServicesWithSpring}
 \cite{tamingTheStateInReact}
-\cite{cleanArchitecture}
 \cite{highPerformanceMySQL}
 \cite{modernEnterpriseUiDesign}
