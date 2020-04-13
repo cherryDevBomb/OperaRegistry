@@ -69,8 +69,8 @@ public class DocumentRepositoryImpl implements DocumentRepository {
     }
 
     @Override
-    public List<Document> getAllDocumentsCreatedBy(int userId, boolean archived) {
-        MapSqlParameterSource parameterSource = new MapSqlParameterSource();
+    public List<Document> getAllDocumentsCreatedBy(int userId, boolean archived, int page) {
+        MapSqlParameterSource parameterSource = getSqlParameterSourceForPagination(page);
         parameterSource.addValue("createdby", userId);
         parameterSource.addValue("archived", archived);
         return jdbcTemplate.query(getAllDocumentsCreatedByQuery, parameterSource, documentMapper);
@@ -113,7 +113,7 @@ public class DocumentRepositoryImpl implements DocumentRepository {
         return parameterSource;
     }
 
-    private SqlParameterSource getSqlParameterSourceForPagination(int page) {
+    private MapSqlParameterSource getSqlParameterSourceForPagination(int page) {
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
         parameterSource.addValue("offset", (page - 1) * pageLimit);
         parameterSource.addValue("rowcount", pageLimit);

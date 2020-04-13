@@ -9,6 +9,7 @@ import DocumentSearch from "../fragments/document/DocumentSearch";
 import Pagination from "react-bootstrap/Pagination";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import {getPagination} from "../../utils/paginationUtils";
 
 class DocumentTable extends Component {
   constructor(props) {
@@ -38,14 +39,7 @@ class DocumentTable extends Component {
   render() {
     const documents = this.props.documentReducer.documents;
 
-    let pages = [];
-    for (let number = 1; number <= this.props.documentReducer.documentsPageCount; number++) {
-      pages.push(
-        <Pagination.Item key={number} active={number === this.state.activePage}>
-          {number}
-        </Pagination.Item>,
-      );
-    }
+    let pages = getPagination(this.props.documentReducer.documentsPageCount, this.state.activePage);
 
     return (
       <div>

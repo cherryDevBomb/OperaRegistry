@@ -18,7 +18,7 @@ public interface DocumentService {
 
     List<DocumentDTO> getDocumentsByCriteria(SearchCriteria searchCriteria, int page);
 
-    List<DocumentDTO> getAllDocumentsCreatedBy(Principal principal, boolean archived);
+    List<DocumentDTO> getAllDocumentsCreatedBy(Principal principal, boolean archived, int page);
 
     Integer addDocument(DocumentForm documentForm, Principal principal);
 

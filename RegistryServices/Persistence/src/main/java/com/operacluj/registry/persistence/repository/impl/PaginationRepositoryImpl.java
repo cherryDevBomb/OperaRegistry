@@ -1,5 +1,6 @@
 package com.operacluj.registry.persistence.repository.impl;
 
+import com.operacluj.registry.model.User;
 import com.operacluj.registry.persistence.repository.PaginationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,6 +22,9 @@ public class PaginationRepositoryImpl implements PaginationRepository {
     @Value("${getAllDocumentsCount}")
     private String getAllDocumentsCountQuery;
 
+    @Value("${getAllDocumentsCreatedByCount}")
+    private String getMyDocumentsCountQuery;
+
     @Override
     public int getPageLimit() {
         return pageLimit;
@@ -28,12 +32,21 @@ public class PaginationRepositoryImpl implements PaginationRepository {
 
     @Override
     public int getPageCountByTotalNumber(int total) {
-        return Double.valueOf(Math.ceil((Double.valueOf(total) / pageLimit))).intValue();
+        return Double.valueOf(Math.ceil(((double) total / pageLimit))).intValue();
     }
 
     @Override
     public int getAllDocumentsPageCount() {
         Integer allDocumentsCount = jdbcTemplate.queryForObject(getAllDocumentsCountQuery, new MapSqlParameterSource(), Integer.class);
         return getPageCountByTotalNumber(allDocumentsCount);
+    }
+
+    @Override
+    public int getAllDocumentsCreatedByPageCount(int userId, boolean archived) {
+        MapSqlParameterSource parameterSource = new MapSqlParameterSource();
+        parameterSource.addValue("createdby", userId);
+        parameterSource.addValue("archived", archived);
+        Integer allDocumentsCreatedBy = jdbcTemplate.queryForObject(getMyDocumentsCountQuery, parameterSource, Integer.class);
+        return getPageCountByTotalNumber(allDocumentsCreatedBy);
     }
 }

@@ -42,8 +42,8 @@ public class DocumentController {
 
     @GetMapping("/my-documents")
     @ResponseStatus(HttpStatus.OK)
-    public List<DocumentDTO> getAllDocumentsByCreator(Principal principal, @RequestParam boolean archived) {
-        return documentService.getAllDocumentsCreatedBy(principal, archived);
+    public List<DocumentDTO> getAllDocumentsByCreator(Principal principal, @RequestParam boolean archived, @RequestParam int page) {
+        return documentService.getAllDocumentsCreatedBy(principal, archived, page);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -71,5 +71,11 @@ public class DocumentController {
             return paginationService.getPageCountByTotalNumber(documentService.getDocumentsByCriteria(searchCriteria).size());
         }
         return paginationService.getAllDocumentsPageCount();
+    }
+
+    @GetMapping("/my-documents/page-count")
+    @ResponseStatus(HttpStatus.OK)
+    public Integer getMyDocumentsPageCount(Principal principal, @RequestParam boolean archived) {
+        return paginationService.getMyDocumentsPageCount(principal, archived);
     }
 }

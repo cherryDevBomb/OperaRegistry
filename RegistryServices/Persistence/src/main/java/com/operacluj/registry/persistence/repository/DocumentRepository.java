@@ -13,7 +13,7 @@ public interface DocumentRepository {
 
     List<Document> getAllDocuments(int page);
 
-    List<Document> getAllDocumentsCreatedBy(int userId, boolean archived);
+    List<Document> getAllDocumentsCreatedBy(int userId, boolean archived, int page);
 
     int addDocument(Document document);
 

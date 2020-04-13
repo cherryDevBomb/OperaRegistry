@@ -1,5 +1,7 @@
 package com.operacluj.registry.business.service;
 
+import java.security.Principal;
+
 public interface PaginationService {
 
     int getPageLimit();
@@ -7,4 +9,6 @@ public interface PaginationService {
     int getPageCountByTotalNumber(int total);
 
     int getAllDocumentsPageCount();
+
+    int getMyDocumentsPageCount(Principal principal, boolean archived);
 }

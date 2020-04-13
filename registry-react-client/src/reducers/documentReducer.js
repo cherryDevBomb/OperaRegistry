@@ -21,6 +21,8 @@ const initialState = {
   mostRecentRegNr: null,
 
   documentsPageCount: 1,
+  myOpenDocumentsPageCount: 1,
+  myArchivedDocumentsPageCount: 1
 };
 
 export default function (state = initialState, action) {
@@ -39,12 +41,14 @@ export default function (state = initialState, action) {
     case GET_MY_DOCUMENTS_OPEN:
       return {
         ...state,
-        myDocumentsOpen: action.payload
+        myDocumentsOpen: action.payload.documentList,
+        myOpenDocumentsPageCount: action.payload.pageCount
       };
     case GET_MY_DOCUMENTS_ARCHIVED:
       return {
         ...state,
-        myDocumentsArchived: action.payload
+        myDocumentsArchived: action.payload.documentList,
+        myArchivedDocumentsPageCount: action.payload.pageCount
       };
     case GET_DOCUMENTS_RECEIVED_OPEN:
       return {

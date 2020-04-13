@@ -1,5 +1,7 @@
 package com.operacluj.registry.persistence.repository;
 
+import com.operacluj.registry.model.User;
+
 public interface PaginationRepository {
 
     int getPageLimit();
@@ -7,4 +9,6 @@ public interface PaginationRepository {
     int getPageCountByTotalNumber(int total);
 
     int getAllDocumentsPageCount();
+
+    int getAllDocumentsCreatedByPageCount(int userId, boolean archived);
 }

@@ -6,6 +6,10 @@ import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
 import MyDocumentCard from "../fragments/document/MyDocumentCard";
 import Jumbotron from "react-bootstrap/Jumbotron";
+import Pagination from "react-bootstrap/Pagination";
+import Col from "react-bootstrap/Col";
+import Row from "react-bootstrap/Row";
+import {getPagination} from "../../utils/paginationUtils";
 
 class MyDocuments extends Component {
   constructor(props) {
@@ -13,18 +17,36 @@ class MyDocuments extends Component {
 
     this.state = {
       documentReducer: {},
-      activePage: 1
+      activePageArchivedTrue: 1,
+      activePageArchivedFalse: 1
     };
   }
 
-  componentDidMount() {
-    this.props.getMyDocuments(false);
-    this.props.getMyDocuments(true);
+  loadCurrentPage(archived) {
+    const currentPage = archived ? this.state.activePageArchivedTrue : this.state.activePageArchivedFalse;
+    this.props.getMyDocuments(archived, currentPage);
   }
+
+  componentDidMount() {
+    this.loadCurrentPage(false);
+    this.loadCurrentPage(true);
+  }
+
+  pageChanged(e, archived) {
+    const newPageNumber = parseInt(e.target.text)
+    const tab = archived ? "activePageArchivedTrue" : "activePageArchivedFalse";
+    this.setState({[tab]: newPageNumber}, () => {
+      this.loadCurrentPage(archived);
+    });
+  }
+
 
   render() {
     const myDocumentsOpen = this.props.documentReducer.myDocumentsOpen;
     const myDocumentsArchived = this.props.documentReducer.myDocumentsArchived;
+
+    let pagesArchivedFalse = getPagination(this.props.documentReducer.myOpenDocumentsPageCount, this.state.activePageArchivedFalse);
+    let pagesArchivedTrue = getPagination(this.props.documentReducer.myArchivedDocumentsPageCount, this.state.activePageArchivedTrue);
 
     return (
       <React.Fragment>
@@ -37,6 +59,11 @@ class MyDocuments extends Component {
                   document={document}
                 ></MyDocumentCard>
               ))}
+              <Row className="mt-4 mx-auto">
+                <Col xs={"auto"} className="mx-auto">
+                  <Pagination onClick={(e) => this.pageChanged(e, false)}>{pagesArchivedFalse}</Pagination>
+                </Col>
+              </Row>
             </Tab>
             <Tab eventKey="archived" title="Arhivate" className="tab-right">
               {myDocumentsArchived.map(document => (
@@ -45,6 +72,11 @@ class MyDocuments extends Component {
                   document={document}
                 ></MyDocumentCard>
               ))}
+              <Row className="mt-4 mx-auto">
+                <Col xs={"auto"} className="mx-auto">
+                  <Pagination onClick={(e) => this.pageChanged(e, true)}>{pagesArchivedTrue}</Pagination>
+                </Col>
+              </Row>
             </Tab>
           </Tabs>
         </Jumbotron>

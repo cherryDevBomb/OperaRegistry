@@ -51,47 +51,49 @@ export const createDocument = document => async dispatch => {
 };
 
 export const getDocuments = (searchDetails, pageNumber) => async dispatch => {
-    const path = properties.serverURL + DOCUMENTS_URL;
-    const searchParams = getSearchParams(searchDetails, pageNumber);
-    const res = await axios.get(path, { params: searchParams});
+  const path = properties.serverURL + DOCUMENTS_URL;
+  const searchParams = getSearchParams(searchDetails, pageNumber);
+  const res = await axios.get(path, {params: searchParams});
 
-    const pageCountPath = path + PAGE_COUNT_PATH;
-    const pageCountRes = await axios.get(pageCountPath, { params: searchParams});
+  const pageCountPath = path + PAGE_COUNT_PATH;
+  const pageCountRes = await axios.get(pageCountPath, {params: searchParams});
 
-    dispatch({
-      type: GET_DOCUMENTS,
-      payload: {documentList: res.data, pageCount: pageCountRes.data}
-    });
+  dispatch({
+    type: GET_DOCUMENTS,
+    payload: {documentList: res.data, pageCount: pageCountRes.data}
+  });
 };
 
 
-export const getMyDocuments = archived => async dispatch => {
+export const getMyDocuments = (archived, pageNumber) => async dispatch => {
   const path = properties.serverURL + MY_DOCUMENTS_URL;
-  const res = await axios.get(path, { params: {archived: archived}});
+  const res = await axios.get(path, {params: {archived: archived, page: pageNumber}});
+
+  const pageCountPath = path + PAGE_COUNT_PATH;
+  const pageCountRes = await axios.get(pageCountPath, {params: {archived: archived}});
+
   if (archived) {
     dispatch({
       type: GET_MY_DOCUMENTS_ARCHIVED,
-      payload: res.data
+      payload: {documentList: res.data, pageCount: pageCountRes.data}
     });
-  }
-  else {
+  } else {
     dispatch({
       type: GET_MY_DOCUMENTS_OPEN,
-      payload: res.data
+      payload: {documentList: res.data, pageCount: pageCountRes.data}
     });
   }
 };
 
 export const getDocumentsReceived = archived => async dispatch => {
   const path = properties.serverURL + DOCUMENTS_RECEIVED_URL;
-  const res = await axios.get(path, { params: {archived: archived}});
+  const res = await axios.get(path, {params: {archived: archived}});
   if (archived) {
     dispatch({
       type: GET_DOCUMENTS_RECEIVED_ARCHIVED,
       payload: res.data
     });
-  }
-  else {
+  } else {
     dispatch({
       type: GET_DOCUMENTS_RECEIVED_OPEN,
       payload: res.data
@@ -110,8 +112,8 @@ export const archiveDocument = (registryNumber) => async dispatch => {
   const path = properties.serverURL + DOCUMENTS_URL + "/" + registryNumber + ARCHIVE_DOCUMENT_URL;
   await axios.put(path);
   const getMyDocumentsPath = properties.serverURL + MY_DOCUMENTS_URL;
-  const resOpen = await axios.get(getMyDocumentsPath, { params: {archived: false}});
-  const resArchived = await axios.get(getMyDocumentsPath, { params: {archived: true}});
+  const resOpen = await axios.get(getMyDocumentsPath, {params: {archived: false}});
+  const resArchived = await axios.get(getMyDocumentsPath, {params: {archived: true}});
   dispatch({
     type: GET_MY_DOCUMENTS_OPEN,
     payload: resOpen.data
