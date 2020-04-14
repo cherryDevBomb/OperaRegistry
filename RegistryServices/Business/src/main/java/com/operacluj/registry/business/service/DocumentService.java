@@ -20,6 +20,10 @@ public interface DocumentService {
 
     List<DocumentDTO> getAllDocumentsCreatedBy(Principal principal, boolean archived, int page);
 
+    List<DocumentDTO> getAllDocumentsReceivedBy(Principal principal, boolean resolved, int page);
+
+    List<DocumentDTO> getAllArchivedDocumentsReceivedBy(Principal principal, int page);
+
     Integer addDocument(DocumentForm documentForm, Principal principal);
 
     void archiveDocument(int registryNumber, Principal principal);

@@ -166,6 +166,26 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     @Override
+    public List<DocumentDTO> getAllDocumentsReceivedBy(Principal principal, boolean resolved, int page) {
+        User user = userTranslator.getUserFromPrincipal(principal);
+        LOG.info("Enter getAllDocumentsReceivedBy {}, resolved = {}", user.getEmail(), resolved);
+        return documentRepository.getAllDocumentsReceivedBy(user.getUserId(), resolved, page)
+                .stream()
+                .map(document -> documentTranslator.translate(document))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<DocumentDTO> getAllArchivedDocumentsReceivedBy(Principal principal, int page) {
+        User user = userTranslator.getUserFromPrincipal(principal);
+        LOG.info("Enter getAllArchivedDocumentsReceivedBy {}", user.getEmail());
+        return documentRepository.getAllArchivedDocumentsReceivedBy(user.getUserId(), page)
+                .stream()
+                .map(document -> documentTranslator.translate(document))
+                .collect(Collectors.toList());
+    }
+
+    @Override
     @Transactional
     public Integer addDocument(DocumentForm documentForm, Principal principal) {
         inputValidator.validate(documentForm);

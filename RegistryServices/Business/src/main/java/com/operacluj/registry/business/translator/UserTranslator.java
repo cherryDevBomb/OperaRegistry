@@ -29,6 +29,7 @@ public class UserTranslator {
 
     public UserDTO translate(User user) {
         UserDTO userDTO = new UserDTO();
+        userDTO.setUserId(user.getUserId());
         userDTO.setFirstName(user.getFirstName());
         userDTO.setLastName(user.getLastName());
         userDTO.setEmail(user.getEmail());

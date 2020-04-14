@@ -11,4 +11,8 @@ public interface PaginationService {
     int getAllDocumentsPageCount();
 
     int getMyDocumentsPageCount(Principal principal, boolean archived);
+
+    int getReceivedDocumentsPageCount(Principal principal, boolean resolved);
+
+    int getArchivedReceivedDocumentsPageCount(Principal principal);
 }

@@ -11,4 +11,8 @@ public interface PaginationRepository {
     int getAllDocumentsPageCount();
 
     int getAllDocumentsCreatedByPageCount(int userId, boolean archived);
+
+    int getAllDocumentsReceivedByPageCount(int userId, boolean resolved);
+
+    int getAllArchivedDocumentsReceivedByPageCount(int userId);
 }

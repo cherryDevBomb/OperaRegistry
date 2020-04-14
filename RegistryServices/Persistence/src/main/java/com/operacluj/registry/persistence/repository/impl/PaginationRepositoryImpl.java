@@ -1,6 +1,5 @@
 package com.operacluj.registry.persistence.repository.impl;
 
-import com.operacluj.registry.model.User;
 import com.operacluj.registry.persistence.repository.PaginationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,6 +24,12 @@ public class PaginationRepositoryImpl implements PaginationRepository {
     @Value("${getAllDocumentsCreatedByCount}")
     private String getMyDocumentsCountQuery;
 
+    @Value("${getAllDocumentsReceivedByCount}")
+    private String getReceivedDocumentsCountQuery;
+
+    @Value("${getAllArchivedDocumentsReceivedByCount}")
+    private String getArchivedReceivedDocumentsCountQuery;
+
     @Override
     public int getPageLimit() {
         return pageLimit;
@@ -48,5 +53,22 @@ public class PaginationRepositoryImpl implements PaginationRepository {
         parameterSource.addValue("archived", archived);
         Integer allDocumentsCreatedBy = jdbcTemplate.queryForObject(getMyDocumentsCountQuery, parameterSource, Integer.class);
         return getPageCountByTotalNumber(allDocumentsCreatedBy);
+    }
+
+    @Override
+    public int getAllDocumentsReceivedByPageCount(int userId, boolean resolved) {
+        MapSqlParameterSource parameterSource = new MapSqlParameterSource();
+        parameterSource.addValue("internalrecipient", userId);
+        parameterSource.addValue("resolved", resolved);
+        Integer allDocumentsReceivedBy = jdbcTemplate.queryForObject(getReceivedDocumentsCountQuery, parameterSource, Integer.class);
+        return getPageCountByTotalNumber(allDocumentsReceivedBy);
+    }
+
+    @Override
+    public int getAllArchivedDocumentsReceivedByPageCount(int userId) {
+        MapSqlParameterSource parameterSource = new MapSqlParameterSource();
+        parameterSource.addValue("internalrecipient", userId);
+        Integer allArchivedDocumentsReceivedBy = jdbcTemplate.queryForObject(getArchivedReceivedDocumentsCountQuery, parameterSource, Integer.class);
+        return getPageCountByTotalNumber(allArchivedDocumentsReceivedBy);
     }
 }

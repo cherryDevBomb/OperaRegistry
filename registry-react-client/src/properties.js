@@ -10,8 +10,9 @@ export const USERS_URL = "/users";
 export const USERS_GROUPED_URL = "/users/grouped";
 
 export const DOCUMENTS_URL = "/documents";
-export const MY_DOCUMENTS_URL = "/documents/my-documents";
+export const MY_DOCUMENTS_URL = "/documents/created";
 export const DOCUMENTS_RECEIVED_URL = "/documents/received";
+export const DOCUMENTS_RECEIVED_ARCHIVED_URL = "/documents/received/archived";
 export const ARCHIVE_DOCUMENT_URL = "/archive";
 
 export const PAGE_COUNT_PATH = "/page-count"

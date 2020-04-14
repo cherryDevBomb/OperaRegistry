@@ -41,4 +41,16 @@ public class PaginationServiceImpl implements PaginationService {
         User user = userTranslator.getUserFromPrincipal(principal);
         return paginationRepository.getAllDocumentsCreatedByPageCount(user.getUserId(), archived);
     }
+
+    @Override
+    public int getReceivedDocumentsPageCount(Principal principal, boolean resolved) {
+        User user = userTranslator.getUserFromPrincipal(principal);
+        return paginationRepository.getAllDocumentsReceivedByPageCount(user.getUserId(), resolved);
+    }
+
+    @Override
+    public int getArchivedReceivedDocumentsPageCount(Principal principal) {
+        User user = userTranslator.getUserFromPrincipal(principal);
+        return paginationRepository.getAllArchivedDocumentsReceivedByPageCount(user.getUserId());
+    }
 }

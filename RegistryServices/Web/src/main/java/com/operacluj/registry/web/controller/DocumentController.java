@@ -40,10 +40,22 @@ public class DocumentController {
         return documentService.getAllDocuments(page);
     }
 
-    @GetMapping("/my-documents")
+    @GetMapping("/created")
     @ResponseStatus(HttpStatus.OK)
     public List<DocumentDTO> getAllDocumentsByCreator(Principal principal, @RequestParam boolean archived, @RequestParam int page) {
         return documentService.getAllDocumentsCreatedBy(principal, archived, page);
+    }
+
+    @GetMapping("/received")
+    @ResponseStatus(HttpStatus.OK)
+    public List<DocumentDTO> getAllDocumentsByReceiver(Principal principal, @RequestParam boolean resolved, @RequestParam int page) {
+        return documentService.getAllDocumentsReceivedBy(principal, resolved, page);
+    }
+
+    @GetMapping("/received/archived")
+    @ResponseStatus(HttpStatus.OK)
+    public List<DocumentDTO> getAllArchivedDocumentsByReceiver(Principal principal, @RequestParam int page) {
+        return documentService.getAllArchivedDocumentsReceivedBy(principal, page);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -73,9 +85,21 @@ public class DocumentController {
         return paginationService.getAllDocumentsPageCount();
     }
 
-    @GetMapping("/my-documents/page-count")
+    @GetMapping("/created/page-count")
     @ResponseStatus(HttpStatus.OK)
     public Integer getMyDocumentsPageCount(Principal principal, @RequestParam boolean archived) {
         return paginationService.getMyDocumentsPageCount(principal, archived);
+    }
+
+    @GetMapping("/received/page-count")
+    @ResponseStatus(HttpStatus.OK)
+    public Integer getReceivedDocumentsPageCount(Principal principal, @RequestParam boolean resolved) {
+        return paginationService.getReceivedDocumentsPageCount(principal, resolved);
+    }
+
+    @GetMapping("/received/archived/page-count")
+    @ResponseStatus(HttpStatus.OK)
+    public Integer getArchivedReceivedDocumentsPageCount(Principal principal) {
+        return paginationService.getArchivedReceivedDocumentsPageCount(principal);
     }
 }

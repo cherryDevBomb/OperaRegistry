@@ -40,6 +40,12 @@ public class DocumentRepositoryImpl implements DocumentRepository {
     @Value("${getAllDocumentsCreatedBy}")
     private String getAllDocumentsCreatedByQuery;
 
+    @Value("${getAllDocumentsReceivedBy}")
+    private String getAllDocumentsReceivedByQuery;
+
+    @Value("${getAllArchivedDocumentsReceivedBy}")
+    private String getAllArchivedDocumentsReceivedByQuery;
+
     @Value("${addDocument}")
     private String addDocumentQuery;
 
@@ -74,6 +80,21 @@ public class DocumentRepositoryImpl implements DocumentRepository {
         parameterSource.addValue("createdby", userId);
         parameterSource.addValue("archived", archived);
         return jdbcTemplate.query(getAllDocumentsCreatedByQuery, parameterSource, documentMapper);
+    }
+
+    @Override
+    public List<Document> getAllDocumentsReceivedBy(int userId, boolean resolved, int page) {
+        MapSqlParameterSource parameterSource = getSqlParameterSourceForPagination(page);
+        parameterSource.addValue("internalrecipient", userId);
+        parameterSource.addValue("resolved", resolved);
+        return jdbcTemplate.query(getAllDocumentsReceivedByQuery, parameterSource, documentMapper);
+    }
+
+    @Override
+    public List<Document> getAllArchivedDocumentsReceivedBy(int userId, int page) {
+        MapSqlParameterSource parameterSource = getSqlParameterSourceForPagination(page);
+        parameterSource.addValue("internalrecipient", userId);
+        return jdbcTemplate.query(getAllArchivedDocumentsReceivedByQuery, parameterSource, documentMapper);
     }
 
     @Override

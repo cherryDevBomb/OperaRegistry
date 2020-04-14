@@ -1,9 +1,9 @@
 import axios from "axios";
 import {
   DOCUMENT_CREATED,
-  GET_DOCUMENTS,
-  GET_DOCUMENTS_RECEIVED_ARCHIVED,
+  GET_DOCUMENTS, GET_DOCUMENTS_RECEIVED_ARCHIVED,
   GET_DOCUMENTS_RECEIVED_OPEN,
+  GET_DOCUMENTS_RECEIVED_RESOLVED,
   GET_ERRORS,
   GET_MY_DOCUMENTS_ARCHIVED,
   GET_MY_DOCUMENTS_OPEN,
@@ -11,7 +11,7 @@ import {
 } from "./types";
 import {properties} from "../properties.js";
 import {
-  ARCHIVE_DOCUMENT_URL,
+  ARCHIVE_DOCUMENT_URL, DOCUMENTS_RECEIVED_ARCHIVED_URL,
   DOCUMENTS_RECEIVED_URL,
   DOCUMENTS_URL,
   MY_DOCUMENTS_URL,
@@ -85,20 +85,37 @@ export const getMyDocuments = (archived, pageNumber) => async dispatch => {
   }
 };
 
-export const getDocumentsReceived = archived => async dispatch => {
+export const getReceivedDocuments = (resolved, pageNumber) => async dispatch => {
   const path = properties.serverURL + DOCUMENTS_RECEIVED_URL;
-  const res = await axios.get(path, {params: {archived: archived}});
-  if (archived) {
+  const res = await axios.get(path, {params: {resolved: resolved, page: pageNumber}});
+
+  const pageCountPath = path + PAGE_COUNT_PATH;
+  const pageCountRes = await axios.get(pageCountPath, {params: {resolved: resolved}});
+
+  if (resolved) {
     dispatch({
-      type: GET_DOCUMENTS_RECEIVED_ARCHIVED,
-      payload: res.data
+      type: GET_DOCUMENTS_RECEIVED_RESOLVED,
+      payload: {documentList: res.data, pageCount: pageCountRes.data}
     });
   } else {
     dispatch({
       type: GET_DOCUMENTS_RECEIVED_OPEN,
-      payload: res.data
+      payload: {documentList: res.data, pageCount: pageCountRes.data}
     });
   }
+};
+
+export const getReceivedArchivedDocuments = (pageNumber) => async dispatch => {
+  const path = properties.serverURL + DOCUMENTS_RECEIVED_ARCHIVED_URL;
+  const res = await axios.get(path, {params: {page: pageNumber}});
+
+  const pageCountPath = path + PAGE_COUNT_PATH;
+  const pageCountRes = await axios.get(pageCountPath);
+
+  dispatch({
+    type: GET_DOCUMENTS_RECEIVED_ARCHIVED,
+    payload: {documentList: res.data, pageCount: pageCountRes.data}
+  });
 };
 
 export const saveSearchDetails = searchDetails => async dispatch => {
