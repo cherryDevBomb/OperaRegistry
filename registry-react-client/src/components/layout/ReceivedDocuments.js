@@ -3,7 +3,6 @@ import {getPagination} from "../../utils/paginationUtils";
 import Jumbotron from "react-bootstrap/Jumbotron";
 import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
-import MyDocumentCard from "../fragments/document/MyDocumentCard";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Pagination from "react-bootstrap/Pagination";
@@ -56,6 +55,10 @@ class ReceivedDocuments extends Component {
     });
   }
 
+  pageChangedAfterResolve(page) {
+    this.setState({'activePageResolvedFalse': page});
+    this.setState({'activePageResolvedTrue': 1})
+  }
 
   render() {
     const documentsReceivedOpen = this.props.documentReducer.documentsReceivedOpen;
@@ -75,6 +78,8 @@ class ReceivedDocuments extends Component {
                 <ReceivedDocumentCard
                   key={document.registryNumber}
                   document={document}
+                  page={this.state.activePageResolvedFalse}
+                  pageChangedAfterResolveCallback={this.pageChangedAfterResolve.bind(this)}
                 ></ReceivedDocumentCard>
               ))}
               <Row className="mt-4 mx-auto">
@@ -88,6 +93,7 @@ class ReceivedDocuments extends Component {
                 <ReceivedDocumentCard
                   key={document.registryNumber}
                   document={document}
+                  page={this.state.activePageResolvedTrue}
                 ></ReceivedDocumentCard>
               ))}
               <Row className="mt-4 mx-auto">
@@ -101,6 +107,7 @@ class ReceivedDocuments extends Component {
                 <ReceivedDocumentCard
                   key={document.registryNumber}
                   document={document}
+                  page={this.state.activePageArchived}
                 ></ReceivedDocumentCard>
               ))}
               <Row className="mt-4 mx-auto">

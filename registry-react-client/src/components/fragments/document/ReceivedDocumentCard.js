@@ -8,11 +8,11 @@ import DocumentCardDescriptionTab from "./DocumentCardDescriptionTab";
 import Button from "react-bootstrap/Button";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
-import {archiveDocument} from "../../../actions/documentActions";
+import {resolveDocument} from "../../../actions/documentActions";
 import {downloadFile} from "../../../actions/fileActions";
 
 
-class MyDocumentCard extends Component {
+class ReceivedDocumentCard extends Component {
   constructor(props) {
     super(props);
 
@@ -24,15 +24,20 @@ class MyDocumentCard extends Component {
   onResolveClick(e) {
     e.preventDefault();
     const {document} = this.props;
-    this.props.archiveDocument(document.registryNumber);
+    let {page} = this.props;
+    //go one page back if you resolve last document on the current page
+    if (this.props.documentReducer.myDocumentsOpen.length === 1 && page > 1) {
+      page--;
+    }
+    this.props.resolveDocument(document.registryNumber, page);
+    this.props.pageChangedAfterResolveCallback(page);
   }
 
   render() {
     const {document} = this.props;
-    const docHistory = document.documentHistory.filter(dh => {
+    const docHistory = document.documentHistory.find(dh => {
       if (dh.internalRecipient) {
-        //this.props.securityReducer.user.userId is undefined
-        return dh.internalRecipient.userId === this.props.securityReducer.user.userId;
+        return dh.internalRecipient.userId === parseInt(this.props.securityReducer.user.id);
       } else {
         return false;
       }
@@ -58,8 +63,7 @@ class MyDocumentCard extends Component {
           Arhivat
         </Button>
       )
-    }
-    else if (!docHistory.resolved) {
+    } else if (!docHistory.resolved) {
       headerButton = (
         <Button variant="archive" size="sm" className="float-right" onClick={this.onResolveClick.bind(this)}>
           Aprobă
@@ -113,9 +117,9 @@ class MyDocumentCard extends Component {
   }
 }
 
-MyDocumentCard.propTypes = {
+ReceivedDocumentCard.propTypes = {
   securityReducer: PropTypes.object.isRequired,
-  archiveDocument: PropTypes.func.isRequired,
+  resolveDocument: PropTypes.func.isRequired,
   downloadFile: PropTypes.func.isRequired
 };
 
@@ -124,4 +128,4 @@ const mapStateToProps = state => ({
   securityReducer: state.securityReducer
 });
 
-export default connect(mapStateToProps, {archiveDocument, downloadFile})(MyDocumentCard);
+export default connect(mapStateToProps, {resolveDocument, downloadFile})(ReceivedDocumentCard);

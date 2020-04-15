@@ -1,7 +1,8 @@
 import axios from "axios";
 import {
   DOCUMENT_CREATED,
-  GET_DOCUMENTS, GET_DOCUMENTS_RECEIVED_ARCHIVED,
+  GET_DOCUMENTS,
+  GET_DOCUMENTS_RECEIVED_ARCHIVED,
   GET_DOCUMENTS_RECEIVED_OPEN,
   GET_DOCUMENTS_RECEIVED_RESOLVED,
   GET_ERRORS,
@@ -11,11 +12,13 @@ import {
 } from "./types";
 import {properties} from "../properties.js";
 import {
-  ARCHIVE_DOCUMENT_URL, DOCUMENTS_RECEIVED_ARCHIVED_URL,
+  ARCHIVE_DOCUMENT_URL,
+  DOCUMENTS_RECEIVED_ARCHIVED_URL,
   DOCUMENTS_RECEIVED_URL,
   DOCUMENTS_URL,
   MY_DOCUMENTS_URL,
-  PAGE_COUNT_PATH
+  PAGE_COUNT_PATH,
+  RESOLVE_DOCUMENT_URL
 } from "../properties";
 import {getSearchParams} from "../utils/documentUtils";
 
@@ -125,18 +128,46 @@ export const saveSearchDetails = searchDetails => async dispatch => {
   });
 }
 
-export const archiveDocument = (registryNumber) => async dispatch => {
+export const archiveDocument = (registryNumber, pageNumber) => async dispatch => {
   const path = properties.serverURL + DOCUMENTS_URL + "/" + registryNumber + ARCHIVE_DOCUMENT_URL;
   await axios.put(path);
+
   const getMyDocumentsPath = properties.serverURL + MY_DOCUMENTS_URL;
-  const resOpen = await axios.get(getMyDocumentsPath, {params: {archived: false}});
-  const resArchived = await axios.get(getMyDocumentsPath, {params: {archived: true}});
+  const resOpen = await axios.get(getMyDocumentsPath, {params: {archived: false, page: pageNumber}});
+  const resArchived = await axios.get(getMyDocumentsPath, {params: {archived: true, page: pageNumber}});
+
+  const pageCountPathOpen = getMyDocumentsPath + PAGE_COUNT_PATH;
+  const pageCountResOpen = await axios.get(pageCountPathOpen, {params: {archived: false}});
+  const pageCountResArchived = await axios.get(pageCountPathOpen, {params: {archived: true}});
+
   dispatch({
     type: GET_MY_DOCUMENTS_OPEN,
-    payload: resOpen.data
+    payload: {documentList: resOpen.data, pageCount: pageCountResOpen.data}
   });
   dispatch({
     type: GET_MY_DOCUMENTS_ARCHIVED,
-    payload: resArchived.data
-  })
+    payload: {documentList: resArchived.data, pageCount: pageCountResArchived.data}
+  });
+}
+
+export const resolveDocument = (registryNumber, pageNumber) => async dispatch => {
+  const path = properties.serverURL + DOCUMENTS_URL + "/" + registryNumber + RESOLVE_DOCUMENT_URL;
+  await axios.put(path);
+
+  const pathReceived = properties.serverURL + DOCUMENTS_RECEIVED_URL;
+  const resReceivedOpen = await axios.get(pathReceived, {params: {resolved: false, page: pageNumber}});
+  const resReceivedResolved = await axios.get(pathReceived, {params: {resolved: true, page: 1}});
+
+  const pageCountPathReceived = pathReceived + PAGE_COUNT_PATH;
+  const pageCountResReceivedOpen = await axios.get(pageCountPathReceived, {params: {resolved: false}});
+  const pageCountResReceivedResolved = await axios.get(pageCountPathReceived, {params: {resolved: true}});
+
+  dispatch({
+    type: GET_DOCUMENTS_RECEIVED_OPEN,
+    payload: {documentList: resReceivedOpen.data, pageCount: pageCountResReceivedOpen.data}
+  });
+  dispatch({
+    type: GET_DOCUMENTS_RECEIVED_RESOLVED,
+    payload: {documentList: resReceivedResolved.data, pageCount: pageCountResReceivedResolved.data}
+  });
 }

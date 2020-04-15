@@ -24,7 +24,13 @@ class MyDocumentCard extends Component {
   onArchiveClick(e) {
     e.preventDefault();
     const {document} = this.props;
-    this.props.archiveDocument(document.registryNumber);
+    let {page} = this.props;
+    //go one page back if you archive last document on the current page
+    if (this.props.documentReducer.myDocumentsOpen.length === 1 && page > 1) {
+      page--;
+    }
+    this.props.archiveDocument(document.registryNumber, page);
+    this.props.pageChangedAfterArchiveCallback(page);
   }
 
   render() {
@@ -99,8 +105,13 @@ class MyDocumentCard extends Component {
 }
 
 MyDocumentCard.propTypes = {
+  documentReducer: PropTypes.object.isRequired,
   archiveDocument: PropTypes.func.isRequired,
   downloadFile: PropTypes.func.isRequired
 };
 
-export default connect(null, {archiveDocument, downloadFile})(MyDocumentCard);
+const mapStateToProps = state => ({
+  documentReducer: state.documentReducer,
+});
+
+export default connect(mapStateToProps, {archiveDocument, downloadFile})(MyDocumentCard);

@@ -40,6 +40,10 @@ class MyDocuments extends Component {
     });
   }
 
+  pageChangedAfterArchive(page) {
+    this.setState({'activePageArchivedFalse': page});
+    this.setState({'activePageArchivedTrue': 1})
+  }
 
   render() {
     const myDocumentsOpen = this.props.documentReducer.myDocumentsOpen;
@@ -57,6 +61,8 @@ class MyDocuments extends Component {
                 <MyDocumentCard
                   key={document.registryNumber}
                   document={document}
+                  page={this.state.activePageArchivedFalse}
+                  pageChangedAfterArchiveCallback={this.pageChangedAfterArchive.bind(this)}
                 ></MyDocumentCard>
               ))}
               <Row className="mt-4 mx-auto">
@@ -70,6 +76,7 @@ class MyDocuments extends Component {
                 <MyDocumentCard
                   key={document.registryNumber}
                   document={document}
+                  page={this.state.activePageArchivedTrue}
                 ></MyDocumentCard>
               ))}
               <Row className="mt-4 mx-auto">

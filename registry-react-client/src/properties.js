@@ -14,6 +14,7 @@ export const MY_DOCUMENTS_URL = "/documents/created";
 export const DOCUMENTS_RECEIVED_URL = "/documents/received";
 export const DOCUMENTS_RECEIVED_ARCHIVED_URL = "/documents/received/archived";
 export const ARCHIVE_DOCUMENT_URL = "/archive";
+export const RESOLVE_DOCUMENT_URL = "/resolve";
 
 export const PAGE_COUNT_PATH = "/page-count"
 
@@ -28,7 +29,6 @@ export const DOCUMENTS_PATH = "/documents";
 export const MY_DOCUMENTS_PATH = "/my-documents";
 export const RECEIVED_DOCUMENTS_PATH = "/received-documents";
 export const NEW_DOCUMENT_PATH = "/new-document";
-export const NEW_DOCUMENT_UPLOAD_FILE_PATH = "/upload";
 
 //app constants
 export const INTERNAL_DOC_TYPE = "INTERNAL";
