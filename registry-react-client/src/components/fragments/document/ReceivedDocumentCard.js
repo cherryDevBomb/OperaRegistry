@@ -26,7 +26,7 @@ class ReceivedDocumentCard extends Component {
     const {document} = this.props;
     let {page} = this.props;
     //go one page back if you resolve last document on the current page
-    if (this.props.documentReducer.myDocumentsOpen.length === 1 && page > 1) {
+    if (this.props.documentReducer.documentsReceivedOpen.length === 1 && page > 1) {
       page--;
     }
     this.props.resolveDocument(document.registryNumber, page);

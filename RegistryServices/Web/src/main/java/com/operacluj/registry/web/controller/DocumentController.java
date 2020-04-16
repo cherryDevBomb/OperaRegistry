@@ -3,6 +3,7 @@ package com.operacluj.registry.web.controller;
 import com.operacluj.registry.business.domain.DocumentDTO;
 import com.operacluj.registry.business.domain.DocumentForm;
 import com.operacluj.registry.business.domain.SearchCriteria;
+import com.operacluj.registry.business.service.DocumentHistoryService;
 import com.operacluj.registry.business.service.DocumentService;
 import com.operacluj.registry.business.service.PaginationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,9 @@ public class DocumentController {
 
     @Autowired
     private DocumentService documentService;
+
+    @Autowired
+    DocumentHistoryService documentHistoryService;
 
     @Autowired
     private PaginationService paginationService;
@@ -68,6 +72,12 @@ public class DocumentController {
     @ResponseStatus(HttpStatus.OK)
     public void archiveDocument(@PathVariable int registryNumber, Principal principal) {
         documentService.archiveDocument(registryNumber, principal);
+    }
+
+    @PutMapping("/{registryNumber}/resolve")
+    @ResponseStatus(HttpStatus.OK)
+    public void resolveDocument(@PathVariable int registryNumber, Principal principal) {
+        documentHistoryService.resolveDocument(registryNumber, principal);
     }
 
     @DeleteMapping("/{registryNumber}")

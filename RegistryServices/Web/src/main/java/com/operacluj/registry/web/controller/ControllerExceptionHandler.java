@@ -46,7 +46,7 @@ public class ControllerExceptionHandler {
     }
 
     @ExceptionHandler({CustomConstraintViolationException.class})
-    @ResponseStatus(HttpStatus.CONFLICT)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public Map<String, String> handleException(CustomConstraintViolationException e) {
         Map<String, String> errorMap = new HashMap<>();
         errorMap.put(e.getPropertyName(), e.getViolationMessage());

@@ -47,7 +47,7 @@ class ReceivedDocuments extends Component {
     });
   }
 
-  pageChangedForArchived(e, resolved) {
+  pageChangedForArchived(e) {
     const newPageNumber = parseInt(e.target.text)
     const tab = "activePageArchived";
     this.setState({[tab]: newPageNumber}, () => {

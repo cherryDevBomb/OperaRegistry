@@ -5,6 +5,7 @@ import com.operacluj.registry.business.domain.DocumentHistoryDTO;
 import com.operacluj.registry.model.DocumentHistory;
 import com.operacluj.registry.model.User;
 
+import java.security.Principal;
 import java.util.List;
 
 public interface DocumentHistoryService {
@@ -14,4 +15,6 @@ public interface DocumentHistoryService {
     int addDocumentHistory(DocumentHistory documentHistory, User user);
 
     void addHistoryForNewDocument(DocumentForm documentForm, int registryNumber, User user);
+
+    void resolveDocument(int registryNumber, Principal principal);
 }

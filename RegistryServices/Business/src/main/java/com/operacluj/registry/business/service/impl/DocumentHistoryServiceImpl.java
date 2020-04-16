@@ -7,6 +7,7 @@ import com.operacluj.registry.business.exception.EntityNotFoundException;
 import com.operacluj.registry.business.service.DocumentHistoryService;
 import com.operacluj.registry.business.service.UserService;
 import com.operacluj.registry.business.translator.DocumentHistoryTranslator;
+import com.operacluj.registry.business.translator.UserTranslator;
 import com.operacluj.registry.business.util.ErrorMessageConstants;
 import com.operacluj.registry.business.validator.InputValidator;
 import com.operacluj.registry.model.DocumentHistory;
@@ -18,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,6 +36,9 @@ public class DocumentHistoryServiceImpl implements DocumentHistoryService {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    UserTranslator userTranslator;
 
     @Autowired
     InputValidator inputValidator;
@@ -75,6 +80,27 @@ public class DocumentHistoryServiceImpl implements DocumentHistoryService {
         } catch (RuntimeException e) {
             LOG.error("Error creating new document history");
             throw new CreateEntityException(ErrorMessageConstants.DOCUMENT_HISTORY_NOT_CREATED, e);
+        }
+    }
+
+    @Override
+    @Transactional
+    public void resolveDocument(int registryNumber, Principal principal) {
+        LOG.info("Enter resolveDocument {}", registryNumber);
+        User user = userTranslator.getUserFromPrincipal(principal);
+
+        DocumentHistory documentHistory = documentHistoryRepository.getDocumentHistoryForDocumentSentTo(registryNumber, user.getUserId());
+        if (documentHistory != null) {
+            documentHistory.setResolved(true);
+            try {
+                documentHistoryRepository.updateDocumentHistoryStatus(documentHistory);
+            } catch (Exception e) {
+                LOG.error("Document with registry number {} not resolved", registryNumber);
+                throw e;
+            }
+        }
+        else {
+            throw new EntityNotFoundException(ErrorMessageConstants.NOT_FOUND);
         }
     }
 
