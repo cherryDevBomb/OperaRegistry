@@ -128,9 +128,9 @@ export const saveSearchDetails = searchDetails => async dispatch => {
   });
 }
 
-export const archiveDocument = (registryNumber, pageNumber) => async dispatch => {
+export const archiveDocument = (registryNumber, archivingMessage, pageNumber) => async dispatch => {
   const path = properties.serverURL + DOCUMENTS_URL + "/" + registryNumber + ARCHIVE_DOCUMENT_URL;
-  await axios.put(path);
+  await axios.put(path, null, {params: {archivingMessage: archivingMessage}});
 
   const getMyDocumentsPath = properties.serverURL + MY_DOCUMENTS_URL;
   const resOpen = await axios.get(getMyDocumentsPath, {params: {archived: false, page: pageNumber}});
@@ -150,9 +150,9 @@ export const archiveDocument = (registryNumber, pageNumber) => async dispatch =>
   });
 }
 
-export const resolveDocument = (registryNumber, pageNumber) => async dispatch => {
+export const resolveDocument = (registryNumber, resolvedMessage, pageNumber) => async dispatch => {
   const path = properties.serverURL + DOCUMENTS_URL + "/" + registryNumber + RESOLVE_DOCUMENT_URL;
-  await axios.put(path);
+  await axios.put(path, null, {params: {resolvedMessage: resolvedMessage}});
 
   const pathReceived = properties.serverURL + DOCUMENTS_RECEIVED_URL;
   const resReceivedOpen = await axios.get(pathReceived, {params: {resolved: false, page: pageNumber}});

@@ -205,12 +205,13 @@ public class DocumentServiceImpl implements DocumentService {
 
     @Override
     @Transactional
-    public void archiveDocument(int registryNumber, Principal principal) {
+    public void archiveDocument(int registryNumber, String archivingMessage, Principal principal) {
         LOG.info("Enter archiveDocument {}", registryNumber);
         User user = userTranslator.getUserFromPrincipal(principal);
         Document document = documentRepository.getDocumentByRegistryNumber(registryNumber);
         if (user.getUserId() == document.getCreatedBy()) {
             document.setArchived(true);
+            document.setArchivingMessage(archivingMessage);
             try {
                 documentRepository.updateDocument(document);
             } catch (Exception e) {

@@ -85,13 +85,14 @@ public class DocumentHistoryServiceImpl implements DocumentHistoryService {
 
     @Override
     @Transactional
-    public void resolveDocument(int registryNumber, Principal principal) {
+    public void resolveDocument(int registryNumber, String resolvedMessage, Principal principal) {
         LOG.info("Enter resolveDocument {}", registryNumber);
         User user = userTranslator.getUserFromPrincipal(principal);
 
         DocumentHistory documentHistory = documentHistoryRepository.getDocumentHistoryForDocumentSentTo(registryNumber, user.getUserId());
         if (documentHistory != null) {
             documentHistory.setResolved(true);
+            documentHistory.setResolvedMessage(resolvedMessage);
             try {
                 documentHistoryRepository.updateDocumentHistoryStatus(documentHistory);
             } catch (Exception e) {

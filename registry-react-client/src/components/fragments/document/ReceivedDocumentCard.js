@@ -29,14 +29,14 @@ class ReceivedDocumentCard extends Component {
     this.resolveModalRef.current.handleShow(this.props.document.registryNumber);
   }
 
-  resolveCallback() {
+  resolveCallback(message) {
     const {document} = this.props;
     let {page} = this.props;
     //go one page back if you resolve last document on the current page
     if (this.props.documentReducer.documentsReceivedOpen.length === 1 && page > 1) {
       page--;
     }
-    this.props.resolveDocument(document.registryNumber, page);
+    this.props.resolveDocument(document.registryNumber, message, page);
     this.props.pageChangedAfterResolveCallback(page);
   }
 

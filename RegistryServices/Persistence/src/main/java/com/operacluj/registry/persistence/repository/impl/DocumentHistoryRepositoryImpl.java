@@ -61,6 +61,7 @@ public class DocumentHistoryRepositoryImpl implements DocumentHistoryRepository 
     public void updateDocumentHistoryStatus(DocumentHistory documentHistory) {
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
         parameterSource.addValue("resolved", documentHistory.isResolved());
+        parameterSource.addValue("resolvedmessage", documentHistory.getResolvedMessage());
         parameterSource.addValue("documenthistoryid", documentHistory.getDocumentHistoryId());
         jdbcTemplate.update(updateDocumentHistoryStatusQuery, parameterSource);
     }

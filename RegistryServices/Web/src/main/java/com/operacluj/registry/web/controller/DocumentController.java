@@ -70,14 +70,14 @@ public class DocumentController {
 
     @PutMapping("/{registryNumber}/archive")
     @ResponseStatus(HttpStatus.OK)
-    public void archiveDocument(@PathVariable int registryNumber, Principal principal) {
-        documentService.archiveDocument(registryNumber, principal);
+    public void archiveDocument(@PathVariable int registryNumber, @RequestParam String archivingMessage, Principal principal) {
+        documentService.archiveDocument(registryNumber, archivingMessage, principal);
     }
 
     @PutMapping("/{registryNumber}/resolve")
     @ResponseStatus(HttpStatus.OK)
-    public void resolveDocument(@PathVariable int registryNumber, Principal principal) {
-        documentHistoryService.resolveDocument(registryNumber, principal);
+    public void resolveDocument(@PathVariable int registryNumber, @RequestParam String resolvedMessage, Principal principal) {
+        documentHistoryService.resolveDocument(registryNumber, resolvedMessage, principal);
     }
 
     @DeleteMapping("/{registryNumber}")

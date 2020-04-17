@@ -36,7 +36,7 @@ class MyDocumentCard extends Component {
     if (this.props.documentReducer.myDocumentsOpen.length === 1 && page > 1) {
       page--;
     }
-    this.props.archiveDocument(document.registryNumber, page);
+    this.props.archiveDocument(document.registryNumber, message, page);
     this.props.pageChangedAfterArchiveCallback(page);
   }
 

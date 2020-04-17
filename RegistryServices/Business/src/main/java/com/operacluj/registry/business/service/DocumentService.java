@@ -26,7 +26,7 @@ public interface DocumentService {
 
     Integer addDocument(DocumentForm documentForm, Principal principal);
 
-    void archiveDocument(int registryNumber, Principal principal);
+    void archiveDocument(int registryNumber, String archivingMessage, Principal principal);
 
     void deleteDocument(int registryNumber, Principal principal);
 }

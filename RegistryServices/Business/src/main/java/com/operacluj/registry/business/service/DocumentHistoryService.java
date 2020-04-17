@@ -16,5 +16,5 @@ public interface DocumentHistoryService {
 
     void addHistoryForNewDocument(DocumentForm documentForm, int registryNumber, User user);
 
-    void resolveDocument(int registryNumber, Principal principal);
+    void resolveDocument(int registryNumber, String resolvedMessage, Principal principal);
 }
