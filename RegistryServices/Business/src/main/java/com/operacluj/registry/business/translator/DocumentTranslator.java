@@ -3,10 +3,12 @@ package com.operacluj.registry.business.translator;
 import com.operacluj.registry.business.domain.DocumentDTO;
 import com.operacluj.registry.business.domain.DocumentForm;
 import com.operacluj.registry.business.domain.DocumentHistoryDTO;
+import com.operacluj.registry.business.domain.DocumentTimelineItemDTO;
 import com.operacluj.registry.business.service.DocumentHistoryService;
 import com.operacluj.registry.business.service.FileService;
 import com.operacluj.registry.business.service.UserService;
 import com.operacluj.registry.model.Document;
+import com.operacluj.registry.model.DocumentAction;
 import com.operacluj.registry.model.DocumentType;
 import com.operacluj.registry.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -28,7 +31,8 @@ public class DocumentTranslator {
     @Autowired
     private FileService fileService;
 
-    @Autowired UserTranslator userTranslator;
+    @Autowired
+    UserTranslator userTranslator;
 
     public Document translate(DocumentForm documentForm) {
         Document document = new Document();
@@ -73,5 +77,26 @@ public class DocumentTranslator {
         documentDTO.setDocumentHistory(documentHistoryDTOList);
 
         return documentDTO;
+    }
+
+    public List<DocumentTimelineItemDTO> translateToTimelineItems(DocumentDTO documentDTO) {
+        List<DocumentTimelineItemDTO> documentTimelineItems = new ArrayList<>();
+
+        DocumentTimelineItemDTO createItem = new DocumentTimelineItemDTO();
+        createItem.setAction(DocumentAction.CREATE.toString());
+        createItem.setActor(documentDTO.getCreatedBy());
+        createItem.setDate(documentDTO.getCreatedDate());
+        documentTimelineItems.add(createItem);
+
+        if (documentDTO.isArchived()) {
+            DocumentTimelineItemDTO archiveItem = new DocumentTimelineItemDTO();
+            archiveItem.setAction(DocumentAction.ARCHIVE.toString());
+            archiveItem.setActor(documentDTO.getCreatedBy());
+            archiveItem.setDate(documentDTO.getArchivingDate());
+            archiveItem.setMessage(documentDTO.getArchivingMessage());
+            documentTimelineItems.add(archiveItem);
+        }
+
+        return documentTimelineItems;
     }
 }

@@ -2,6 +2,7 @@ package com.operacluj.registry.web.controller;
 
 import com.operacluj.registry.business.domain.DocumentDTO;
 import com.operacluj.registry.business.domain.DocumentForm;
+import com.operacluj.registry.business.domain.DocumentTimelineItemDTO;
 import com.operacluj.registry.business.domain.SearchCriteria;
 import com.operacluj.registry.business.service.DocumentHistoryService;
 import com.operacluj.registry.business.service.DocumentService;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Map;
 
 
 @RestController
@@ -111,5 +113,11 @@ public class DocumentController {
     @ResponseStatus(HttpStatus.OK)
     public Integer getArchivedReceivedDocumentsPageCount(Principal principal) {
         return paginationService.getArchivedReceivedDocumentsPageCount(principal);
+    }
+
+    @GetMapping("/{registryNumber}/timeline")
+    @ResponseStatus(HttpStatus.OK)
+    public Map<String, List<DocumentTimelineItemDTO>> getDocumentTimeline(@PathVariable int registryNumber) {
+        return documentService.getDocumentTimeline(registryNumber);
     }
 }
