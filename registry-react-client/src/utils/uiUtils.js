@@ -10,7 +10,7 @@ export const getReceiverItem = (recipient, isResolved) => {
         <Button variant="recipient-resolved" size="sm">
           {getFullName(recipient)}
         </Button>
-        <i className="far fa-check-circle fa-check-circle-regular"/>
+        <i className="fas fa-check-circle fa-check-circle-regular"/>
       </div>
     )
   } else {

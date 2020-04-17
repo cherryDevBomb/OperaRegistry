@@ -20,7 +20,7 @@ import {
   PAGE_COUNT_PATH,
   RESOLVE_DOCUMENT_URL
 } from "../properties";
-import {getSearchParams} from "../utils/documentUtils";
+import {getSearchParams} from "../utils/documentSearchUtils";
 
 export const createDocument = document => async dispatch => {
   try {
