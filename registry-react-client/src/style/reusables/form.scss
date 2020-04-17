@@ -16,6 +16,10 @@
   color: $red
 }
 
+textarea {
+  resize: none;
+}
+
 .custom-control-input:checked ~ .custom-control-label::before {
   color: #fff;
   border-color: $light-gold;

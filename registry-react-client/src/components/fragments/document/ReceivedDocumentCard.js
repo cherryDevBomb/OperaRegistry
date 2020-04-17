@@ -10,6 +10,7 @@ import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {resolveDocument} from "../../../actions/documentActions";
 import {downloadFile} from "../../../actions/fileActions";
+import DocumentOperationModal from "./DocumentOperationModal";
 
 
 class ReceivedDocumentCard extends Component {
@@ -19,10 +20,16 @@ class ReceivedDocumentCard extends Component {
     this.state = {
       selectedTab: "#description"
     };
+
+    this.resolveModalRef = React.createRef();
   }
 
   onResolveClick(e) {
     e.preventDefault();
+    this.resolveModalRef.current.handleShow(this.props.document.registryNumber);
+  }
+
+  resolveCallback() {
     const {document} = this.props;
     let {page} = this.props;
     //go one page back if you resolve last document on the current page
@@ -79,6 +86,10 @@ class ReceivedDocumentCard extends Component {
 
     return (
       <React.Fragment>
+        <DocumentOperationModal ref={this.resolveModalRef}
+                                documentOperationCallback={this.resolveCallback.bind(this)}
+                                actionName="aprobați"/>
+
         <Card className="mx-2 mt-3 shadow-sm">
 
           <Card.Header>

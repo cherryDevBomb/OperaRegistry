@@ -10,6 +10,7 @@ import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {archiveDocument} from "../../../actions/documentActions";
 import {downloadFile} from "../../../actions/fileActions";
+import DocumentOperationModal from "./DocumentOperationModal";
 
 
 class MyDocumentCard extends Component {
@@ -19,10 +20,16 @@ class MyDocumentCard extends Component {
     this.state = {
       selectedTab: "#description"
     };
+
+    this.archiveModalRef = React.createRef();
   }
 
   onArchiveClick(e) {
     e.preventDefault();
+    this.archiveModalRef.current.handleShow(this.props.document.registryNumber);
+  }
+
+  archiveCallback(message) {
     const {document} = this.props;
     let {page} = this.props;
     //go one page back if you archive last document on the current page
@@ -66,6 +73,10 @@ class MyDocumentCard extends Component {
 
     return (
       <React.Fragment>
+        <DocumentOperationModal ref={this.archiveModalRef}
+                                documentOperationCallback={this.archiveCallback.bind(this)}
+                                actionName="arhivați"/>
+
         <Card className="mx-2 mt-3 shadow-sm">
 
           <Card.Header>

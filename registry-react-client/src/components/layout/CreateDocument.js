@@ -327,6 +327,8 @@ class CreateDocument extends Component {
           <Col className="col-sm-8 my-auto">
             <Form.Group className="mb-0">
               <Form.Control
+                as="textarea"
+                rows="3"
                 name="sentMessage"
                 type="text"
                 placeholder="Introduceți un mesaj pentru destinatar (opțional)"

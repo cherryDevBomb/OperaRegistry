@@ -15,6 +15,10 @@
   color: #d01a14;
 }
 
+textarea {
+  resize: none;
+}
+
 .custom-control-input:checked ~ .custom-control-label::before {
   color: #fff;
   border-color: #c6ad82;
