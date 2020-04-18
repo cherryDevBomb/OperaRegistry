@@ -114,10 +114,4 @@ public class DocumentController {
     public Integer getArchivedReceivedDocumentsPageCount(Principal principal) {
         return paginationService.getArchivedReceivedDocumentsPageCount(principal);
     }
-
-    @GetMapping("/{registryNumber}/timeline")
-    @ResponseStatus(HttpStatus.OK)
-    public Map<String, List<DocumentTimelineItemDTO>> getDocumentTimeline(@PathVariable int registryNumber) {
-        return documentService.getDocumentTimeline(registryNumber);
-    }
 }

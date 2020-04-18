@@ -1,8 +1,7 @@
 package com.operacluj.registry.business.domain;
 
-import com.operacluj.registry.model.User;
-
 import java.util.List;
+import java.util.Map;
 
 public class DocumentDTO {
 
@@ -17,6 +16,7 @@ public class DocumentDTO {
     private String archivingDate;
     private boolean hasAttachment;
     private List<DocumentHistoryDTO> documentHistory;
+    private Map<String, List<DocumentTimelineItemDTO>> documentTimeline;
 
     public int getRegistryNumber() {
         return registryNumber;
@@ -104,5 +104,13 @@ public class DocumentDTO {
 
     public void setDocumentHistory(List<DocumentHistoryDTO> documentHistory) {
         this.documentHistory = documentHistory;
+    }
+
+    public Map<String, List<DocumentTimelineItemDTO>> getDocumentTimeline() {
+        return documentTimeline;
+    }
+
+    public void setDocumentTimeline(Map<String, List<DocumentTimelineItemDTO>> documentTimeline) {
+        this.documentTimeline = documentTimeline;
     }
 }

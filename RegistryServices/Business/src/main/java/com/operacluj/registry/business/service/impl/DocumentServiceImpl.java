@@ -1,21 +1,18 @@
 package com.operacluj.registry.business.service.impl;
 
-import com.operacluj.registry.business.domain.*;
+import com.operacluj.registry.business.domain.DocumentDTO;
+import com.operacluj.registry.business.domain.DocumentForm;
+import com.operacluj.registry.business.domain.SearchCriteria;
 import com.operacluj.registry.business.exception.CreateEntityException;
 import com.operacluj.registry.business.exception.EntityNotFoundException;
 import com.operacluj.registry.business.service.DocumentHistoryService;
 import com.operacluj.registry.business.service.DocumentService;
-import com.operacluj.registry.business.service.FileService;
 import com.operacluj.registry.business.service.PaginationService;
-import com.operacluj.registry.business.translator.DocumentHistoryTranslator;
 import com.operacluj.registry.business.translator.DocumentTranslator;
-import com.operacluj.registry.business.translator.FileTranslator;
 import com.operacluj.registry.business.translator.UserTranslator;
 import com.operacluj.registry.business.util.ErrorMessageConstants;
 import com.operacluj.registry.business.validator.InputValidator;
 import com.operacluj.registry.model.Document;
-import com.operacluj.registry.model.DocumentAction;
-import com.operacluj.registry.model.DocumentFile;
 import com.operacluj.registry.model.User;
 import com.operacluj.registry.persistence.repository.DocumentRepository;
 import org.apache.logging.log4j.LogManager;
@@ -32,10 +29,8 @@ import java.security.Principal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 
@@ -54,22 +49,13 @@ public class DocumentServiceImpl implements DocumentService {
     private PaginationService paginationService;
 
     @Autowired
-    private FileService fileService;
-
-    @Autowired
     private InputValidator inputValidator;
 
     @Autowired
     private DocumentTranslator documentTranslator;
 
     @Autowired
-    private DocumentHistoryTranslator documentHistoryTranslator;
-
-    @Autowired
     private UserTranslator userTranslator;
-
-    @Autowired
-    FileTranslator fileTranslator;
 
     @Override
     @Transactional(readOnly = true)
@@ -255,28 +241,5 @@ public class DocumentServiceImpl implements DocumentService {
         else {
             throw new AccessDeniedException(ErrorMessageConstants.ACCESS_DENIED);
         }
-    }
-
-    @Override
-    public Map<String, List<DocumentTimelineItemDTO>> getDocumentTimeline(int registryNumber) {
-        DocumentDTO documentDTO = getDocumentByRegistryNumber(registryNumber);
-        List<DocumentTimelineItemDTO> documentTimelineItems = documentTranslator.translateToTimelineItems(documentDTO);
-
-        List<DocumentHistoryDTO> documentHistoryDTOs = documentHistoryService.getDocumentHistoryForDocument(registryNumber);
-        List<DocumentTimelineItemDTO> historyTimelineItems = documentHistoryTranslator.translateToTimelineItems(documentHistoryDTOs);
-
-        List<DocumentTimelineItemDTO> documentTimeline = new ArrayList<>(documentTimelineItems);
-        documentTimeline.addAll(historyTimelineItems);
-
-        if (fileService.hasAttachedFiles(registryNumber)) {
-            DocumentFile documentFile = fileService.getFile(registryNumber);
-            DocumentTimelineItemDTO uploadTimelineItem = fileTranslator.translateToTimelineItem(documentFile);
-            documentTimeline.add(uploadTimelineItem);
-        }
-
-        //sort and group by date
-        return documentTimeline.stream()
-                .sorted()
-                .collect(Collectors.groupingBy(DocumentTimelineItemDTO::getDate));
     }
 }

@@ -1,14 +1,11 @@
 package com.operacluj.registry.business.service;
 
-
 import com.operacluj.registry.business.domain.DocumentDTO;
 import com.operacluj.registry.business.domain.DocumentForm;
-import com.operacluj.registry.business.domain.DocumentTimelineItemDTO;
 import com.operacluj.registry.business.domain.SearchCriteria;
 
 import java.security.Principal;
 import java.util.List;
-import java.util.Map;
 
 public interface DocumentService {
 
@@ -31,6 +28,4 @@ public interface DocumentService {
     void archiveDocument(int registryNumber, String archivingMessage, Principal principal);
 
     void deleteDocument(int registryNumber, Principal principal);
-
-    Map<String, List<DocumentTimelineItemDTO>> getDocumentTimeline(int registryNumber);
 }
