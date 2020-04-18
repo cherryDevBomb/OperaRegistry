@@ -3,7 +3,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import {DESTINATION_EXTERNAL_DOC_TYPE} from "../../../properties";
 import Button from "react-bootstrap/Button";
-import {getFullName} from "../../../utils/userUtils";
+import {getUserPopup} from "../../../utils/userUtils";
 import Container from "react-bootstrap/Container";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
@@ -47,15 +47,7 @@ class DocumentCardDescriptionTab extends Component {
           <strong>Înregistrat de către:</strong>
         </Col>
         <Col className="col-sm-6 my-auto">
-          <OverlayTrigger
-            trigger={['hover', 'focus']}
-            placement="bottom-start"
-            overlay={<UserPopup user={document.createdBy}/>}
-          >
-            <div className="btn-link">
-              {getFullName(document.createdBy)}
-            </div>
-          </OverlayTrigger>
+          {getUserPopup(document.createdBy)}
         </Col>
       </Row>
     );
