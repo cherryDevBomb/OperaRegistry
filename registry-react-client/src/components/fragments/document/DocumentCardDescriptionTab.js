@@ -63,7 +63,7 @@ class DocumentCardDescriptionTab extends Component {
     let originRow;
     if (document.origin !== null) {
       originRow = (
-        <Row className="mt-2">
+        <Row className="mt-3">
           <Col className="col-sm-3 my-auto">
             <strong>Origine:</strong>
           </Col>
@@ -133,6 +133,15 @@ class DocumentCardDescriptionTab extends Component {
         <Container>
           {createdByRow}
           {originRow}
+
+          <Row className="mt-3">
+            <Col className="col-sm-3 my-auto">
+              <strong>Data înregistrării:</strong>
+            </Col>
+            <Col className="col-sm-6 my-auto">
+              {document.createdDate}
+            </Col>
+          </Row>
 
           <Row className="mt-1">
             <Col className="col-sm-3 my-auto">

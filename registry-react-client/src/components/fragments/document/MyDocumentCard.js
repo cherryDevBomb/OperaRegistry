@@ -11,6 +11,7 @@ import {connect} from "react-redux";
 import {archiveDocument} from "../../../actions/documentActions";
 import {downloadFile} from "../../../actions/fileActions";
 import DocumentOperationModal from "./DocumentOperationModal";
+import DocumentTimelineTab from "./DocumentTimelineTab";
 
 
 class MyDocumentCard extends Component {
@@ -50,9 +51,7 @@ class MyDocumentCard extends Component {
       );
     } else {
       cardBody = (
-        <div>
-          <p>Text: History</p>
-        </div>
+        <DocumentTimelineTab document={document}/>
       );
     }
 

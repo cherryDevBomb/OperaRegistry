@@ -53,7 +53,12 @@
   border-radius: 2rem;
 }
 
-fa-file-archive {
+.fa-file-archive {
   color: white;
   font-size: 1.3em;
+}
+
+.fa-comment-dots {
+  color: lighten($light-gold, 15);
+  font-size: .9em;
 }
