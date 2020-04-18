@@ -7,12 +7,6 @@ export const uploadFile = (file, registryNumber, history) => async dispatch => {
     const path = properties.serverURL + FILES_URL + "/" + registryNumber.toString();
     const formData = new FormData();
     formData.append('file', file)
-    // const config = {
-    //   headers: {
-    //     'content-type': 'multipart/form-data'
-    //   }
-    // }
-    //await axios.post(path, formData, config);
     await axios.post(path, formData);
     dispatch({
       type: GET_ERRORS,
@@ -22,9 +16,11 @@ export const uploadFile = (file, registryNumber, history) => async dispatch => {
       history.push(MY_DOCUMENTS_PATH);
     }
   } catch (error) {
+    console.log("caught error")
+    const errorMessage = !file ? "Nu a fost ales nici un fișier" : "Fișierul este prea mare";
     dispatch({
       type: GET_ERRORS,
-      payload: {file: "Nu a fost ales nici un fișier"}
+      payload: {file: errorMessage}
     })
   }
 };
@@ -67,3 +63,10 @@ export const downloadFile = (registryNumber) => async dispatch => {
     }
   }
 }
+
+export const clearErrorReducer = () => async dispatch => {
+  dispatch({
+    type: GET_ERRORS,
+    payload: {file: ""}
+  })
+};

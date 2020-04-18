@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.security.Principal;
+
 @Service
 public class FileServiceImpl implements FileService {
 
@@ -25,10 +27,10 @@ public class FileServiceImpl implements FileService {
 
     @Override
     @Transactional
-    public void uploadFile(MultipartFile file, int registryNumber) {
+    public void uploadFile(MultipartFile file, int registryNumber, Principal principal) {
         LOG.info("Entering uploadFile for document {}", registryNumber);
         try {
-            DocumentFile documentFile = fileTranslator.translate(file, registryNumber);
+            DocumentFile documentFile = fileTranslator.translate(file, registryNumber, principal);
             fileRepository.saveFile(documentFile);
         } catch (Exception e) {
             LOG.error("Failed to upload document {} for registry number {}", file.getName(), registryNumber);

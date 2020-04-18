@@ -276,7 +276,6 @@ public class DocumentServiceImpl implements DocumentService {
 
         //sort and group by date
         return documentTimeline.stream()
-                //TODO check if needs to be reversed
                 .sorted()
                 .collect(Collectors.groupingBy(DocumentTimelineItemDTO::getDate));
     }

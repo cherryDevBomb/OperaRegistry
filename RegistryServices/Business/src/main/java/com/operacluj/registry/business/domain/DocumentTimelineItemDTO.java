@@ -2,6 +2,9 @@ package com.operacluj.registry.business.domain;
 
 import com.operacluj.registry.model.DocumentAction;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 public class DocumentTimelineItemDTO implements Comparable<DocumentTimelineItemDTO> {
 
     private UserDTO actor;
@@ -62,15 +65,17 @@ public class DocumentTimelineItemDTO implements Comparable<DocumentTimelineItemD
 
     @Override
     public int compareTo(DocumentTimelineItemDTO other) {
-        //TODO compare date objects, not strings
-        int dateCompare = date.compareTo(other.getDate());
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        LocalDate thisDate = LocalDate.parse(date, formatter);
+        LocalDate otherDate = LocalDate.parse(other.getDate(), formatter);
 
+        int dateCompare = thisDate.compareTo(otherDate);
         if (dateCompare != 0) {
             return dateCompare;
         }
 
         DocumentAction thisAction = DocumentAction.valueOf(action);
         DocumentAction otherAction = DocumentAction.valueOf(other.getAction());
-        return thisAction.getPrecedence().compareTo(otherAction.getPrecedence());
+        return otherAction.getPrecedence().compareTo(thisAction.getPrecedence());
     }
 }

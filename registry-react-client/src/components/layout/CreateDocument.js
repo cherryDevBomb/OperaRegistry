@@ -29,7 +29,7 @@ class CreateDocument extends Component {
       origin: "",
       isOriginExternal: false,
       isDestinationExternal: false,
-      recipients: null,
+      recipients: "",
       sentMessage: "",
 
       documentReducer: {},

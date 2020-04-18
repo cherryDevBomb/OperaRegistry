@@ -5,7 +5,7 @@ import Button from "react-bootstrap/Button";
 import {MY_DOCUMENTS_PATH} from "../../../properties";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
-import {uploadFile} from "../../../actions/fileActions";
+import {clearErrorReducer, uploadFile} from "../../../actions/fileActions";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import ModalTitle from "react-bootstrap/ModalTitle";
@@ -36,18 +36,22 @@ class FileUploadModal extends Component {
 
   handleClose() {
     this.setState({show: false})
+    this.props.clearErrorReducer();
   }
 
   onChange(e) {
     this.setState({file: e.target.files[0]})
   }
 
-  onSubmit(e) {
+  async onSubmit(e) {
     e.preventDefault();
-    this.props.uploadFile(this.state.file, this.state.registryNumber, this.props.history);
-    if (!this.props.history) {
-      this.handleClose();
-      this.props.refreshCallback();
+    await this.props.uploadFile(this.state.file, this.state.registryNumber, this.props.history);
+    console.log(this.props.errorReducer.file);
+    if (!this.props.errorReducer.file) {
+      if (!this.props.history) {
+        this.handleClose();
+        this.props.refreshCallback();
+      }
     }
   }
 
@@ -121,11 +125,12 @@ class FileUploadModal extends Component {
 
 FileUploadModal.propTypes = {
   errorReducer: PropTypes.object.isRequired,
-  uploadFile: PropTypes.func.isRequired
+  uploadFile: PropTypes.func.isRequired,
+  clearErrorReducer: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
   errorReducer: state.errorReducer,
 });
 
-export default connect(mapStateToProps, {uploadFile}, null, {forwardRef: true})(FileUploadModal);
+export default connect(mapStateToProps, {uploadFile, clearErrorReducer}, null, {forwardRef: true})(FileUploadModal);

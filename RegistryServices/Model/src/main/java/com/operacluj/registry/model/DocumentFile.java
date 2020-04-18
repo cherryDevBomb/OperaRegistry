@@ -8,6 +8,7 @@ public class DocumentFile {
     private int registryNumber;
     private byte[] fileData;
     private LocalDate uploadDate;
+    private int uploader;
     private String filename;
 
     public int getDocumentFileId() {
@@ -40,6 +41,14 @@ public class DocumentFile {
 
     public void setUploadDate(LocalDate uploadDate) {
         this.uploadDate = uploadDate;
+    }
+
+    public int getUploader() {
+        return uploader;
+    }
+
+    public void setUploader(int uploader) {
+        this.uploader = uploader;
     }
 
     public String getFilename() {
