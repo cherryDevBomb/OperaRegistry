@@ -4,13 +4,21 @@
 \section{Approach definition}
 \label{section:approachDefinition}
 
+Now that we have analyzed the technical requirements and identified some of the challenges that could be encountered, we can continue with defining the solution for the described problem. Our approach would involve designing and developing a web application, keeping in mind its advantages over desktop applications, which we described in the previous section. The app would include two major parts: a web service developed in Java using the Spring Boot Framework and a client app built using the ReactJS Framework. The web sevice will define a REST API which will be used for communication between the client and the server. It will also handle the business logic and manage the persistence of data, which will be achived by using a MySQL database. The client app will be the one that will run in the user's browser. As REST is stateless by definition, the client app will have to manage the session state. This will be achived with the help of Redux - a predictable state containerfor JavaScript apps.
+
+One important thing to keep in mind is that the application will be used for managing real documents of a public institution, which could potentially involve sensitive data. To secure our app, we will use features offered by Spring Security to enable JSON Web Token Authentication and manage access control.
+
 
 \section{Technologies used}
 \label{section:technologiesUsed}
 
+In the following subsections of this chapter we will describe each of the chosen technologies in detail, with a strong focus on features that were decisive in choosing it over alternative technologies from the same branch.
+
 
 \subsection{The Spring Framework}
 \label{subsection:springBootFramework}
+
+
 
 % https://blog.eduonix.com/java-programming-2/learn-design-patterns-used-spring-framework/
 
