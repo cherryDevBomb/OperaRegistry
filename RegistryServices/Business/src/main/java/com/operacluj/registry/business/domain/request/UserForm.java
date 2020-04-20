@@ -1,4 +1,4 @@
-package com.operacluj.registry.business.domain;
+package com.operacluj.registry.business.domain.request;
 
 import com.operacluj.registry.business.util.ErrorMessageConstants;
 
@@ -7,23 +7,23 @@ import javax.validation.constraints.NotBlank;
 
 public class UserForm {
 
-    @NotBlank(message = ErrorMessageConstants.FIRST_NAME_REQUIRED)
+    @NotBlank(message = ErrorMessageConstants.REQUIRED_FIELD)
     private String firstName;
 
-    @NotBlank(message = ErrorMessageConstants.LAST_NAME_REQUIRED)
+    @NotBlank(message = ErrorMessageConstants.REQUIRED_FIELD)
     private String lastName;
 
-    @NotBlank(message = ErrorMessageConstants.EMAIL_REQUIRED)
+    @NotBlank(message = ErrorMessageConstants.REQUIRED_FIELD)
     @Email(message = ErrorMessageConstants.EMAIL_NOT_VALID)
     private String email;
 
-    @NotBlank(message = ErrorMessageConstants.DEPARTMENT_REQUIRED)
+    @NotBlank(message = ErrorMessageConstants.REQUIRED_FIELD)
     private String department;
 
-    @NotBlank(message = ErrorMessageConstants.PASSWORD_REQUIRED)
+    @NotBlank(message = ErrorMessageConstants.REQUIRED_FIELD)
     private String password;
 
-    @NotBlank(message = ErrorMessageConstants.PASSWORD_REQUIRED)
+    @NotBlank(message = ErrorMessageConstants.REQUIRED_FIELD)
     private String confirmPassword;
 
     public String getFirstName() {

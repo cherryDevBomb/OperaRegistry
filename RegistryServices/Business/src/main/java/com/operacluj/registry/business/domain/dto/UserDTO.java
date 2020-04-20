@@ -1,4 +1,4 @@
-package com.operacluj.registry.business.domain;
+package com.operacluj.registry.business.domain.dto;
 
 public class UserDTO {
 

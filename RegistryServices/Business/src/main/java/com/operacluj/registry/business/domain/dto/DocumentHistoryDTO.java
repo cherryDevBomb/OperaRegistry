@@ -1,6 +1,4 @@
-package com.operacluj.registry.business.domain;
-
-import com.operacluj.registry.model.User;
+package com.operacluj.registry.business.domain.dto;
 
 public class DocumentHistoryDTO {
 

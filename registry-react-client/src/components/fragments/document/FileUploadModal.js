@@ -46,7 +46,6 @@ class FileUploadModal extends Component {
   async onSubmit(e) {
     e.preventDefault();
     await this.props.uploadFile(this.state.file, this.state.registryNumber, this.props.history);
-    console.log(this.props.errorReducer.file);
     if (!this.props.errorReducer.file) {
       if (!this.props.history) {
         this.handleClose();

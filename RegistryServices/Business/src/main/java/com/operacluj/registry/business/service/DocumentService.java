@@ -1,8 +1,8 @@
 package com.operacluj.registry.business.service;
 
-import com.operacluj.registry.business.domain.DocumentDTO;
-import com.operacluj.registry.business.domain.DocumentForm;
-import com.operacluj.registry.business.domain.SearchCriteria;
+import com.operacluj.registry.business.domain.dto.DocumentDTO;
+import com.operacluj.registry.business.domain.request.DocumentForm;
+import com.operacluj.registry.business.domain.request.SearchCriteria;
 
 import java.security.Principal;
 import java.util.List;

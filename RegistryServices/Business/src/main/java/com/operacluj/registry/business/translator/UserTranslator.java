@@ -1,7 +1,7 @@
 package com.operacluj.registry.business.translator;
 
-import com.operacluj.registry.business.domain.UserDTO;
-import com.operacluj.registry.business.domain.UserForm;
+import com.operacluj.registry.business.domain.dto.UserDTO;
+import com.operacluj.registry.business.domain.request.UserForm;
 import com.operacluj.registry.model.Department;
 import com.operacluj.registry.model.User;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -3,8 +3,8 @@ package com.operacluj.registry.web.controller;
 import com.operacluj.registry.business.exception.ArgumentNotValidException;
 import com.operacluj.registry.business.exception.CustomConstraintViolationException;
 import com.operacluj.registry.business.exception.EntityNotFoundException;
-import com.operacluj.registry.business.exception.FileOperationException;
-import com.operacluj.registry.business.payload.ErrorResponse;
+import com.operacluj.registry.business.exception.OperationFailedException;
+import com.operacluj.registry.business.exception.response.ErrorResponse;
 import com.operacluj.registry.business.util.ErrorMessageConstants;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
@@ -45,7 +45,7 @@ public class ControllerExceptionHandler {
         return new ErrorResponse(e.getMessage(), getCause(e));
     }
 
-    @ExceptionHandler({CustomConstraintViolationException.class})
+    @ExceptionHandler(CustomConstraintViolationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public Map<String, String> handleException(CustomConstraintViolationException e) {
         Map<String, String> errorMap = new HashMap<>();
@@ -64,15 +64,7 @@ public class ControllerExceptionHandler {
         return errorMap;
     }
 
-    @ExceptionHandler({FileOperationException.class})
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public Map<String, String> handleException(FileOperationException e) {
-        Map<String, String> errorMap = new HashMap<>();
-        errorMap.put(e.getPropertyName(), e.getMessage());
-        return errorMap;
-    }
-
-    @ExceptionHandler({Exception.class, ServletException.class})
+    @ExceptionHandler({OperationFailedException.class, Exception.class, ServletException.class})
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ErrorResponse handleException(Exception e) {
         return new ErrorResponse(e.getMessage(), getCause(e));

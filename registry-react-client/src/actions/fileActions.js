@@ -16,7 +16,6 @@ export const uploadFile = (file, registryNumber, history) => async dispatch => {
       history.push(MY_DOCUMENTS_PATH);
     }
   } catch (error) {
-    console.log("caught error")
     const errorMessage = !file ? "Nu a fost ales nici un fișier" : "Fișierul este prea mare";
     dispatch({
       type: GET_ERRORS,

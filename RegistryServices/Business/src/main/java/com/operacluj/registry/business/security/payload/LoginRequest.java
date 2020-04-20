@@ -1,4 +1,4 @@
-package com.operacluj.registry.business.payload;
+package com.operacluj.registry.business.security.payload;
 
 import com.operacluj.registry.business.util.ErrorMessageConstants;
 
@@ -6,10 +6,10 @@ import javax.validation.constraints.NotBlank;
 
 public class LoginRequest {
 
-    @NotBlank(message = ErrorMessageConstants.EMAIL_REQUIRED)
+    @NotBlank(message = ErrorMessageConstants.REQUIRED_FIELD)
     private String email;
 
-    @NotBlank(message = ErrorMessageConstants.PASSWORD_REQUIRED)
+    @NotBlank(message = ErrorMessageConstants.REQUIRED_FIELD)
     private String password;
 
     public String getEmail() {

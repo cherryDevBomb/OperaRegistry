@@ -1,4 +1,4 @@
-package com.operacluj.registry.business.domain;
+package com.operacluj.registry.business.domain.dto;
 
 import com.operacluj.registry.model.DocumentAction;
 

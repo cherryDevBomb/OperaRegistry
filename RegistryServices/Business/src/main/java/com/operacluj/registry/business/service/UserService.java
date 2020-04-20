@@ -1,7 +1,7 @@
 package com.operacluj.registry.business.service;
 
-import com.operacluj.registry.business.domain.DepartmentDTO;
-import com.operacluj.registry.business.domain.UserForm;
+import com.operacluj.registry.business.domain.dto.DepartmentDTO;
+import com.operacluj.registry.business.domain.request.UserForm;
 import com.operacluj.registry.model.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 

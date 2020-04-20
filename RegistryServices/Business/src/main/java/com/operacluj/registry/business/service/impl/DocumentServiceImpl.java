@@ -1,9 +1,9 @@
 package com.operacluj.registry.business.service.impl;
 
-import com.operacluj.registry.business.domain.DocumentDTO;
-import com.operacluj.registry.business.domain.DocumentForm;
-import com.operacluj.registry.business.domain.SearchCriteria;
-import com.operacluj.registry.business.exception.CreateEntityException;
+import com.operacluj.registry.business.domain.dto.DocumentDTO;
+import com.operacluj.registry.business.domain.request.DocumentForm;
+import com.operacluj.registry.business.domain.request.SearchCriteria;
+import com.operacluj.registry.business.exception.OperationFailedException;
 import com.operacluj.registry.business.exception.EntityNotFoundException;
 import com.operacluj.registry.business.service.DocumentHistoryService;
 import com.operacluj.registry.business.service.DocumentService;
@@ -166,6 +166,7 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<DocumentDTO> getAllDocumentsReceivedBy(Principal principal, boolean resolved, int page) {
         User user = userTranslator.getUserFromPrincipal(principal);
         LOG.info("Enter getAllDocumentsReceivedBy {}, resolved = {}", user.getEmail(), resolved);
@@ -176,6 +177,7 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<DocumentDTO> getAllArchivedDocumentsReceivedBy(Principal principal, int page) {
         User user = userTranslator.getUserFromPrincipal(principal);
         LOG.info("Enter getAllArchivedDocumentsReceivedBy {}", user.getEmail());
@@ -199,7 +201,7 @@ public class DocumentServiceImpl implements DocumentService {
             return registryNumber;
         } catch (RuntimeException e) {
             LOG.error("Error creating new document");
-            throw new CreateEntityException(ErrorMessageConstants.DOCUMENT_NOT_CREATED, e);
+            throw new OperationFailedException(ErrorMessageConstants.DOCUMENT_NOT_CREATED, e);
         }
     }
 
@@ -220,6 +222,7 @@ public class DocumentServiceImpl implements DocumentService {
             }
         }
         else {
+            LOG.error("You don't have permissions to delete document with registry number {}", registryNumber);
             throw new AccessDeniedException(ErrorMessageConstants.ACCESS_DENIED);
         }
     }
@@ -239,6 +242,7 @@ public class DocumentServiceImpl implements DocumentService {
             }
         }
         else {
+            LOG.error("You don't have permissions to delete document with registry number {}", registryNumber);
             throw new AccessDeniedException(ErrorMessageConstants.ACCESS_DENIED);
         }
     }

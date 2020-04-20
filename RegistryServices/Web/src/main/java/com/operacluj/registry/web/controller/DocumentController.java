@@ -1,9 +1,8 @@
 package com.operacluj.registry.web.controller;
 
-import com.operacluj.registry.business.domain.DocumentDTO;
-import com.operacluj.registry.business.domain.DocumentForm;
-import com.operacluj.registry.business.domain.DocumentTimelineItemDTO;
-import com.operacluj.registry.business.domain.SearchCriteria;
+import com.operacluj.registry.business.domain.dto.DocumentDTO;
+import com.operacluj.registry.business.domain.request.DocumentForm;
+import com.operacluj.registry.business.domain.request.SearchCriteria;
 import com.operacluj.registry.business.service.DocumentHistoryService;
 import com.operacluj.registry.business.service.DocumentService;
 import com.operacluj.registry.business.service.PaginationService;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
-import java.util.Map;
 
 
 @RestController

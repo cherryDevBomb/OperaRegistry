@@ -1,9 +1,9 @@
 package com.operacluj.registry.web.controller;
 
-import com.operacluj.registry.business.domain.DepartmentDTO;
-import com.operacluj.registry.business.domain.UserForm;
-import com.operacluj.registry.business.payload.JWTLoginSuccessResponse;
-import com.operacluj.registry.business.payload.LoginRequest;
+import com.operacluj.registry.business.domain.dto.DepartmentDTO;
+import com.operacluj.registry.business.domain.request.UserForm;
+import com.operacluj.registry.business.security.payload.JWTLoginSuccessResponse;
+import com.operacluj.registry.business.security.payload.LoginRequest;
 import com.operacluj.registry.business.service.AuthenticationService;
 import com.operacluj.registry.business.service.UserService;
 import com.operacluj.registry.model.User;

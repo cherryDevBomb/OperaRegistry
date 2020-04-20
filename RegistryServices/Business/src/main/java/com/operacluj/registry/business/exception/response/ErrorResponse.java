@@ -1,4 +1,4 @@
-package com.operacluj.registry.business.payload;
+package com.operacluj.registry.business.exception.response;
 
 public class ErrorResponse {
 

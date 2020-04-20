@@ -1,8 +1,8 @@
 package com.operacluj.registry.business.service.impl;
 
-import com.operacluj.registry.business.domain.DocumentForm;
-import com.operacluj.registry.business.domain.DocumentHistoryDTO;
-import com.operacluj.registry.business.exception.CreateEntityException;
+import com.operacluj.registry.business.domain.request.DocumentForm;
+import com.operacluj.registry.business.domain.dto.DocumentHistoryDTO;
+import com.operacluj.registry.business.exception.OperationFailedException;
 import com.operacluj.registry.business.exception.EntityNotFoundException;
 import com.operacluj.registry.business.service.DocumentHistoryService;
 import com.operacluj.registry.business.service.UserService;
@@ -51,7 +51,7 @@ public class DocumentHistoryServiceImpl implements DocumentHistoryService {
             return documentHistoryTranslator.translate(documentHistoryList);
         } catch (RuntimeException e) {
             LOG.error("Document history for document {} not found", registryNumber);
-            throw new EntityNotFoundException(ErrorMessageConstants.EMPTY_DOCUMENT_HISTORY, e);
+            throw new EntityNotFoundException(ErrorMessageConstants.DOCUMENT_HISTORY_NOT_FOUND, e);
         }
     }
 
@@ -66,7 +66,7 @@ public class DocumentHistoryServiceImpl implements DocumentHistoryService {
             return documentHistoryRepository.addDocumentHistory(documentHistory);
         } catch (RuntimeException e) {
             LOG.error("Error creating new document history");
-            throw new CreateEntityException(ErrorMessageConstants.DOCUMENT_HISTORY_NOT_CREATED, e);
+            throw new OperationFailedException(ErrorMessageConstants.DOCUMENT_HISTORY_NOT_CREATED, e);
         }
     }
 
@@ -79,7 +79,7 @@ public class DocumentHistoryServiceImpl implements DocumentHistoryService {
             documentHistoryList.forEach(documentHistory -> documentHistoryRepository.addDocumentHistory(documentHistory));
         } catch (RuntimeException e) {
             LOG.error("Error creating new document history");
-            throw new CreateEntityException(ErrorMessageConstants.DOCUMENT_HISTORY_NOT_CREATED, e);
+            throw new OperationFailedException(ErrorMessageConstants.DOCUMENT_HISTORY_NOT_CREATED, e);
         }
     }
 
@@ -101,7 +101,7 @@ public class DocumentHistoryServiceImpl implements DocumentHistoryService {
             }
         }
         else {
-            throw new EntityNotFoundException(ErrorMessageConstants.NOT_FOUND);
+            throw new EntityNotFoundException(ErrorMessageConstants.DOCUMENT_HISTORY_NOT_FOUND);
         }
     }
 

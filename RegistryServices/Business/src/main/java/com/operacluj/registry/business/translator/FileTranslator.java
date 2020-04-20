@@ -1,6 +1,6 @@
 package com.operacluj.registry.business.translator;
 
-import com.operacluj.registry.business.domain.DocumentTimelineItemDTO;
+import com.operacluj.registry.business.domain.dto.DocumentTimelineItemDTO;
 import com.operacluj.registry.business.service.UserService;
 import com.operacluj.registry.model.DocumentAction;
 import com.operacluj.registry.model.DocumentFile;
