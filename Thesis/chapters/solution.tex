@@ -18,7 +18,7 @@ In the following subsections of this chapter we will describe each of the chosen
 \subsection{The Spring Framework}
 \label{subsection:theSpringFramework}
 
-The Spring Framework is an application framework for the Java platform which offers a wide range of features for modern Java-based enterprise applications. According to a survey from 2018, Spring is the most popular Web Framework worldwide in the JVM ecosystem (See Figure \ref{javaWebFrameworksTrendsImg}). It provides a large set of functionality and tools, making it suitable for a big variety of applications. In addition,  its flexibility and focus on ease of use allow developers to focus on the application business logic rather than configurations and boilerplate code, thus increasing velocity, productivity and development speed.
+The Spring Framework is an application framework for the Java platform which offers a wide range of features for modern Java-based applications. According to a survey from 2018, Spring is the most popular Web Framework worldwide in the JVM ecosystem (See Figure \ref{javaWebFrameworksTrendsImg}). It provides a large set of functionality and tools, making it suitable for a big variety of applications. In addition, its flexibility and focus on ease of use allow developers to focus on the application business logic rather than configurations and boilerplate code, thus increasing velocity, productivity and development speed.
 
 \begin{figure}[H]
     \centering
@@ -38,36 +38,15 @@ To achieve this, the Spring Framework uses an \textit{IoC container}. It is resp
     \label{springIocContainer}
 \end{figure}
 
+Another advantage of Spring is that it uses well-known design patterns which are implemented under the hood:
 
-% The org.springframework.context.ApplicationContext interface represents the Spring IoC container and is responsible for instantiating, configuring, and assembling the beans. The container gets its instructions on what objects to instantiate, configure, and assemble by reading configuration metadata. The configuration metadata is represented in XML, Java annotations, or Java code. It lets you express the objects that compose your application and the rich interdependencies between those objects.
+\begin{itemize}
+    \item All beans created by Spring are by default \textbf{Singletons}. This means that the IoC container creates only one instance for a bean and caches it so that it could then be used in multiple different places.
+    \item Spring uses the \textbf{Factory Method Pattern} for bean creation. The \code{BeanFactory} class defines a list of \code{getBean()} methods, all of each are factory methods that could be used to create a bean with the the desired configuration. This functionality is extended by the \code{ApplicationContext} class, which adds the posibility of creating beans using external configurations like XML files or Java annotations.
+    \item Spring uses the \textbf{Proxy Pattern} to control access to its beans. One tipical example where this is necessary is when using transactions. If we annotate a method as \code{@Transactional}, Spring guaranties its atomic execution and transactional consistency (hence the name). This is only possbile by intercepting the call through a proxy object that wraps our bean and would control the method execution.
+    \item Spring uses the \textbf{Template Method Pattern} to minimize the amount of boilerplate code that is repeated again and again throughout projects. The \code{JdbcTemplate} class is a perfect example, providing an easy and intuitive way to execute database queries using predefined templates.
+\end{itemize}
 
-% As the preceding diagram shows, the Spring IoC container consumes a form of configuration metadata. This configuration metadata represents how you, as an application developer, tell the Spring container to instantiate, configure, and assemble the objects in your application.
-
-
-
-% In Spring, the objects that form the backbone of your application and that are managed by the Spring IoC container are called beans. A bean is an object that is instantiated, assembled, and otherwise managed by a Spring IoC container. Otherwise, a bean is simply one of many objects in your application. Beans, and the dependencies among them, are reflected in the configuration metadata used by a container.
-
-
-% Spring’s flexible and comprehensive set of extensions and third-party libraries let developers build almost any application imaginable. At its core, Spring Framework’s Inversion of Control (IoC) and Dependency Injection (DI) features provide the foundation for a wide-ranging set of features and functionality. Whether you’re building secure, reactive, cloud-based microservices for the web, or complex streaming data flows for the enterprise, Spring has the tools to help.
-
-% A key element of Spring is infrastructural support at the application level: Spring focuses on the "plumbing" of enterprise applications so that teams can focus on application-level business logic, without unnecessary ties to specific deployment environments.
-
-
-% //
-% Spring makes building web applications fast and hassle-free. By removing much of the boilerplate code and configuration associated with web development, you get a modern web programming model that streamlines the development of server-side HTML applications, REST APIs, and bidirectional, event-based systems.
-
-
-
-
-
-% Singleton pattern
-% Factory Method pattern
-% Proxy pattern
-% Template pattern
-
-
-
-% https://blog.eduonix.com/java-programming-2/learn-design-patterns-used-spring-framework/
 
 \subsection{Spring Boot}
 \label{subsection:springBoot}
