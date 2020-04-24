@@ -33,7 +33,7 @@ In this section of the thesis we will analyze the theoretical foundations that w
 
 A first and important decision we have to make is whether to develop a desktop application or a web-based one. Indeed, a traditional desktop app doesn't need constant Internet connection in order to be used. It could do all of it's processing on the locally installed app and only sync data with the database once in a while when it has Internet connection. However, this seems to be its biggest and only advantage. Web applications, on the other hand, have a wide range of advantages. To start with, a web application runs on a web browser, which means there is no need to install additional software on the computer. This makes it accessible from a wide range of devices and operating systems. In addition, it gives users freedom to access the app from anywhere, anytime, via any device with an Internet connection, allowing them to solve urgent tasks without a trip to the office. App maintainance is also less complicated - once an update is made on the host server, users can access it without manual updates on their computer. These are the main reasons why building a web application was chosen over a classical desktop one.
 
-% think about the title?
+
 \subsection{Layer architecture}
 \label{subsection:layerArchitecture}
 
@@ -126,9 +126,3 @@ It may seem at first sight that achieving usability is only a matter of design, 
 Another way of dealing with a lot of data as an alternative to pagination is loading the next chunk of data when the user scrolls to the bottom of the screen. This, however, makes the user unaware of the total amount of data and provides less control over navigation between data rows. This makes it more suitable for apps with and endless stream of data that the user should consume, while pagination is more suitable for enterprise applications like ours.
 
 Another thing to keep in mind is the responsiveness of the application. After the client sends a request, receiving a response will occur with a certain delay called \textbf{response time} - the time it will take the server to process the request. The amount of time needed will depend on the nature of the request, as well as the latency - the minimum delay that is present even when no processing from the server is required. While there are a number of things to be considered when implementing the application that could improve overall performance and minimize response time, you could also do something to improve the experience on the UI side. Improve \textbf{responsiveness}, which represents the time in which the system aknowledges the request. Responsiveness and response time are the same if during a request processing the system is waiting without any indicator to the user. However, adding a progress spinner will improve responsiveness as the user will be aware that the request is processing. This will improve the overall experience, even if the response time will be the same.
-
-
-
-% - architecture/patterns
-% - "It is not enough for code to work." Robert C. Martin, Clean Code: A Handbook of Agile Software Craftsmanship
-
