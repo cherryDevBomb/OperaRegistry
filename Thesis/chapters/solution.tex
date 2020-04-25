@@ -119,23 +119,28 @@ With the rise of the popularity of web applications, front-end technologies have
 
 \textbf{React}, \textbf{Vue.js} and \textbf{Angular} are 3 popular JavaScript frameworks that have been constantly present in fornt-end technologies tops in the last years. According to Google Trends (\ref{jsWebFrameworksTrends}), the popularity of Angular has been falling since 2015, while the interest for both React and Vue has been rising. However, React has a greater popularity, since Vue is a younger technology with a smaller community.
 
-
 All of them tend to offer similar features like component-based architecture that results in reusable components, easy syntax and high performance. However, for our application we chose to use React as our UI framework. In comparison to Angular, it is more lightweight and thus suitable for systems that aren't too complex. As for Vue.js, it is a progressive fast-changing framework which is steadily gaining popularity, but React has the advantage of being on the market for a longer time, which guarantees reliability of the resulting software.
-
-
-
-
 
 
 \subsection{Redux}
 \label{section:redux}
 
+According to the official documentation, Redux is \textit{"a predictable state container for JavaScript Apps"}. To put this in simple words, it is a library for managing application state, that can be used standalone or in connection with libraries like React. As described in \cite{tamingTheStateInReact}, state is an overall broad concept that could refer to anything that is present and can be modified in the browser. Entity state is data retrieved from the backend - like the list of all documents or the object describing the user that is currently logged in to the application. On the other hand, view state is not stored in the backend and is only related to the UI, like the flag that tells if a dropdown is open or not.
 
+When speaking about state management, we mean initializing, modifying and deleting state. For very small applications, this could be easily handled only by using React's local state. However, as the size and complexity of the application grows, so does the effort needed to manage its state. To make things easier, we used Redux, which handles state management in a predictable and elegant way using only 3 main building parts (See Figure \ref{reduxFlow}):
 
+\begin{itemize}
+    \item The \textbf{store} is the most important part, which holds the entire application state as a global object. It is a singleton, meaning that there is only one Redux store per application.
+    \item \textbf{Actions} are events that send data from the application to the store. To execute an action in Redux is called to \textit{dispatch}, and it should be done when you want to change the state. Dispatching an action requires providing an \textit{action type} and an additional \textit{payload} - information being sent to the store. Once an action is dispatched, it will pass through all reducers.
+    \item \textbf{Reducers} are pure functions that are responsible for updating the state. They take as input the current application state and a dispatched action, and, based on the action type and payload, return the next state. It is worth noting that reducers return a new state object without mutating the current state, which always results in a predictable outcome.
+\end{itemize}
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=5in]{images/reduxDataFlow}
+    \caption{Redux Data Flow \cite{reduxFlow}}
+    \label{reduxFlow}
+\end{figure}
 
-
-% just so items from .bib would show up in bibliography
-\cite{tamingTheStateInReact}
 
 
