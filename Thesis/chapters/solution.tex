@@ -92,38 +92,50 @@ Afterwards, every request from the client to the server has to contain the JWT t
 \subsection{MySQL Database}
 \label{section:mysqlDatabase}
 
-An important decision we had to make was whether to choose a \textit{relational} or a \textit{non-relational} database for persisting our data. Relational databases have been successfully used in enterprise applications for decades, however the NoSQL movement of the recent years has questioned whether the relational model is the best approach in all situations. Indeed, relational databases weren't designed to be used in a Object Oriented context. There are numerous techniques of mapping domain objects into a database, and the normalization of the obtained database model usually tends to split the information about an entity across multiple tables. We then need to make use of the foreign keys and perform joins to reconstruct our entity, which are costly operations. This is the main reason why, in the Big Data Era, non-relational databases are prefered for storing huge amounts of data. A NoSQL database will store information as JSON documents instead of rows spread across multiple tables, which will provide a considerable advantage in scalability and performance.
+An important decision we had to make was whether to choose a \textit{relational} or a \textit{non-relational} database for persisting our data. Relational databases have been successfully used in enterprise applications for decades, however the NoSQL movement of the recent years has questioned whether the relational model is the best approach in all situations. Indeed, relational databases weren't designed to be used in an Object Oriented context. There are numerous techniques of mapping domain objects into database tables and columns. It is especially cumbersome when concepts like inheritance or user-defined data types are involved. The normalization of the obtained database model usually tends to split the information about an entity across multiple tables. We then need to make use of the foreign keys and perform joins to reconstruct our entity, which are costly operations. This is the main reason why, in the Big Data Era, non-relational databases are prefered for storing huge amounts of data. A NoSQL database will store information as JSON documents instead of rows spread across multiple tables, which will provide a considerable advantage in scalability and performance.
 
-The drawback is that NoSQL databases don't treat operations as transactions. This makes the non-relational model a less fitted choice if you have operations that depend on each other and must either execute successfully or not at all (See \cite{conciseGuideToDatabases}). In our application, ensuring consistency of the persisted data is key. We want to enforce data integrity by maintaining the \textit{ACID} principles (Atomicity, Consistency, Isolation, Durability). That is the reason why a relational database seems the most fitted choice forour application.
+The drawback is that NoSQL databases don't treat operations as transactions. This makes the non-relational model a less fitted choice if you have operations that depend on each other and all of them must either execute successfully or not at all (See \cite{conciseGuideToDatabases}). In our application, ensuring consistency of the persisted data is key. We want to enforce data integrity by maintaining the \textit{ACID} principles (Atomicity, Consistency, Isolation, Durability). That is the reason why a relational database seems the most fitted choice for our application.
 
-From the vast amount of relational database technologies available, we chose to use \textbf{MySQL} which is an open-source relational database management system. To compensate for the speed - the field where non-relational databases are performing better that relational ones, we will research techniques to improve MySQL query performance described in \cite{highPerformanceMySQL}. One basic technique for increasing the speed of operations is using \textit{indexes} - data structures that boost data management efficiency and become increasingly important as the size of your data grows. There are also different types of indexes to consider. Tree-based indexes are more suited for fields which will be accessed with range queries or for sorting the query results. Thus it would make sense to create a B-Tree index on fields based on which we will sort documents in our application - like, for instance, registry number. Hash-based indexes, on the other hand, perform better for direct access. In our database, a Hash index would be useful for the email column of the user table, as the user retrieval at login time will be performed based on email instead of the id.
+From the vast amount of relational database technologies available, we chose to use \textbf{MySQL}, which is an open-source relational database management system. To compensate for the speed - the field where non-relational databases are performing better than relational ones, we will research techniques to improve MySQL query performance described in \cite{highPerformanceMySQL}. One basic technique for increasing the speed of operations is using \textit{indexes} - data structures that boost data management efficiency and become increasingly important as the size of managed data grows. There are also different types of indexes to consider. Tree-based indexes are more suited for fields which will be accessed with range queries or for sorting the query results. Thus it would make sense to create a \textit{B-Tree} index on fields based on which we will sort documents in our application - like, for instance, the document registry number. Hash-based indexes, on the other hand, perform better for direct access. In our database, a \textit{Hash} index would be useful for the email column of the user table, as the user retrieval at login time will be performed based on email instead of the id.
 
 
 \subsection{Spring JDBC}
-\label{subsection:springJDBC}
+\label{section:springJdbc}
+
+Next thing to consder is how the web service is going to connect to the database. Spring boot offers support for multiple Object Relational Mapping (ORM) frameworks, such as Hibernate and JPA. This are sometimes preferred because the developer doesn't have to think about how the data is stored. The mapping between the object-oriented world and the database is handled entirely by the framework. However, this might not always result in fully optimized queries. This is why, for our application, we chose to use the \textbf{Spring JBDC} Database Access. With this approach, the Spring Framework is still fully responsile for managing low-level details like opening and closing the connection, preparing and executing the statement and handling transactions. What we get instead is having full control over SQL statements and query parameters. The \code{NamedParameterJdbcTemplate} also offers the possibility to provide names for each parameter instead of the classical unintuitive placeholders (\code{?}), which results in a more readable and less error-prone code.
+
 
 \subsection{ReactJS Framework}
 \label{section:reactJSFramework}
+
+With the rise of the popularity of web applications, front-end technologies have also become a rather popular topic. In constrast to using plain old HTML and JavaScript, modern UI frameworks strive to offer solutions for achieving a responsive and interactive user interface with minimum effort.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=6.5in]{images/jsWebFrameworksTrends}
+    \caption{Popularity of JavaScript front-end frameworks in the last 5 years according to Google Trends}
+    \label{jsWebFrameworksTrends}
+\end{figure}
+
+\textbf{React}, \textbf{Vue.js} and \textbf{Angular} are 3 popular JavaScript frameworks that have been constantly present in fornt-end technologies tops in the last years. According to Google Trends (\ref{jsWebFrameworksTrends}), the popularity of Angular has been falling since 2015, while the interest for both React and Vue has been rising. However, React has a greater popularity, since Vue is a younger technology with a smaller community.
+
+
+All of them tend to offer similar features like component-based architecture that results in reusable components, easy syntax and high performance. However, for our application we chose to use React as our UI framework. In comparison to Angular, it is more lightweight and thus suitable for systems that aren't too complex. As for Vue.js, it is a progressive fast-changing framework which is steadily gaining popularity, but React has the advantage of being on the market for a longer time, which guarantees reliability of the resulting software.
+
+
+
+
+
 
 \subsection{Redux}
 \label{section:redux}
 
 
-% - performance (big amount of data)
-% - relational vs non-relational db
-% - where to store files? (db vs cloud)
-% - db stuff (indexing / speeding up things ? highPerformanceMySQL)
-% There's usually a lot of data, a moderate system will have over 1GB of data
-% organized in tens of millions of records, so much data that managing it is a major part
-% of the system. Older systems used indexed file structure such as IBM's VSAM and
-% ISAM. Modern systems usually use databases, mostly relational databases. The
-% design and feeding of these databases has turned into a sub-profession of its own.
 
 
 
 
 % just so items from .bib would show up in bibliography
 \cite{tamingTheStateInReact}
-\cite{highPerformanceMySQL}
 
 
