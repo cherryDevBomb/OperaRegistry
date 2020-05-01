@@ -18,6 +18,8 @@ public class ErrorMessageConstants {
     public static final String FILE_DOWNLOAD_FAILED = "Failed to download file";
     public static final String FILE_COUNT_FAILED = "Failed to count attached files";
 
+    public static final String REPORT_GENERATION_FAILED = "Failed to generate report";
+
     public static final String ACCESS_DENIED = "Access denied";
 
     public static final String EMPTY_MESSAGE = " ";

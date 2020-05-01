@@ -42,7 +42,7 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public DocumentFile getFile(int registryNumber) {
-        LOG.info("Entering getFile for document {}", registryNumber);
+        LOG.debug("Entering getFile for document {}", registryNumber);
         try {
             return fileRepository.getFile(registryNumber);
         } catch (Exception e) {

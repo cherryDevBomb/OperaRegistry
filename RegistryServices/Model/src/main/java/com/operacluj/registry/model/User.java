@@ -62,6 +62,10 @@ public class User implements UserDetails {
         this.password = password;
     }
 
+    public String getFullName() {
+        return firstName + " " + lastName;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;
