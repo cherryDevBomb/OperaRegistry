@@ -12,11 +12,6 @@
   color: #f7f7f9;
 }
 
-.dropdown-item:active {
-  background-color: #d6c4a5;
-  border: none;
-}
-
 .nav-link {
   color: #f7f7f9;
   height: 100%;
@@ -38,6 +33,21 @@
 
 .navbar-dark:hover .navbar-nav:hover .nav-link:hover {
   color: #bd8f3a;
+}
+
+.dropdown-item:active, .dropdown-item:focus {
+  background-color: #d6c4a5;
+  border: none;
+  box-shadow: none;
+}
+
+.btn:focus, .btn.focus {
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem #bd8f3a;
+}
+
+.btn:not(:disabled):not(.disabled):active:focus, .btn:not(:disabled):not(.disabled).active:focus {
+  box-shadow: 0 0 0 0.2rem #bd8f3a, inset 0 3px 5px rgba(0, 0, 0, 0.125);
 }
 
 .fa-home {

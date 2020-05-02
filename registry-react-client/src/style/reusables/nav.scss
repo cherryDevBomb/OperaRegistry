@@ -26,11 +26,6 @@ $nav-link-color-hover: $gold;
 //  white-space: unset;
 //}
 
-.dropdown-item:active {
-  background-color: lighten($light-gold, 10);
-  border: none;
-}
-
 .nav-link {
   color: $nav-link-color;
   height: 100%;
@@ -50,6 +45,20 @@ $nav-link-color-hover: $gold;
 }
 .navbar-dark:hover .navbar-nav:hover .nav-link:hover {
   color: $nav-link-color-hover;
+}
+
+.dropdown-item:active, .dropdown-item:focus {
+  background-color: lighten($light-gold, 10);
+  border: none;
+  box-shadow: none;
+}
+
+.btn:focus, .btn.focus {
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem $gold;
+}
+.btn:not(:disabled):not(.disabled):active:focus, .btn:not(:disabled):not(.disabled).active:focus {
+  box-shadow: 0 0 0 0.2rem $gold, inset 0 3px 5px rgba(0, 0, 0, 0.125);
 }
 
 .fa-home{

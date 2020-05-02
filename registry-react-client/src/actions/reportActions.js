@@ -1,6 +1,5 @@
-import {FILES_URL, properties, REPORT_URL} from "../properties";
+import {properties, REPORT_URL} from "../properties";
 import axios from "axios";
-import {DOWNLOAD_FILE} from "./types";
 import {getSearchParams} from "../utils/documentSearchUtils";
 
 

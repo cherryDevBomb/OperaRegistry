@@ -61,9 +61,9 @@ textarea {
   background-color: rgba(0, 123, 255, 0.5);
 }
 .custom-select:focus {
-  border-color: #80bdff;
+  border-color: $gold;
   outline: 0;
-  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  box-shadow: 0 0 0 0.2rem $gold;
 }
 
 
