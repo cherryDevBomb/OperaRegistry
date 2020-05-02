@@ -27,20 +27,6 @@ public class DocumentHistoryTranslator {
         return documentHistoryList.stream().map(this::translate).collect(Collectors.toList());
     }
 
-    public List<DocumentTimelineItemDTO> translateToTimelineItems(List<DocumentHistoryDTO> documentHistoryList) {
-        List<DocumentTimelineItemDTO> documentSendActions = documentHistoryList.stream()
-                .map(this::translateToSendActionItem)
-                .collect(Collectors.toList());
-
-        List<DocumentTimelineItemDTO> documentResolveActions = documentHistoryList.stream()
-                .filter(DocumentHistoryDTO::isResolved)
-                .map(this::translateToResolveActionItem)
-                .collect(Collectors.toList());
-
-        documentSendActions.addAll(documentResolveActions);
-        return documentSendActions;
-    }
-
     private DocumentHistoryDTO translate(DocumentHistory documentHistory) {
         DocumentHistoryDTO documentHistoryDTO = new DocumentHistoryDTO();
         documentHistoryDTO.setDocumentHistoryId(documentHistory.getDocumentHistoryId());
@@ -67,6 +53,20 @@ public class DocumentHistoryTranslator {
         documentHistoryDTO.setResolvedDate(documentHistory.isResolved() ? formatter.format(documentHistory.getResolvedDate()) : null);
 
         return documentHistoryDTO;
+    }
+
+    public List<DocumentTimelineItemDTO> translateToTimelineItems(List<DocumentHistoryDTO> documentHistoryList) {
+        List<DocumentTimelineItemDTO> documentSendActions = documentHistoryList.stream()
+                .map(this::translateToSendActionItem)
+                .collect(Collectors.toList());
+
+        List<DocumentTimelineItemDTO> documentResolveActions = documentHistoryList.stream()
+                .filter(DocumentHistoryDTO::isResolved)
+                .map(this::translateToResolveActionItem)
+                .collect(Collectors.toList());
+
+        documentSendActions.addAll(documentResolveActions);
+        return documentSendActions;
     }
 
     private DocumentTimelineItemDTO translateToSendActionItem(DocumentHistoryDTO documentHistoryDTO) {

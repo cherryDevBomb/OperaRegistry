@@ -1,10 +1,13 @@
 package com.operacluj.registry.business.service.impl;
 
-import com.operacluj.registry.business.domain.request.DocumentForm;
+import com.operacluj.registry.business.domain.dto.DocumentDTO;
 import com.operacluj.registry.business.domain.dto.DocumentHistoryDTO;
-import com.operacluj.registry.business.exception.OperationFailedException;
+import com.operacluj.registry.business.domain.request.DocumentForm;
 import com.operacluj.registry.business.exception.EntityNotFoundException;
+import com.operacluj.registry.business.exception.OperationFailedException;
 import com.operacluj.registry.business.service.DocumentHistoryService;
+import com.operacluj.registry.business.service.DocumentService;
+import com.operacluj.registry.business.service.MailService;
 import com.operacluj.registry.business.service.UserService;
 import com.operacluj.registry.business.translator.DocumentHistoryTranslator;
 import com.operacluj.registry.business.translator.UserTranslator;
@@ -35,7 +38,13 @@ public class DocumentHistoryServiceImpl implements DocumentHistoryService {
     private DocumentHistoryTranslator documentHistoryTranslator;
 
     @Autowired
+    private DocumentService documentService;
+
+    @Autowired
     private UserService userService;
+
+    @Autowired
+    private MailService mailService;
 
     @Autowired
     UserTranslator userTranslator;
@@ -44,6 +53,7 @@ public class DocumentHistoryServiceImpl implements DocumentHistoryService {
     InputValidator inputValidator;
 
     @Override
+    @Transactional(readOnly = true)
     public List<DocumentHistoryDTO> getDocumentHistoryForDocument(int registryNumber) {
         LOG.debug("Enter getDocumentHistoryForDocument {}", registryNumber);
         try {
@@ -56,6 +66,7 @@ public class DocumentHistoryServiceImpl implements DocumentHistoryService {
     }
 
     @Override
+    @Transactional
     public int addDocumentHistory(DocumentHistory documentHistory, User user) {
         LOG.info("Enter addDocumentHistory for document {}", documentHistory.getRegistryNumber());
         //will be a form in the future
@@ -73,7 +84,7 @@ public class DocumentHistoryServiceImpl implements DocumentHistoryService {
     @Override
     @Transactional
     public void addHistoryForNewDocument(DocumentForm documentForm, int registryNumber, User user) {
-        LOG.info("Enter addHistoryForNewDocument for document {}", registryNumber);
+        LOG.info("Enter addHistoryForNewDocument {}", registryNumber);
         List<DocumentHistory> documentHistoryList = getHistoryForDocumentForm(documentForm, registryNumber, user);
         try {
             documentHistoryList.forEach(documentHistory -> documentHistoryRepository.addDocumentHistory(documentHistory));
@@ -81,6 +92,9 @@ public class DocumentHistoryServiceImpl implements DocumentHistoryService {
             LOG.error("Error creating new document history");
             throw new OperationFailedException(ErrorMessageConstants.DOCUMENT_HISTORY_NOT_CREATED, e);
         }
+        documentHistoryList.stream()
+                .filter(documentHistory -> documentHistory.getInternalRecipient() != null)
+                .forEach(documentHistory -> mailService.sendMailForReceivedDocument(documentHistory, documentForm.getTitle()));
     }
 
     @Override
@@ -88,7 +102,6 @@ public class DocumentHistoryServiceImpl implements DocumentHistoryService {
     public void resolveDocument(int registryNumber, String resolvedMessage, Principal principal) {
         LOG.info("Enter resolveDocument {}", registryNumber);
         User user = userTranslator.getUserFromPrincipal(principal);
-
         DocumentHistory documentHistory = documentHistoryRepository.getDocumentHistoryForDocumentSentTo(registryNumber, user.getUserId());
         if (documentHistory != null) {
             documentHistory.setResolved(true);
@@ -99,6 +112,8 @@ public class DocumentHistoryServiceImpl implements DocumentHistoryService {
                 LOG.error("Document with registry number {} not resolved", registryNumber);
                 throw e;
             }
+            DocumentDTO document = documentService.getDocumentByRegistryNumber(registryNumber);
+            mailService.sendMailForResolvedDocument(documentHistory, document.getTitle());
         }
         else {
             throw new EntityNotFoundException(ErrorMessageConstants.DOCUMENT_HISTORY_NOT_FOUND);
