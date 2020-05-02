@@ -47,9 +47,11 @@ export const getSearchParams = (searchDetails, pageNumber) => {
     searchParams.to = interval.to;
   }
 
-  searchParams.page = pageNumber;
+  if (pageNumber) {
+    searchParams.page = pageNumber;
+  }
 
-  return new URLSearchParams(searchParams);
+  return searchParams;
 };
 
 const mapSearchDetailsTypesToDocTypes = (origin, destination) => {

@@ -20,7 +20,7 @@ import DatePicker from "react-datepicker/es";
 import 'react-datepicker/dist/react-datepicker.css';
 import "../../../style/reusables/document-search.css"
 // import 'bootstrap-select/dist/css/bootstrap-select.css'
-import {getDefaultSearchDetails} from "../../../utils/documentUtils";
+import {getDefaultSearchDetails} from "../../../utils/documentSearchUtils";
 
 class DocumentSearch extends Component {
   constructor(props) {

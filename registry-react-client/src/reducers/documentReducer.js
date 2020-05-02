@@ -8,7 +8,7 @@ import {
   GET_MY_DOCUMENTS_OPEN,
   SAVE_SEARCH_DETAILS
 } from "../actions/types";
-import {getDefaultSearchDetails} from "../utils/documentUtils";
+import {getDefaultSearchDetails} from "../utils/documentSearchUtils";
 
 let searchDetails = getDefaultSearchDetails();
 
@@ -33,6 +33,7 @@ const initialState = {
 export default function (state = initialState, action) {
   switch (action.type) {
     case GET_DOCUMENTS:
+      console.log("documents updated in reducer nr of pages is ", action.payload.pageCount);
       return {
         ...state,
         documents: action.payload.documentList,

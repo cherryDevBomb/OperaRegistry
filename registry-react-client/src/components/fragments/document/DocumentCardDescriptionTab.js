@@ -10,7 +10,7 @@ import {connect} from "react-redux";
 import {downloadFile} from "../../../actions/fileActions";
 import UserPopup from "../user/UserPopup";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
-import {getReceiverItem} from "../../../utils/uiUtils";
+import {getReceiverItem} from "../../../utils/userUtils";
 import Tooltip from "react-bootstrap/Tooltip";
 import FileUploadModal from "./FileUploadModal";
 

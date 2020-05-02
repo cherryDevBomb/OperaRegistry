@@ -17,13 +17,18 @@ $nav-link-color-hover: $gold;
   color: $nav-link-color;
 }
 
-.dropdown-toggle {
-  height: fit-content;
-  padding-top: 0;
-  padding-bottom: 0;
-  display: flex;
-  align-items: stretch;
-  white-space: unset;
+//.dropdown-toggle {
+//  height: fit-content;
+//  padding-top: 0;
+//  padding-bottom: 0;
+//  display: flex;
+//  align-items: stretch;
+//  white-space: unset;
+//}
+
+.dropdown-item:active {
+  background-color: lighten($light-gold, 10);
+  border: none;
 }
 
 .nav-link {

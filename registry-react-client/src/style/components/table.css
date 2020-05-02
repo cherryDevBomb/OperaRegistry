@@ -6,6 +6,7 @@
   font-weight: 400;
   color: #312b23;
   text-decoration: none;
+  width: fit-content;
 }
 
 .btn-link:hover {

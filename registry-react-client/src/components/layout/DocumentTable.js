@@ -10,6 +10,9 @@ import Pagination from "react-bootstrap/Pagination";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import {getPagination} from "../../utils/paginationUtils";
+import Dropdown from "react-bootstrap/Dropdown";
+import DropdownButton from "react-bootstrap/DropdownButton";
+import {generateReport} from "../../actions/reportActions";
 
 class DocumentTable extends Component {
   constructor(props) {
@@ -34,6 +37,12 @@ class DocumentTable extends Component {
     this.setState({activePage: newPageNumber}, () => {
       this.loadCurrentPage();
     });
+  }
+
+  generateReport(format, e) {
+    e.preventDefault();
+    console.log("format in generate in docTable", format);
+    this.props.generateReport(this.props.documentReducer.searchDetails, format);
   }
 
   render() {
@@ -70,8 +79,15 @@ class DocumentTable extends Component {
         </Jumbotron>
 
         <Row className="mt-4 mx-auto">
-          <Col xs={"auto"} className="mx-auto">
+          <Col xs="auto" className="mx-auto">
             <Pagination onClick={this.pageChanged.bind(this)}>{pages}</Pagination>
+          </Col>
+          <Col xs={{ order: 12 }}>
+            <DropdownButton title="Generare raport" className="float-right">
+              <Dropdown.Item as="button" onClick={(e) => this.generateReport("pdf", e)}>PDF</Dropdown.Item>
+              {/*TODO change to xls*/}
+              <Dropdown.Item as="button" onClick={(e) => this.generateReport("pdf", e)}>XLS</Dropdown.Item>
+            </DropdownButton>
           </Col>
         </Row>
       </div>
@@ -81,11 +97,12 @@ class DocumentTable extends Component {
 
 DocumentTable.propTypes = {
   documentReducer: PropTypes.object.isRequired,
-  getDocuments: PropTypes.func.isRequired
+  getDocuments: PropTypes.func.isRequired,
+  generateReport: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
   documentReducer: state.documentReducer
 });
 
-export default connect(mapStateToProps, {getDocuments})(DocumentTable);
+export default connect(mapStateToProps, {getDocuments, generateReport})(DocumentTable);

@@ -20,6 +20,8 @@ export const PAGE_COUNT_PATH = "/page-count"
 
 export const FILES_URL = "/files";
 
+export const REPORT_URL = "/reports"
+
 // client side routes
 export const REGISTER_PATH = "/register";
 export const LOGIN_PATH = "/login";

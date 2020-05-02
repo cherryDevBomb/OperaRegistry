@@ -54,8 +54,9 @@ export const createDocument = document => async dispatch => {
 };
 
 export const getDocuments = (searchDetails, pageNumber) => async dispatch => {
+  console.log("getDocuments called with searchParam", searchDetails.searchStr);
   const path = properties.serverURL + DOCUMENTS_URL;
-  const searchParams = getSearchParams(searchDetails, pageNumber);
+  const searchParams = new URLSearchParams(getSearchParams(searchDetails, pageNumber));
   const res = await axios.get(path, {params: searchParams});
 
   const pageCountPath = path + PAGE_COUNT_PATH;

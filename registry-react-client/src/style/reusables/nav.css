@@ -12,13 +12,9 @@
   color: #f7f7f9;
 }
 
-.dropdown-toggle {
-  height: fit-content;
-  padding-top: 0;
-  padding-bottom: 0;
-  display: flex;
-  align-items: stretch;
-  white-space: unset;
+.dropdown-item:active {
+  background-color: #d6c4a5;
+  border: none;
 }
 
 .nav-link {
