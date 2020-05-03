@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import { createUser } from "../../../actions/securityActions";
+import { createUser } from "../../actions/securityActions";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { DOCUMENTS_PATH } from "../../../properties";
+import { DOCUMENTS_PATH } from "../../properties";
 
 class Register extends Component {
   constructor() {

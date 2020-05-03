@@ -3,10 +3,10 @@ import "../../../style/reusables/icons.css";
 import "../../../style/reusables/badge.css";
 import {Badge} from "react-bootstrap";
 import {getUserPopup} from "../../../utils/userUtils";
-import {DESTINATION_EXTERNAL_DOC_TYPE, ORIGIN_EXTERNAL_DOC_TYPE} from "../../../properties";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {downloadFile} from "../../../actions/fileActions";
+import {DESTINATION_EXTERNAL_DOC_TYPE, ORIGIN_EXTERNAL_DOC_TYPE} from "../../../constants/appConstants";
 
 class DocumentRow extends Component {
 

@@ -11,8 +11,10 @@ export const getPagination = (total, active) => {
           {number}
         </Pagination.Item>,
       );
-    } else if ((active - number) === 3 || (number - active) === 3) {
-      pages.push(<Pagination.Ellipsis key="ellipsis"/>);
+    } else if ((active - number) === 3) {
+      pages.push(<Pagination.Ellipsis key="ellipsis-bck"/>);
+    } else if ((number - active) === 3) {
+      pages.push(<Pagination.Ellipsis key="ellipsis-fwd"/>);
     }
   }
   pages.push(<Pagination.Next key="next"/>);

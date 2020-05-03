@@ -1,18 +1,17 @@
 import React, {Component} from "react";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import {DESTINATION_EXTERNAL_DOC_TYPE} from "../../../properties";
 import Button from "react-bootstrap/Button";
-import {getUserPopup} from "../../../utils/userUtils";
+import {getReceiverItem, getUserPopup} from "../../../utils/userUtils";
 import Container from "react-bootstrap/Container";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {downloadFile} from "../../../actions/fileActions";
 import UserPopup from "../user/UserPopup";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
-import {getReceiverItem} from "../../../utils/userUtils";
 import Tooltip from "react-bootstrap/Tooltip";
 import FileUploadModal from "./FileUploadModal";
+import {DESTINATION_EXTERNAL_DOC_TYPE} from "../../../constants/appConstants";
 
 class DocumentCardDescriptionTab extends Component {
   constructor(props) {

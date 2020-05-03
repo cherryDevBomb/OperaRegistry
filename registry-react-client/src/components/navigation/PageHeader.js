@@ -2,24 +2,25 @@ import React, { Component } from "react";
 
 import { LinkContainer } from "react-router-bootstrap";
 import { Link } from "react-router-dom";
-import { DOCUMENTS_PATH } from "../../../properties.js";
-import { MY_DOCUMENTS_PATH } from "../../../properties.js";
-import { NEW_DOCUMENT_PATH } from "../../../properties.js";
-import { REGISTER_PATH } from "../../../properties.js";
-import { LOGIN_PATH } from "../../../properties.js";
-import { LOGOUT_PATH } from "../../../properties.js";
+import { DOCUMENTS_PATH } from "../../properties.js";
+import { MY_DOCUMENTS_PATH } from "../../properties.js";
+import { NEW_DOCUMENT_PATH } from "../../properties.js";
+import { REGISTER_PATH } from "../../properties.js";
+import { LOGIN_PATH } from "../../properties.js";
+import { LOGOUT_PATH } from "../../properties.js";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { logout } from "../../../actions/securityActions";
-import {RECEIVED_DOCUMENTS_PATH} from "../../../properties";
+import { logout } from "../../actions/securityActions";
+import {RECEIVED_DOCUMENTS_PATH} from "../../properties";
+import {getFullName} from "../../utils/userUtils";
 
 class PageHeader extends Component {
   logout() {
     this.props.logout();
-    window.location.href = "/";
+    window.location.href = LOGIN_PATH;
   }
 
   render() {
@@ -29,13 +30,19 @@ class PageHeader extends Component {
       <React.Fragment>
         <Nav className="mr-auto">
           <LinkContainer to={DOCUMENTS_PATH}>
-            <Nav.Link>Documente</Nav.Link>
+            <Nav.Link>
+              <i className="fas fa-table" />
+              Toate documentele</Nav.Link>
           </LinkContainer>
           <LinkContainer to={MY_DOCUMENTS_PATH}>
-            <Nav.Link>Documentele mele</Nav.Link>
+            <Nav.Link>
+              <i className="fas fa-paper-plane" />
+              Documentele mele</Nav.Link>
           </LinkContainer>
           <LinkContainer to={RECEIVED_DOCUMENTS_PATH}>
-            <Nav.Link>Documente primite</Nav.Link>
+            <Nav.Link>
+              <i className="fas fa-inbox" />
+              Documente primite</Nav.Link>
           </LinkContainer>
         </Nav>
 
@@ -43,24 +50,26 @@ class PageHeader extends Component {
           <LinkContainer to={NEW_DOCUMENT_PATH}>
             <Nav.Link>
               <i className="fas fa-plus" />
-              {"  "}Document nou
+              Document nou
             </Nav.Link>
           </LinkContainer>
 
           <NavDropdown
-            className="dropdown-menu-right"
+            alignRight
+            className="dropdown-menu-right pull-right"
             title={
               <span>
                 <i className="fas fa-user" />
-                {"  " + user.firstName + " " + user.lastName}
+                {getFullName(user)}
               </span>
             }
           >
-            <NavDropdown.Item>Your profile</NavDropdown.Item>
+            <NavDropdown.Item><i className="fas fa-id-card" /> Contul tău</NavDropdown.Item>
+            <NavDropdown.Item><i className="fas fa-question" /> Ajutor</NavDropdown.Item>
             <NavDropdown.Divider />
 
             <LinkContainer to={LOGOUT_PATH} onClick={this.logout.bind(this)}>
-              <NavDropdown.Item>Sign out</NavDropdown.Item>
+              <NavDropdown.Item><i className="fas fa-sign-out-alt" /> Deconectați-vă</NavDropdown.Item>
             </LinkContainer>
           </NavDropdown>
         </Navbar.Collapse>
@@ -69,26 +78,16 @@ class PageHeader extends Component {
 
     const userIsNotAuthenticated = (
       <React.Fragment>
-        <Nav className="mr-auto">
-          <LinkContainer to={LOGIN_PATH}>
-            <Nav.Link>Documente</Nav.Link>
-          </LinkContainer>
-        </Nav>
-
+        <span className="span-title">Registratura Operei Naționale Române Cluj-Napoca</span>
         <Navbar.Collapse className="justify-content-end">
           <LinkContainer to={REGISTER_PATH}>
-            <Nav.Link>Sign up</Nav.Link>
-          </LinkContainer>
-
-          <LinkContainer to={LOGIN_PATH}>
-            <Nav.Link>Sign in</Nav.Link>
+            <Nav.Link>Cont nou</Nav.Link>
           </LinkContainer>
         </Navbar.Collapse>
       </React.Fragment>
     );
 
     let headerLinks;
-
     if (validToken && user) {
       headerLinks = userIsAuthenticated;
     } else {
@@ -98,8 +97,8 @@ class PageHeader extends Component {
     return (
       <Navbar bg="dark" variant="dark" sticky="top">
         <Navbar.Brand>
-          <Link to="/">
-            <i className="fas fa-home" />
+          <Link to={LOGIN_PATH}>
+            <div className="logo"></div>
           </Link>
         </Navbar.Brand>
         {headerLinks}
