@@ -78,12 +78,12 @@ class DocumentTable extends Component {
           </Table>
         </Jumbotron>
 
-        <Row className="mt-4 mx-auto">
-          <Col xs="auto" className="mx-auto">
-            <Pagination onClick={this.pageChanged.bind(this)}>{pages}</Pagination>
+        <Row className="mt-4 mx-auto d-flex justify-content-center text-center">
+          <Col xs={12} sm={"auto"} className="mx-auto d-flex justify-content-center">
+            <Pagination className="mx-auto" onClick={this.pageChanged.bind(this)}>{pages}</Pagination>
           </Col>
           <Col xs={{ order: 12 }}>
-            <DropdownButton title="Generare raport" className="float-right">
+            <DropdownButton title="Generare raport" className="float-sm-right mb-3 mb-sm-0">
               <Dropdown.Item as="button" onClick={(e) => this.generateReport("pdf", e)}>PDF</Dropdown.Item>
               {/*TODO change to xls*/}
               <Dropdown.Item as="button" onClick={(e) => this.generateReport("pdf", e)}>XLS</Dropdown.Item>
