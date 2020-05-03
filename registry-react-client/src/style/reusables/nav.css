@@ -6,10 +6,17 @@
   align-items: stretch;
 }
 
+button.navbar-toggler {
+  outline: none;
+  border: 0;
+  box-shadow: none;
+}
+
 .span-title {
   color: #f7f7f9;
   height: 100%;
   padding: 16px;
+  margin-left: 1.4em;
   display: flex;
   align-items: center;
   cursor: default;
@@ -35,6 +42,11 @@
 
 .navbar-dark:hover .navbar-nav:hover .nav-link:hover {
   color: #bd8f3a;
+}
+
+.navbar-expand-sm .navbar-nav .nav-link {
+  padding-left: 16px;
+  padding-right: 16px;
 }
 
 .navbar-brand {
@@ -68,6 +80,15 @@
   background-color: #f6f2eb;
   border: none;
   box-shadow: none;
+}
+
+.btn:focus, .btn.focus {
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem #bd8f3a;
+}
+
+.btn:not(:disabled):not(.disabled):active:focus, .btn:not(:disabled):not(.disabled).active:focus {
+  box-shadow: 0 0 0 0.2rem #bd8f3a, inset 0 3px 5px rgba(0, 0, 0, 0.125);
 }
 
 .fa-table, .fa-paper-plane, .fa-inbox, .fa-user, .fa-plus {

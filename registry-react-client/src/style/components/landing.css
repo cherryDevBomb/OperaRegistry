@@ -26,6 +26,17 @@
   width: 25em;
 }
 
+@media only screen and (max-width: 600px) {
+  .jumbotron-login, .jumbotron-login {
+    right: 0;
+    float: unset;
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 5rem;
+    height: 60vh;
+  }
+}
 .btn-sign-up {
   background-color: #fdfcf9;
   color: #ac1b21;

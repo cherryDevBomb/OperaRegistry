@@ -13,11 +13,19 @@ $logo-size: 36px;
   align-items: stretch;
 }
 
+// Navbar toggler
+button.navbar-toggler {
+  outline: none;
+  border: 0;
+  box-shadow: none;
+}
+
 // Title when logged out
 .span-title {
   color: $nav-link-color;
   height: 100%;
   padding: 16px;
+  margin-left: 1.4em;
   display: flex;
   align-items: center;
   cursor: default;
@@ -46,6 +54,11 @@ $logo-size: 36px;
   color: $nav-link-color-hover;
 }
 
+.navbar-expand-sm .navbar-nav .nav-link {
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
 // App logo
 .navbar-brand {
   display: flex;
@@ -63,6 +76,7 @@ $logo-size: 36px;
   background-size: $logo-size;
   display: inline-block;
 }
+
 .logo:hover {
   background: url("../../resources/logo_gold.png") no-repeat;
   background-size: $logo-size;
@@ -80,14 +94,14 @@ $logo-size: 36px;
   box-shadow: none;
 }
 
-//.btn:focus, .btn.focus {
-//  outline: 0;
-//  box-shadow: 0 0 0 0.2rem $gold;
-//}
-//
-//.btn:not(:disabled):not(.disabled):active:focus, .btn:not(:disabled):not(.disabled).active:focus {
-//  box-shadow: 0 0 0 0.2rem $gold, inset 0 3px 5px rgba(0, 0, 0, 0.125);
-//}
+.btn:focus, .btn.focus {
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem $gold;
+}
+
+.btn:not(:disabled):not(.disabled):active:focus, .btn:not(:disabled):not(.disabled).active:focus {
+  box-shadow: 0 0 0 0.2rem $gold, inset 0 3px 5px rgba(0, 0, 0, 0.125);
+}
 
 // Navbar icons
 .fa-table, .fa-paper-plane, .fa-inbox, .fa-user, .fa-plus {
@@ -102,6 +116,7 @@ $logo-size: 36px;
   color: $brownish-gray;
   margin-right: .40em;
 }
+
 .fa-question {
   margin-right: .7em;
 }

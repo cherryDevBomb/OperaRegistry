@@ -138,11 +138,11 @@ class CreateDocument extends Component {
       <React.Fragment>
         <Container>
           <Row className="mt-5">
-            <Col className="col-sm-4 my-auto">
-              <strong className="float-right">Originea documentului</strong>
+            <Col xs={12} sm={4} className="my-auto">
+              <strong className="float-sm-right">Originea documentului</strong>
             </Col>
 
-            <Col className="col-sm-8 my-auto">
+            <Col xs={12} sm={8} className="my-auto">
               <ToggleButtonGroup
                 type="radio"
                 name="originType"
@@ -168,11 +168,11 @@ class CreateDocument extends Component {
     const defaultCreator = (
       <Container>
         <Row className="mt-3">
-          <Col className="col-sm-4 my-auto">
-            <strong className="float-right">Autor</strong>
+          <Col xs={4} className="my-auto">
+            <strong className="float-sm-right">Autor</strong>
           </Col>
 
-          <Col className="col-sm-8 my-auto">
+          <Col xs={8} className="my-auto">
             {getFullName(user)}
           </Col>
         </Row>
@@ -182,11 +182,11 @@ class CreateDocument extends Component {
     const formGroupExtOrigin = (
       <Container>
         <Row className="mt-2 align-items-center">
-          <Col className="col-sm-4 my-auto">
-            <strong className="float-right">Autor</strong>
+          <Col xs={12} sm={4} className="my-auto">
+            <strong className="float-sm-right">Autor</strong>
           </Col>
 
-          <Col className="col-sm-8 my-auto">
+          <Col xs={12} sm={8} className="my-auto">
             <Form.Group className="mb-0">
               <Form.Control
                 name="origin"
@@ -216,11 +216,11 @@ class CreateDocument extends Component {
     const formGroupTitle = (
       <Container>
         <Row className="mt-3 align-items-center">
-          <Col className="col-sm-4 my-auto">
-            <strong className="float-right">Titlu</strong>
+          <Col xs={12} sm={4} className="my-auto">
+            <strong className="float-sm-right">Titlu</strong>
           </Col>
 
-          <Col className="col-sm-8 my-auto">
+          <Col xs={12} sm={8} className="my-auto">
             <Form.Group className="mb-0">
               <Form.Control
                 id="title"
@@ -244,11 +244,11 @@ class CreateDocument extends Component {
     const formGroupDestinationType = (
       <Container>
         <Row className="mt-3 align-items-center">
-          <Col className="col-sm-4 my-auto">
-            <strong className="float-right">Destinație</strong>
+          <Col xs={12} sm={4} className="my-auto">
+            <strong className="float-sm-right">Destinație</strong>
           </Col>
 
-          <Col className="col-sm-8 my-auto">
+          <Col xs={12} sm={8} className="my-auto">
             <ToggleButtonGroup
               type="radio"
               name="destinationType"
@@ -277,8 +277,8 @@ class CreateDocument extends Component {
     const formGroupIntDestination = (
       <Container>
         <Row className="mt-2 align-items-center">
-          <Col className="col-sm-4"></Col>
-          <Col className="col-sm-8 my-auto">
+          <Col xs={12} sm={4}></Col>
+          <Col xs={12} sm={8} className="my-auto">
             <UserAutosuggest placeholder="Introduceți destinatarul"
                              includePrincipal={false}
                              prevSelectedUsers={[]}
@@ -286,8 +286,8 @@ class CreateDocument extends Component {
           </Col>
         </Row>
         <Row className="mt-1 align-items-center">
-          <Col className="col-sm-4"></Col>
-          <Col className="col-sm-8 my-auto">
+          <Col xs={12} sm={4} ></Col>
+          <Col xs={12} sm={8} className="my-auto">
             {internalReceiversFeedback}
           </Col>
         </Row>
@@ -297,8 +297,8 @@ class CreateDocument extends Component {
     const formGroupExtDestination = (
       <Container>
         <Row className="mt-2 align-items-center">
-          <Col className="col-sm-4"></Col>
-          <Col className="col-sm-8 my-auto">
+          <Col xs={12} sm={4}></Col>
+          <Col xs={12} sm={8} className="my-auto">
             <Form.Group className="mb-0">
               <Form.Control
                 name="recipients"
@@ -320,11 +320,11 @@ class CreateDocument extends Component {
     const formGroupSentMessage = (
       <Container>
         <Row className="mt-3 mb-5 align-items-center">
-          <Col className="col-sm-4 my-auto">
-            <strong className="float-right">Mesaj</strong>
+          <Col xs={12} sm={4} className="my-auto">
+            <strong className="float-sm-right">Mesaj</strong>
           </Col>
 
-          <Col className="col-sm-8 my-auto">
+          <Col xs={12} sm={8} className="my-auto">
             <Form.Group className="mb-0">
               <Form.Control
                 as="textarea"
@@ -351,7 +351,7 @@ class CreateDocument extends Component {
     return (
       <React.Fragment>
         <FileUploadModal history={this.props.history} skipButtonText="Skip" ref={this.uploadModalRef}/>
-        <Jumbotron className="mx-5 my-4 shadow p-5">
+        <Jumbotron className="mx-2 mx-sm-5 my-4 px-1 px-sm-5 py-5 shadow">
           <h4 className="text-center">Document nou</h4>
           <Form onSubmit={this.onSubmit}>
             <hr/>
@@ -361,9 +361,9 @@ class CreateDocument extends Component {
             {formGroupDestinationType}
             {destinationPart}
             {formGroupSentMessage}
-            <Row className="mt-3 mb=3"><Col>
-              <Button variant="primary" type="submit" className="float-right">
-                Submit
+            <Row className="mt-3 mb=3"><Col className="text-center">
+              <Button variant="primary" type="submit" className="float-sm-right">
+                Confirmă
               </Button>
             </Col></Row>
           </Form>

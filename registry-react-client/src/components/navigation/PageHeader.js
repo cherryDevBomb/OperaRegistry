@@ -28,6 +28,8 @@ class PageHeader extends Component {
     
     const userIsAuthenticated = (
       <React.Fragment>
+        <Navbar.Toggle aria-controls="navbar-authenticated" />
+        <Navbar.Collapse id="navbar-authenticated">
         <Nav className="mr-auto">
           <LinkContainer to={DOCUMENTS_PATH}>
             <Nav.Link>
@@ -73,13 +75,14 @@ class PageHeader extends Component {
             </LinkContainer>
           </NavDropdown>
         </Navbar.Collapse>
+        </Navbar.Collapse>
       </React.Fragment>
     );
 
     const userIsNotAuthenticated = (
       <React.Fragment>
         <span className="span-title">Registratura Operei Naționale Române Cluj-Napoca</span>
-        <Navbar.Collapse className="justify-content-end">
+        <Navbar.Collapse id="navbar-not-authenticated" className="justify-content-end">
           <LinkContainer to={REGISTER_PATH}>
             <Nav.Link>Cont nou</Nav.Link>
           </LinkContainer>
@@ -95,7 +98,7 @@ class PageHeader extends Component {
     }
 
     return (
-      <Navbar bg="dark" variant="dark" sticky="top">
+      <Navbar bg="dark" variant="dark" sticky="top" expand="sm">
         <Navbar.Brand>
           <Link to={LOGIN_PATH}>
             <div className="logo"></div>
