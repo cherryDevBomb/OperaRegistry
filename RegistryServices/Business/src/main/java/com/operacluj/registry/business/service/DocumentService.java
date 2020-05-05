@@ -1,6 +1,7 @@
 package com.operacluj.registry.business.service;
 
 import com.operacluj.registry.business.domain.dto.DocumentDTO;
+import com.operacluj.registry.business.domain.dto.DocumentSearchResponseDTO;
 import com.operacluj.registry.business.domain.request.DocumentForm;
 import com.operacluj.registry.business.domain.request.SearchCriteria;
 
@@ -10,6 +11,8 @@ import java.util.List;
 public interface DocumentService {
 
     DocumentDTO getDocumentByRegistryNumber(int registryNumber);
+
+    DocumentSearchResponseDTO getDocumentSearchResult(SearchCriteria searchCriteria, int page, int searchId);
 
     List<DocumentDTO> getAllDocuments(int page);
 

@@ -19,7 +19,7 @@ class DocumentTable extends Component {
     super(props);
 
     this.state = {
-      activePage: 1,
+      activePage: 1
     }
   }
 

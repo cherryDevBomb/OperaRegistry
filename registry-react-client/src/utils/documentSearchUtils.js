@@ -17,7 +17,7 @@ export const getDefaultSearchDetails = () => {
   };
 }
 
-export const getSearchParams = (searchDetails, pageNumber) => {
+export const getSearchParams = (searchDetails, pageNumber, searchId) => {
   let searchParams = {};
 
   const docTypes = mapSearchDetailsTypesToDocTypes(searchDetails.originType, searchDetails.destinationType);
@@ -50,6 +50,7 @@ export const getSearchParams = (searchDetails, pageNumber) => {
   if (pageNumber) {
     searchParams.page = pageNumber;
   }
+  searchParams.searchId = searchId;
 
   return searchParams;
 };

@@ -1,6 +1,7 @@
 package com.operacluj.registry.business.service.impl;
 
 import com.operacluj.registry.business.domain.dto.DocumentDTO;
+import com.operacluj.registry.business.domain.dto.DocumentSearchResponseDTO;
 import com.operacluj.registry.business.domain.request.DocumentForm;
 import com.operacluj.registry.business.domain.request.SearchCriteria;
 import com.operacluj.registry.business.exception.OperationFailedException;
@@ -68,6 +69,22 @@ public class DocumentServiceImpl implements DocumentService {
             LOG.error("Document with registry number {} not found", registryNumber);
             throw new EntityNotFoundException(ErrorMessageConstants.DOCUMENT_NOT_FOUND, e);
         }
+    }
+
+    @Override
+    public DocumentSearchResponseDTO getDocumentSearchResult(SearchCriteria searchCriteria, int page, int searchId) {
+        List<DocumentDTO> documents;
+        if (searchCriteria.isPresent()) {
+            documents = getDocumentsByCriteria(searchCriteria, page);
+        } else {
+            documents = getAllDocuments(page);
+        }
+
+        DocumentSearchResponseDTO searchResult = new DocumentSearchResponseDTO();
+        searchResult.setSearchId(searchId);
+        searchResult.setDocuments(documents);
+
+        return searchResult;
     }
 
     @Override

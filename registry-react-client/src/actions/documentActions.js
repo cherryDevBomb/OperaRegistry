@@ -22,6 +22,8 @@ import {
 } from "../properties";
 import {getSearchParams} from "../utils/documentSearchUtils";
 
+let searchId = 0;
+
 export const createDocument = document => async dispatch => {
   try {
     if (document.isOriginExternal && document.origin === "") {
@@ -54,18 +56,24 @@ export const createDocument = document => async dispatch => {
 };
 
 export const getDocuments = (searchDetails, pageNumber) => async dispatch => {
+  searchId++;
+
   console.log("getDocuments called with searchParam", searchDetails.searchStr);
   const path = properties.serverURL + DOCUMENTS_URL;
-  const searchParams = new URLSearchParams(getSearchParams(searchDetails, pageNumber));
+  const searchParams = new URLSearchParams(getSearchParams(searchDetails, pageNumber, searchId));
   const res = await axios.get(path, {params: searchParams});
 
   const pageCountPath = path + PAGE_COUNT_PATH;
   const pageCountRes = await axios.get(pageCountPath, {params: searchParams});
 
-  dispatch({
-    type: GET_DOCUMENTS,
-    payload: {documentList: res.data, pageCount: pageCountRes.data}
-  });
+  console.log("res data searchId: " + res.data.searchId + "; current searchId: " + searchId)
+  if (res.data.searchId >= searchId) {
+    console.log("updating reducer list")
+    dispatch({
+      type: GET_DOCUMENTS,
+      payload: {documentList: res.data.documents, pageCount: pageCountRes.data}
+    });
+  }
 };
 
 

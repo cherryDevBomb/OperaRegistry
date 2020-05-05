@@ -1,6 +1,7 @@
 package com.operacluj.registry.web.controller;
 
 import com.operacluj.registry.business.domain.dto.DocumentDTO;
+import com.operacluj.registry.business.domain.dto.DocumentSearchResponseDTO;
 import com.operacluj.registry.business.domain.request.DocumentForm;
 import com.operacluj.registry.business.domain.request.SearchCriteria;
 import com.operacluj.registry.business.service.DocumentHistoryService;
@@ -37,11 +38,8 @@ public class DocumentController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<DocumentDTO> getDocuments(SearchCriteria searchCriteria, @RequestParam int page) {
-        if (searchCriteria.isPresent()) {
-            return documentService.getDocumentsByCriteria(searchCriteria, page);
-        }
-        return documentService.getAllDocuments(page);
+    public DocumentSearchResponseDTO getDocuments(SearchCriteria searchCriteria, @RequestParam int page, int searchId) {
+        return documentService.getDocumentSearchResult(searchCriteria, page, searchId);
     }
 
     @GetMapping("/created")
