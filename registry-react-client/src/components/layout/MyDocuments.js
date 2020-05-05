@@ -54,7 +54,7 @@ class MyDocuments extends Component {
 
     return (
       <React.Fragment>
-        <Jumbotron className="mt-4 mx-4 pt-3">
+        <Jumbotron className="mt-4 mx-2 mx-sm-4 pt-3">
           <Tabs defaultActiveKey="open" id="my-documents-tab" variant="tabs" className="mt-3 pt-1 tabs">
             <Tab eventKey="open" title="Nearhivate" className="tab-left">
               {myDocumentsOpen.map(document => (

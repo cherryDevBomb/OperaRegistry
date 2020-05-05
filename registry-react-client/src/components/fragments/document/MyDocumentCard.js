@@ -76,7 +76,7 @@ class MyDocumentCard extends Component {
                                 documentOperationCallback={this.archiveCallback.bind(this)}
                                 actionName="arhivați"/>
 
-        <Card className="mx-2 mt-3 shadow-sm">
+        <Card className="mx-sm-2 mt-3 shadow-sm">
 
           <Card.Header>
             <Container>

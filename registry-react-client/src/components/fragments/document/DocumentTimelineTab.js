@@ -61,10 +61,10 @@ class DocumentTimelineTab extends Component {
     let timeline = (
       Object.keys(documentTimeline).map(key => (
         <Row className="mb-3" key={"Date-" + key}>
-          <Col className="col-sm-2">
+          <Col xs={12} sm={2}>
             <strong>{key}</strong>
           </Col>
-          <Col className="col-sm-8 my-auto">
+          <Col xs={12} sm={8} className="my-auto ml-3 ml-sm-0">
             {documentTimeline[key].map(item => (
               <Row key={keyIndex++}>
                 <Col>

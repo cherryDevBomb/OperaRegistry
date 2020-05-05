@@ -18,6 +18,7 @@ import {RECEIVED_DOCUMENTS_PATH} from "../../properties";
 import {getFullName} from "../../utils/userUtils";
 
 class PageHeader extends Component {
+
   logout() {
     this.props.logout();
     window.location.href = LOGIN_PATH;
@@ -98,7 +99,7 @@ class PageHeader extends Component {
     }
 
     return (
-      <Navbar bg="dark" variant="dark" sticky="top" expand="sm">
+      <Navbar collapseOnSelect bg="dark" variant="dark" sticky="top" expand="sm">
         <Navbar.Brand>
           <Link to={LOGIN_PATH}>
             <div className="logo"></div>

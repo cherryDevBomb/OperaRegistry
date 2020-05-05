@@ -187,7 +187,7 @@ class DocumentSearch extends Component {
     let specificPersonOriginInput;
     if (this.state.originType === "O anumită persoană") {
       specificPersonOriginInput = (
-        <Col className="col-sm-6 ">
+        <Col xs={12} sm={6} className="mt-2 mt-sm-0">
           <UserAutosuggest ref={this.refOrigin}
                            placeholder="Introduceți numele"
                            includePrincipal={true}
@@ -200,7 +200,7 @@ class DocumentSearch extends Component {
     let specificPersonDestinationInput;
     if (this.state.destinationType === "O anumită persoană") {
       specificPersonDestinationInput = (
-        <Col className="col-sm-6">
+        <Col xs={12} sm={6} className="mt-2 mt-sm-0">
           <UserAutosuggest ref={this.refDestination}
                            placeholder="Introduceți numele"
                            includePrincipal={true}
@@ -215,12 +215,12 @@ class DocumentSearch extends Component {
       specificDateInput = (
         <React.Fragment>
           <Row>
-            <Col className="col-sm-2 my-auto"/>
+            <Col xs={0} sm={2} className="my-auto"/>
             <Col className="mt-3">Între:</Col>
           </Row>
           <Row className="mt-2">
-            <Col className="col-sm-2 my-auto"/>
-            <Col className="col-sm-4 my-auto">
+            <Col xs={0} sm={2} className="my-auto"/>
+            <Col sm={4} className="my-auto">
               <DatePicker id="from"
                           name="from"
                           className="mr-2"
@@ -229,7 +229,7 @@ class DocumentSearch extends Component {
                           selected={this.state.from}
                           onChange={(e) => this.onDateChange("from", e)}/>
             </Col>
-            <Col className="col-sm-4 my-auto">
+            <Col sm={4} className="my-auto mt-3 mt-sm-0">
               <DatePicker id="to"
                           name="to"
                           minDate={this.state.from}
@@ -254,10 +254,10 @@ class DocumentSearch extends Component {
           >
             <Container className="search-dropdown-inner">
               <Row className="mt-3 align-items-baseline">
-                <Col className="col-sm-2">
+                <Col xs={5} sm={2}>
                   <strong>Emitent</strong>
                 </Col>
-                <Col className="col-sm-4">
+                <Col xs={7} sm={4}>
                   <Form.Control as="select"
                                 name="originType"
                                 value={this.state.originType}
@@ -272,10 +272,10 @@ class DocumentSearch extends Component {
               </Row>
 
               <Row className="mt-3 align-items-baseline">
-                <Col className="col-sm-2">
+                <Col xs={5} sm={2}>
                   <strong>Destinatar</strong>
                 </Col>
-                <Col className="col-sm-4">
+                <Col xs={7} sm={4}>
                   <Form.Control as="select"
                                 value={this.state.destinationType}
                                 name="destinationType"
@@ -290,10 +290,10 @@ class DocumentSearch extends Component {
               </Row>
 
               <Row className="mt-3 align-items-center">
-                <Col className="col-sm-2 my-auto">
+                <Col xs={5} sm={2} className="my-auto">
                   <strong>Stare</strong>
                 </Col>
-                <Col className="col-sm-4 my-auto">
+                <Col xs={7} sm={4} className="my-auto">
                   <Form.Control as="select"
                                 name="state"
                                 value={this.state.state}
@@ -306,10 +306,10 @@ class DocumentSearch extends Component {
               </Row>
 
               <Row className="mt-3 align-items-center">
-                <Col className="col-sm-2 my-auto">
+                <Col xs={5} sm={2} className="my-auto">
                   <strong>Nume</strong>
                 </Col>
-                <Col className="col-sm-10 my-auto w-100">
+                <Col xs={7} sm={10} className="my-auto w-100">
                   <FormControl
                     autoFocus={this.lastFieldChanged === "state" || this.lastFieldChanged === "searchStrDropdown"}
                     name="searchStrDropdown"
@@ -322,10 +322,10 @@ class DocumentSearch extends Component {
               </Row>
 
               <Row className="mt-3 align-items-center">
-                <Col className="col-sm-2 my-auto">
+                <Col xs={5} sm={2} className="my-auto">
                   <strong>Data înregistrării</strong>
                 </Col>
-                <Col className="col-sm-4 my-auto">
+                <Col xs={7} sm={4} className="my-auto">
                   <Form.Control as="select"
                                 value={this.state.createdDate}
                                 name="createdDate"

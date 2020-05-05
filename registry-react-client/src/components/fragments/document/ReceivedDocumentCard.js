@@ -89,7 +89,7 @@ class ReceivedDocumentCard extends Component {
                                 documentOperationCallback={this.resolveCallback.bind(this)}
                                 actionName="aprobați"/>
 
-        <Card className="mx-2 mt-3 shadow-sm">
+        <Card className="mx-sm-2 mt-3 shadow-sm">
 
           <Card.Header>
             <Container>

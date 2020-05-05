@@ -42,10 +42,10 @@ class DocumentCardDescriptionTab extends Component {
 
     const createdByRow = (
       <Row className="mt-1">
-        <Col className="col-sm-3 my-auto">
+        <Col xs={12} sm={5} md={3} className="my-auto">
           <strong>Înregistrat de către:</strong>
         </Col>
-        <Col className="col-sm-6 my-auto">
+        <Col xs={12} sm={7} md={6} className="my-auto mt-3 mt-sm-0">
           {getUserPopup(document.createdBy)}
         </Col>
       </Row>
@@ -55,11 +55,25 @@ class DocumentCardDescriptionTab extends Component {
     if (document.origin !== null) {
       originRow = (
         <Row className="mt-3">
-          <Col className="col-sm-3 my-auto">
+          <Col xs={12} sm={5} md={3} className="my-auto">
             <strong>Origine:</strong>
           </Col>
-          <Col className="col-sm-6 my-auto">
+          <Col xs={12} sm={7} md={6} className="my-auto">
             {document.origin}
+          </Col>
+        </Row>
+      )
+    }
+
+    let archivingDateRow;
+    if (document.archived) {
+      archivingDateRow = (
+        <Row className="mt-3">
+          <Col xs={12} sm={5} md={3} className="my-auto">
+            <strong>Data arhivării:</strong>
+          </Col>
+          <Col xs={12} sm={7} md={6} className="my-auto">
+            {document.archivingDate}
           </Col>
         </Row>
       )
@@ -69,7 +83,7 @@ class DocumentCardDescriptionTab extends Component {
     if (document.documentType === DESTINATION_EXTERNAL_DOC_TYPE) {
       receiversRow = (
         document.documentHistory.map(dh => (
-            <Col className="col-xs-auto my-auto px-0" key={dh.documentHistoryId}>
+            <Col xs={12} sm="auto" className="my-auto px-0" key={dh.documentHistoryId}>
               <Button variant="recipient" size="sm" className="mr-3">
                 {dh.externalRecipient}
               </Button>
@@ -80,7 +94,7 @@ class DocumentCardDescriptionTab extends Component {
     } else {
       receiversRow = (
         document.documentHistory.map(dh => (
-            <Col md="auto" className="my-auto px-0" key={dh.documentHistoryId}>
+            <Col xs={12} sm="auto" className="my-auto px-0" key={dh.documentHistoryId}>
               <OverlayTrigger
                 trigger={['hover', 'focus']}
                 placement="bottom-start"
@@ -97,7 +111,7 @@ class DocumentCardDescriptionTab extends Component {
     let downloadLinkColumn;
     if (this.state.hasAttachment) {
       downloadLinkColumn = (
-        <Col className="col-sm-6 pl-0 my-auto">
+        <Col xs={12} sm={7} md={6} className="pl-0 my-auto">
           <OverlayTrigger placement="right" overlay={<Tooltip>Descarcă fișier</Tooltip>}>
             <Button variant="light-pure" onClick={this.onDownloadClick.bind(this)}>
               <i className="fas fa-file-download ml-1 mr-2"/>
@@ -107,7 +121,7 @@ class DocumentCardDescriptionTab extends Component {
       )
     } else {
       downloadLinkColumn = (
-        <Col className="col-sm-6 my-auto">
+        <Col xs={12} sm={7} md={6} className="my-auto">
           Nu exista nici un fișier atașat.
           <OverlayTrigger placement="right" overlay={<Tooltip>Încarcă un fișier</Tooltip>}>
             <Button variant="light-pure" onClick={this.openUploadFileModal.bind(this)}>
@@ -126,19 +140,21 @@ class DocumentCardDescriptionTab extends Component {
           {originRow}
 
           <Row className="mt-3">
-            <Col className="col-sm-3 my-auto">
+            <Col xs={12} sm={5} md={3} className="my-auto">
               <strong>Data înregistrării:</strong>
             </Col>
-            <Col className="col-sm-6 my-auto">
+            <Col xs={12} sm={7} md={6} className="my-auto">
               {document.createdDate}
             </Col>
           </Row>
 
-          <Row className="mt-1">
-            <Col className="col-sm-3 my-auto">
+          {archivingDateRow}
+
+          <Row className="mt-2">
+            <Col xs={12} sm={5} md={3} className="my-auto">
               <strong>Destinatari:</strong>
             </Col>
-            <Col className="col-xs-auto my-auto ml-3">
+            <Col xs={12} sm="auto" className="my-auto ml-3">
               <Row>
                 {receiversRow}
               </Row>
@@ -146,7 +162,7 @@ class DocumentCardDescriptionTab extends Component {
           </Row>
 
           <Row className="mt-3">
-            <Col className="col-sm-3 my-auto">
+            <Col xs={12} sm={5} md={3} className="my-auto">
               <strong>Atașament:</strong>
             </Col>
             {downloadLinkColumn}
