@@ -2,6 +2,7 @@ package com.operacluj.registry.business.translator;
 
 import com.operacluj.registry.business.domain.dto.DocumentHistoryDTO;
 import com.operacluj.registry.business.domain.dto.DocumentTimelineItemDTO;
+import com.operacluj.registry.business.domain.request.DocumentHistoryForm;
 import com.operacluj.registry.business.service.UserService;
 import com.operacluj.registry.model.DocumentAction;
 import com.operacluj.registry.model.DocumentHistory;
@@ -53,6 +54,21 @@ public class DocumentHistoryTranslator {
         documentHistoryDTO.setResolvedDate(documentHistory.isResolved() ? formatter.format(documentHistory.getResolvedDate()) : null);
 
         return documentHistoryDTO;
+    }
+
+    public List<DocumentHistory> translate(DocumentHistoryForm documentHistoryForm, User sender) {
+        return documentHistoryForm.getRecipients()
+                .stream()
+                .map(recipient -> {
+                    DocumentHistory dh = new DocumentHistory();
+                    dh.setRegistryNumber(documentHistoryForm.getRegistryNumber());
+                    dh.setSender(sender.getUserId());
+                    dh.setInternalRecipient(userService.getUserByEmail(recipient).getUserId());
+                    dh.setSentMessage(documentHistoryForm.getSentMessage());
+                    return dh;
+                })
+                .collect(Collectors.toList());
+
     }
 
     public List<DocumentTimelineItemDTO> translateToTimelineItems(List<DocumentHistoryDTO> documentHistoryList) {

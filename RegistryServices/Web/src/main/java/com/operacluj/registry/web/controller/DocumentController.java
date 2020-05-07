@@ -3,6 +3,7 @@ package com.operacluj.registry.web.controller;
 import com.operacluj.registry.business.domain.dto.DocumentDTO;
 import com.operacluj.registry.business.domain.dto.DocumentSearchResponseDTO;
 import com.operacluj.registry.business.domain.request.DocumentForm;
+import com.operacluj.registry.business.domain.request.DocumentHistoryForm;
 import com.operacluj.registry.business.domain.request.SearchCriteria;
 import com.operacluj.registry.business.service.DocumentHistoryService;
 import com.operacluj.registry.business.service.DocumentService;
@@ -76,6 +77,12 @@ public class DocumentController {
     @ResponseStatus(HttpStatus.OK)
     public void resolveDocument(@PathVariable int registryNumber, @RequestParam String resolvedMessage, Principal principal) {
         documentHistoryService.resolveDocument(registryNumber, resolvedMessage, principal);
+    }
+
+    @PostMapping("/{registryNumber}")
+    @ResponseStatus(HttpStatus.OK)
+    public void resendDocument(@PathVariable int registryNumber, @RequestBody DocumentHistoryForm documentHistoryForm, Principal principal) {
+        documentHistoryService.addDocumentHistory(registryNumber, documentHistoryForm, principal);
     }
 
     @DeleteMapping("/{registryNumber}")

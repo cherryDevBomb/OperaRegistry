@@ -1,6 +1,6 @@
 import axios from "axios";
 import {
-  DOCUMENT_CREATED,
+  DOCUMENT_CREATED, DOCUMENT_RESENT,
   GET_DOCUMENTS,
   GET_DOCUMENTS_RECEIVED_ARCHIVED,
   GET_DOCUMENTS_RECEIVED_OPEN,
@@ -180,3 +180,27 @@ export const resolveDocument = (registryNumber, resolvedMessage, pageNumber) => 
     payload: {documentList: resReceivedResolved.data, pageCount: pageCountResReceivedResolved.data}
   });
 }
+
+export const resendDocument = (registryNumber, documentHistory) => async dispatch => {
+  try {
+      const path = properties.serverURL + DOCUMENTS_URL + "/" + registryNumber;
+      const res = await axios.post(path, documentHistory);
+      dispatch({
+        type: DOCUMENT_RESENT
+      });
+      dispatch({
+        type: GET_ERRORS,
+        payload: {}
+      });
+    }
+  catch (error) {
+    if (error.response) {
+      dispatch({
+        type: GET_ERRORS,
+        payload: error.response.data
+      });
+    } else {
+      alert('Something went wrong');
+    }
+  }
+};

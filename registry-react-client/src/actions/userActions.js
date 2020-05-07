@@ -25,3 +25,13 @@ export const updateAllUsers = (remainingUsers) => dispatch => {
     payload: remainingUsers
   });
 };
+
+export const getAllAvailableUsers = registryNumber => async dispatch => {
+  //TODO get available users from backend
+  const path = properties.serverURL + USERS_GROUPED_URL;
+  const res = await axios.get(path, { params: {includePrincipal: false}});
+  dispatch({
+    type: UPDATE_ALL_USERS,
+    payload: res.data
+  });
+};

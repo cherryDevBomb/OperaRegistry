@@ -1,8 +1,8 @@
 package com.operacluj.registry.business.service;
 
-import com.operacluj.registry.business.domain.request.DocumentForm;
 import com.operacluj.registry.business.domain.dto.DocumentHistoryDTO;
-import com.operacluj.registry.model.DocumentHistory;
+import com.operacluj.registry.business.domain.request.DocumentForm;
+import com.operacluj.registry.business.domain.request.DocumentHistoryForm;
 import com.operacluj.registry.model.User;
 
 import java.security.Principal;
@@ -12,7 +12,7 @@ public interface DocumentHistoryService {
 
     List<DocumentHistoryDTO> getDocumentHistoryForDocument(int registryNumber);
 
-    int addDocumentHistory(DocumentHistory documentHistory, User user);
+    void addDocumentHistory(int registryNumber, DocumentHistoryForm documentHistoryForm, Principal principal);
 
     void addHistoryForNewDocument(DocumentForm documentForm, int registryNumber, User user);
 

@@ -3,6 +3,7 @@ package com.operacluj.registry.business.service.impl;
 import com.operacluj.registry.business.domain.dto.DocumentDTO;
 import com.operacluj.registry.business.domain.dto.DocumentHistoryDTO;
 import com.operacluj.registry.business.domain.request.DocumentForm;
+import com.operacluj.registry.business.domain.request.DocumentHistoryForm;
 import com.operacluj.registry.business.exception.EntityNotFoundException;
 import com.operacluj.registry.business.exception.OperationFailedException;
 import com.operacluj.registry.business.service.DocumentHistoryService;
@@ -13,6 +14,7 @@ import com.operacluj.registry.business.translator.DocumentHistoryTranslator;
 import com.operacluj.registry.business.translator.UserTranslator;
 import com.operacluj.registry.business.util.ErrorMessageConstants;
 import com.operacluj.registry.business.validator.InputValidator;
+import com.operacluj.registry.model.Document;
 import com.operacluj.registry.model.DocumentHistory;
 import com.operacluj.registry.model.User;
 import com.operacluj.registry.persistence.repository.DocumentHistoryRepository;
@@ -67,18 +69,21 @@ public class DocumentHistoryServiceImpl implements DocumentHistoryService {
 
     @Override
     @Transactional
-    public int addDocumentHistory(DocumentHistory documentHistory, User user) {
-        LOG.info("Enter addDocumentHistory for document {}", documentHistory.getRegistryNumber());
-        //will be a form in the future
-        //TODO refactor this method
-        inputValidator.validate(documentHistory);
-
+    public void addDocumentHistory(int registryNumber, DocumentHistoryForm documentHistoryForm, Principal principal) {
+        LOG.info("Enter addDocumentHistory for document {}", documentHistoryForm.getRegistryNumber());
+        documentHistoryForm.setRegistryNumber(registryNumber);
+        inputValidator.validate(documentHistoryForm);
+        User user = userTranslator.getUserFromPrincipal(principal);
+        List<DocumentHistory> newHistoryList = documentHistoryTranslator.translate(documentHistoryForm, user);
         try {
-            return documentHistoryRepository.addDocumentHistory(documentHistory);
+            newHistoryList.forEach(dh -> documentHistoryRepository.addDocumentHistory(dh));
         } catch (RuntimeException e) {
-            LOG.error("Error creating new document history");
+            LOG.error("Error adding new document history");
             throw new OperationFailedException(ErrorMessageConstants.DOCUMENT_HISTORY_NOT_CREATED, e);
         }
+
+        DocumentDTO document = documentService.getDocumentByRegistryNumber(registryNumber);
+        newHistoryList.forEach(documentHistory -> mailService.sendMailForReceivedDocument(documentHistory, document.getTitle()));
     }
 
     @Override
