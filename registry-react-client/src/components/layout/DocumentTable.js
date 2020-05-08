@@ -71,6 +71,7 @@ class DocumentTable extends Component {
               <DocumentRow
                 key={document.registryNumber}
                 document={document}
+                searchStr={this.props.documentReducer.searchDetails.searchStr}
               ></DocumentRow>
             ))}
             </tbody>

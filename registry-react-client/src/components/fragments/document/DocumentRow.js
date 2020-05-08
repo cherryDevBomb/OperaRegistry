@@ -7,6 +7,7 @@ import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {downloadFile} from "../../../actions/fileActions";
 import {DESTINATION_EXTERNAL_DOC_TYPE, ORIGIN_EXTERNAL_DOC_TYPE} from "../../../constants/appConstants";
+import {Highlighter} from "../../../utils/uiUtils";
 
 class DocumentRow extends Component {
 
@@ -80,7 +81,9 @@ class DocumentRow extends Component {
         <td style={{width: "12%"}} className="text-center">{registryNumber}</td>
         <td style={{width: "13%"}}>{origin}</td>
         <td style={{width: "15%"}} className="text-center">{document.createdDate}</td>
-        <td style={{width: "30%"}}>{document.title}</td>
+        <td style={{width: "30%"}}>
+          <Highlighter highlight={this.props.searchStr}>{document.title}</Highlighter>
+        </td>
         <td style={{width: "15%"}}>{destination}</td>
         <td style={{width: "10%"}} className="text-center">{archivingState}</td>
         <td style={{width: "5%"}} className="text-center">{download}</td>

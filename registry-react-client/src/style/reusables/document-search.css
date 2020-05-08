@@ -4316,4 +4316,9 @@ html {
   border-radius: 0.25em;
 }
 
+.highlighted {
+  font-weight: 500;
+  background-color: #fff5b1;
+}
+
 /*# sourceMappingURL=document-search.css.map */

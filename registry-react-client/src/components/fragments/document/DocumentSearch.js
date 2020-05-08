@@ -94,6 +94,7 @@ class DocumentSearch extends Component {
     this.setState({searchStr: e.target.value}, () => {
       if (key === "searchStr") {
         this.props.getDocuments(this.state, 1);
+        this.props.saveSearchDetails(this.state);
       }
     });
     this.lastFieldChanged = e.target.name;
