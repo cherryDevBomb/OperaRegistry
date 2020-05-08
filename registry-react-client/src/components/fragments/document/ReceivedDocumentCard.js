@@ -95,7 +95,7 @@ class ReceivedDocumentCard extends Component {
     if (!document.archived) {
       resendButton = (
         <Button variant="archive" size="sm" className="float-right" onClick={this.onResendClick.bind(this)}>
-          Trimite mai departe
+          Trimite
         </Button>
       )
     }

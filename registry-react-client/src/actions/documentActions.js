@@ -218,6 +218,12 @@ export const resendDocument = (registryNumber, documentHistory, pageNumber, call
     const resReceivedResolved = await axios.get(pathReceived, {params: {resolved: true, page: 1}});
     const pageCountResReceivedResolved = await axios.get(pageCountPathReceived, {params: {resolved: true}});
     payloadData = {documentList: resReceivedResolved.data, pageCount: pageCountResReceivedResolved.data}
+  } else if (callbackName === GET_MY_DOCUMENTS_OPEN) {
+    const pathMy = properties.serverURL + MY_DOCUMENTS_URL;
+    const resMy = await axios.get(pathMy, {params: {archived: false, page: pageNumber}});
+    const pageCountPathMy = pathMy + PAGE_COUNT_PATH;
+    const pageCountResMy = await axios.get(pageCountPathMy, {params: {archived: false}});
+    payloadData = {documentList: resMy.data, pageCount: pageCountResMy.data}
   }
 
   dispatch({

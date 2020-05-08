@@ -79,17 +79,16 @@ class ResendDocumentModal extends Component {
     const formGroupDestination = (
       <Container>
         <Row className="mt-2 align-items-center">
-          <Col xs={12} sm={4}></Col>
-          <Col xs={12} sm={8} className="my-auto">
+          <Col xs={12} className="mt-0 p-0 mb-2"><strong>Destinatar</strong></Col>
+          <Col xs={12} className="my-auto p-0">
             <UserAutosuggest placeholder="Introduceți destinatarul"
                              includePrincipal={false}
                              prevSelectedUsers={[]}
                              actionType={UPDATE_SELECTED_USERS_FOR_DOCUMENT_HISTORY}/>
           </Col>
         </Row>
-        <Row className="mt-1 align-items-center">
-          <Col xs={12} sm={4}></Col>
-          <Col xs={12} sm={8} className="my-auto">
+        <Row className="mt-1 mb-3 align-items-center">
+          <Col xs={12} className="my-auto p-0">
             {internalReceiversFeedback}
           </Col>
         </Row>
@@ -114,7 +113,7 @@ class ResendDocumentModal extends Component {
             <Form onSubmit={this.onSubmit}>
               {formGroupDestination}
 
-              <p className="mb-3"><strong>Comentariu (opțional)</strong></p>
+              <p className="mb-2"><strong>Comentariu (opțional)</strong></p>
               <Form.Group controlId="formGroupMessage">
                 <Form.Control
                   as="textarea"

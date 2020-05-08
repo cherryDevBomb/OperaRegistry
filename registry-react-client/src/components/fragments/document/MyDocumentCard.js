@@ -12,6 +12,8 @@ import {archiveDocument} from "../../../actions/documentActions";
 import {downloadFile} from "../../../actions/fileActions";
 import DocumentOperationModal from "./DocumentOperationModal";
 import DocumentTimelineTab from "./DocumentTimelineTab";
+import ResendDocumentModal from "./ResendDocumentModal";
+import {GET_MY_DOCUMENTS_OPEN} from "../../../actions/types";
 
 
 class MyDocumentCard extends Component {
@@ -23,6 +25,12 @@ class MyDocumentCard extends Component {
     };
 
     this.archiveModalRef = React.createRef();
+    this.resendModalRef = React.createRef();
+  }
+
+  onResendClick(e) {
+    e.preventDefault();
+    this.resendModalRef.current.handleShow(this.props.document.registryNumber);
   }
 
   onArchiveClick(e) {
@@ -70,25 +78,45 @@ class MyDocumentCard extends Component {
       )
     }
 
+    let resendButton;
+    let resendModal;
+    if (!document.archived) {
+      resendButton = (
+        <Button variant="archive" size="sm" className="float-right" onClick={this.onResendClick.bind(this)}>
+          Trimite
+        </Button>
+      )
+      resendModal = (
+        <ResendDocumentModal ref={this.resendModalRef}
+                             page={this.props.page}
+                             callbackName={GET_MY_DOCUMENTS_OPEN}/>
+      )
+    }
+
     return (
       <React.Fragment>
         <DocumentOperationModal ref={this.archiveModalRef}
                                 documentOperationCallback={this.archiveCallback.bind(this)}
                                 actionName="arhivați"/>
 
+        {resendModal}
+
         <Card className="mx-sm-2 mt-3 shadow-sm">
 
           <Card.Header>
             <Container>
               <Row className="mt-2 mb-1">
-                <Col className="col-sm-1 my-auto">
+                <Col xs={{span: 1, order: 1}} className="my-auto">
                   <Button variant="number">{document.registryNumber}</Button>
                 </Col>
-                <Col className="col-sm-8 my-auto">
+                <Col xs={{span: 12, order: 3}} sm={{span: "auto", order: 2}} className="my-auto">
                   <Card.Title>{document.title}</Card.Title>
                 </Col>
-                <Col className="col-sm-3 my-auto">
-                  {archiveButton}
+                <Col xs={{span: "auto", order: 2}} sm={{span: "auto", order: 3}} className="my-0 py-0 ml-auto">
+                  <Row>
+                    <Col xs="auto" className="my-auto pr-0">{resendButton}</Col>
+                    <Col xs="auto" className="my-auto">{archiveButton}</Col>
+                  </Row>
                 </Col>
               </Row>
             </Container>
