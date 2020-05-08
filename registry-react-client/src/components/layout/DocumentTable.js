@@ -9,7 +9,7 @@ import DocumentSearch from "../fragments/document/DocumentSearch";
 import Pagination from "react-bootstrap/Pagination";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import {getPagination} from "../../utils/paginationUtils";
+import {getNewPageNumber, getPagination} from "../../utils/paginationUtils";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import {generateReport} from "../../actions/reportActions";
@@ -33,15 +33,14 @@ class DocumentTable extends Component {
   }
 
   pageChanged(e) {
-    const newPageNumber = parseInt(e.target.text)
-    this.setState({activePage: newPageNumber}, () => {
+    const newPage = getNewPageNumber(e, this.state.activePage, this.props.documentReducer.documentsPageCount);
+    this.setState({activePage: newPage}, () => {
       this.loadCurrentPage();
     });
   }
 
   generateReport(format, e) {
     e.preventDefault();
-    console.log("format in generate in docTable", format);
     this.props.generateReport(this.props.documentReducer.searchDetails, format);
   }
 
@@ -82,7 +81,7 @@ class DocumentTable extends Component {
           <Col xs={12} sm={"auto"} className="mx-auto d-flex justify-content-center">
             <Pagination className="mx-auto" onClick={this.pageChanged.bind(this)}>{pages}</Pagination>
           </Col>
-          <Col xs={{ order: 12 }}>
+          <Col xs={{order: 12}}>
             <DropdownButton title="Generare raport" className="float-sm-right mb-3 mb-sm-0">
               <Dropdown.Item as="button" onClick={(e) => this.generateReport("pdf", e)}>PDF</Dropdown.Item>
               {/*TODO change to xls*/}

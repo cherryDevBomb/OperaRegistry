@@ -9,7 +9,7 @@ import Jumbotron from "react-bootstrap/Jumbotron";
 import Pagination from "react-bootstrap/Pagination";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
-import {getPagination} from "../../utils/paginationUtils";
+import {getNewPageNumber, getPagination} from "../../utils/paginationUtils";
 
 class MyDocuments extends Component {
   constructor(props) {
@@ -33,9 +33,11 @@ class MyDocuments extends Component {
   }
 
   pageChanged(e, archived) {
-    const newPageNumber = parseInt(e.target.text)
+    const activePage = archived ? this.state.activePageArchivedTrue : this.state.activePageArchivedFalse;
+    const total = archived ? this.props.documentReducer.myArchivedDocumentsPageCount : this.props.documentReducer.myOpenDocumentsPageCount;
+    const newPage = getNewPageNumber(e, activePage, total);
     const tab = archived ? "activePageArchivedTrue" : "activePageArchivedFalse";
-    this.setState({[tab]: newPageNumber}, () => {
+    this.setState({[tab]: newPage}, () => {
       this.loadCurrentPage(archived);
     });
   }

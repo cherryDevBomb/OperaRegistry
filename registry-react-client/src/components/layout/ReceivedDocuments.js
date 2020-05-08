@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {getPagination} from "../../utils/paginationUtils";
+import {getNewPageNumber, getPagination} from "../../utils/paginationUtils";
 import Jumbotron from "react-bootstrap/Jumbotron";
 import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
@@ -40,17 +40,19 @@ class ReceivedDocuments extends Component {
   }
 
   pageChanged(e, resolved) {
-    const newPageNumber = parseInt(e.target.text)
+    const activePage = resolved ? this.state.activePageResolvedTrue : this.state.activePageResolvedFalse;
+    const total = resolved ? this.props.documentReducer.receivedResolvedDocumentsPageCount : this.props.documentReducer.receivedOpenDocumentsPageCount;
+    const newPage = getNewPageNumber(e, activePage, total);
     const tab = resolved ? "activePageResolvedTrue" : "activePageResolvedFalse";
-    this.setState({[tab]: newPageNumber}, () => {
+    this.setState({[tab]: newPage}, () => {
       this.loadCurrentPage(resolved);
     });
   }
 
   pageChangedForArchived(e) {
-    const newPageNumber = parseInt(e.target.text)
+    const newPage = getNewPageNumber(e, this.state.activePageArchived, this.props.documentReducer.receivedArchivedDocumentsPageCount);
     const tab = "activePageArchived";
-    this.setState({[tab]: newPageNumber}, () => {
+    this.setState({[tab]: newPage}, () => {
       this.loadCurrentPageForArchived();
     });
   }

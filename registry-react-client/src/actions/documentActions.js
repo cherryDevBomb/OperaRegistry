@@ -59,7 +59,6 @@ export const createDocument = document => async dispatch => {
 export const getDocuments = (searchDetails, pageNumber) => async dispatch => {
   searchId++;
 
-  console.log("getDocuments called with searchParam", searchDetails.searchStr);
   const path = properties.serverURL + DOCUMENTS_URL;
   const searchParams = new URLSearchParams(getSearchParams(searchDetails, pageNumber, searchId));
   const res = await axios.get(path, {params: searchParams});
@@ -67,9 +66,7 @@ export const getDocuments = (searchDetails, pageNumber) => async dispatch => {
   const pageCountPath = path + PAGE_COUNT_PATH;
   const pageCountRes = await axios.get(pageCountPath, {params: searchParams});
 
-  console.log("res data searchId: " + res.data.searchId + "; current searchId: " + searchId)
   if (res.data.searchId >= searchId) {
-    console.log("updating reducer list")
     dispatch({
       type: GET_DOCUMENTS,
       payload: {documentList: res.data.documents, pageCount: pageCountRes.data}
