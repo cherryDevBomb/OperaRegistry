@@ -8,6 +8,7 @@ export const LOGIN_URL = "/users/login";
 
 export const USERS_URL = "/users";
 export const USERS_GROUPED_URL = "/users/grouped";
+export const USERS_AVAILABLE_URL = "/available-receivers"
 
 export const DOCUMENTS_URL = "/documents";
 export const MY_DOCUMENTS_URL = "/documents/created";

@@ -1,5 +1,6 @@
 package com.operacluj.registry.web.controller;
 
+import com.operacluj.registry.business.domain.dto.DepartmentDTO;
 import com.operacluj.registry.business.domain.dto.DocumentDTO;
 import com.operacluj.registry.business.domain.dto.DocumentSearchResponseDTO;
 import com.operacluj.registry.business.domain.request.DocumentForm;
@@ -89,6 +90,12 @@ public class DocumentController {
     @ResponseStatus(HttpStatus.OK)
     public void deleteDocumentByRegistryNumber(@PathVariable int registryNumber, Principal principal) {
         documentService.deleteDocument(registryNumber, principal);
+    }
+
+    @GetMapping("/{registryNumber}/available-receivers")
+    @ResponseStatus(HttpStatus.OK)
+    public List<DepartmentDTO> getAvailableReceiversForDocument(@PathVariable int registryNumber, Principal principal) {
+        return documentHistoryService.getAvailableReceiversForDocument(registryNumber, principal);
     }
 
     @GetMapping("/page-count")

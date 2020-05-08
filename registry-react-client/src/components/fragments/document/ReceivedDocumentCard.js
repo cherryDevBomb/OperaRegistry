@@ -13,6 +13,7 @@ import {downloadFile} from "../../../actions/fileActions";
 import DocumentOperationModal from "./DocumentOperationModal";
 import DocumentTimelineTab from "./DocumentTimelineTab";
 import ResendDocumentModal from "./ResendDocumentModal";
+import {GET_DOCUMENTS_RECEIVED_OPEN, GET_DOCUMENTS_RECEIVED_RESOLVED} from "../../../actions/types";
 
 
 class ReceivedDocumentCard extends Component {
@@ -46,12 +47,6 @@ class ReceivedDocumentCard extends Component {
     }
     this.props.resolveDocument(document.registryNumber, message, page);
     this.props.pageChangedAfterResolveCallback(page);
-  }
-
-  resendCallback() {
-    //TODO refresh page
-    console.log("refresh callback")
-    this.forceUpdate();
   }
 
   render() {
@@ -96,11 +91,31 @@ class ReceivedDocumentCard extends Component {
       )
     }
 
-    let resendButton = (
-      <Button variant="archive" size="sm" className="float-right" onClick={this.onResendClick.bind(this)}>
-        Trimite mai departe
-      </Button>
-    )
+    let resendButton;
+    if (!document.archived) {
+      resendButton = (
+        <Button variant="archive" size="sm" className="float-right" onClick={this.onResendClick.bind(this)}>
+          Trimite mai departe
+        </Button>
+      )
+    }
+
+    let resendModal;
+    if (!document.archived) {
+      if (!docHistory.resolved) {
+        resendModal = (
+          <ResendDocumentModal ref={this.resendModalRef}
+                               page={this.props.page}
+                               callbackName={GET_DOCUMENTS_RECEIVED_OPEN}/>
+        )
+      } else {
+        resendModal = (
+          <ResendDocumentModal ref={this.resendModalRef}
+                               page={this.props.page}
+                               callbackName={GET_DOCUMENTS_RECEIVED_RESOLVED}/>
+        )
+      }
+    }
 
     return (
       <React.Fragment>
@@ -108,8 +123,7 @@ class ReceivedDocumentCard extends Component {
                                 documentOperationCallback={this.resolveCallback.bind(this)}
                                 actionName="aprobați"/>
 
-        <ResendDocumentModal ref={this.resendModalRef}
-                             callback={this.resendCallback.bind(this)}/>
+        {resendModal}
 
         <Card className="mx-sm-2 mt-3 shadow-sm">
 

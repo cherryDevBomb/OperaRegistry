@@ -1,6 +1,7 @@
 import axios from "axios";
 import {
-  DOCUMENT_CREATED, DOCUMENT_RESENT,
+  DOCUMENT_CREATED,
+  DOCUMENT_RESENT,
   GET_DOCUMENTS,
   GET_DOCUMENTS_RECEIVED_ARCHIVED,
   GET_DOCUMENTS_RECEIVED_OPEN,
@@ -181,19 +182,18 @@ export const resolveDocument = (registryNumber, resolvedMessage, pageNumber) => 
   });
 }
 
-export const resendDocument = (registryNumber, documentHistory) => async dispatch => {
+export const resendDocument = (registryNumber, documentHistory, pageNumber, callbackName) => async dispatch => {
   try {
-      const path = properties.serverURL + DOCUMENTS_URL + "/" + registryNumber;
-      const res = await axios.post(path, documentHistory);
-      dispatch({
-        type: DOCUMENT_RESENT
-      });
-      dispatch({
-        type: GET_ERRORS,
-        payload: {}
-      });
-    }
-  catch (error) {
+    const path = properties.serverURL + DOCUMENTS_URL + "/" + registryNumber;
+    const res = await axios.post(path, documentHistory);
+    dispatch({
+      type: DOCUMENT_RESENT
+    });
+    dispatch({
+      type: GET_ERRORS,
+      payload: {}
+    });
+  } catch (error) {
     if (error.response) {
       dispatch({
         type: GET_ERRORS,
@@ -203,4 +203,25 @@ export const resendDocument = (registryNumber, documentHistory) => async dispatc
       alert('Something went wrong');
     }
   }
+
+  //refresh data
+  let payloadData = {};
+  if (callbackName === GET_DOCUMENTS_RECEIVED_OPEN) {
+    const pathReceived = properties.serverURL + DOCUMENTS_RECEIVED_URL;
+    const pageCountPathReceived = pathReceived + PAGE_COUNT_PATH;
+    const resReceivedOpen = await axios.get(pathReceived, {params: {resolved: false, page: pageNumber}});
+    const pageCountResReceivedOpen = await axios.get(pageCountPathReceived, {params: {resolved: false}});
+    payloadData = {documentList: resReceivedOpen.data, pageCount: pageCountResReceivedOpen.data};
+  } else if (callbackName === GET_DOCUMENTS_RECEIVED_RESOLVED) {
+    const pathReceived = properties.serverURL + DOCUMENTS_RECEIVED_URL;
+    const pageCountPathReceived = pathReceived + PAGE_COUNT_PATH;
+    const resReceivedResolved = await axios.get(pathReceived, {params: {resolved: true, page: 1}});
+    const pageCountResReceivedResolved = await axios.get(pageCountPathReceived, {params: {resolved: true}});
+    payloadData = {documentList: resReceivedResolved.data, pageCount: pageCountResReceivedResolved.data}
+  }
+
+  dispatch({
+    type: callbackName,
+    payload: payloadData
+  });
 };

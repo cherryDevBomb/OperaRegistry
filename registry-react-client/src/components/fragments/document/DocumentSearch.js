@@ -69,7 +69,7 @@ class DocumentSearch extends Component {
   }
 
   componentWillUnmount() {
-    this.props.getAllUsers();
+    this.props.getAllUsers(false);
   }
 
   onChange(e) {

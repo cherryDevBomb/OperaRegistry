@@ -1,6 +1,7 @@
 package com.operacluj.registry.business.service.impl;
 
 import com.operacluj.registry.business.domain.dto.DepartmentDTO;
+import com.operacluj.registry.business.domain.dto.UserDTO;
 import com.operacluj.registry.business.domain.request.UserForm;
 import com.operacluj.registry.business.exception.CustomConstraintViolationException;
 import com.operacluj.registry.business.exception.EntityNotFoundException;
@@ -90,28 +91,36 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> getAllUsers(boolean includePrincipal, Principal principal) {
+    public List<UserDTO> getAllUsers(boolean includePrincipal, Principal principal) {
         LOG.debug("Enter getAllUsers requested by {}", principal.getName());
+        List<User> users;
         if (includePrincipal) {
-            return userRepository.getAllUsers();
+            users = userRepository.getAllUsers();
         }
         else {
             User user = userTranslator.getUserFromPrincipal(principal);
-            return userRepository.getAllUsersExcept(user);
+            users = userRepository.getAllUsersExcept(user);
         }
+        return users.stream().map(user -> userTranslator.translate(user)).collect(Collectors.toList());
     }
 
     @Override
     public List<DepartmentDTO> getAllUsersGroupedByDepartment(boolean includePrincipal, Principal principal) {
         LOG.debug("Enter getAllUsersGroupedByDepartment requested by {}", principal.getName());
-        List<User> allUsers = getAllUsers(includePrincipal, principal);
-        Map<Department, List<User>> departmentMap = allUsers.stream()
-                .collect(Collectors.groupingBy(User::getDepartment));
+        List<UserDTO> allUsers = getAllUsers(includePrincipal, principal);
+        return getUsersGroupedByDepartment(allUsers);
+    }
+
+    @Override
+    public List<DepartmentDTO> getUsersGroupedByDepartment(List<UserDTO> users) {
+        LOG.info("Enter getUsersGroupedByDepartment");
+        Map<String, List<UserDTO>> departmentMap = users.stream()
+                .collect(Collectors.groupingBy(UserDTO::getDepartment));
         return departmentMap.keySet().stream()
                 .map(department -> {
                     DepartmentDTO departmentDTO = new DepartmentDTO();
-                    departmentDTO.setDepartment(department);
-                    departmentDTO.setDepartmentName(department.getTextValue());
+                    departmentDTO.setDepartment(Department.getDepartment(department));
+                    departmentDTO.setDepartmentName(department);
                     departmentDTO.setDepartmentUsers(departmentMap.get(department));
                     return departmentDTO;
                 })

@@ -1,7 +1,9 @@
 package com.operacluj.registry.business.service.impl;
 
+import com.operacluj.registry.business.domain.dto.DepartmentDTO;
 import com.operacluj.registry.business.domain.dto.DocumentDTO;
 import com.operacluj.registry.business.domain.dto.DocumentHistoryDTO;
+import com.operacluj.registry.business.domain.dto.UserDTO;
 import com.operacluj.registry.business.domain.request.DocumentForm;
 import com.operacluj.registry.business.domain.request.DocumentHistoryForm;
 import com.operacluj.registry.business.exception.EntityNotFoundException;
@@ -123,6 +125,21 @@ public class DocumentHistoryServiceImpl implements DocumentHistoryService {
         else {
             throw new EntityNotFoundException(ErrorMessageConstants.DOCUMENT_HISTORY_NOT_FOUND);
         }
+    }
+
+    @Override
+    public List<DepartmentDTO> getAvailableReceiversForDocument(int registryNumber, Principal principal) {
+        LOG.info("Enter getAvailableReceiversForDocument {}", registryNumber);
+        List<DocumentHistoryDTO> existingHistory = getDocumentHistoryForDocument(registryNumber);
+        List<UserDTO> existingReceivers = existingHistory.stream()
+                .filter(documentHistory -> documentHistory.getInternalRecipient() != null)
+                .map(documentHistory -> documentHistory.getInternalRecipient())
+                .collect(Collectors.toList());
+        List<UserDTO> allUsers = userService.getAllUsers(false, principal);
+        List<UserDTO> availableUsers = allUsers.stream()
+                .filter(user -> !existingReceivers.contains(user))
+                .collect(Collectors.toList());
+        return userService.getUsersGroupedByDepartment(availableUsers);
     }
 
     private List<DocumentHistory> getHistoryForDocumentForm(DocumentForm documentForm, int registryNumber, User user) {

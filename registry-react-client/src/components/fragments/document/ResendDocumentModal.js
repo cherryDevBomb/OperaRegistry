@@ -10,7 +10,7 @@ import Container from "react-bootstrap/Container";
 import UserAutosuggest from "../user/UserAutosuggest";
 import {UPDATE_SELECTED_USERS_FOR_DOCUMENT_HISTORY} from "../../../actions/types";
 import PropTypes from "prop-types";
-import {getAllAvailableUsers, updateAllUsers, updateSelectedUsers} from "../../../actions/userActions";
+import {getAllAvailableUsers, updateSelectedUsers} from "../../../actions/userActions";
 import {resendDocument} from "../../../actions/documentActions";
 
 class ResendDocumentModal extends Component {
@@ -48,20 +48,20 @@ class ResendDocumentModal extends Component {
 
   async onSubmit(e) {
     e.preventDefault();
-      let recipientEmails = [];
-      this.props.userReducer.selectedUsersForDocumentHistory.forEach(rec => recipientEmails.push(rec.email.toString()));
-      this.setState({
-        recipients: recipientEmails
-      }, () => {
-        console.log("recipients in onSubmit", this.state.recipients);
+    let recipientEmails = [];
+    this.props.userReducer.selectedUsersForDocumentHistory.forEach(rec => recipientEmails.push(rec.email.toString()));
+    this.setState({
+      recipients: recipientEmails
+    }, () => {
+      if (this.state.recipients.length > 0) {
         const newHistory = {
           recipients: this.state.recipients,
           sentMessage: this.state.sentMessage
         }
-        this.props.resendDocument(this.state.registryNumber, newHistory);
+        this.props.resendDocument(this.state.registryNumber, newHistory, this.props.page, this.props.callbackName);
         this.handleClose();
-        this.props.callback();
-      });
+      }
+    });
   }
 
   onSkipClick = () => {
@@ -88,7 +88,7 @@ class ResendDocumentModal extends Component {
           </Col>
         </Row>
         <Row className="mt-1 align-items-center">
-          <Col xs={12} sm={4} ></Col>
+          <Col xs={12} sm={4}></Col>
           <Col xs={12} sm={8} className="my-auto">
             {internalReceiversFeedback}
           </Col>
@@ -152,10 +152,7 @@ class ResendDocumentModal extends Component {
 
 ResendDocumentModal.propTypes = {
   documentReducer: PropTypes.object.isRequired,
-  // errorReducer: PropTypes.object.isRequired,
-  // securityReducer: PropTypes.object.isRequired,
   userReducer: PropTypes.object.isRequired,
-  // createDocument: PropTypes.func.isRequired,
   getAllAvailableUsers: PropTypes.func.isRequired,
   updateSelectedUsers: PropTypes.func.isRequired,
   resendDocument: PropTypes.func.isRequired
@@ -166,4 +163,8 @@ const mapStateToProps = state => ({
   userReducer: state.userReducer
 });
 
-export default connect(mapStateToProps, {getAllAvailableUsers, updateSelectedUsers, resendDocument}, null, {forwardRef: true})(ResendDocumentModal);
+export default connect(mapStateToProps, {
+  getAllAvailableUsers,
+  updateSelectedUsers,
+  resendDocument
+}, null, {forwardRef: true})(ResendDocumentModal);

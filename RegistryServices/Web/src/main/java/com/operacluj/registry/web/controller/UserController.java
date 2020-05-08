@@ -1,6 +1,7 @@
 package com.operacluj.registry.web.controller;
 
 import com.operacluj.registry.business.domain.dto.DepartmentDTO;
+import com.operacluj.registry.business.domain.dto.UserDTO;
 import com.operacluj.registry.business.domain.request.UserForm;
 import com.operacluj.registry.business.security.payload.JWTLoginSuccessResponse;
 import com.operacluj.registry.business.security.payload.LoginRequest;
@@ -47,7 +48,7 @@ public class UserController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<User> getAllUsers(@RequestParam boolean includePrincipal, Principal principal) {
+    public List<UserDTO> getAllUsers(@RequestParam boolean includePrincipal, Principal principal) {
         return userService.getAllUsers(includePrincipal, principal);
     }
 

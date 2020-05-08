@@ -13,7 +13,7 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import {UPDATE_SELECTED_USERS_FOR_DOCUMENT_HISTORY} from "../../actions/types";
-import {updateAllUsers, updateSelectedUsers} from "../../actions/userActions";
+import {getAllUsers, updateAllUsers, updateSelectedUsers} from "../../actions/userActions";
 import FileUploadModal from "../fragments/document/FileUploadModal";
 
 class CreateDocument extends Component {
@@ -379,6 +379,7 @@ CreateDocument.propTypes = {
   securityReducer: PropTypes.object.isRequired,
   userReducer: PropTypes.object.isRequired,
   createDocument: PropTypes.func.isRequired,
+  getAllUsers: PropTypes.func.isRequired,
   updateAllUsers: PropTypes.func.isRequired,
   updateSelectedUsers: PropTypes.func.isRequired
 };
@@ -390,4 +391,4 @@ const mapStateToProps = state => ({
   userReducer: state.userReducer
 });
 
-export default connect(mapStateToProps, {createDocument, updateAllUsers, updateSelectedUsers})(CreateDocument);
+export default connect(mapStateToProps, {createDocument, getAllUsers, updateAllUsers, updateSelectedUsers})(CreateDocument);
