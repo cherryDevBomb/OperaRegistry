@@ -1,7 +1,8 @@
 package com.operacluj.registry.business.service.impl;
 
-import com.operacluj.registry.business.domain.DepartmentDTO;
-import com.operacluj.registry.business.domain.UserForm;
+import com.operacluj.registry.business.domain.dto.DepartmentDTO;
+import com.operacluj.registry.business.domain.dto.UserDTO;
+import com.operacluj.registry.business.domain.request.UserForm;
 import com.operacluj.registry.business.exception.CustomConstraintViolationException;
 import com.operacluj.registry.business.exception.EntityNotFoundException;
 import com.operacluj.registry.business.service.UserService;
@@ -54,7 +55,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional(readOnly = true)
     public User getUserById(int userId) {
-        LOG.info("Enter getUserById {}", userId);
+        LOG.debug("Enter getUserById {}", userId);
         try {
             return userRepository.getUserById(userId);
         } catch (EmptyResultDataAccessException e) {
@@ -90,24 +91,36 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> getAllUsersExceptPrincipal(Principal principal) {
-        LOG.info("Enter getAllUsersExceptPrincipal {}", principal.getName());
-        User user = userTranslator.getUserFromPrincipal(principal);
-        return userRepository.getAllUsersExcept(user);
+    public List<UserDTO> getAllUsers(boolean includePrincipal, Principal principal) {
+        LOG.debug("Enter getAllUsers requested by {}", principal.getName());
+        List<User> users;
+        if (includePrincipal) {
+            users = userRepository.getAllUsers();
+        }
+        else {
+            User user = userTranslator.getUserFromPrincipal(principal);
+            users = userRepository.getAllUsersExcept(user);
+        }
+        return users.stream().map(user -> userTranslator.translate(user)).collect(Collectors.toList());
     }
 
     @Override
-    public List<DepartmentDTO> getAllUsersGroupedByDepartment(Principal principal) {
-        LOG.info("Enter getAllUsersGroupedByDepartment {}", principal.getName());
-        User user = userTranslator.getUserFromPrincipal(principal);
-        List<User> allUsers = userRepository.getAllUsersExcept(user);
-        Map<Department, List<User>> departmentMap = allUsers.stream()
-                .collect(Collectors.groupingBy(User::getDepartment));
+    public List<DepartmentDTO> getAllUsersGroupedByDepartment(boolean includePrincipal, Principal principal) {
+        LOG.debug("Enter getAllUsersGroupedByDepartment requested by {}", principal.getName());
+        List<UserDTO> allUsers = getAllUsers(includePrincipal, principal);
+        return getUsersGroupedByDepartment(allUsers);
+    }
+
+    @Override
+    public List<DepartmentDTO> getUsersGroupedByDepartment(List<UserDTO> users) {
+        LOG.info("Enter getUsersGroupedByDepartment");
+        Map<String, List<UserDTO>> departmentMap = users.stream()
+                .collect(Collectors.groupingBy(UserDTO::getDepartment));
         return departmentMap.keySet().stream()
                 .map(department -> {
                     DepartmentDTO departmentDTO = new DepartmentDTO();
-                    departmentDTO.setDepartment(department);
-                    departmentDTO.setDepartmentName(department.getTextValue());
+                    departmentDTO.setDepartment(Department.getDepartment(department));
+                    departmentDTO.setDepartmentName(department);
                     departmentDTO.setDepartmentUsers(departmentMap.get(department));
                     return departmentDTO;
                 })

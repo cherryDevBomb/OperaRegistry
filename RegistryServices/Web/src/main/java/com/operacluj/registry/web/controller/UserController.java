@@ -1,10 +1,10 @@
 package com.operacluj.registry.web.controller;
 
-import com.operacluj.registry.business.domain.DepartmentDTO;
-import com.operacluj.registry.business.domain.DocumentDTO;
-import com.operacluj.registry.business.domain.UserForm;
-import com.operacluj.registry.business.payload.JWTLoginSuccessResponse;
-import com.operacluj.registry.business.payload.LoginRequest;
+import com.operacluj.registry.business.domain.dto.DepartmentDTO;
+import com.operacluj.registry.business.domain.dto.UserDTO;
+import com.operacluj.registry.business.domain.request.UserForm;
+import com.operacluj.registry.business.security.payload.JWTLoginSuccessResponse;
+import com.operacluj.registry.business.security.payload.LoginRequest;
 import com.operacluj.registry.business.service.AuthenticationService;
 import com.operacluj.registry.business.service.UserService;
 import com.operacluj.registry.model.User;
@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
-import java.util.Map;
 
 
 @RestController
@@ -49,14 +48,13 @@ public class UserController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<User> getAllUsersExceptPrincipal(Principal principal) {
-        return userService.getAllUsersExceptPrincipal(principal);
+    public List<UserDTO> getAllUsers(@RequestParam boolean includePrincipal, Principal principal) {
+        return userService.getAllUsers(includePrincipal, principal);
     }
 
     @GetMapping("/grouped")
     @ResponseStatus(HttpStatus.OK)
-    public List<DepartmentDTO> getAllUsersGroupedByDepartment(Principal principal) {
-        return userService.getAllUsersGroupedByDepartment(principal);
+    public List<DepartmentDTO> getAllUsersGroupedByDepartment(@RequestParam boolean includePrincipal, Principal principal) {
+        return userService.getAllUsersGroupedByDepartment(includePrincipal, principal);
     }
-
 }

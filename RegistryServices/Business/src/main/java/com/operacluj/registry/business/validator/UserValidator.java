@@ -1,7 +1,7 @@
 package com.operacluj.registry.business.validator;
 
 import com.operacluj.registry.business.exception.CustomConstraintViolationException;
-import com.operacluj.registry.business.domain.UserForm;
+import com.operacluj.registry.business.domain.request.UserForm;
 import com.operacluj.registry.business.util.ErrorMessageConstants;
 import org.springframework.stereotype.Component;
 

@@ -97,7 +97,13 @@
 .react-autosuggest__section-title {
   padding: 10px 0 0 10px;
   font-size: 12px;
-  color: #777;
+  color: #4f4538;
+}
+
+.email-text {
+  font-size: 12px;
+  color: #c6ad82;
+  font-style: italic;
 }
 
 /*# sourceMappingURL=autosuggest.css.map */

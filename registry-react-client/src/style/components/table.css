@@ -6,6 +6,7 @@
   font-weight: 400;
   color: #312b23;
   text-decoration: none;
+  width: fit-content;
 }
 
 .btn-link:hover {
@@ -46,6 +47,16 @@
   z-index: 3;
   outline: 0;
   box-shadow: 0 0 0 0 black;
+}
+
+.report-dropdown-btn:active {
+  border: 1px #bd8f3a;
+  box-shadow: none;
+}
+
+.report-dropdown-btn:focus {
+  border: 1px #bd8f3a;
+  box-shadow: none;
 }
 
 /*# sourceMappingURL=table.css.map */

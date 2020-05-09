@@ -39,6 +39,7 @@ public class FileRepositoryImpl implements FileRepository {
         parameterSource.addValue("file", documentFile.getFileData());
         parameterSource.addValue("registrynumber", documentFile.getRegistryNumber());
         parameterSource.addValue("filename", documentFile.getFilename());
+        parameterSource.addValue("uploader", documentFile.getUploader());
         jdbcTemplate.update(saveFileQuery, parameterSource, keyHolder);
     }
 

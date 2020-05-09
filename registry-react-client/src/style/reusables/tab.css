@@ -1,0 +1,72 @@
+.tabs {
+  padding-left: 5em;
+}
+
+@media (max-width: 576px) {
+  .tabs {
+    padding-left: 0;
+  }
+}
+.nav-tabs .nav-link {
+  border: 1px solid #eceeef;
+  border-top-left-radius: 0.25rem;
+  border-top-right-radius: 0.25rem;
+  background-color: #f7f7f9;
+  color: black;
+  padding: 0.5em;
+}
+
+.nav-tabs .nav-link:hover {
+  border: 1px solid #eceeef;
+  background-color: #eeeef2;
+}
+
+.nav-tabs .nav-link.active {
+  border: 1px solid #eceeef;
+  border-bottom: 1px solid white;
+  background-color: white;
+  color: black;
+  font-weight: bold;
+}
+
+.card-header {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.card-title {
+  margin-bottom: 0;
+}
+
+.nav-pills .nav-link {
+  color: #464a4c;
+  border-radius: 0;
+  border-bottom: 2px solid #eceeef;
+  padding-bottom: 0.25em;
+  padding-left: 0;
+  padding-right: 0;
+  margin-left: 1em;
+  margin-right: 1em;
+}
+
+.nav-pills .nav-link.active {
+  color: #ac1b21;
+  background-color: white;
+  border-radius: 0;
+  border-bottom: 2px solid #ac1b21;
+  padding-bottom: 0.25em;
+  padding-left: 0;
+  padding-right: 0;
+  margin-left: 1em;
+  margin-right: 1em;
+}
+
+.hr-tabs {
+  border-top: 0;
+  border-bottom: 2px solid #eceeef;
+  color: #eceeef;
+  margin-top: -2px;
+  margin-left: 1em;
+}
+
+/*# sourceMappingURL=tab.css.map */

@@ -19,3 +19,59 @@
 .btn-autosuggest:hover {
   background-color: $gray-lightest;
 }
+
+.btn-number {
+  background-color: $primary-red;
+  width: 2.5em;
+  height: 2.5em;
+  padding: 6px 0px;
+  border-radius: 8em;
+  text-align: center;
+  color: white;
+}
+.btn-number:hover {
+  color: white;
+  cursor: auto;
+}
+
+.btn-recipient {
+  background-color: lighten($light-gold, 20);
+  border: 1px solid lighten($light-gold, 10);
+  margin-top: 1em;
+}
+
+.btn-recipient-resolved {
+  background-color: lighten($light-gold, 20);
+  border: 1px solid lighten($light-gold, 10);
+  margin-top: 1em;
+  padding-right: 1.5em;
+}
+
+.btn-light-pure {
+  color: $brownish-gray;
+  background-color: white;
+  border: 0;
+  box-shadow: 0 0 0 0;
+}
+.btn-light-pure:hover {
+  background-color: white;
+}
+
+.btn-archive {
+  color: white;
+  background-color: $brownish-gray;
+}
+.btn-archive:hover {
+  color: white;
+  background-color: $gold;
+}
+.btn-archive:disabled {
+  cursor: auto;
+  color: white;
+  background-color: lighten($brownish-gray, 12);
+}
+.btn-archive:disabled:hover {
+  cursor: auto;
+  color: white;
+  background-color: lighten($brownish-gray, 12);
+}

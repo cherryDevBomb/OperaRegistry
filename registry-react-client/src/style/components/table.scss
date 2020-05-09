@@ -8,13 +8,14 @@
   font-weight: 400;
   color: darken($brownish-gray, 10);
   text-decoration: none;
+  width: fit-content;
 }
 .btn-link:hover {
   color: $gold;
-  text-decoration: underline;
+  text-decoration: none;
 }
 .btn-link:focus, .btn-link.focus {
-  text-decoration: underline;
+  text-decoration: none;
   box-shadow: none;
 }
 .btn-link:disabled, .btn-link.disabled {
@@ -43,4 +44,13 @@
   z-index: 3;
   outline: 0;
   box-shadow: 0 0 0 0 black;
+}
+
+.report-dropdown-btn:active {
+  border: 1px $gold;
+  box-shadow: none;
+}
+.report-dropdown-btn:focus {
+  border: 1px $gold;
+  box-shadow: none;
 }

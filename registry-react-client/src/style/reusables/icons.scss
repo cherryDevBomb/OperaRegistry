@@ -28,8 +28,37 @@
   cursor: pointer;
 }
 
+.fa-file-upload {
+  color: $brownish-gray ;
+  font-size: 1.5rem;
+}
+.fa-file-upload:hover {
+  color: $gold;
+  cursor: pointer;
+}
+
 .fa-search {
   color: $brownish-gray;
   font-size: 1em;
+}
 
+.fa-check-circle-regular {
+  color: $green;
+  background-color: white;
+  font-size: 1.2em;
+  margin-left: -.7em;
+  margin-top: -1em;
+  padding-top: 0;
+  margin-right: .5em;
+  border-radius: 2rem;
+}
+
+.fa-file-archive {
+  color: white;
+  font-size: 1.3em;
+}
+
+.fa-comment-dots {
+  color: lighten($light-gold, 15);
+  font-size: .9em;
 }

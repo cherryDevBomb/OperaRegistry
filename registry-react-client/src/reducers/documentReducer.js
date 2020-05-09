@@ -3,14 +3,13 @@ import {
   GET_DOCUMENTS,
   GET_DOCUMENTS_RECEIVED_ARCHIVED,
   GET_DOCUMENTS_RECEIVED_OPEN,
+  GET_DOCUMENTS_RECEIVED_RESOLVED,
   GET_MY_DOCUMENTS_ARCHIVED,
   GET_MY_DOCUMENTS_OPEN,
   SAVE_SEARCH_DETAILS
 } from "../actions/types";
-import {getDefaultSearchDetails} from "../utils/documentUtils";
+import {getDefaultSearchDetails} from "../utils/documentSearchUtils";
 
-// let prevSearch = localStorage.searchDetails;
-// let searchDetails = prevSearch ? prevSearch : getDefaultSearchDetails();
 let searchDetails = getDefaultSearchDetails();
 
 const initialState = {
@@ -18,10 +17,17 @@ const initialState = {
   myDocumentsOpen: [],
   myDocumentsArchived: [],
   documentsReceivedOpen: [],
+  documentsReceivedResolved: [],
   documentsReceivedArchived: [],
-  // searchDetails: {},
   searchDetails: searchDetails,
-  mostRecentRegNr: null
+  mostRecentRegNr: null,
+
+  documentsPageCount: 1,
+  myOpenDocumentsPageCount: 1,
+  myArchivedDocumentsPageCount: 1,
+  receivedOpenDocumentsPageCount: 1,
+  receivedResolvedDocumentsPageCount: 1,
+  receivedArchivedDocumentsPageCount: 1
 };
 
 export default function (state = initialState, action) {
@@ -29,7 +35,8 @@ export default function (state = initialState, action) {
     case GET_DOCUMENTS:
       return {
         ...state,
-        documents: action.payload
+        documents: action.payload.documentList,
+        documentsPageCount: action.payload.pageCount
       };
     case SAVE_SEARCH_DETAILS:
       return {
@@ -39,23 +46,33 @@ export default function (state = initialState, action) {
     case GET_MY_DOCUMENTS_OPEN:
       return {
         ...state,
-        myDocumentsOpen: action.payload
+        myDocumentsOpen: action.payload.documentList,
+        myOpenDocumentsPageCount: action.payload.pageCount
       };
     case GET_MY_DOCUMENTS_ARCHIVED:
       return {
         ...state,
-        myDocumentsArchived: action.payload
+        myDocumentsArchived: action.payload.documentList,
+        myArchivedDocumentsPageCount: action.payload.pageCount
       };
     case GET_DOCUMENTS_RECEIVED_OPEN:
       return {
         ...state,
-        documentsReceivedOpen: action.payload
+        documentsReceivedOpen: action.payload.documentList,
+        receivedOpenDocumentsPageCount: action.payload.pageCount
       };
-    case GET_DOCUMENTS_RECEIVED_ARCHIVED:
+    case GET_DOCUMENTS_RECEIVED_RESOLVED:
       return {
         ...state,
-        documentsReceivedArchived: action.payload
+        documentsReceivedResolved: action.payload.documentList,
+        receivedResolvedDocumentsPageCount: action.payload.pageCount
       };
+    case GET_DOCUMENTS_RECEIVED_ARCHIVED:
+    return {
+      ...state,
+      documentsReceivedArchived: action.payload.documentList,
+      receivedArchivedDocumentsPageCount: action.payload.pageCount
+    };
     case DOCUMENT_CREATED:
       return {
         ...state,

@@ -1,7 +1,7 @@
 package com.operacluj.registry.business.service;
 
-import com.operacluj.registry.business.payload.JWTLoginSuccessResponse;
-import com.operacluj.registry.business.payload.LoginRequest;
+import com.operacluj.registry.business.security.payload.JWTLoginSuccessResponse;
+import com.operacluj.registry.business.security.payload.LoginRequest;
 
 public interface AuthenticationService {
 

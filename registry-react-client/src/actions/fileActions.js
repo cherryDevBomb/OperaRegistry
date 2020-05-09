@@ -1,32 +1,26 @@
 import {FILES_URL, MY_DOCUMENTS_PATH, properties} from "../properties";
 import axios from "axios";
-import {DOWNLOAD_FILE, UPLOAD_FILE} from "./types";
+import {DOWNLOAD_FILE, GET_ERRORS} from "./types";
 
 export const uploadFile = (file, registryNumber, history) => async dispatch => {
   try {
     const path = properties.serverURL + FILES_URL + "/" + registryNumber.toString();
     const formData = new FormData();
     formData.append('file', file)
-    // const config = {
-    //   headers: {
-    //     'content-type': 'multipart/form-data'
-    //   }
-    // }
-    //await axios.post(path, formData, config);
     await axios.post(path, formData);
-    history.push(MY_DOCUMENTS_PATH);
     dispatch({
-      type: UPLOAD_FILE,
+      type: GET_ERRORS,
       payload: {}
-    });
-  } catch (error) {
-    console.log(error);
-    if (error.response) {
-      alert(error.response.data.message);
-    } else {
-      alert('Something went wrong while uploading this file');
+    })
+    if (history) {
+      history.push(MY_DOCUMENTS_PATH);
     }
-
+  } catch (error) {
+    const errorMessage = !file ? "Nu a fost ales nici un fișier" : "Fișierul este prea mare";
+    dispatch({
+      type: GET_ERRORS,
+      payload: {file: errorMessage}
+    })
   }
 };
 
@@ -68,3 +62,10 @@ export const downloadFile = (registryNumber) => async dispatch => {
     }
   }
 }
+
+export const clearErrorReducer = () => async dispatch => {
+  dispatch({
+    type: GET_ERRORS,
+    payload: {file: ""}
+  })
+};

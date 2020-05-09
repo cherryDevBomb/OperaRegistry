@@ -13,22 +13,30 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import {UPDATE_SELECTED_USERS_FOR_DOCUMENT_HISTORY} from "../../actions/types";
-import {updateAllUsers} from "../../actions/userActions";
+import {getAllUsers, updateAllUsers, updateSelectedUsers} from "../../actions/userActions";
+import FileUploadModal from "../fragments/document/FileUploadModal";
 
 class CreateDocument extends Component {
-  constructor() {
-    super();
+  componentDidMount() {
+    this.props.updateSelectedUsers([], UPDATE_SELECTED_USERS_FOR_DOCUMENT_HISTORY);
+  }
+
+  constructor(props) {
+    super(props);
 
     this.state = {
       title: "",
       origin: "",
       isOriginExternal: false,
       isDestinationExternal: false,
-      recipients: [],
+      recipients: "",
       sentMessage: "",
 
-      errorReducer: {}
+      documentReducer: {},
+      errorReducer: {},
     };
+
+    this.uploadModalRef = React.createRef();
 
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
@@ -37,20 +45,30 @@ class CreateDocument extends Component {
   static getDerivedStateFromProps(nextProps, prevState) {
     if (nextProps.errorReducer) {
       return {errorReducer: nextProps.errorReducer};
-    }
-    else {
+    } else {
       return null;
     }
   }
 
   componentDidUpdate(prevProps, prevState, ss) {
-    if(prevProps.errorReducer && prevProps.errorReducer !== this.props.errorReducer) {
+    if (prevProps.errorReducer && prevProps.errorReducer !== this.props.errorReducer) {
       this.setState({errorReducer: prevProps.errorReducer});
     }
   }
 
   componentWillUnmount() {
     this.props.updateAllUsers([]);
+  }
+
+  isInputValid() {
+    const errorReducer = this.state.errorReducer;
+    if ((this.state.isOriginExternal && this.state.origin === "") ||
+      (this.state.title === "") ||
+      (this.state.isDestinationExternal && (!this.state.recipients || this.state.recipients.length === 0)) ||
+      (!this.state.isDestinationExternal && this.props.userReducer.selectedUsersForDocumentHistory.length === 0)) {
+      return false;
+    }
+    return true;
   }
 
   onChange(e) {
@@ -75,34 +93,41 @@ class CreateDocument extends Component {
 
   onExtDestinationChange(e) {
     if (e !== "") {
-      console.log(e);
       this.setState({
         recipients: [e.target.value]
       });
     }
   }
 
-  onSubmit(e) {
-    e.preventDefault();
-    let recipientEmails = [];
-    if (!this.state.isDestinationExternal) {
-      this.setState({
-        recipients: this.props.userReducer.selectedUsersForDocumentHistory.forEach(rec => recipientEmails.push(rec.email.toString()))
-      });
-    } else {
-      recipientEmails = this.state.recipients;
-    }
-
+  async createDocument() {
     const newDocument = {
       title: this.state.title,
       origin: this.state.origin,
       isOriginExternal: this.state.isOriginExternal,
       isDestinationExternal: this.state.isDestinationExternal,
-      recipients: recipientEmails,
+      recipients: this.state.recipients,
       sentMessage: this.state.sentMessage
     };
-    console.log(newDocument);
-    this.props.createDocument(newDocument, this.props.history);
+    await this.props.createDocument(newDocument);
+    if (this.isInputValid()) {
+      this.uploadModalRef.current.handleShow(this.props.documentReducer.mostRecentRegNr);
+    }
+  }
+
+  async onSubmit(e) {
+    e.preventDefault();
+    if (!this.state.isDestinationExternal) {
+      let recipientEmails = [];
+      this.props.userReducer.selectedUsersForDocumentHistory.forEach(rec => recipientEmails.push(rec.email.toString()));
+      this.setState({
+        recipients: recipientEmails
+      }, () => {
+        console.log("recipients in onSubmit", this.state.recipients);
+        this.createDocument()
+      });
+    } else {
+      this.createDocument()
+    }
   }
 
   render() {
@@ -113,11 +138,11 @@ class CreateDocument extends Component {
       <React.Fragment>
         <Container>
           <Row className="mt-5">
-            <Col className="col-sm-4 my-auto">
-              <strong className="float-right">Originea documentului</strong>
+            <Col xs={12} sm={4} className="my-auto">
+              <strong className="float-sm-right">Originea documentului</strong>
             </Col>
 
-            <Col className="col-sm-8 my-auto">
+            <Col xs={12} sm={8} className="my-auto">
               <ToggleButtonGroup
                 type="radio"
                 name="originType"
@@ -143,11 +168,11 @@ class CreateDocument extends Component {
     const defaultCreator = (
       <Container>
         <Row className="mt-3">
-          <Col className="col-sm-4 my-auto">
-            <strong className="float-right">Autor</strong>
+          <Col xs={4} className="my-auto">
+            <strong className="float-sm-right">Autor</strong>
           </Col>
 
-          <Col className="col-sm-8 my-auto">
+          <Col xs={8} className="my-auto">
             {getFullName(user)}
           </Col>
         </Row>
@@ -157,11 +182,11 @@ class CreateDocument extends Component {
     const formGroupExtOrigin = (
       <Container>
         <Row className="mt-2 align-items-center">
-          <Col className="col-sm-4 my-auto">
-            <strong className="float-right">Autor</strong>
+          <Col xs={12} sm={4} className="my-auto">
+            <strong className="float-sm-right">Autor</strong>
           </Col>
 
-          <Col className="col-sm-8 my-auto">
+          <Col xs={12} sm={8} className="my-auto">
             <Form.Group className="mb-0">
               <Form.Control
                 name="origin"
@@ -191,11 +216,11 @@ class CreateDocument extends Component {
     const formGroupTitle = (
       <Container>
         <Row className="mt-3 align-items-center">
-          <Col className="col-sm-4 my-auto">
-            <strong className="float-right">Titlu</strong>
+          <Col xs={12} sm={4} className="my-auto">
+            <strong className="float-sm-right">Titlu</strong>
           </Col>
 
-          <Col className="col-sm-8 my-auto">
+          <Col xs={12} sm={8} className="my-auto">
             <Form.Group className="mb-0">
               <Form.Control
                 id="title"
@@ -219,11 +244,11 @@ class CreateDocument extends Component {
     const formGroupDestinationType = (
       <Container>
         <Row className="mt-3 align-items-center">
-          <Col className="col-sm-4 my-auto">
-            <strong className="float-right">Destinație</strong>
+          <Col xs={12} sm={4} className="my-auto">
+            <strong className="float-sm-right">Destinație</strong>
           </Col>
 
-          <Col className="col-sm-8 my-auto">
+          <Col xs={12} sm={8} className="my-auto">
             <ToggleButtonGroup
               type="radio"
               name="destinationType"
@@ -243,14 +268,27 @@ class CreateDocument extends Component {
       </Container>
     );
 
+    let internalReceiversFeedback;
+    if (!this.state.isDestinationExternal && this.state.recipients && this.state.recipients.length === 0) {
+      internalReceiversFeedback = (
+        <div className="small error-feedback">Câmp obligatoriu</div>
+      )
+    }
     const formGroupIntDestination = (
       <Container>
         <Row className="mt-2 align-items-center">
-          <Col className="col-sm-4"></Col>
-          <Col className="col-sm-8 my-auto">
+          <Col xs={12} sm={4}></Col>
+          <Col xs={12} sm={8} className="my-auto">
             <UserAutosuggest placeholder="Introduceți destinatarul"
+                             includePrincipal={false}
                              prevSelectedUsers={[]}
                              actionType={UPDATE_SELECTED_USERS_FOR_DOCUMENT_HISTORY}/>
+          </Col>
+        </Row>
+        <Row className="mt-1 align-items-center">
+          <Col xs={12} sm={4} ></Col>
+          <Col xs={12} sm={8} className="my-auto">
+            {internalReceiversFeedback}
           </Col>
         </Row>
       </Container>
@@ -259,8 +297,8 @@ class CreateDocument extends Component {
     const formGroupExtDestination = (
       <Container>
         <Row className="mt-2 align-items-center">
-          <Col className="col-sm-4"></Col>
-          <Col className="col-sm-8 my-auto">
+          <Col xs={12} sm={4}></Col>
+          <Col xs={12} sm={8} className="my-auto">
             <Form.Group className="mb-0">
               <Form.Control
                 name="recipients"
@@ -282,13 +320,15 @@ class CreateDocument extends Component {
     const formGroupSentMessage = (
       <Container>
         <Row className="mt-3 mb-5 align-items-center">
-          <Col className="col-sm-4 my-auto">
-            <strong className="float-right">Mesaj</strong>
+          <Col xs={12} sm={4} className="my-auto">
+            <strong className="float-sm-right">Mesaj</strong>
           </Col>
 
-          <Col className="col-sm-8 my-auto">
+          <Col xs={12} sm={8} className="my-auto">
             <Form.Group className="mb-0">
               <Form.Control
+                as="textarea"
+                rows="3"
                 name="sentMessage"
                 type="text"
                 placeholder="Introduceți un mesaj pentru destinatar (opțional)"
@@ -309,39 +349,46 @@ class CreateDocument extends Component {
     }
 
     return (
-      <Jumbotron className="mx-5 my-4 shadow p-5">
-        <h4 className="text-center">Document nou</h4>
-        <Form onSubmit={this.onSubmit}>
-          <hr/>
-          {formGroupOriginType}
-          {originPart}
-          {formGroupTitle}
-          {formGroupDestinationType}
-          {destinationPart}
-          {formGroupSentMessage}
-          <Row className="mt-3 mb=3"><Col>
-          <Button variant="primary" type="submit" className="float-right">
-            Submit
-          </Button>
-          </Col></Row>
-        </Form>
-      </Jumbotron>
+      <React.Fragment>
+        <FileUploadModal history={this.props.history} skipButtonText="Skip" ref={this.uploadModalRef}/>
+        <Jumbotron className="mx-2 mx-sm-5 my-4 px-1 px-sm-5 py-5 shadow">
+          <h4 className="text-center">Document nou</h4>
+          <Form onSubmit={this.onSubmit}>
+            <hr/>
+            {formGroupOriginType}
+            {originPart}
+            {formGroupTitle}
+            {formGroupDestinationType}
+            {destinationPart}
+            {formGroupSentMessage}
+            <Row className="mt-3 mb=3"><Col className="text-center">
+              <Button variant="primary" type="submit" className="float-sm-right">
+                Confirmă
+              </Button>
+            </Col></Row>
+          </Form>
+        </Jumbotron>
+      </React.Fragment>
     );
   }
 }
 
 CreateDocument.propTypes = {
+  documentReducer: PropTypes.object.isRequired,
   errorReducer: PropTypes.object.isRequired,
   securityReducer: PropTypes.object.isRequired,
   userReducer: PropTypes.object.isRequired,
   createDocument: PropTypes.func.isRequired,
-  updateAllUsers: PropTypes.func.isRequired
+  getAllUsers: PropTypes.func.isRequired,
+  updateAllUsers: PropTypes.func.isRequired,
+  updateSelectedUsers: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
+  documentReducer: state.documentReducer,
   errorReducer: state.errorReducer,
   securityReducer: state.securityReducer,
   userReducer: state.userReducer
 });
 
-export default connect(mapStateToProps, {createDocument, updateAllUsers})(CreateDocument);
+export default connect(mapStateToProps, {createDocument, getAllUsers, updateAllUsers, updateSelectedUsers})(CreateDocument);

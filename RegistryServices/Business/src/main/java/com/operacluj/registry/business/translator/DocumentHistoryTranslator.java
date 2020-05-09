@@ -1,6 +1,7 @@
 package com.operacluj.registry.business.translator;
 
-import com.operacluj.registry.business.domain.DocumentHistoryDTO;
+import com.operacluj.registry.business.domain.dto.DocumentHistoryDTO;
+import com.operacluj.registry.business.domain.request.DocumentHistoryForm;
 import com.operacluj.registry.business.service.UserService;
 import com.operacluj.registry.model.DocumentHistory;
 import com.operacluj.registry.model.User;
@@ -18,19 +19,26 @@ public class DocumentHistoryTranslator {
     @Autowired
     private UserService userService;
 
-    public DocumentHistoryDTO translate(DocumentHistory documentHistory) {
+    @Autowired
+    private UserTranslator userTranslator;
+
+    public List<DocumentHistoryDTO> translate(List<DocumentHistory> documentHistoryList) {
+        return documentHistoryList.stream().map(this::translate).collect(Collectors.toList());
+    }
+
+    private DocumentHistoryDTO translate(DocumentHistory documentHistory) {
         DocumentHistoryDTO documentHistoryDTO = new DocumentHistoryDTO();
         documentHistoryDTO.setDocumentHistoryId(documentHistory.getDocumentHistoryId());
         documentHistoryDTO.setRegistryNumber(documentHistory.getRegistryNumber());
 
         User sender = userService.getUserById(documentHistory.getSender());
-        documentHistoryDTO.setSender(sender);
+        documentHistoryDTO.setSender(userTranslator.translate(sender));
         documentHistoryDTO.setSentMessage(documentHistory.getSentMessage());
 
         Optional<Integer> optionalInternalRecipientId = Optional.ofNullable(documentHistory.getInternalRecipient());
         if (optionalInternalRecipientId.orElse(0) != 0) {
             User internalRecipient = userService.getUserById(optionalInternalRecipientId.get());
-            documentHistoryDTO.setInternalRecipient(internalRecipient);
+            documentHistoryDTO.setInternalRecipient(userTranslator.translate(internalRecipient));
         }
         else {
             documentHistoryDTO.setExternalRecipient(documentHistory.getExternalRecipient());
@@ -46,8 +54,18 @@ public class DocumentHistoryTranslator {
         return documentHistoryDTO;
     }
 
-    public List<DocumentHistoryDTO> translate(List<DocumentHistory> documentHistoryList) {
-        return documentHistoryList.stream().map(this::translate).collect(Collectors.toList());
-    }
+    public List<DocumentHistory> translate(DocumentHistoryForm documentHistoryForm, User sender) {
+        return documentHistoryForm.getRecipients()
+                .stream()
+                .map(recipient -> {
+                    DocumentHistory dh = new DocumentHistory();
+                    dh.setRegistryNumber(documentHistoryForm.getRegistryNumber());
+                    dh.setSender(sender.getUserId());
+                    dh.setInternalRecipient(userService.getUserByEmail(recipient).getUserId());
+                    dh.setSentMessage(documentHistoryForm.getSentMessage());
+                    return dh;
+                })
+                .collect(Collectors.toList());
 
+    }
 }

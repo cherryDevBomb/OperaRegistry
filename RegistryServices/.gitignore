@@ -37,3 +37,5 @@ secrets.yml
 .sts4-cache
 atlassian-ide-plugin.xml
 modules.xml
+
+Web/src/main/resources/application.properties

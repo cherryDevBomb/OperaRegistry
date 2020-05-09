@@ -20,7 +20,7 @@ import DatePicker from "react-datepicker/es";
 import 'react-datepicker/dist/react-datepicker.css';
 import "../../../style/reusables/document-search.css"
 // import 'bootstrap-select/dist/css/bootstrap-select.css'
-import {getDefaultSearchDetails} from "../../../utils/documentUtils";
+import {getDefaultSearchDetails} from "../../../utils/documentSearchUtils";
 
 class DocumentSearch extends Component {
   constructor(props) {
@@ -28,6 +28,7 @@ class DocumentSearch extends Component {
 
     this.refOrigin = React.createRef();
     this.refDestination = React.createRef();
+    this.toggleButtonRef = React.createRef();
 
     const {searchDetails} = this.props.documentReducer;
     this.state = searchDetails;
@@ -68,11 +69,34 @@ class DocumentSearch extends Component {
   }
 
   componentWillUnmount() {
-    this.props.getAllUsers();
+    this.props.getAllUsers(false);
   }
 
   onChange(e) {
     this.setState({[e.target.name]: e.target.value});
+    this.lastFieldChanged = e.target.name;
+
+    //check if you need to reset origin/destination users
+    if (e.target.name === "originType" && e.target.value !== "O anumită persoană") {
+      this.setState({originUsers: []}, () => {
+        this.props.saveSearchDetails(this.state);
+      });
+    }
+    if (e.target.name === "destinationType" && e.target.value !== "O anumită persoană") {
+      this.setState({destinationUsers: []}, () => {
+        this.props.saveSearchDetails(this.state);
+      });
+    }
+  }
+
+  onChangeSearchStr(e) {
+    const key = e.target.name;
+    this.setState({searchStr: e.target.value}, () => {
+      if (key === "searchStr") {
+        this.props.getDocuments(this.state, 1);
+        this.props.saveSearchDetails(this.state);
+      }
+    });
     this.lastFieldChanged = e.target.name;
   }
 
@@ -84,24 +108,29 @@ class DocumentSearch extends Component {
   }
 
   resetSearchDetails() {
-    this.props.saveSearchDetails(getDefaultSearchDetails());
+    const newState = getDefaultSearchDetails();
 
-    const newState = this.props.documentReducer.searchDetails;
+    this.props.saveSearchDetails(newState);
     this.setState(
       {
-      originType: "Oricare",
-      originUsers: [],
-      origin: "",
-      destinationType: "Oricare",
-      destinationUsers: [],
-      destination: "",
-      state: "Oricare",
-      searchStr: "",
-      createdDate: "Oricând",
-      from: new Date(),
-      to: new Date()
+        originType: newState.originType,
+        originUsers: newState.originUsers,
+        destinationType: newState.destinationType,
+        destinationUsers: newState.destinationUsers,
+        state: newState.state,
+        searchStr: newState.searchStr,
+        createdDate: newState.createdDate,
+        from: newState.from,
+        to: newState.to
+      },
+      () => {
+        this.props.getDocuments(this.state, 1);
       }
     )
+
+    if (this.state.showDropdown === true) {
+      this.toggleButtonRef.click();
+    }
   }
 
   onSubmit(e) {
@@ -119,18 +148,25 @@ class DocumentSearch extends Component {
     if (origin && (origin !== this.state.originUsers)) {
       this.setState({originUsers: origin}, () => {
         this.props.saveSearchDetails(this.state);
+        this.props.getDocuments(this.state, 1);
       });
-    }
-    else if (destination && (destination !== this.state.destinationUsers)) {
+    } else if (destination && (destination !== this.state.destinationUsers)) {
       this.setState({destinationUsers: destination}, () => {
         this.props.saveSearchDetails(this.state);
+        this.props.getDocuments(this.state, 1);
       });
-    }
-    else {
+    } else {
       this.props.saveSearchDetails(this.state);
+      this.props.getDocuments(this.state, 1);
     }
 
-    // perform search
+    if (this.state.showDropdown === true) {
+      this.toggleButtonRef.click();
+    }
+  }
+
+  toggleDropdown() {
+    this.setState({showDropdown: !this.state.showDropdown});
   }
 
   render() {
@@ -140,6 +176,7 @@ class DocumentSearch extends Component {
               ref={ref}
               onClick={e => {
                 e.preventDefault();
+                this.toggleDropdown();
                 onClick(e);
               }}
       >
@@ -151,9 +188,10 @@ class DocumentSearch extends Component {
     let specificPersonOriginInput;
     if (this.state.originType === "O anumită persoană") {
       specificPersonOriginInput = (
-        <Col className="col-sm-6 ">
+        <Col xs={12} sm={6} className="mt-2 mt-sm-0">
           <UserAutosuggest ref={this.refOrigin}
                            placeholder="Introduceți numele"
+                           includePrincipal={true}
                            prevSelectedUsers={this.state.originUsers}
                            actionType={UPDATE_SELECTED_USERS_FOR_ORIGIN_SEARCH}/>
         </Col>
@@ -163,9 +201,10 @@ class DocumentSearch extends Component {
     let specificPersonDestinationInput;
     if (this.state.destinationType === "O anumită persoană") {
       specificPersonDestinationInput = (
-        <Col className="col-sm-6">
+        <Col xs={12} sm={6} className="mt-2 mt-sm-0">
           <UserAutosuggest ref={this.refDestination}
                            placeholder="Introduceți numele"
+                           includePrincipal={true}
                            prevSelectedUsers={this.state.destinationUsers}
                            actionType={UPDATE_SELECTED_USERS_FOR_DESTINATION_SEARCH}/>
         </Col>
@@ -177,12 +216,12 @@ class DocumentSearch extends Component {
       specificDateInput = (
         <React.Fragment>
           <Row>
-            <Col className="col-sm-2 my-auto"/>
+            <Col xs={0} sm={2} className="my-auto"/>
             <Col className="mt-3">Între:</Col>
           </Row>
           <Row className="mt-2">
-            <Col className="col-sm-2 my-auto"/>
-            <Col className="col-sm-4 my-auto">
+            <Col xs={0} sm={2} className="my-auto"/>
+            <Col sm={4} className="my-auto">
               <DatePicker id="from"
                           name="from"
                           className="mr-2"
@@ -191,7 +230,7 @@ class DocumentSearch extends Component {
                           selected={this.state.from}
                           onChange={(e) => this.onDateChange("from", e)}/>
             </Col>
-            <Col className="col-sm-4 my-auto">
+            <Col sm={4} className="my-auto mt-3 mt-sm-0">
               <DatePicker id="to"
                           name="to"
                           minDate={this.state.from}
@@ -216,10 +255,10 @@ class DocumentSearch extends Component {
           >
             <Container className="search-dropdown-inner">
               <Row className="mt-3 align-items-baseline">
-                <Col className="col-sm-2">
+                <Col xs={5} sm={2}>
                   <strong>Emitent</strong>
                 </Col>
-                <Col className="col-sm-4">
+                <Col xs={7} sm={4}>
                   <Form.Control as="select"
                                 name="originType"
                                 value={this.state.originType}
@@ -234,10 +273,10 @@ class DocumentSearch extends Component {
               </Row>
 
               <Row className="mt-3 align-items-baseline">
-                <Col className="col-sm-2">
+                <Col xs={5} sm={2}>
                   <strong>Destinatar</strong>
                 </Col>
-                <Col className="col-sm-4">
+                <Col xs={7} sm={4}>
                   <Form.Control as="select"
                                 value={this.state.destinationType}
                                 name="destinationType"
@@ -252,10 +291,10 @@ class DocumentSearch extends Component {
               </Row>
 
               <Row className="mt-3 align-items-center">
-                <Col className="col-sm-2 my-auto">
+                <Col xs={5} sm={2} className="my-auto">
                   <strong>Stare</strong>
                 </Col>
-                <Col className="col-sm-4 my-auto">
+                <Col xs={7} sm={4} className="my-auto">
                   <Form.Control as="select"
                                 name="state"
                                 value={this.state.state}
@@ -268,26 +307,26 @@ class DocumentSearch extends Component {
               </Row>
 
               <Row className="mt-3 align-items-center">
-                <Col className="col-sm-2 my-auto">
+                <Col xs={5} sm={2} className="my-auto">
                   <strong>Nume</strong>
                 </Col>
-                <Col className="col-sm-10 my-auto w-100">
+                <Col xs={7} sm={10} className="my-auto w-100">
                   <FormControl
-                    autoFocus={this.lastFieldChanged === "state" || this.lastFieldChanged === "searchStr"}
-                    name="searchStr"
+                    autoFocus={this.lastFieldChanged === "state" || this.lastFieldChanged === "searchStrDropdown"}
+                    name="searchStrDropdown"
                     className="my-2 w-100"
                     placeholder="Introduceți un termen care face parte din titlu sau numărul de înregistrare"
-                    onChange={this.onChange}
+                    onChange={this.onChangeSearchStr.bind(this)}
                     value={this.state.searchStr}
                   />
                 </Col>
               </Row>
 
               <Row className="mt-3 align-items-center">
-                <Col className="col-sm-2 my-auto">
+                <Col xs={5} sm={2} className="my-auto">
                   <strong>Data înregistrării</strong>
                 </Col>
-                <Col className="col-sm-4 my-auto">
+                <Col xs={7} sm={4} className="my-auto">
                   <Form.Control as="select"
                                 value={this.state.createdDate}
                                 name="createdDate"
@@ -343,13 +382,13 @@ class DocumentSearch extends Component {
                          aria-describedby="search-btn"
                          placeholder="Căutați documente"
                          value={this.state.searchStr}
-                         onChange={this.onChange}
+                         onChange={this.onChangeSearchStr.bind(this)}
                          className="mx-auto search-input">
             </FormControl>
 
             <InputGroup.Append className="ml-3">
-              <Dropdown alignRight>
-                <Dropdown.Toggle as={CustomToggle}/>
+              <Dropdown alignRight show={this.state.showDropdown}>
+                <Dropdown.Toggle as={CustomToggle} ref={(node) => this.toggleButtonRef = node}/>
                 <Dropdown.Menu as={CustomDropdown} className="dropdown-search mr-n2 mt-0"/>
               </Dropdown>
             </InputGroup.Append>
@@ -362,13 +401,13 @@ class DocumentSearch extends Component {
 
 DocumentSearch.propTypes = {
   documentReducer: PropTypes.object.isRequired,
-  getDocuments: PropTypes.func.isRequired,
   getAllUsers: PropTypes.func.isRequired,
-  saveSearchDetails: PropTypes.func.isRequired
+  getDocuments: PropTypes.func.isRequired,
+  saveSearchDetails: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
   documentReducer: state.documentReducer,
 });
 
-export default connect(mapStateToProps, {getDocuments, getAllUsers, saveSearchDetails})(DocumentSearch);
+export default connect(mapStateToProps, {getAllUsers, getDocuments, saveSearchDetails})(DocumentSearch);

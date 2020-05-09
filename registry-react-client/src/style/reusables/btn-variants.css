@@ -19,4 +19,65 @@
   background-color: #f7f7f9;
 }
 
+.btn-number {
+  background-color: #ac1b21;
+  width: 2.5em;
+  height: 2.5em;
+  padding: 6px 0px;
+  border-radius: 8em;
+  text-align: center;
+  color: white;
+}
+
+.btn-number:hover {
+  color: white;
+  cursor: auto;
+}
+
+.btn-recipient {
+  background-color: #e6dbc8;
+  border: 1px solid #d6c4a5;
+  margin-top: 1em;
+}
+
+.btn-recipient-resolved {
+  background-color: #e6dbc8;
+  border: 1px solid #d6c4a5;
+  margin-top: 1em;
+  padding-right: 1.5em;
+}
+
+.btn-light-pure {
+  color: #4f4538;
+  background-color: white;
+  border: 0;
+  box-shadow: 0 0 0 0;
+}
+
+.btn-light-pure:hover {
+  background-color: white;
+}
+
+.btn-archive {
+  color: white;
+  background-color: #4f4538;
+}
+
+.btn-archive:hover {
+  color: white;
+  background-color: #bd8f3a;
+}
+
+.btn-archive:disabled {
+  cursor: auto;
+  color: white;
+  background-color: #736451;
+}
+
+.btn-archive:disabled:hover {
+  cursor: auto;
+  color: white;
+  background-color: #736451;
+}
+
 /*# sourceMappingURL=btn-variants.css.map */

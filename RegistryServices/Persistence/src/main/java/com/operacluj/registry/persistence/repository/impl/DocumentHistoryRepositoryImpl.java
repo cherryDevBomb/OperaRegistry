@@ -27,6 +27,9 @@ public class DocumentHistoryRepositoryImpl implements DocumentHistoryRepository 
     @Value("${getDocumentHistoryForDocument}")
     private String getDocumentHistoryForDocumentQuery;
 
+    @Value("${getDocumentHistoryForDocumentSentTo}")
+    private String getDocumentHistoryForDocumentSentToQuery;
+
     @Value("${addDocumentHistory}")
     private String addDocumentHistoryQuery;
 
@@ -35,8 +38,16 @@ public class DocumentHistoryRepositoryImpl implements DocumentHistoryRepository 
 
     @Override
     public List<DocumentHistory> getDocumentHistoryForDocument(int registryNumber) {
-        SqlParameterSource sqlParameterSource = new MapSqlParameterSource("registrynumber", registryNumber);
-        return jdbcTemplate.query(getDocumentHistoryForDocumentQuery, sqlParameterSource, documentHistoryMapper);
+        SqlParameterSource parameterSource = new MapSqlParameterSource("registrynumber", registryNumber);
+        return jdbcTemplate.query(getDocumentHistoryForDocumentQuery, parameterSource, documentHistoryMapper);
+    }
+
+    @Override
+    public DocumentHistory getDocumentHistoryForDocumentSentTo(int registryNumber, int userId) {
+        MapSqlParameterSource parameterSource = new MapSqlParameterSource();
+        parameterSource.addValue("registrynumber", registryNumber);
+        parameterSource.addValue("internalrecipient", userId);
+        return jdbcTemplate.queryForObject(getDocumentHistoryForDocumentSentToQuery, parameterSource, documentHistoryMapper);
     }
 
     @Override
@@ -48,18 +59,22 @@ public class DocumentHistoryRepositoryImpl implements DocumentHistoryRepository 
 
     @Override
     public void updateDocumentHistoryStatus(DocumentHistory documentHistory) {
-
+        MapSqlParameterSource parameterSource = new MapSqlParameterSource();
+        parameterSource.addValue("resolved", documentHistory.isResolved());
+        parameterSource.addValue("resolvedmessage", documentHistory.getResolvedMessage());
+        parameterSource.addValue("documenthistoryid", documentHistory.getDocumentHistoryId());
+        jdbcTemplate.update(updateDocumentHistoryStatusQuery, parameterSource);
     }
 
     private SqlParameterSource getSqlParameterSourceForEntity(DocumentHistory documentHistory) {
-        MapSqlParameterSource sqlparameterSource = new MapSqlParameterSource();
+        MapSqlParameterSource parameterSource = new MapSqlParameterSource();
         if (documentHistory != null) {
-            sqlparameterSource.addValue("registrynumber", documentHistory.getRegistryNumber());
-            sqlparameterSource.addValue("sender", documentHistory.getSender());
-            sqlparameterSource.addValue("sentmessage", documentHistory.getSentMessage());
-            sqlparameterSource.addValue("internalrecipient", documentHistory.getInternalRecipient());
-            sqlparameterSource.addValue("externalrecipient", documentHistory.getExternalRecipient());
+            parameterSource.addValue("registrynumber", documentHistory.getRegistryNumber());
+            parameterSource.addValue("sender", documentHistory.getSender());
+            parameterSource.addValue("sentmessage", documentHistory.getSentMessage());
+            parameterSource.addValue("internalrecipient", documentHistory.getInternalRecipient());
+            parameterSource.addValue("externalrecipient", documentHistory.getExternalRecipient());
         }
-        return sqlparameterSource;
+        return parameterSource;
     }
 }

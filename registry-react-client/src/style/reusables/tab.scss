@@ -1,0 +1,75 @@
+@import "../colors";
+
+.tabs {
+  padding-left: 5em;
+}
+@media (max-width: 576px) {
+  .tabs {
+    padding-left: 0;
+  }
+}
+
+.nav-tabs .nav-link {
+  border: 1px solid $gray-lighter;
+  border-top-left-radius: 0.25rem;
+  border-top-right-radius: 0.25rem;
+  background-color: $gray-lightest;
+  color: black;
+  padding: 0.5em;
+}
+.nav-tabs .nav-link:hover {
+  border: 1px solid $gray-lighter;
+  background-color: darken($gray-lightest, 3);
+}
+
+.nav-tabs .nav-link.active {
+  border: 1px solid $gray-lighter;
+  border-bottom: 1px solid white;
+  background-color: white;
+  color: black;
+  font-weight: bold;
+}
+
+
+
+//Card content
+
+.card-header {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.card-title {
+  margin-bottom: 0;
+}
+
+.nav-pills .nav-link {
+  color: $gray;
+  border-radius: 0;
+  border-bottom: 2px solid $gray-lighter;
+  padding-bottom: .25em;
+  padding-left: 0;
+  padding-right: 0;
+  margin-left: 1em;
+  margin-right: 1em;
+}
+
+.nav-pills .nav-link.active {
+  color: $primary-red;
+  background-color: white;
+  border-radius: 0;
+  border-bottom: 2px solid $primary-red;
+  padding-bottom: .25em;
+  padding-left: 0;
+  padding-right: 0;
+  margin-left: 1em;
+  margin-right: 1em;
+}
+
+.hr-tabs {
+  border-top: 0;
+  border-bottom: 2px solid $gray-lighter;
+  color: $gray-lighter;
+  margin-top: -2px;
+  margin-left: 1em;
+}

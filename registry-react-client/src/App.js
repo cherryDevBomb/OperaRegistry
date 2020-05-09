@@ -9,22 +9,23 @@ import "./style/reusables/btn-toggle.css"
 import "./style/reusables/font.css"
 import "./style/reusables/form.css"
 import "./style/reusables/icons.css"
+import "./style/reusables/modal.css"
 import "./style/reusables/nav.css"
 import "./style/components/landing.css"
 import "./style/components/table.css"
+import "./style/reusables/tab.css"
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import {Provider} from "react-redux";
 import store from "./store";
-import PageHeader from "./components/fragments/navigation/PageHeader";
+import PageHeader from "./components/navigation/PageHeader";
 import DocumentTable from "./components/layout/DocumentTable";
 import CreateDocument from "./components/layout/CreateDocument";
 import LandingPage from "./components/layout/LandingPage";
-import Register from "./components/fragments/security/Register";
+import Register from "./components/layout/Register";
 import {
   DOCUMENTS_PATH,
   MY_DOCUMENTS_PATH,
   NEW_DOCUMENT_PATH,
-  NEW_DOCUMENT_UPLOAD_FILE_PATH,
   RECEIVED_DOCUMENTS_PATH,
   REGISTER_PATH
 } from "./properties";
@@ -32,8 +33,7 @@ import jwt_decode from "jwt-decode";
 import setJWTToken from "./utils/setJWTToken";
 import {SET_CURRENT_USER} from "./actions/types";
 import {logout} from "./actions/securityActions";
-import SecuredRoute from "./utils/SecuredRoute";
-import UploadAfterCreate from "./components/fragments/document/UploadAfterCreate";
+import SecuredRoute from "./components/navigation/SecuredRoute";
 import MyDocuments from "./components/layout/MyDocuments";
 import ReceivedDocuments from "./components/layout/ReceivedDocuments";
 
@@ -64,7 +64,6 @@ class App extends Component {
 
             <Route exact path="/" component={LandingPage} />
             <Route exact path={REGISTER_PATH} component={Register} />
-            {/*<Route exact path={LOGIN_PATH} component={Login} />*/}
 
             <Switch>
               <SecuredRoute
@@ -87,11 +86,11 @@ class App extends Component {
                 path={NEW_DOCUMENT_PATH}
                 component={CreateDocument}
               />
-              <SecuredRoute
-                exact
-                path={NEW_DOCUMENT_UPLOAD_FILE_PATH}
-                component={UploadAfterCreate}
-              />
+              {/*<SecuredRoute*/}
+              {/*  exact*/}
+              {/*  path={NEW_DOCUMENT_UPLOAD_FILE_PATH}*/}
+              {/*  component={UploadAfterCreate}*/}
+              {/*/>*/}
             </Switch>
           </div>
         </Router>

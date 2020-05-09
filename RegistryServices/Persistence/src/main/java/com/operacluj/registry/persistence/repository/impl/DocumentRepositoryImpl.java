@@ -16,6 +16,7 @@ import java.util.List;
 
 @Repository
 @PropertySource("classpath:/queries.properties")
+@PropertySource("classpath:/pagination.properties")
 public class DocumentRepositoryImpl implements DocumentRepository {
 
     @Autowired
@@ -24,26 +25,38 @@ public class DocumentRepositoryImpl implements DocumentRepository {
     @Autowired
     private RowMapper<Document> documentMapper;
 
+    @Value("${page_limit}")
+    private int pageLimit;
+
     @Value("${getDocumentByRegistryNumber}")
     private String getDocumentByRegistryNumberQuery;
 
     @Value("${getAllDocuments}")
     private String getAllDocumentsQuery;
 
+    @Value("${getAllDocumentsPaged}")
+    private String getAllDocumentsPagedQuery;
+
     @Value("${getAllDocumentsCreatedBy}")
     private String getAllDocumentsCreatedByQuery;
 
+    @Value("${getAllDocumentsReceivedBy}")
+    private String getAllDocumentsReceivedByQuery;
+
+    @Value("${getAllArchivedDocumentsReceivedBy}")
+    private String getAllArchivedDocumentsReceivedByQuery;
+
     @Value("${addDocument}")
     private String addDocumentQuery;
+
+    @Value("${updateDocument}")
+    private String updateDocumentQuery;
 
     @Value("${deleteDocument}")
     private String deleteDocumentQuery;
 
     @Value("${getLastMatchingDocument}")
     private String getLastMatchingDocumentQuery;
-    
-    @Value("${updateDocument}")
-    private String updateDocumentQuery;
 
     @Override
     public Document getDocumentByRegistryNumber(int registryNumber) {
@@ -57,11 +70,31 @@ public class DocumentRepositoryImpl implements DocumentRepository {
     }
 
     @Override
-    public List<Document> getAllDocumentsCreatedBy(int userId, boolean archived) {
-        MapSqlParameterSource parameterSource = new MapSqlParameterSource();
+    public List<Document> getAllDocuments(int page) {
+        return jdbcTemplate.query(getAllDocumentsPagedQuery, getSqlParameterSourceForPagination(page), documentMapper);
+    }
+
+    @Override
+    public List<Document> getAllDocumentsCreatedBy(int userId, boolean archived, int page) {
+        MapSqlParameterSource parameterSource = getSqlParameterSourceForPagination(page);
         parameterSource.addValue("createdby", userId);
         parameterSource.addValue("archived", archived);
         return jdbcTemplate.query(getAllDocumentsCreatedByQuery, parameterSource, documentMapper);
+    }
+
+    @Override
+    public List<Document> getAllDocumentsReceivedBy(int userId, boolean resolved, int page) {
+        MapSqlParameterSource parameterSource = getSqlParameterSourceForPagination(page);
+        parameterSource.addValue("internalrecipient", userId);
+        parameterSource.addValue("resolved", resolved);
+        return jdbcTemplate.query(getAllDocumentsReceivedByQuery, parameterSource, documentMapper);
+    }
+
+    @Override
+    public List<Document> getAllArchivedDocumentsReceivedBy(int userId, int page) {
+        MapSqlParameterSource parameterSource = getSqlParameterSourceForPagination(page);
+        parameterSource.addValue("internalrecipient", userId);
+        return jdbcTemplate.query(getAllArchivedDocumentsReceivedByQuery, parameterSource, documentMapper);
     }
 
     @Override
@@ -101,5 +134,10 @@ public class DocumentRepositoryImpl implements DocumentRepository {
         return parameterSource;
     }
 
-
+    private MapSqlParameterSource getSqlParameterSourceForPagination(int page) {
+        MapSqlParameterSource parameterSource = new MapSqlParameterSource();
+        parameterSource.addValue("offset", (page - 1) * pageLimit);
+        parameterSource.addValue("rowcount", pageLimit);
+        return parameterSource;
+    }
 }

@@ -1,6 +1,7 @@
 package com.operacluj.registry.business.translator;
 
-import com.operacluj.registry.business.domain.UserForm;
+import com.operacluj.registry.business.domain.dto.UserDTO;
+import com.operacluj.registry.business.domain.request.UserForm;
 import com.operacluj.registry.model.Department;
 import com.operacluj.registry.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,16 @@ public class UserTranslator {
         user.setDepartment(Department.getDepartment(userForm.getDepartment()));
         user.setPassword(bCryptPasswordEncoder.encode(userForm.getPassword()));
         return user;
+    }
+
+    public UserDTO translate(User user) {
+        UserDTO userDTO = new UserDTO();
+        userDTO.setUserId(user.getUserId());
+        userDTO.setFirstName(user.getFirstName());
+        userDTO.setLastName(user.getLastName());
+        userDTO.setEmail(user.getEmail());
+        userDTO.setDepartment(user.getDepartment().getTextValue());
+        return userDTO;
     }
 
     public User getUserFromPrincipal(Principal principal) {

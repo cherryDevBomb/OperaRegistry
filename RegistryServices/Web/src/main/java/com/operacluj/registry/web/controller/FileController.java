@@ -8,6 +8,7 @@ import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.security.Principal;
 import java.util.Arrays;
 
 @RestController
@@ -20,9 +21,9 @@ public class FileController {
 
     @PostMapping(value = "/{registryNumber}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public void uploadFile(@RequestParam MultipartFile file, @PathVariable int registryNumber) {
-        System.out.println(file.getContentType());
-        fileService.uploadFile(file, registryNumber);
+    public void uploadFile(@RequestParam MultipartFile file, @PathVariable int registryNumber, Principal principal) {
+        System.out.println("Got into upload");
+        fileService.uploadFile(file, registryNumber, principal);
     }
 
     @GetMapping(value = "/{registryNumber}", produces = MediaType.APPLICATION_PDF_VALUE)

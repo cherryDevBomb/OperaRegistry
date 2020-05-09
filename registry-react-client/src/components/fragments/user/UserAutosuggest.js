@@ -6,11 +6,15 @@ import {getAllUsers, updateAllUsers, updateSelectedUsers} from "../../../actions
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {getFullName} from "../../../utils/userUtils";
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 
 class UserAutosuggest extends Component {
   componentDidMount() {
+    let {includePrincipal} = this.props;
     if (this.props.userReducer.allUsers.length === 0) {
-      this.props.getAllUsers();
+      this.props.getAllUsers(includePrincipal);
     }
   }
 
@@ -56,7 +60,14 @@ class UserAutosuggest extends Component {
 
   renderSuggestion = suggestion => (
     <div>
-      {getFullName(suggestion)}
+      <Container>
+        <Row><Col>
+          {getFullName(suggestion)}
+        </Col></Row>
+        <Row><Col className="email-text">
+          {suggestion.email}
+        </Col></Row>
+      </Container>
     </div>
   );
 

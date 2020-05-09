@@ -2,13 +2,13 @@ import React, {Component} from "react";
 import "../../../style/reusables/icons.css";
 import "../../../style/reusables/badge.css";
 import {Badge} from "react-bootstrap";
-import {getFullName} from "../../../utils/userUtils";
-import {DESTINATION_EXTERNAL_DOC_TYPE, ORIGIN_EXTERNAL_DOC_TYPE} from "../../../properties";
-import OverlayTrigger from "react-bootstrap/OverlayTrigger";
-import UserPopup from "../user/UserPopup";
+import {getUserPopup} from "../../../utils/userUtils";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {downloadFile} from "../../../actions/fileActions";
+import {DESTINATION_EXTERNAL_DOC_TYPE, ORIGIN_EXTERNAL_DOC_TYPE} from "../../../constants/appConstants";
+
+let Highlight = require('react-highlighter');
 
 class DocumentRow extends Component {
 
@@ -29,17 +29,7 @@ class DocumentRow extends Component {
 
     let origin;
     if (document.documentType !== ORIGIN_EXTERNAL_DOC_TYPE) {
-      origin = (
-        <OverlayTrigger
-          trigger={['hover', 'focus']}
-          placement="bottom-start"
-          overlay={<UserPopup user={document.createdBy}/>}
-        >
-          <div className="btn-link">
-            {getFullName(document.createdBy)}
-          </div>
-        </OverlayTrigger>
-      )
+      origin = getUserPopup(document.createdBy);
     } else {
       origin = (
         <React.Fragment>
@@ -51,17 +41,7 @@ class DocumentRow extends Component {
     let destination;
     if (document.documentType !== DESTINATION_EXTERNAL_DOC_TYPE) {
       destination = document.documentHistory.map(dh => {
-          const item = (
-            <OverlayTrigger
-              trigger={['hover', 'focus']}
-              placement="bottom-start"
-              overlay={<UserPopup user={dh.internalRecipient}/>}
-            >
-              <div className="btn-link">
-                {getFullName(dh.internalRecipient)}
-              </div>
-            </OverlayTrigger>
-          );
+          const item = getUserPopup(dh.internalRecipient);
           return <React.Fragment key={dh.documentHistoryId}>{item}</React.Fragment>
         }
       );
@@ -94,24 +74,27 @@ class DocumentRow extends Component {
       )
     }
 
-    const download = document.hasAttachment ? <i className="fas fa-file-download" onClick={this.onDownloadClick.bind(this)}/> : "";
+    const download = document.hasAttachment ?
+      <i className="fas fa-file-download" onClick={this.onDownloadClick.bind(this)}/> : "";
 
     return (
       <tr>
-        <td className="text-center">{registryNumber}</td>
-        <td>{origin}</td>
-        <td className="text-center">{document.createdDate}</td>
-        <td>{document.title}</td>
-        <td>{destination}</td>
-        <td className="text-center">{archivingState}</td>
-        <td className="text-center">{download}</td>
+        <td style={{width: "12%"}} className="text-center">{registryNumber}</td>
+        <td style={{width: "13%"}}>{origin}</td>
+        <td style={{width: "15%"}} className="text-center">{document.createdDate}</td>
+        <td style={{width: "30%"}}>
+          <Highlight search={this.props.searchStr}>{document.title}</Highlight>
+        </td>
+        <td style={{width: "15%"}}>{destination}</td>
+        <td style={{width: "10%"}} className="text-center">{archivingState}</td>
+        <td style={{width: "5%"}} className="text-center">{download}</td>
       </tr>
     );
   }
 }
 
-  DocumentRow.propTypes = {
-    downloadFile: PropTypes.func.isRequired
-  };
+DocumentRow.propTypes = {
+  downloadFile: PropTypes.func.isRequired
+};
 
-  export default connect(null, {downloadFile})(DocumentRow);
+export default connect(null, {downloadFile})(DocumentRow);

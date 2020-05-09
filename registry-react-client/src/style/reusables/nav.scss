@@ -2,7 +2,9 @@
 
 $nav-link-color: $gray-lightest;
 $nav-link-color-hover: $gold;
+$logo-size: 36px;
 
+// Navbar alignment
 .navbar {
   height: fit-content;
   padding-top: 0;
@@ -11,29 +13,33 @@ $nav-link-color-hover: $gold;
   align-items: stretch;
 }
 
-.navbar-brand {
+// Navbar toggler
+button.navbar-toggler {
+  outline: none;
+  border: 0;
+  box-shadow: none;
+}
+
+// Title when logged out
+.span-title {
+  color: $nav-link-color;
+  height: 100%;
+  padding: 16px;
+  margin-left: 1.4em;
   display: flex;
   align-items: center;
-  color: $nav-link-color;
+  cursor: default;
 }
 
-.dropdown-toggle {
-  height: fit-content;
-  padding-top: 0;
-  padding-bottom: 0;
-  display: flex;
-  align-items: stretch;
-  white-space: unset;
-}
-
+// Nav Links
 .nav-link {
   color: $nav-link-color;
   height: 100%;
-  padding-top: 16px;
-  padding-bottom: 16px;
+  padding: 16px;
   display: flex;
   align-items: center;
 }
+
 .nav-link:hover {
   color: $nav-link-color-hover;
   padding-bottom: 12px;
@@ -43,13 +49,74 @@ $nav-link-color-hover: $gold;
 .navbar-dark .navbar-nav .nav-link {
   color: $nav-link-color;
 }
+
 .navbar-dark:hover .navbar-nav:hover .nav-link:hover {
   color: $nav-link-color-hover;
 }
 
-.fa-home{
-  color: $nav-link-color;
+.navbar-expand-sm .navbar-nav .nav-link {
+  padding-left: 16px;
+  padding-right: 16px;
 }
-.fa-home:hover {
-  color: $nav-link-color-hover;
+
+// App logo
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  color: $nav-link-color;
+  padding: 0;
+  margin-top: .2rem;
+  margin-bottom: -.1em;
+}
+
+.logo {
+  width: $logo-size;
+  height: $logo-size;
+  background: url("../../resources/logo_white.png") no-repeat;
+  background-size: $logo-size;
+  display: inline-block;
+}
+
+.logo:hover {
+  background: url("../../resources/logo_gold.png") no-repeat;
+  background-size: $logo-size;
+}
+
+// Nav Dropdown
+.dropdown-toggle {
+  white-space: unset;
+}
+
+.dropdown-item:active, .dropdown-item:focus {
+  color: black;
+  background-color: lighten($light-gold, 30);
+  border: none;
+  box-shadow: none;
+}
+
+.btn:focus, .btn.focus {
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem $gold;
+}
+
+.btn:not(:disabled):not(.disabled):active:focus, .btn:not(:disabled):not(.disabled).active:focus {
+  box-shadow: 0 0 0 0.2rem $gold, inset 0 3px 5px rgba(0, 0, 0, 0.125);
+}
+
+// Navbar icons
+.fa-table, .fa-paper-plane, .fa-inbox, .fa-user, .fa-plus {
+  margin-right: .40em;
+}
+
+.fa-plus {
+  margin-top: .1em;
+}
+
+.fa-id-card, .fa-question, .fa-sign-out-alt {
+  color: $brownish-gray;
+  margin-right: .40em;
+}
+
+.fa-question {
+  margin-right: .7em;
 }
