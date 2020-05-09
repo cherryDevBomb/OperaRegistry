@@ -1,10 +1,11 @@
 package com.operacluj.registry.business.domain.dto;
 
 import com.operacluj.registry.model.DocumentAction;
+import lombok.Data;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.time.LocalDateTime;
 
+@Data
 public class DocumentTimelineItemDTO implements Comparable<DocumentTimelineItemDTO> {
 
     private UserDTO actor;
@@ -15,61 +16,11 @@ public class DocumentTimelineItemDTO implements Comparable<DocumentTimelineItemD
     private UserDTO internalRecipient;
     private String externalRecipient;
 
-    public UserDTO getActor() {
-        return actor;
-    }
-
-    public void setActor(UserDTO actor) {
-        this.actor = actor;
-    }
-
-    public String getAction() {
-        return action;
-    }
-
-    public void setAction(String action) {
-        this.action = action;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public UserDTO getInternalRecipient() {
-        return internalRecipient;
-    }
-
-    public void setInternalRecipient(UserDTO internalRecipient) {
-        this.internalRecipient = internalRecipient;
-    }
-
-    public String getExternalRecipient() {
-        return externalRecipient;
-    }
-
-    public void setExternalRecipient(String externalRecipient) {
-        this.externalRecipient = externalRecipient;
-    }
+    private LocalDateTime timestamp;
 
     @Override
     public int compareTo(DocumentTimelineItemDTO other) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        LocalDate thisDate = LocalDate.parse(date, formatter);
-        LocalDate otherDate = LocalDate.parse(other.getDate(), formatter);
-
-        int dateCompare = thisDate.compareTo(otherDate);
+        int dateCompare = other.getTimestamp().compareTo(getTimestamp());
         if (dateCompare != 0) {
             return dateCompare;
         }

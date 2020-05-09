@@ -1,10 +1,8 @@
 package com.operacluj.registry.business.translator;
 
 import com.operacluj.registry.business.domain.dto.DocumentHistoryDTO;
-import com.operacluj.registry.business.domain.dto.DocumentTimelineItemDTO;
 import com.operacluj.registry.business.domain.request.DocumentHistoryForm;
 import com.operacluj.registry.business.service.UserService;
-import com.operacluj.registry.model.DocumentAction;
 import com.operacluj.registry.model.DocumentHistory;
 import com.operacluj.registry.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,43 +67,5 @@ public class DocumentHistoryTranslator {
                 })
                 .collect(Collectors.toList());
 
-    }
-
-    public List<DocumentTimelineItemDTO> translateToTimelineItems(List<DocumentHistoryDTO> documentHistoryList) {
-        List<DocumentTimelineItemDTO> documentSendActions = documentHistoryList.stream()
-                .map(this::translateToSendActionItem)
-                .collect(Collectors.toList());
-
-        List<DocumentTimelineItemDTO> documentResolveActions = documentHistoryList.stream()
-                .filter(DocumentHistoryDTO::isResolved)
-                .map(this::translateToResolveActionItem)
-                .collect(Collectors.toList());
-
-        documentSendActions.addAll(documentResolveActions);
-        return documentSendActions;
-    }
-
-    private DocumentTimelineItemDTO translateToSendActionItem(DocumentHistoryDTO documentHistoryDTO) {
-        DocumentTimelineItemDTO documentTimelineItemDTO = new DocumentTimelineItemDTO();
-
-        documentTimelineItemDTO.setAction(DocumentAction.SEND.toString());
-        documentTimelineItemDTO.setActor(documentHistoryDTO.getSender());
-        documentTimelineItemDTO.setDate(documentHistoryDTO.getSentDate());
-        documentTimelineItemDTO.setMessage(documentHistoryDTO.getSentMessage());
-        documentTimelineItemDTO.setInternalRecipient(documentHistoryDTO.getInternalRecipient());
-        documentTimelineItemDTO.setExternalRecipient(documentHistoryDTO.getExternalRecipient());
-
-        return documentTimelineItemDTO;
-    }
-
-    private DocumentTimelineItemDTO translateToResolveActionItem(DocumentHistoryDTO documentHistoryDTO) {
-        DocumentTimelineItemDTO documentTimelineItemDTO = new DocumentTimelineItemDTO();
-
-        documentTimelineItemDTO.setAction(DocumentAction.RESOLVE.toString());
-        documentTimelineItemDTO.setActor(documentHistoryDTO.getInternalRecipient());
-        documentTimelineItemDTO.setDate(documentHistoryDTO.getResolvedDate());
-        documentTimelineItemDTO.setMessage(documentHistoryDTO.getResolvedMessage());
-
-        return documentTimelineItemDTO;
     }
 }

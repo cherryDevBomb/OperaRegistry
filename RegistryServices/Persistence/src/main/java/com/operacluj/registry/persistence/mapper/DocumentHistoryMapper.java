@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.Optional;
 
 @Component
@@ -18,7 +18,7 @@ public class DocumentHistoryMapper implements RowMapper<DocumentHistory> {
         documentHistory.setDocumentHistoryId(resultSet.getInt("documenthistoryid"));
         documentHistory.setRegistryNumber(resultSet.getInt("registrynumber"));
 
-        documentHistory.setSentDate(resultSet.getDate("sentdate").toLocalDate());
+        documentHistory.setSentDate(resultSet.getTimestamp("sentdate").toLocalDateTime());
         documentHistory.setSender(resultSet.getInt("sender"));
         documentHistory.setSentMessage(resultSet.getString("sentmessage"));
 
@@ -28,8 +28,8 @@ public class DocumentHistoryMapper implements RowMapper<DocumentHistory> {
         documentHistory.setResolved(resultSet.getBoolean("resolved"));
         documentHistory.setResolvedMessage(resultSet.getString("resolvedmessage"));
 
-        Optional<Date> optionalResolvedDate = Optional.ofNullable(resultSet.getDate("resolveddate"));
-        optionalResolvedDate.ifPresent(date -> documentHistory.setResolvedDate(date.toLocalDate()));
+        Optional<Timestamp> optionalResolvedDate = Optional.ofNullable(resultSet.getTimestamp("resolveddate"));
+        optionalResolvedDate.ifPresent(date -> documentHistory.setResolvedDate(date.toLocalDateTime()));
 
         return documentHistory;
     }

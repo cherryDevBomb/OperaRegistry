@@ -4,8 +4,8 @@ import com.operacluj.registry.business.domain.dto.DocumentDTO;
 import com.operacluj.registry.business.domain.dto.DocumentSearchResponseDTO;
 import com.operacluj.registry.business.domain.request.DocumentForm;
 import com.operacluj.registry.business.domain.request.SearchCriteria;
-import com.operacluj.registry.business.exception.OperationFailedException;
 import com.operacluj.registry.business.exception.EntityNotFoundException;
+import com.operacluj.registry.business.exception.OperationFailedException;
 import com.operacluj.registry.business.service.DocumentHistoryService;
 import com.operacluj.registry.business.service.DocumentService;
 import com.operacluj.registry.business.service.PaginationService;
@@ -30,6 +30,7 @@ import java.security.Principal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -64,7 +65,7 @@ public class DocumentServiceImpl implements DocumentService {
         LOG.info("Enter getDocumentByRegistryNumber {}", registryNumber);
         try {
             Document document = documentRepository.getDocumentByRegistryNumber(registryNumber);
-            return documentTranslator.translate(document);
+            return documentTranslator.translate(document, false);
         } catch (EmptyResultDataAccessException e) {
             LOG.error("Document with registry number {} not found", registryNumber);
             throw new EntityNotFoundException(ErrorMessageConstants.DOCUMENT_NOT_FOUND, e);
@@ -76,7 +77,8 @@ public class DocumentServiceImpl implements DocumentService {
         List<DocumentDTO> documents;
         if (searchCriteria.isPresent()) {
             documents = getDocumentsByCriteria(searchCriteria, page);
-        } else {
+        }
+        else {
             documents = getAllDocuments(page);
         }
 
@@ -90,11 +92,16 @@ public class DocumentServiceImpl implements DocumentService {
     @Override
     @Transactional(readOnly = true)
     public List<DocumentDTO> getAllDocuments(int page) {
-        LOG.info("Enter getAllDocuments for page {}", page);
-        return documentRepository.getAllDocuments(page)
-                .stream()
-                .map(document -> documentTranslator.translate(document))
-                .collect(Collectors.toList());
+        try {
+            LOG.info("Enter getAllDocuments for page {}", page);
+            return documentRepository.getAllDocuments(page)
+                    .stream()
+                    .map(document -> documentTranslator.translate(document, false))
+                    .collect(Collectors.toList());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ArrayList<>();
     }
 
     @Override
@@ -137,7 +144,10 @@ public class DocumentServiceImpl implements DocumentService {
             LocalDate fromDate = LocalDate.parse(searchCriteria.getFrom(), formatter).atStartOfDay().toLocalDate();
             LocalDate toDate = LocalDate.parse(searchCriteria.getTo(), formatter).atStartOfDay().toLocalDate();
             allDocuments = allDocuments.stream()
-                    .filter(document -> (document.getCreatedDate().isAfter(fromDate) && document.getCreatedDate().isBefore(toDate)))
+                    .filter(document -> {
+                        LocalDate createdDate = document.getCreatedDate().toLocalDate();
+                        return (createdDate.isAfter(fromDate) && createdDate.isBefore(toDate));
+                    })
                     .collect(Collectors.toList());
         }
 
@@ -151,7 +161,7 @@ public class DocumentServiceImpl implements DocumentService {
         }
 
         return allDocuments.stream()
-                .map(document -> documentTranslator.translate(document))
+                .map(document -> documentTranslator.translate(document, false))
                 .collect(Collectors.toList());
     }
 
@@ -178,7 +188,7 @@ public class DocumentServiceImpl implements DocumentService {
         LOG.info("Enter getAllDocumentsCreatedBy {}, archived = {}", user.getEmail(), archived);
         return documentRepository.getAllDocumentsCreatedBy(user.getUserId(), archived, page)
                 .stream()
-                .map(document -> documentTranslator.translate(document))
+                .map(document -> documentTranslator.translate(document, true))
                 .collect(Collectors.toList());
     }
 
@@ -189,7 +199,7 @@ public class DocumentServiceImpl implements DocumentService {
         LOG.info("Enter getAllDocumentsReceivedBy {}, resolved = {}", user.getEmail(), resolved);
         return documentRepository.getAllDocumentsReceivedBy(user.getUserId(), resolved, page)
                 .stream()
-                .map(document -> documentTranslator.translate(document))
+                .map(document -> documentTranslator.translate(document, true))
                 .collect(Collectors.toList());
     }
 
@@ -200,7 +210,7 @@ public class DocumentServiceImpl implements DocumentService {
         LOG.info("Enter getAllArchivedDocumentsReceivedBy {}", user.getEmail());
         return documentRepository.getAllArchivedDocumentsReceivedBy(user.getUserId(), page)
                 .stream()
-                .map(document -> documentTranslator.translate(document))
+                .map(document -> documentTranslator.translate(document, true))
                 .collect(Collectors.toList());
     }
 
