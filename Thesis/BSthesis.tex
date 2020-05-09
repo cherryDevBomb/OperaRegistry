@@ -24,13 +24,16 @@
 \usepackage{url}
 \usepackage{verbatim}
 \usepackage{xcolor}
+\usepackage[bottom]{footmisc}
+
+\newcommand{\code}[1]{\texttt{#1}}
 
 \geometry{a4paper,top=3cm,left=2cm,right=2cm,bottom=3cm}
 
 \pagestyle{fancy}
 \fancyhf{}
-\fancyhead[L]{Project's name}
-\fancyhead[R]{Author's name}
+% \fancyhead[L]{Project's name}
+\fancyhead[R]{\textsl{\leftmark}}
 \fancyfoot[C]{\thepage}
 
 \renewcommand{\headrulewidth}{0.5pt}
@@ -66,42 +69,49 @@ citecolor=cyan,
 \begin{document}
 
 \begin{titlepage}
-  \sloppy
-  \begin{center}
-    BABE\c S BOLYAI UNIVERSITY, CLUJ NAPOCA, ROM\^ ANIA
+    \sloppy
+    \begin{center}
+        BABE\c S BOLYAI UNIVERSITY CLUJ NAPOCA
 
-    FACULTY OF MATHEMATICS AND COMPUTER SCIENCE
+        FACULTY OF MATHEMATICS AND COMPUTER SCIENCE
 
-    \vspace{6cm}
+        SPECIALIZATION COMPUTER SCIENCE IN GERMAN
 
-    \Huge \textbf{TITLE}
+        \vspace{6cm}
 
-    \vspace{1cm}
+        \Huge \textbf{DIPLOMA THESIS}
 
-    \normalsize Diploma thesis
+        \vspace{0.5cm}
 
-  \end{center}
+        \Huge \textbf{Online Document Management System for the Romanian National Opera of Cluj-Napoca}
+
+    \end{center}
 
 
-  \vspace{5cm}
+    \vspace{3cm}
 
-  \begin{flushright}
-    \Large{\textbf{Author}}\\
-    \c Turcan Olga
-  \end{flushright}
+    \begin{flushleft}
+        \Large{\textbf{Supervisor:}}\\
+        Assoc. Prof. S\u{a}c\u{a}rea Christian
+    \end{flushleft}
 
-  \vspace{4cm}
+    \begin{flushright}
+        \Large{\textbf{Author:}}\\
+        \c Turcan Olga
+    \end{flushright}
 
-  \begin{center}
-    2020
-  \end{center}
+    \vspace{3cm}
+
+    \begin{center}
+        2020
+    \end{center}
 
 \end{titlepage}
 
 \pagenumbering{gobble}
 
 \begin{abstract}
-  Text of abstract.
+    Text of abstract.
 \end{abstract}
 
 
@@ -121,8 +131,9 @@ citecolor=cyan,
 \pagenumbering{arabic}
 
 \include{chapters/introduction}
+\include{chapters/sota}
 \include{chapters/problem}
-\include{chapters/technologies}
+\include{chapters/solution}
 \include{chapters/application}
 \include{chapters/conclusions}
 
