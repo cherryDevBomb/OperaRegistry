@@ -76,7 +76,29 @@ As seen in Fig. \ref{sequenceDiagram}, the registration process begins with a us
 \section{Architecture}
 \label{section:architecture}
 
+The Registry System Application has a layered architecture (See Fig. \ref{deployment}) which closely follows the principles of layered architecture design described in \ref{subsection:layerArchitecture}.
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=6.5in]{images/deployment}
+    \caption{Registry System Deployment Diagram}
+    \label{deployment}
+\end{figure}
+
+\begin{itemize}
+    \item The \textbf{persistence layer} is presented by a MySQL database. It connects to the application layer which queries the database for inserting, retrieving and updating data.
+    \item The \textbf{application layer} is a Spring Boot Application, which defines the domain, encapsulates the business logic and exposes a REST API which is accessed by the presentation layer.
+    \item The \textbf{presentation layer} is a React JS application which connects to the Spring Boot backend through HTTP requests. The Web GUI can be accessed by the user on any device from a Browser.
+\end{itemize}
+
+In the following subsections, we are going to analize the architecture of each component in detail.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=5in]{images/db}
+    \caption{Registry System Database Diagram}
+    \label{db}
+\end{figure}
 
 \section{Implementation}
 \label{section:implementation}
