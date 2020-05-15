@@ -87,18 +87,77 @@ The Registry System Application has a layered architecture (See Fig. \ref{deploy
 
 \begin{itemize}
     \item The \textbf{persistence layer} is presented by a MySQL database. It connects to the application layer which queries the database for inserting, retrieving and updating data.
-    \item The \textbf{application layer} is a Spring Boot Application, which defines the domain, encapsulates the business logic and exposes a REST API which is accessed by the presentation layer.
+    \item The \textbf{application layer} is a Spring Boot Application, which defines the domain, encapsulates the business logic and exposes a REST API which is used by the presentation layer to manipulate the data.
     \item The \textbf{presentation layer} is a React JS application which connects to the Spring Boot backend through HTTP requests. The Web GUI can be accessed by the user on any device from a Browser.
 \end{itemize}
 
 In the following subsections, we are going to analize the architecture of each component in detail.
 
+
+
+\subsection{Database}
+\label{subsection:dbLayer}
+
+Searching for a database schema that would support all required use cases, we came up with the design presented in Fig. \ref{db}. First of all, we have the \textbf{user} table, which, as the name suggests, will store information about the users of our app, like their name and department whitin the institution. An additional boolean field will be used to determine whether the user registration has been confirmed. The user table will also store authentication related data - the credentials the user provided at the moment of registration. One thing to mention here is that the password is encoded prior to storing it in the database using the \code{BCryptPasswordEncoder} provided by the Spring Security Framework. This assures that user passwords are not exposed even to persons that have direct access to the database.
+
 \begin{figure}[H]
     \centering
-    \includegraphics[width=5in]{images/db}
+    \includegraphics[width=6in]{images/db}
     \caption{Registry System Database Diagram}
     \label{db}
 \end{figure}
+
+The \textbf{document} table will store all registered documents, having the registry number as primary key. It is also the only primary key of this database that has no auto increment option set on it. Instead, we generate the next available number from code, each time a new document is registered into the system. This allows us more control over the way the number is generated. We already mentioned when describing use cases that a document can either be internal, or have external origin or destination, meaning that it is coming or should be sent to another institution. This information would be stored in the type field. One important thing to mention here is that a document cannot have external source and destination at the same time as it would technically not be related to the institution's registry anymore. That is why there are only three valid document types - internal, origin external and destination external. The table will also store a flag that will show the document's state as archived/not archived.
+
+As an internal document could have multiple other users as recipients, another table is needed to store this m:n relationship. We decided to call this table \textbf{documenthistory}, as it reflects not only the recipients of a document, but also the \textit{resolved} status of the document set by a specific user. In case a document has external destination, only one entry for this document will be created in the documenthistory table, with the destination value stored in the \textit{externalrecipient} column.
+
+Last but not least, we have a separate table for storing the uploaded files that represent the electronic version of the document. We only support uploading a single file per document now, but this has been kept as a separate table so that the design could support uploading multiple files if the feature would be desired in the future.
+
+
+
+\subsection{Spring Boot Application}
+\label{subsection:springBootApplication}
+
+As we already mentioned, the backend logic of our Registry System is represented by a Spring Boot Application. It is divided in 4 independent modules which interact to provide the full functionality of the app.
+
+\begin{itemize}
+    \item The \textbf{Model} is the first module in this list. It defines the application domain, that is the classes that represent our use case, like \code{User} and \code{Document}.
+    \item The \textbf{Persistence} module is the one that is responsible for interacting with the database. It defines and implements \textit{Repository} interfaces which retrieve, insert and update data using the Spring \code{NamedParameterJdbcTemplate} class. It also defines methods for mapping domain objects into JDBC parameters, as well as JDBC result sets into domain objects.
+    \item The \textbf{Business} module is the biggest and most important one, because it encapsulates the business logic of the entire application. It defines and implements \textit{Service} interfaces which provide the necessary logic for the desired functionality. It is the module that is handling the server-side validation of user input, translation of the domain objects into Data Transfer Objects (DTOs), as well as mapping exceptions that occur throughout the program to user defined business exceptions. This is also the module that handles all the security related logic.
+    \item The \textbf{Web} module contains \code{Controller} classes that define the REST API which will be used by the client. It maps a method to a specific URL (endpoint) that would be accessed in an HTTP request to trigger the method and defines the HTTP Response Status that should be returned.
+\end{itemize}
+
+For exception handling, we define a \code{@RestControllerAdvice} annotated class that will globally handle all exceptions that are thrown to the Controller layer (See \ref{controllerAdvice}). The way this works is that in this class we define a method for each exception type that could occur. This method then gets called each time an exception of that type is thrown. Just imagine that five different methods can throw an \code{EntityNotFoundException}. Instead of handling all those five cases separately, we only define a single method which returns a meaningful error message and the 404 HTTP status. In this way we centralize the place where errors are handled which provides better readability and significantly reduces the amount of repetitive boilerplate code.
+
+\begin{lstlisting}[language=Java, caption={Simplified example of global exception handling class}, label={controllerAdvice}]
+
+@RestControllerAdvice
+public class ControllerExceptionHandler {
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorResponse handleException(EntityNotFoundException e) {
+        return new ErrorResponse(e.getMessage(), e.getCause());
+    }
+
+    //other @ExceptionHandler methods follow
+}
+
+\end{lstlisting}
+
+With the same goal of reducing boilerplate code in mind, we have used the \textbf{Lombok} java library which provides great shortcuts in form of annotations for most used java code snippets. As an example, we used the \code{@Data} annotation on our model classes, which generates all the repetitive code that is normally associated with simple POJOs (Plain Old Java Objects) and beans: getters for all fields, setters for all non-final fields, toString, equals and hashCode implementations involving the fields of the class, and a constructor that initializes all required arguments. Another feature that we used from Lombok is the \code{@Slf4j} annotation, which automatically generates a Logger associated to the class it is used on.
+
+An important part of the application is the security logic implemented using the features provided by the Spring Security framework. An unauthenticated user would have access only to the registration and login pages. All other endpoints would need a valid JWT token to be accessed. In some cases it matters not only \textit{if} the user is authenticated, but also \textit{who} the user is. A good example is the \code{archiveDocument} endpoint which should only be called by the document issuer. All the other users are unauthorized to perform this method on that specific document. In that case, in addition to the JWT token validation, we need to manually verify the user's identity. Of course, after integrating the backend with the frontend app, a user won't have any way of triggering an unauthorized endpoint from the UI. For instance, we won't display \textit{Archive} buttons for documents issued by another users as the one that is currently logged in. However, the Spring Boot app is a standalone application that should not necessarily be tied to the frontend. Its endpoints could be triggered by directly accessing the URL they are associated with. This is why it is important to perform server-side validations such as verifying the identity of a user that is performing a request.
+
+
+
+\subsection{ReactJS Application}
+\label{subsection:reactJsApplication}
+
+The presentation layer of our Registry System is represented by a ReactJS application with Redux as a state container. The whole application state is kept into a global \textit{store}, making the app behavior predictable and easy to understand. REST HTTP requests sent to the backend are performed by the Redux \textit{actions}, keeping data fetching code separate from the other logic. The retrieved data is then passed to the \textit{reducers}, which update the application state. It is worth mentioning that with this approach, each time a reducer updates something from the application state that is showing on the currently displayed page, the page automatically rerenders, meaning that it updates the displayed information. This assures that the data displayed is always up-to-date without the necessity of a refresh or other interaction from the client.
+
+For building the UI, we used the \textbf{React Bootstrap} frontend library. It integrates the classical Bootstrap stylesheets into ready to use react components that follow the latest UI trends. Bootstrap was designed for developing responsive and mobile-first websites. We took advantage of this feature to custumize our UI so that it would be accessible from all kinds of devices, from mobile to tablets to PCs. In the following subsection, while providing screenshots for some of the app pages, we will sometimes include both the PC and mobile version to demonstrate how the app adapts to different screen sizes.
+
 
 \section{Implementation}
 \label{section:implementation}

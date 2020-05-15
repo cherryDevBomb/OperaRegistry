@@ -25,6 +25,8 @@
 \usepackage{verbatim}
 \usepackage{xcolor}
 \usepackage[bottom]{footmisc}
+\usepackage{listings}
+\usepackage{color}
 
 \newcommand{\code}[1]{\texttt{#1}}
 
@@ -55,6 +57,24 @@ linkcolor=black,
 citecolor=cyan,
 }
 % \pagestyle{plain}
+
+\definecolor{commentColor}{rgb}{0.0, 0.5, 0.0}
+\definecolor{keywordColor}{rgb}{0.0, 0.5, 1.0}
+\lstset{language=Java,
+  backgroundcolor=\color{white},
+  basicstyle=\ttfamily\footnotesize
+  breaklines=false,
+  captionpos=b,
+  escapeinside={\%*}{*)},
+  keepspaces=true,
+  tabsize=4,
+  showspaces=false,
+  showstringspaces=false,
+  commentstyle=\color{commentColor},
+  keywordstyle=\color{keywordColor},  
+  stringstyle=\color{red},
+  numberstyle=\tiny\color{codegray}
+}
 
 \setcounter{secnumdepth}{3}
 \setcounter{tocdepth}{3}
