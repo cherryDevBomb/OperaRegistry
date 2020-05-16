@@ -13,7 +13,7 @@ class DocumentTimelineTab extends Component {
       "CREATE": " a înregistrat documentul",
       "UPLOAD": " a încărcat un fișier",
       "SEND": " a trimis documentul către ",
-      "RESOLVE": " a aprobat documentul",
+      "RESOLVE": " a rezolvat documentul",
       "ARCHIVE": " a arhivat documentul"
     }
   }

@@ -75,7 +75,7 @@ class ReceivedDocuments extends Component {
       <React.Fragment>
         <Jumbotron className="mt-4 mx-2 mx-sm-4 mx-4 pt-3">
           <Tabs defaultActiveKey="open" id="my-documents-tab" variant="tabs" className="mt-3 pt-1 tabs">
-            <Tab eventKey="open" title="Neaprobate" className="tab-left">
+            <Tab eventKey="open" title="Nerezolvate" className="tab-left">
               {documentsReceivedOpen.map(document => (
                 <ReceivedDocumentCard
                   key={document.registryNumber}
@@ -90,7 +90,7 @@ class ReceivedDocuments extends Component {
                 </Col>
               </Row>
             </Tab>
-            <Tab eventKey="resolved" title="Aprobate" className="tab-right">
+            <Tab eventKey="resolved" title="Rezolvate" className="tab-right">
               {documentsReceivedResolved.map(document => (
                 <ReceivedDocumentCard
                   key={document.registryNumber}

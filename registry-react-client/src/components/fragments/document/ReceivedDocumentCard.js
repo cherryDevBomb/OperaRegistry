@@ -80,13 +80,13 @@ class ReceivedDocumentCard extends Component {
     } else if (!docHistory.resolved) {
       headerButton = (
         <Button variant="archive" size="sm" className="float-right" onClick={this.onResolveClick.bind(this)}>
-          Aprobă
+          Rezolvă
         </Button>
       )
     } else {
       headerButton = (
         <Button variant="archive" size="sm" className="float-right" disabled={true}>
-          Aprobat
+          Rezolvat
         </Button>
       )
     }
@@ -121,7 +121,7 @@ class ReceivedDocumentCard extends Component {
       <React.Fragment>
         <DocumentOperationModal ref={this.resolveModalRef}
                                 documentOperationCallback={this.resolveCallback.bind(this)}
-                                actionName="aprobați"/>
+                                actionName="rezolvați"/>
 
         {resendModal}
 

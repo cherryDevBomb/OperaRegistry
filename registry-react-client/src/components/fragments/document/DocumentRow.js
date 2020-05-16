@@ -47,7 +47,7 @@ class DocumentRow extends Component {
     } else {
       origin = (
         <React.Fragment>
-          external motherfucker
+          {document.origin}
         </React.Fragment>
       )
     }
