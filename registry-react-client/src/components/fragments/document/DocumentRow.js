@@ -7,10 +7,23 @@ import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {downloadFile} from "../../../actions/fileActions";
 import {DESTINATION_EXTERNAL_DOC_TYPE, ORIGIN_EXTERNAL_DOC_TYPE} from "../../../constants/appConstants";
+import DocumentDetailsModal from "./DocumentDetailsModal";
+import Tooltip from "react-bootstrap/Tooltip";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 
 let Highlight = require('react-highlighter');
 
 class DocumentRow extends Component {
+  constructor(props) {
+    super(props);
+    this.detailsModalRef = React.createRef();
+  }
+
+  onDetailsClick(e) {
+    e.preventDefault();
+    this.detailsModalRef.current.handleShow(this.props.document);
+
+  }
 
   onDownloadClick(e) {
     e.preventDefault();
@@ -20,6 +33,7 @@ class DocumentRow extends Component {
 
   render() {
     const {document} = this.props;
+    const currentUserId = parseInt(this.props.securityReducer.user.id);
 
     const registryNumber = (
       <Badge variant="regNr">
@@ -74,27 +88,56 @@ class DocumentRow extends Component {
       )
     }
 
-    const download = document.hasAttachment ?
-      <i className="fas fa-file-download" onClick={this.onDownloadClick.bind(this)}/> : "";
+    const isSender = document.createdBy.userId === currentUserId;
+    const isRecipient = document.documentHistory.some(dh => (dh.internalRecipient && dh.internalRecipient.userId === currentUserId));
+    const shouldDisplayFile = document.hasAttachment && (isSender || isRecipient);
+    const actions = shouldDisplayFile ?
+      (
+        <React.Fragment>
+          <OverlayTrigger placement="auto" overlay={<Tooltip>Vizualizează detalii</Tooltip>}>
+            <i className="fas fa-info-circle mr-2" onClick={this.onDetailsClick.bind(this)}/>
+          </OverlayTrigger>
+          <OverlayTrigger placement="auto" overlay={<Tooltip>Descarcă fișier</Tooltip>}>
+            <i className="fas fa-file-download fa-file-download-rem4" onClick={this.onDownloadClick.bind(this)}/>
+          </OverlayTrigger>
+        </React.Fragment>
+      ) :
+      (
+        <React.Fragment>
+          <OverlayTrigger placement="auto" overlay={<Tooltip>Vizualizează detalii</Tooltip>}>
+            <i className="fas fa-info-circle mr-2" onClick={this.onDetailsClick.bind(this)}/>
+          </OverlayTrigger>
+          <i className="fas fa-file-download fa-file-download-rem4 icon-invisible"/>
+        </React.Fragment>
+      )
 
     return (
-      <tr>
-        <td style={{width: "12%"}} className="text-center">{registryNumber}</td>
-        <td style={{width: "13%"}}>{origin}</td>
-        <td style={{width: "15%"}} className="text-center">{document.createdDate}</td>
-        <td style={{width: "30%"}}>
-          <Highlight search={this.props.searchStr}>{document.title}</Highlight>
-        </td>
-        <td style={{width: "15%"}}>{destination}</td>
-        <td style={{width: "10%"}} className="text-center">{archivingState}</td>
-        <td style={{width: "5%"}} className="text-center">{download}</td>
-      </tr>
+      <React.Fragment>
+        <DocumentDetailsModal document={this.props.document} ref={this.detailsModalRef}/>
+
+        <tr>
+          <td style={{width: "12%"}} className="text-center">{registryNumber}</td>
+          <td style={{width: "13%"}}>{origin}</td>
+          <td style={{width: "15%"}} className="text-center">{document.createdDate}</td>
+          <td style={{width: "30%"}}>
+            <Highlight search={this.props.searchStr}>{document.title}</Highlight>
+          </td>
+          <td style={{width: "15%"}}>{destination}</td>
+          <td style={{width: "10%"}} className="text-center">{archivingState}</td>
+          <td style={{width: "5%"}} className="text-center">{actions}</td>
+        </tr>
+      </React.Fragment>
     );
   }
 }
 
 DocumentRow.propTypes = {
+  securityReducer: PropTypes.object.isRequired,
   downloadFile: PropTypes.func.isRequired
 };
 
-export default connect(null, {downloadFile})(DocumentRow);
+const mapStateToProps = state => ({
+  securityReducer: state.securityReducer,
+});
+
+export default connect(mapStateToProps, {downloadFile})(DocumentRow);

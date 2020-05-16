@@ -63,7 +63,7 @@ class DocumentTable extends Component {
               <th className="th" style={{width: "30%"}}>Titlu</th>
               <th className="th" style={{width: "15%"}}>Destinatar</th>
               <th className="th text-center" style={{width: "10%"}}>Stare</th>
-              <th className="th text-center" style={{width: "5%"}}>Atașament</th>
+              <th className="th text-center" style={{width: "5%"}}>Acțiuni</th>
             </tr>
             </thead>
             <tbody>

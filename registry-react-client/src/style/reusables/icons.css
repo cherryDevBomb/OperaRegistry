@@ -27,6 +27,10 @@
   cursor: pointer;
 }
 
+.fa-file-download-rem4 {
+  font-size: 1.4rem;
+}
+
 .fa-file-upload {
   color: #4f4538;
   font-size: 1.5rem;
@@ -35,6 +39,25 @@
 .fa-file-upload:hover {
   color: #bd8f3a;
   cursor: pointer;
+}
+
+.fa-info-circle {
+  color: #4f4538;
+  font-size: 1.4rem;
+}
+
+.fa-info-circle:hover {
+  color: #bd8f3a;
+  cursor: pointer;
+}
+
+.icon-invisible {
+  color: transparent;
+}
+
+.icon-invisible:hover {
+  color: transparent;
+  cursor: auto;
 }
 
 .fa-search {
