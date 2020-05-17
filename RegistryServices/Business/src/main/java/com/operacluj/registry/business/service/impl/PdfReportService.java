@@ -48,6 +48,7 @@ public class PdfReportService implements ReportService {
     @Override
     public ByteArrayResource generateReport(SearchCriteria searchCriteria) {
         List<DocumentDTO> documents = documentService.getDocumentsByCriteria(searchCriteria);
+        Collections.reverse(documents);
 
         table = new PdfPTable(TABLE_HEADER_COLUMN_WIDTHS);
         table.setWidthPercentage(95);

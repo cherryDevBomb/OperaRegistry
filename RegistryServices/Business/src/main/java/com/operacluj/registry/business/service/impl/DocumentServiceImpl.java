@@ -31,6 +31,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -129,10 +130,11 @@ public class DocumentServiceImpl implements DocumentService {
         }
 
         if (StringUtils.hasText(searchCriteria.getSearchString())) {
-            String searchStrLower = searchCriteria.getSearchString().toLowerCase();
+            String searchStrLower = searchCriteria.getSearchString().toLowerCase().trim();
+            List<String> searchItems = Arrays.asList(searchStrLower.split(" "));
             allDocuments = allDocuments.stream()
-                    .filter(document -> (document.getTitle().toLowerCase().contains(searchStrLower) ||
-                            String.valueOf(document.getRegistryNumber()).contains(searchStrLower)))
+                    .filter(document -> (searchItems.stream().allMatch(item -> document.getTitle().toLowerCase().contains(item))) ||
+                            String.valueOf(document.getRegistryNumber()).contains(searchStrLower))
                     .collect(Collectors.toList());
         }
 

@@ -10,8 +10,7 @@ import {DESTINATION_EXTERNAL_DOC_TYPE, ORIGIN_EXTERNAL_DOC_TYPE} from "../../../
 import DocumentDetailsModal from "./DocumentDetailsModal";
 import Tooltip from "react-bootstrap/Tooltip";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
-
-let Highlight = require('react-highlighter');
+import Highlighter from "react-highlight-words";
 
 class DocumentRow extends Component {
   constructor(props) {
@@ -111,6 +110,9 @@ class DocumentRow extends Component {
         </React.Fragment>
       )
 
+    const searchItems = this.props.searchStr.trim().split(" ");
+    console.log(searchItems);
+
     return (
       <React.Fragment>
         <DocumentDetailsModal document={this.props.document} ref={this.detailsModalRef}/>
@@ -120,7 +122,12 @@ class DocumentRow extends Component {
           <td style={{width: "13%"}}>{origin}</td>
           <td style={{width: "15%"}} className="text-center">{document.createdDate}</td>
           <td style={{width: "30%"}}>
-            <Highlight search={this.props.searchStr}>{document.title}</Highlight>
+            <Highlighter
+              highlightClassName="highlight"
+              searchWords={searchItems}
+              autoEscape={true}
+              textToHighlight={document.title}
+            />
           </td>
           <td style={{width: "15%"}}>{destination}</td>
           <td style={{width: "10%"}} className="text-center">{archivingState}</td>

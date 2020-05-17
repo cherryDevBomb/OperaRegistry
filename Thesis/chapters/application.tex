@@ -156,10 +156,116 @@ An important part of the application is the security logic implemented using the
 
 The presentation layer of our Registry System is represented by a ReactJS application with Redux as a state container. The whole application state is kept into a global \textit{store}, making the app behavior predictable and easy to understand. REST HTTP requests sent to the backend are performed by the Redux \textit{actions}, keeping data fetching code separate from the other logic. The retrieved data is then passed to the \textit{reducers}, which update the application state. It is worth mentioning that with this approach, each time a reducer updates something from the application state that is showing on the currently displayed page, the page automatically rerenders, meaning that it updates the displayed information. This assures that the data displayed is always up-to-date without the necessity of a refresh or other interaction from the client.
 
-For building the UI, we used the \textbf{React Bootstrap} frontend library. It integrates the classical Bootstrap stylesheets into ready to use react components that follow the latest UI trends. Bootstrap was designed for developing responsive and mobile-first websites. We took advantage of this feature to custumize our UI so that it would be accessible from all kinds of devices, from mobile to tablets to PCs. In the following subsection, while providing screenshots for some of the app pages, we will sometimes include both the PC and mobile version to demonstrate how the app adapts to different screen sizes.
+For building the UI, we used the \textbf{React Bootstrap} frontend library. It integrates the classical Bootstrap stylesheets into ready to use react components that follow the latest UI trends. Bootstrap was designed for developing responsive and mobile-first websites. We took advantage of this feature to custumize our UI so that it would be accessible from all kinds of devices, from mobile to tablets to PCs. In the following subsection, while providing screenshots of the app, we will sometimes include both the PC and mobile version to demonstrate how the app adapts to different screen sizes.
 
 
-\section{Implementation}
-\label{section:implementation}
 
+\section{User experience}
+\label{section:userExperience}
+
+Now that we have described the use cases and architecture, we can finally present the resulting application. As we mentioned before, a user would have access to the app by logging in to his or her account (See Fig. \ref{login})
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=5.5in]{images/app/login_filled}
+    \caption{Login page}
+    \label{login}
+\end{figure}
+
+After logging in, the user is redirected to the main page of the application, where all registered documents can be viewed (See Fig. \ref{documentsTable}). The documents are presented in form of a table, which shows the document registry number, issuer, date of registration, title, recipients and state (archived or not archived). Designing this table, we had in mind the idea that it should give an overview about each document and include only the most important information so that the table won't get cluttered and difficult to read. That is why, for internal issuers and recipients, only the full name is presented in the table, but if you hover on the name, additional information like the employee's email and department is displayed as a popup. Additional details like the date the document was sent to each recipient, whether and when it was resolved and the archiving date are displayed as a modal dialog when the user clicks the information button. Also, for documents that were issued or received by the logged user and have a file previously uploaded, a button for downloading the attached file will be displayed. And of course since the total number of documents will grow more and more, the request that retrieves the document list from the backend is paginated, meaning that we load and display only 10 documents at a time.
+
+The page also includes a search bar which you can use to search documents by registry number or title. If you type in some text, all documents containing the search term in the title will be shown and the exact place where the search term appeas will be highlighted. If you enter more that a single word, the system will search for documents which contain all those terms in the title, but without taking into consideration the order they appear in (See Fig. \ref{searchInline}).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=5in]{images/app/search_inline_mix}
+    \caption{Document search}
+    \label{searchInline}
+\end{figure}
+
+\begin{figure}[ht]
+    \centering
+    \subfloat[Overview]{{\includegraphics[width=4.7in]{images/app/table}}}%
+    \qquad
+    \subfloat[Details]{{\includegraphics[width=4.7in]{images/app/table_details}}}%
+    \caption{Viewing all registered documents}
+    \label{documentsTable}
+\end{figure}
+
+The system also provides the functionality of an advanced search, accessible by expanding the search bar dropdown (See Fig. \ref{advancedSearch}). A wide range of criteria could be used to filter the search result. You could for example search for documents issued only by external institutions, or only by internal users of the app. You could narrow the search even more, searching for documents issued by a specific list of users. The same options are available for specifying recipients. You could choose to search for documents based on their state, in case, for example, you want to see which documents are not archived yet. There is also the option to show only those documents that were registered in a specific timeframe. The system offers some predefined options, like yesterday, in the last 7 days and in the last month, but you could also enter whatever date interval you like. Finally, you could still specify a string if you wish to search by title but narrow your results using additional criteria.
+
+\begin{figure}[ht]
+    \centering
+    \subfloat[On desktop]{{\includegraphics[width=4.5in]{images/app/search_extended}}}%
+    \qquad
+    \subfloat[On mobile]{{\includegraphics[width=1.55in]{images/app/search_extended_mobile}}}%
+    \caption{Advanced document search}
+    \label{advancedSearch}
+\end{figure}
+
+The app provides the functionality of generating a report in PDF or XLS formats, containing all documents that meet certain criteria specified in the search. This way, the report could be printed so that a physical copy of the document list would be saved. The table from the report differs slightly from the one in the app, containing some columns that present additional information (See Fig. \ref{pdfReport}). These were added so the report would include the whole information about a document, but also to resemble the format of the manual register that is currently used to keep track of the documents within the institution.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=5.5in]{images/app/report_pdf}
+    \caption{Generated report in PDF format}
+    \label{pdfReport}
+\end{figure}
+
+Another important page is the one that allows registering new documents into the system. The user is prompted to complete input fields related to the document. All of them are mandatory, except the message which is an optional field for the user to send a comment to the document receivers. The origin and destination type of the document could be changed from internal to external using toggle buttons. When specifying recipients, search suggestions would appear based on the string the user types (See Fig. \ref{createDocument}). The suggestions would show all users with a matching name or surname, grouped by department. After the registration is confirmed, the user is asked to upload a file for the newly created document. If this step is skipped, the file can still be uploaded later.
+
+\begin{figure}[ht]
+    \centering
+    \subfloat[Completing input fields]{{\includegraphics[width=4.7in]{images/app/new_document}}}%
+    \qquad
+    \subfloat[Uploading a file]{{\includegraphics[width=4.7in]{images/app/new_document_upload}}}%
+    \caption{The \textit{Create new document} flow}
+    \label{createDocument}
+\end{figure}
+
+For each registered document with internal destination, an email notification is sent to each receiver to inform that a new document has been sent to them (See Fig. \ref{receivedEmail}). To view the document, the user can click the \textit{View in app} button from the mail, which will redirect him to the \textit{Received Documents} page. Another option is to manually navigate to it.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=5.5in]{images/app/document_received_mail}
+    \caption{Email notification when a document is received}
+    \label{receivedEmail}
+\end{figure}
+
+The Received Documents is split into three different tabs (See Fig. \ref{receivedDocs}). The first tab shows documents that the user had received but not yet resolved.
+
+\begin{figure}[ht]
+    \centering
+    \subfloat[On desktop]{{\includegraphics[width=4.5in]{images/app/received_not_resolved}}}%
+    \qquad
+    \subfloat[On mobile]{{\includegraphics[width=1.55in]{images/app/received_mobile}}}%
+    \caption{The \textit{Received documents} page}
+    \label{receivedDocs}
+\end{figure}
+
+An action that the user can take is to further send the document to another user. In that case, suggestions will be displayed in the same way they were at document creation, only this time excluding users that already received the document (See Fig. \ref{resendModal})
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=5.5in]{images/app/received_resend_modal}
+    \caption{Sending a received document to other users}
+    \label{resendModal}
+\end{figure}
+
+After all necessary actions related to the document were performed, the user can mark the document as resolved by clicking the \textbf{Resolve} button, in which case a modal dialog would be shown asking for confirmation and offering the possibility to specify an optional resolving comment. After that, the document would move to the second tab, that looks almost the same except the Resolve button is disabled since the action was aleady taken.
+
+The last tab shows documents that were already archived by their issuers. It is logical to assume that this tab contains documents that the user marked as resolved at some previous point. However, it may also include documents that had multiple recipients and got archived after being resolved by another user. Keeping this kind of documents in a separate tab is especially important to let the user focus on the documents that need action.
+
+In addition to managing received documents, the user can also access the documents he or she created. The \textit{My Documents} page shows documents in a similar layout, this time in only two tabs to separate the archived ones from the rest. The Resolve button is of course replaced by the Archive button, although their appearance and behavior are quite similar.
+
+The resemblance doesn't end here. Other than the different action buttons in the upper right corner, the document cards from both pages have the same design and functionality. The card contains two tabs. The first one displays general information about the document. Additional information about the issuer or receivers could be viewed by hovering on their names to display a popup (See Fig. \ref{documentCard}).  The user can download files attached to the document, or upload one if no file present. Also, if a document got resolved by someone, a green checkmark is placed near the receiver's name to indicate this. It is especially useful for tracking the status of created documents. The second tab shows all actions performed on the document from its creation to the state it is in now in form of a timeline. Actions are sorted descending by date and include the custom messages given by the users at the moment of creation, resolving or archiving.
+
+\begin{figure}[H]
+    \centering
+    \subfloat[Description tab]{{\includegraphics[width=4.5in]{images/app/document_description}}}%
+    \qquad
+    \subfloat[History tab]{{\includegraphics[width=4.5in]{images/app/document_timeline}}}%
+    \caption{Example of a document card}
+    \label{documentCard}
+\end{figure}
 

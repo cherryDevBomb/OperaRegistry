@@ -109,7 +109,7 @@ class MyDocumentCard extends Component {
                 <Col xs={{span: 1, order: 1}} className="my-auto">
                   <Button variant="number">{document.registryNumber}</Button>
                 </Col>
-                <Col xs={{span: 12, order: 3}} sm={{span: "auto", order: 2}} className="my-auto">
+                <Col xs={{span: 12, order: 3}} sm={{span: "auto", order: 2}} className="my-auto pt-3 pt-sm-0">
                   <Card.Title>{document.title}</Card.Title>
                 </Col>
                 <Col xs={{span: "auto", order: 2}} sm={{span: "auto", order: 3}} className="my-0 py-0 ml-auto">
