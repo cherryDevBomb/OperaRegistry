@@ -39,7 +39,7 @@ export default class HelpPage extends Component {
       let stepArray = [];
       for (let stepIndex = 0; stepIndex < faq.steps.length; stepIndex++) {
         stepArray.push(
-          <Row noGutters key={faqIndex.toString() + stepIndex.toString()}>
+          <Row noGutters className="mb-2 mx-5" key={faqIndex.toString() + stepIndex.toString()}>
             <Col xs="auto">
               <Badge variant="primary-round" pill className="mr-3">{stepIndex + 1}</Badge>
             </Col>
@@ -52,10 +52,13 @@ export default class HelpPage extends Component {
 
       faqsCards.push(
         <Card key={faqIndex.toString()}>
-          <Accordion.Toggle as={Card.Header} className="accordion-toggle" onClick={(e) => this.toggled(e, faqIndex)}
+          <Accordion.Toggle as={Card.Header} className="accordion-toggle"
+                            onClick={(e) => this.toggled(e, faqIndex)}
                             eventKey={faqIndex.toString()}>
-            {this.getChevron(faqIndex)}
-            {faq.question}
+            <Row>
+              <Col xs="auto">{this.getChevron(faqIndex)}</Col>
+              <Col xs="auto" className={this.state.activeKey === faqIndex ? "font-weight-bold" : ""}>{faq.question}</Col>
+            </Row>
           </Accordion.Toggle>
           <Accordion.Collapse eventKey={faqIndex.toString()}>
             <Card.Body>
