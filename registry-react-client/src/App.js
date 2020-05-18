@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./style/theme.css";
 import "./style/App.css";
+import "./style/reusables/accordion.css"
 import "./style/reusables/badge.css"
 import "./style/reusables/autosuggest.css"
 import "./style/reusables/btn-variants.css"
@@ -24,6 +25,7 @@ import LandingPage from "./components/layout/LandingPage";
 import Register from "./components/layout/Register";
 import {
   DOCUMENTS_PATH,
+  HELP_PATH,
   MY_DOCUMENTS_PATH,
   NEW_DOCUMENT_PATH,
   RECEIVED_DOCUMENTS_PATH,
@@ -36,6 +38,7 @@ import {logout} from "./actions/securityActions";
 import SecuredRoute from "./components/navigation/SecuredRoute";
 import MyDocuments from "./components/layout/MyDocuments";
 import ReceivedDocuments from "./components/layout/ReceivedDocuments";
+import HelpPage from "./components/layout/HelpPage";
 
 const jwtToken = localStorage.jwtToken;
 
@@ -86,11 +89,11 @@ class App extends Component {
                 path={NEW_DOCUMENT_PATH}
                 component={CreateDocument}
               />
-              {/*<SecuredRoute*/}
-              {/*  exact*/}
-              {/*  path={NEW_DOCUMENT_UPLOAD_FILE_PATH}*/}
-              {/*  component={UploadAfterCreate}*/}
-              {/*/>*/}
+              <SecuredRoute
+                exact
+                path={HELP_PATH}
+                component={HelpPage}
+              />
             </Switch>
           </div>
         </Router>

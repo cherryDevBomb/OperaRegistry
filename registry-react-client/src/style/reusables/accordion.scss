@@ -1,0 +1,9 @@
+@import "../colors";
+
+.accordion-toggle.card-header {
+  padding: 1em 2em;
+}
+.accordion-toggle.card-header:hover {
+  background-color: $gray-lighter;
+  //color: $gold;
+}

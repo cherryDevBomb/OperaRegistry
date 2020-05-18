@@ -14,7 +14,7 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { logout } from "../../actions/securityActions";
-import {RECEIVED_DOCUMENTS_PATH} from "../../properties";
+import {HELP_PATH, RECEIVED_DOCUMENTS_PATH} from "../../properties";
 import {getFullName} from "../../utils/userUtils";
 
 class PageHeader extends Component {
@@ -68,7 +68,11 @@ class PageHeader extends Component {
             }
           >
             <NavDropdown.Item><i className="fas fa-id-card" /> Contul tău</NavDropdown.Item>
+
+            <LinkContainer to={HELP_PATH}>
             <NavDropdown.Item><i className="fas fa-question" /> Ajutor</NavDropdown.Item>
+            </LinkContainer>
+
             <NavDropdown.Divider />
 
             <LinkContainer to={LOGOUT_PATH} onClick={this.logout.bind(this)}>

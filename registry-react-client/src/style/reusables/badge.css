@@ -29,4 +29,15 @@
   border-radius: 0.25rem;
 }
 
+.badge-primary-round {
+  border-radius: 1rem;
+  width: 1.7em;
+  height: 1.7em;
+  padding: 3px;
+  padding-top: 4px;
+  text-align: center;
+  color: white;
+  background-color: #ac1b21;
+}
+
 /*# sourceMappingURL=badge.css.map */
