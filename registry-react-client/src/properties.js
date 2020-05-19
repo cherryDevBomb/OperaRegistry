@@ -32,3 +32,5 @@ export const DOCUMENTS_PATH = "/documents";
 export const MY_DOCUMENTS_PATH = "/my-documents";
 export const RECEIVED_DOCUMENTS_PATH = "/received-documents";
 export const NEW_DOCUMENT_PATH = "/new-document";
+
+export const HELP_PATH = "/help";

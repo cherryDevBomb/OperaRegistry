@@ -6,4 +6,15 @@
   background-color: #eceeef;
 }
 
+.accordion-card {
+  border: none;
+  border-radius: 0.3em;
+}
+
+.accordion-icon {
+  margin-left: 0.5em;
+  margin-right: 0;
+  cursor: auto;
+}
+
 /*# sourceMappingURL=accordion.css.map */
