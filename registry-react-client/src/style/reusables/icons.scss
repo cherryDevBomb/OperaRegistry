@@ -30,6 +30,13 @@
 .fa-file-download-rem4 {
   font-size: 1.4rem;
 }
+.fa-file-download-rem1 {
+  font-size: 1.2rem;
+}
+.fa-file-download-rem1:hover {
+  color: $brownish-gray;
+  cursor: auto;
+}
 
 .fa-file-upload {
   color: $brownish-gray ;
@@ -38,6 +45,13 @@
 .fa-file-upload:hover {
   color: $gold;
   cursor: pointer;
+}
+.fa-file-upload-rem1 {
+  font-size: 1.2rem;
+}
+.fa-file-upload-rem1:hover {
+  color: $brownish-gray;
+  cursor: auto;
 }
 
 .fa-info-circle {

@@ -31,6 +31,15 @@
   font-size: 1.4rem;
 }
 
+.fa-file-download-rem1 {
+  font-size: 1.2rem;
+}
+
+.fa-file-download-rem1:hover {
+  color: #4f4538;
+  cursor: auto;
+}
+
 .fa-file-upload {
   color: #4f4538;
   font-size: 1.5rem;
@@ -39,6 +48,15 @@
 .fa-file-upload:hover {
   color: #bd8f3a;
   cursor: pointer;
+}
+
+.fa-file-upload-rem1 {
+  font-size: 1.2rem;
+}
+
+.fa-file-upload-rem1:hover {
+  color: #4f4538;
+  cursor: auto;
 }
 
 .fa-info-circle {
