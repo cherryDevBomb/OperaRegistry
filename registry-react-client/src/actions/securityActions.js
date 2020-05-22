@@ -5,7 +5,7 @@ import { LOGIN_PATH } from "../properties";
 import { LOGIN_URL } from "../properties";
 import { GET_ERRORS } from "./types.js";
 import { SET_CURRENT_USER } from "./types.js";
-import setJWTToken from "../utils/setJWTToken.js";
+import setJWTToken from "../utils/securityUtils.js";
 import jwt_decode from "jwt-decode";
 
 export const createUser = (newUser, history) => async dispatch => {

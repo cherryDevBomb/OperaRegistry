@@ -47,6 +47,7 @@ class ReceivedDocuments extends Component {
     const tab = resolved ? "activePageResolvedTrue" : "activePageResolvedFalse";
     this.setState({[tab]: newPage}, () => {
       this.loadCurrentPage(resolved);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   }
 
@@ -55,6 +56,7 @@ class ReceivedDocuments extends Component {
     const tab = "activePageArchived";
     this.setState({[tab]: newPage}, () => {
       this.loadCurrentPageForArchived();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   }
 

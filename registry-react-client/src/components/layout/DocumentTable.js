@@ -13,7 +13,6 @@ import {getNewPageNumber, getPagination} from "../../utils/paginationUtils";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import {generateReport} from "../../actions/reportActions";
-import Button from "react-bootstrap/Button";
 
 class DocumentTable extends Component {
   constructor(props) {
@@ -37,6 +36,7 @@ class DocumentTable extends Component {
     const newPage = getNewPageNumber(e, this.state.activePage, this.props.documentReducer.documentsPageCount);
     this.setState({activePage: newPage}, () => {
       this.loadCurrentPage();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   }
 
@@ -104,7 +104,8 @@ class DocumentTable extends Component {
             </Row>
             <Row className="mt-4 mb-5">
               <Col xs="auto" className="mx-auto position-relative">
-                <span className="empty-search">Ne pare rău, nu am găsit nici un document pentru căutarea dumneavoastră</span>
+                <span
+                  className="empty-search">Ne pare rău, nu am găsit nici un document pentru căutarea dumneavoastră</span>
               </Col>
             </Row>
           </Jumbotron>

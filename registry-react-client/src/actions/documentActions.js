@@ -182,7 +182,7 @@ export const resolveDocument = (registryNumber, resolvedMessage, pageNumber) => 
 export const resendDocument = (registryNumber, documentHistory, pageNumber, callbackName) => async dispatch => {
   try {
     const path = properties.serverURL + DOCUMENTS_URL + "/" + registryNumber;
-    const res = await axios.post(path, documentHistory);
+    await axios.post(path, documentHistory);
     dispatch({
       type: DOCUMENT_RESENT
     });

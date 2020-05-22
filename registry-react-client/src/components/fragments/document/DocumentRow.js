@@ -111,7 +111,6 @@ class DocumentRow extends Component {
       )
 
     const searchItems = this.props.searchStr.trim().split(" ");
-    console.log(searchItems);
 
     return (
       <React.Fragment>

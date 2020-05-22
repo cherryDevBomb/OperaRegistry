@@ -40,6 +40,7 @@ class MyDocuments extends Component {
     const tab = archived ? "activePageArchivedTrue" : "activePageArchivedFalse";
     this.setState({[tab]: newPage}, () => {
       this.loadCurrentPage(archived);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   }
 

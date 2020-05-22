@@ -29,6 +29,8 @@ class PageHeader extends Component {
   render() {
     const {validToken, user} = this.props.securityReducer;
 
+    const username = getFullName(user) === "undefined undefined" ? "" : getFullName(user);
+
     const userIsAuthenticated = (
       <React.Fragment>
         <Navbar.Toggle aria-controls="navbar-authenticated"/>
@@ -65,7 +67,7 @@ class PageHeader extends Component {
               title={
                 <span>
                 <i className="fas fa-user"/>
-                  {getFullName(user)}
+                  {username}
               </span>
               }
             >

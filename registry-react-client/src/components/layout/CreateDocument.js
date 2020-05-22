@@ -61,7 +61,6 @@ class CreateDocument extends Component {
   }
 
   isInputValid() {
-    const errorReducer = this.state.errorReducer;
     if ((this.state.isOriginExternal && this.state.origin === "") ||
       (this.state.title === "") ||
       (this.state.isDestinationExternal && (!this.state.recipients || this.state.recipients.length === 0)) ||

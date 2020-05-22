@@ -48,6 +48,5 @@ export const getNewPageNumber = (e, currentPage, total) => {
       newPage = parseInt(e.target.text);
     }
   }
-  console.log(newPage)
   return newPage;
 }
