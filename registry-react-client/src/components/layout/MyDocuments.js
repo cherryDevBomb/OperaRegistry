@@ -10,6 +10,7 @@ import Pagination from "react-bootstrap/Pagination";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import {getNewPageNumber, getPagination} from "../../utils/paginationUtils";
+import {getNoDocumentsBanner} from "../../utils/noDocumentsBanner";
 
 class MyDocuments extends Component {
   constructor(props) {
@@ -54,39 +55,61 @@ class MyDocuments extends Component {
     let pagesArchivedFalse = getPagination(this.props.documentReducer.myOpenDocumentsPageCount, this.state.activePageArchivedFalse);
     let pagesArchivedTrue = getPagination(this.props.documentReducer.myArchivedDocumentsPageCount, this.state.activePageArchivedTrue);
 
+    let tabOpenContent;
+    if (myDocumentsOpen.length > 0) {
+      tabOpenContent = (
+        <React.Fragment>
+          {myDocumentsOpen.map(document => (
+            <MyDocumentCard
+              key={document.registryNumber}
+              document={document}
+              page={this.state.activePageArchivedFalse}
+              pageChangedAfterArchiveCallback={this.pageChangedAfterArchive.bind(this)}
+            ></MyDocumentCard>
+          ))}
+          <Row className="mt-4 mx-auto">
+            <Col xs={"auto"} className="mx-auto">
+              <Pagination onClick={(e) => this.pageChanged(e, false)}>{pagesArchivedFalse}</Pagination>
+            </Col>
+          </Row>
+        </React.Fragment>
+      )
+    } else {
+      tabOpenContent = getNoDocumentsBanner();
+    }
+
+    let tabArchivedContent;
+    if (myDocumentsArchived.length > 0) {
+      tabArchivedContent = (
+        <React.Fragment>
+          {myDocumentsArchived.map(document => (
+            <MyDocumentCard
+              key={document.registryNumber}
+              document={document}
+              page={this.state.activePageArchivedTrue}
+            ></MyDocumentCard>
+          ))}
+          <Row className="mt-4 mx-auto">
+            <Col xs={"auto"} className="mx-auto">
+              <Pagination onClick={(e) => this.pageChanged(e, true)}>{pagesArchivedTrue}</Pagination>
+            </Col>
+          </Row>
+        </React.Fragment>
+      )
+    } else {
+      tabArchivedContent = getNoDocumentsBanner();
+    }
+
     return (
       <React.Fragment>
         <Jumbotron className="mt-4 mx-2 mx-sm-4 pt-3">
           <h4 className="text-center">Documentele mele</h4>
           <Tabs defaultActiveKey="open" id="my-documents-tab" variant="tabs" className="mt-3 pt-1 tabs">
             <Tab eventKey="open" title="Nearhivate" className="tab-left">
-              {myDocumentsOpen.map(document => (
-                <MyDocumentCard
-                  key={document.registryNumber}
-                  document={document}
-                  page={this.state.activePageArchivedFalse}
-                  pageChangedAfterArchiveCallback={this.pageChangedAfterArchive.bind(this)}
-                ></MyDocumentCard>
-              ))}
-              <Row className="mt-4 mx-auto">
-                <Col xs={"auto"} className="mx-auto">
-                  <Pagination onClick={(e) => this.pageChanged(e, false)}>{pagesArchivedFalse}</Pagination>
-                </Col>
-              </Row>
+              {tabOpenContent}
             </Tab>
             <Tab eventKey="archived" title="Arhivate" className="tab-right">
-              {myDocumentsArchived.map(document => (
-                <MyDocumentCard
-                  key={document.registryNumber}
-                  document={document}
-                  page={this.state.activePageArchivedTrue}
-                ></MyDocumentCard>
-              ))}
-              <Row className="mt-4 mx-auto">
-                <Col xs={"auto"} className="mx-auto">
-                  <Pagination onClick={(e) => this.pageChanged(e, true)}>{pagesArchivedTrue}</Pagination>
-                </Col>
-              </Row>
+              {tabArchivedContent}
             </Tab>
           </Tabs>
         </Jumbotron>

@@ -92,7 +92,7 @@
 }
 
 .fa-comment-dots {
-  color: lighten($light-gold, 15);
+  color: lighten($brownish-gray, 55);
   font-size: .9em;
 }
 
@@ -101,4 +101,14 @@
 }
 .fa-chevron-down {
   margin-right: -.4em;
+}
+
+.fa-frown {
+  font-size: 5em;
+  color: lighten($brownish-gray, 55);
+}
+
+.fa-file-alt {
+  font-size: 5em;
+  color: lighten($brownish-gray, 55);
 }

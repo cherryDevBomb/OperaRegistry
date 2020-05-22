@@ -63,10 +63,10 @@ class App extends Component {
       <Provider store={store}>
         <Router>
           <div className="App">
-            <PageHeader />
+            <PageHeader/>
 
-            <Route exact path="/" component={LandingPage} />
-            <Route exact path={REGISTER_PATH} component={Register} />
+            <Route exact path="/" component={LandingPage}/>
+            <Route exact path={REGISTER_PATH} component={Register}/>
 
             <Switch>
               <SecuredRoute

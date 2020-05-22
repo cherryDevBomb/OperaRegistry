@@ -95,6 +95,10 @@
   opacity: 1;
 }
 
+.react-datepicker-popper {
+  z-index: 3;
+}
+
 .react-datepicker__day--selected {
   background-color: $primary-red;
 }
@@ -110,4 +114,10 @@
   font-weight: 500;
   background-color: #fff5b1;
   padding: 0;
+}
+
+.empty-search {
+  font-size: large;
+  font-weight: 400;
+  color: lighten($brownish-gray, 5);
 }

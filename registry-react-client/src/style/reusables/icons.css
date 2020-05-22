@@ -100,7 +100,7 @@
 }
 
 .fa-comment-dots {
-  color: #decfb7;
+  color: #d8d1c8;
   font-size: 0.9em;
 }
 
@@ -110,6 +110,16 @@
 
 .fa-chevron-down {
   margin-right: -0.4em;
+}
+
+.fa-frown {
+  font-size: 5em;
+  color: #d8d1c8;
+}
+
+.fa-file-alt {
+  font-size: 5em;
+  color: #d8d1c8;
 }
 
 /*# sourceMappingURL=icons.css.map */

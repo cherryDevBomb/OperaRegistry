@@ -10,6 +10,7 @@ import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {getReceivedArchivedDocuments, getReceivedDocuments} from "../../actions/documentActions";
 import ReceivedDocumentCard from "../fragments/document/ReceivedDocumentCard";
+import {getNoDocumentsBanner} from "../../utils/noDocumentsBanner";
 
 class ReceivedDocuments extends Component {
   constructor(props) {
@@ -71,53 +72,86 @@ class ReceivedDocuments extends Component {
     let pagesResolvedTrue = getPagination(this.props.documentReducer.receivedResolvedDocumentsPageCount, this.state.activePageResolvedTrue);
     let pagesResolvedArchived = getPagination(this.props.documentReducer.receivedArchivedDocumentsPageCount, this.state.activePageArchived);
 
+    let tabOpenContent;
+    if (documentsReceivedOpen.length > 0) {
+      tabOpenContent = (
+        <React.Fragment>
+          {documentsReceivedOpen.map(document => (
+            <ReceivedDocumentCard
+              key={document.registryNumber}
+              document={document}
+              page={this.state.activePageResolvedFalse}
+              pageChangedAfterResolveCallback={this.pageChangedAfterResolve.bind(this)}
+            ></ReceivedDocumentCard>
+          ))}
+          <Row className="mt-4 mx-auto">
+            <Col xs={"auto"} className="mx-auto">
+              <Pagination onClick={(e) => this.pageChanged(e, false)}>{pagesResolvedFalse}</Pagination>
+            </Col>
+          </Row>
+        </React.Fragment>
+      )
+    } else {
+      tabOpenContent = getNoDocumentsBanner();
+    }
+
+    let tabResolvedContent;
+    if (documentsReceivedResolved.length > 0) {
+      tabResolvedContent = (
+        <React.Fragment>
+          {documentsReceivedResolved.map(document => (
+            <ReceivedDocumentCard
+              key={document.registryNumber}
+              document={document}
+              page={this.state.activePageResolvedTrue}
+            ></ReceivedDocumentCard>
+          ))}
+          <Row className="mt-4 mx-auto">
+            <Col xs={"auto"} className="mx-auto">
+              <Pagination onClick={(e) => this.pageChanged(e, true)}>{pagesResolvedTrue}</Pagination>
+            </Col>
+          </Row>
+        </React.Fragment>
+      )
+    } else {
+      tabResolvedContent = getNoDocumentsBanner();
+    }
+
+    let tabArchivedContent;
+    if (documentsReceivedArchived.length > 0) {
+      tabArchivedContent = (
+        <React.Fragment>
+          {documentsReceivedArchived.map(document => (
+            <ReceivedDocumentCard
+              key={document.registryNumber}
+              document={document}
+              page={this.state.activePageArchived}
+            ></ReceivedDocumentCard>
+          ))}
+          <Row className="mt-4 mx-auto">
+            <Col xs={"auto"} className="mx-auto">
+              <Pagination onClick={(e) => this.pageChangedForArchived(e)}>{pagesResolvedArchived}</Pagination>
+            </Col>
+          </Row>
+        </React.Fragment>
+      )
+    } else {
+      tabArchivedContent = getNoDocumentsBanner();
+    }
+
     return (
       <React.Fragment>
         <Jumbotron className="mt-4 mx-2 mx-sm-4 mx-4 pt-3">
           <h4 className="text-center">Documente primite</h4>
           <Tabs defaultActiveKey="open" id="my-documents-tab" variant="tabs" className="mt-3 pt-1 tabs">
             <Tab eventKey="open" title="Nerezolvate" className="tab-left">
-              {documentsReceivedOpen.map(document => (
-                <ReceivedDocumentCard
-                  key={document.registryNumber}
-                  document={document}
-                  page={this.state.activePageResolvedFalse}
-                  pageChangedAfterResolveCallback={this.pageChangedAfterResolve.bind(this)}
-                ></ReceivedDocumentCard>
-              ))}
-              <Row className="mt-4 mx-auto">
-                <Col xs={"auto"} className="mx-auto">
-                  <Pagination onClick={(e) => this.pageChanged(e, false)}>{pagesResolvedFalse}</Pagination>
-                </Col>
-              </Row>
+              {tabOpenContent}
             </Tab>
             <Tab eventKey="resolved" title="Rezolvate" className="tab-right">
-              {documentsReceivedResolved.map(document => (
-                <ReceivedDocumentCard
-                  key={document.registryNumber}
-                  document={document}
-                  page={this.state.activePageResolvedTrue}
-                ></ReceivedDocumentCard>
-              ))}
-              <Row className="mt-4 mx-auto">
-                <Col xs={"auto"} className="mx-auto">
-                  <Pagination onClick={(e) => this.pageChanged(e, true)}>{pagesResolvedTrue}</Pagination>
-                </Col>
-              </Row>
+              {tabResolvedContent}
             </Tab>
             <Tab eventKey="archived" title="Arhivate" className="tab-right">
-              {documentsReceivedArchived.map(document => (
-                <ReceivedDocumentCard
-                  key={document.registryNumber}
-                  document={document}
-                  page={this.state.activePageArchived}
-                ></ReceivedDocumentCard>
-              ))}
-              <Row className="mt-4 mx-auto">
-                <Col xs={"auto"} className="mx-auto">
-                  <Pagination onClick={(e) => this.pageChangedForArchived(e)}>{pagesResolvedArchived}</Pagination>
-                </Col>
-              </Row>
+              {tabArchivedContent}
             </Tab>
           </Tabs>
         </Jumbotron>
