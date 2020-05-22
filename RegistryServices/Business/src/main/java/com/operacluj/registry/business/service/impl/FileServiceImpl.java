@@ -1,6 +1,6 @@
 package com.operacluj.registry.business.service.impl;
 
-import com.operacluj.registry.business.exception.OperationFailedException;
+import com.operacluj.registry.business.domain.exception.OperationFailedException;
 import com.operacluj.registry.business.service.FileService;
 import com.operacluj.registry.business.translator.FileTranslator;
 import com.operacluj.registry.business.util.ErrorMessageConstants;

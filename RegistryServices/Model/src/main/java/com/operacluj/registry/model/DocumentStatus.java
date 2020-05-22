@@ -3,7 +3,6 @@ package com.operacluj.registry.model;
 import java.util.HashMap;
 import java.util.Map;
 
-
 public enum DocumentStatus {
     PENDING("Pending"),
     RESOLVED("Resolved");

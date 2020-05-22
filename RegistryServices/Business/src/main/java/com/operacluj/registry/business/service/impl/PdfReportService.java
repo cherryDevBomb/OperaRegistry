@@ -8,7 +8,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 import com.operacluj.registry.business.domain.dto.DocumentDTO;
 import com.operacluj.registry.business.domain.dto.DocumentHistoryDTO;
 import com.operacluj.registry.business.domain.request.SearchCriteria;
-import com.operacluj.registry.business.exception.OperationFailedException;
+import com.operacluj.registry.business.domain.exception.OperationFailedException;
 import com.operacluj.registry.business.service.DocumentService;
 import com.operacluj.registry.business.service.ReportService;
 import com.operacluj.registry.business.service.UserService;

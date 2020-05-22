@@ -1,7 +1,7 @@
 package com.operacluj.registry.web.controller;
 
 import com.operacluj.registry.business.domain.request.SearchCriteria;
-import com.operacluj.registry.business.exception.CustomConstraintViolationException;
+import com.operacluj.registry.business.domain.exception.CustomConstraintViolationException;
 import com.operacluj.registry.business.service.impl.PdfReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;

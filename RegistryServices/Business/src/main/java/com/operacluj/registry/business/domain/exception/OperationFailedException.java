@@ -1,4 +1,4 @@
-package com.operacluj.registry.business.exception;
+package com.operacluj.registry.business.domain.exception;
 
 
 public class OperationFailedException extends RuntimeException {
