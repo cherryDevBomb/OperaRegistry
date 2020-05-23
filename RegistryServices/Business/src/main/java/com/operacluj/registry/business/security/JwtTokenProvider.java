@@ -2,8 +2,7 @@ package com.operacluj.registry.business.security;
 
 import com.operacluj.registry.model.User;
 import io.jsonwebtoken.*;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
@@ -12,9 +11,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Component
+@Slf4j
 public class JwtTokenProvider {
-
-    private static final Logger LOG = LogManager.getLogger(JwtTokenProvider.class);
 
     public String generateToken(Authentication authentication) {
         User user = (User) authentication.getPrincipal();
@@ -44,15 +42,15 @@ public class JwtTokenProvider {
             Jwts.parser().setSigningKey(SecurityConstants.SECRET).parseClaimsJws(token);
             return true;
         } catch (SignatureException e) {
-            LOG.error("Invalid JWT Signature");
+            log.error("Invalid JWT Signature");
         } catch (MalformedJwtException e) {
-            LOG.error("Invalid JWT token");
+            log.error("Invalid JWT token");
         } catch (ExpiredJwtException e) {
-            LOG.error("Expired JWT token");
+            log.error("Expired JWT token");
         } catch (UnsupportedJwtException e) {
-            LOG.error("Unsupported JWT token");
+            log.error("Unsupported JWT token");
         } catch (IllegalArgumentException e) {
-            LOG.error("JWT claims string is empty");
+            log.error("JWT claims string is empty");
         }
         return false;
     }

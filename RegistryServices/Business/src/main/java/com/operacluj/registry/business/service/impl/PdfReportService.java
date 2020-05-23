@@ -73,7 +73,7 @@ public class PdfReportService implements ReportService {
             pdfReport.add(getReportHeader(searchCriteria));
             pdfReport.add(table);
         } catch (DocumentException e) {
-            log.info(ErrorMessageConstants.REPORT_GENERATION_FAILED);
+            log.error(ErrorMessageConstants.REPORT_GENERATION_FAILED);
             throw new OperationFailedException(ErrorMessageConstants.REPORT_GENERATION_FAILED, e);
         } finally {
             pdfReport.close();

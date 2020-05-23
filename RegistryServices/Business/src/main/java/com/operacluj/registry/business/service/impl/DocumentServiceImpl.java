@@ -2,10 +2,10 @@ package com.operacluj.registry.business.service.impl;
 
 import com.operacluj.registry.business.domain.dto.DocumentDTO;
 import com.operacluj.registry.business.domain.dto.DocumentSearchResponseDTO;
-import com.operacluj.registry.business.domain.request.DocumentForm;
-import com.operacluj.registry.business.domain.request.SearchCriteria;
 import com.operacluj.registry.business.domain.exception.EntityNotFoundException;
 import com.operacluj.registry.business.domain.exception.OperationFailedException;
+import com.operacluj.registry.business.domain.request.DocumentForm;
+import com.operacluj.registry.business.domain.request.SearchCriteria;
 import com.operacluj.registry.business.service.DocumentHistoryService;
 import com.operacluj.registry.business.service.DocumentService;
 import com.operacluj.registry.business.service.PaginationService;
@@ -16,8 +16,7 @@ import com.operacluj.registry.business.validator.InputValidator;
 import com.operacluj.registry.model.Document;
 import com.operacluj.registry.model.User;
 import com.operacluj.registry.persistence.repository.DocumentRepository;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.security.access.AccessDeniedException;
@@ -36,12 +35,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
 @Service
+@Slf4j
 public class DocumentServiceImpl implements DocumentService {
-
-    private static final Logger LOG = LogManager.getLogger(DocumentServiceImpl.class);
-
+    
     @Autowired
     private DocumentRepository documentRepository;
 
@@ -63,12 +60,12 @@ public class DocumentServiceImpl implements DocumentService {
     @Override
     @Transactional(readOnly = true)
     public DocumentDTO getDocumentByRegistryNumber(int registryNumber) {
-        LOG.info("Enter getDocumentByRegistryNumber {}", registryNumber);
+        log.info("Enter getDocumentByRegistryNumber {}", registryNumber);
         try {
             Document document = documentRepository.getDocumentByRegistryNumber(registryNumber);
             return documentTranslator.translate(document, false);
         } catch (EmptyResultDataAccessException e) {
-            LOG.error("Document with registry number {} not found", registryNumber);
+            log.error("Document with registry number {} not found", registryNumber);
             throw new EntityNotFoundException(ErrorMessageConstants.DOCUMENT_NOT_FOUND, e);
         }
     }
@@ -94,7 +91,7 @@ public class DocumentServiceImpl implements DocumentService {
     @Transactional(readOnly = true)
     public List<DocumentDTO> getAllDocuments(int page) {
         try {
-            LOG.info("Enter getAllDocuments for page {}", page);
+            log.info("Enter getAllDocuments for page {}", page);
             return documentRepository.getAllDocuments(page)
                     .stream()
                     .map(document -> documentTranslator.translate(document, false))
@@ -108,7 +105,7 @@ public class DocumentServiceImpl implements DocumentService {
     @Override
     @Transactional(readOnly = true)
     public List<DocumentDTO> getDocumentsByCriteria(SearchCriteria searchCriteria) {
-        LOG.info("Enter getDocumentsByCriteria");
+        log.debug("Enter getDocumentsByCriteria");
         List<Document> allDocuments = documentRepository.getAllDocuments();
 
         if (!CollectionUtils.isEmpty(searchCriteria.getDocTypes())) {
@@ -187,7 +184,7 @@ public class DocumentServiceImpl implements DocumentService {
     @Transactional(readOnly = true)
     public List<DocumentDTO> getAllDocumentsCreatedBy(Principal principal, boolean archived, int page) {
         User user = userTranslator.getUserFromPrincipal(principal);
-        LOG.info("Enter getAllDocumentsCreatedBy {}, archived = {}", user.getEmail(), archived);
+        log.debug("Enter getAllDocumentsCreatedBy {}, archived = {}", user.getEmail(), archived);
         return documentRepository.getAllDocumentsCreatedBy(user.getUserId(), archived, page)
                 .stream()
                 .map(document -> documentTranslator.translate(document, true))
@@ -198,7 +195,7 @@ public class DocumentServiceImpl implements DocumentService {
     @Transactional(readOnly = true)
     public List<DocumentDTO> getAllDocumentsReceivedBy(Principal principal, boolean resolved, int page) {
         User user = userTranslator.getUserFromPrincipal(principal);
-        LOG.info("Enter getAllDocumentsReceivedBy {}, resolved = {}", user.getEmail(), resolved);
+        log.debug("Enter getAllDocumentsReceivedBy {}, resolved = {}", user.getEmail(), resolved);
         return documentRepository.getAllDocumentsReceivedBy(user.getUserId(), resolved, page)
                 .stream()
                 .map(document -> documentTranslator.translate(document, true))
@@ -209,7 +206,7 @@ public class DocumentServiceImpl implements DocumentService {
     @Transactional(readOnly = true)
     public List<DocumentDTO> getAllArchivedDocumentsReceivedBy(Principal principal, int page) {
         User user = userTranslator.getUserFromPrincipal(principal);
-        LOG.info("Enter getAllArchivedDocumentsReceivedBy {}", user.getEmail());
+        log.debug("Enter getAllArchivedDocumentsReceivedBy {}", user.getEmail());
         return documentRepository.getAllArchivedDocumentsReceivedBy(user.getUserId(), page)
                 .stream()
                 .map(document -> documentTranslator.translate(document, true))
@@ -223,13 +220,13 @@ public class DocumentServiceImpl implements DocumentService {
         Document newDocument = documentTranslator.translate(documentForm);
         User user = userTranslator.getUserFromPrincipal(principal);
         newDocument.setCreatedBy(user.getUserId());
-        LOG.info("Enter addDocument created by {}", user.getEmail());
+        log.info("Enter addDocument created by {}", user.getEmail());
         try {
             int registryNumber = documentRepository.addDocument(newDocument);
             documentHistoryService.addHistoryForNewDocument(documentForm, registryNumber, user);
             return registryNumber;
         } catch (RuntimeException e) {
-            LOG.error("Error creating new document");
+            log.error("Error creating new document");
             throw new OperationFailedException(ErrorMessageConstants.DOCUMENT_NOT_CREATED, e);
         }
     }
@@ -237,7 +234,7 @@ public class DocumentServiceImpl implements DocumentService {
     @Override
     @Transactional
     public void archiveDocument(int registryNumber, String archivingMessage, Principal principal) {
-        LOG.info("Enter archiveDocument {}", registryNumber);
+        log.info("Enter archiveDocument {}", registryNumber);
         User user = userTranslator.getUserFromPrincipal(principal);
         Document document = documentRepository.getDocumentByRegistryNumber(registryNumber);
         if (user.getUserId() == document.getCreatedBy()) {
@@ -246,12 +243,12 @@ public class DocumentServiceImpl implements DocumentService {
             try {
                 documentRepository.updateDocument(document);
             } catch (Exception e) {
-                LOG.error("Document with registry number {} not deleted", registryNumber);
+                log.error("Document with registry number {} not deleted", registryNumber);
                 throw e;
             }
         }
         else {
-            LOG.error("You don't have permissions to delete document with registry number {}", registryNumber);
+            log.error("You don't have permissions to delete document with registry number {}", registryNumber);
             throw new AccessDeniedException(ErrorMessageConstants.ACCESS_DENIED);
         }
     }
@@ -259,19 +256,19 @@ public class DocumentServiceImpl implements DocumentService {
     @Override
     @Transactional
     public void deleteDocument(int registryNumber, Principal principal) {
-        LOG.info("Enter deleteDocument {}", registryNumber);
+        log.info("Enter deleteDocument {}", registryNumber);
         User user = userTranslator.getUserFromPrincipal(principal);
         Document document = documentRepository.getDocumentByRegistryNumber(registryNumber);
         if (user.getUserId() == document.getCreatedBy()) {
             try {
                 documentRepository.deleteDocument(registryNumber);
             } catch (EmptyResultDataAccessException e) {
-                LOG.error("Document with registry number {} not deleted", registryNumber);
+                log.error("Document with registry number {} not deleted", registryNumber);
                 throw new EntityNotFoundException(ErrorMessageConstants.DOCUMENT_NOT_FOUND, e);
             }
         }
         else {
-            LOG.error("You don't have permissions to delete document with registry number {}", registryNumber);
+            log.error("You don't have permissions to delete document with registry number {}", registryNumber);
             throw new AccessDeniedException(ErrorMessageConstants.ACCESS_DENIED);
         }
     }

@@ -27,7 +27,7 @@ public class DocumentController {
     private DocumentService documentService;
 
     @Autowired
-    DocumentHistoryService documentHistoryService;
+    private DocumentHistoryService documentHistoryService;
 
     @Autowired
     private PaginationService paginationService;

@@ -4,10 +4,10 @@ import com.operacluj.registry.business.domain.dto.DepartmentDTO;
 import com.operacluj.registry.business.domain.dto.DocumentDTO;
 import com.operacluj.registry.business.domain.dto.DocumentHistoryDTO;
 import com.operacluj.registry.business.domain.dto.UserDTO;
-import com.operacluj.registry.business.domain.request.DocumentForm;
-import com.operacluj.registry.business.domain.request.DocumentHistoryForm;
 import com.operacluj.registry.business.domain.exception.EntityNotFoundException;
 import com.operacluj.registry.business.domain.exception.OperationFailedException;
+import com.operacluj.registry.business.domain.request.DocumentForm;
+import com.operacluj.registry.business.domain.request.DocumentHistoryForm;
 import com.operacluj.registry.business.service.DocumentHistoryService;
 import com.operacluj.registry.business.service.DocumentService;
 import com.operacluj.registry.business.service.MailService;
@@ -19,8 +19,7 @@ import com.operacluj.registry.business.validator.InputValidator;
 import com.operacluj.registry.model.DocumentHistory;
 import com.operacluj.registry.model.User;
 import com.operacluj.registry.persistence.repository.DocumentHistoryRepository;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,9 +29,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class DocumentHistoryServiceImpl implements DocumentHistoryService {
-
-    private static final Logger LOG = LogManager.getLogger(DocumentHistoryServiceImpl.class);
 
     @Autowired
     private DocumentHistoryRepository documentHistoryRepository;
@@ -50,20 +48,20 @@ public class DocumentHistoryServiceImpl implements DocumentHistoryService {
     private MailService mailService;
 
     @Autowired
-    UserTranslator userTranslator;
+    InputValidator inputValidator;
 
     @Autowired
-    InputValidator inputValidator;
+    UserTranslator userTranslator;
 
     @Override
     @Transactional(readOnly = true)
     public List<DocumentHistoryDTO> getDocumentHistoryForDocument(int registryNumber) {
-        LOG.debug("Enter getDocumentHistoryForDocument {}", registryNumber);
+        log.debug("Enter getDocumentHistoryForDocument {}", registryNumber);
         try {
             List<DocumentHistory> documentHistoryList = documentHistoryRepository.getDocumentHistoryForDocument(registryNumber);
             return documentHistoryTranslator.translate(documentHistoryList);
         } catch (RuntimeException e) {
-            LOG.error("Document history for document {} not found", registryNumber);
+            log.error("Document history for document {} not found", registryNumber);
             throw new EntityNotFoundException(ErrorMessageConstants.DOCUMENT_HISTORY_NOT_FOUND, e);
         }
     }
@@ -71,7 +69,7 @@ public class DocumentHistoryServiceImpl implements DocumentHistoryService {
     @Override
     @Transactional
     public void addDocumentHistory(int registryNumber, DocumentHistoryForm documentHistoryForm, Principal principal) {
-        LOG.info("Enter addDocumentHistory for document {}", documentHistoryForm.getRegistryNumber());
+        log.info("Enter addDocumentHistory for document {}", documentHistoryForm.getRegistryNumber());
         documentHistoryForm.setRegistryNumber(registryNumber);
         inputValidator.validate(documentHistoryForm);
         User user = userTranslator.getUserFromPrincipal(principal);
@@ -79,7 +77,7 @@ public class DocumentHistoryServiceImpl implements DocumentHistoryService {
         try {
             newHistoryList.forEach(dh -> documentHistoryRepository.addDocumentHistory(dh));
         } catch (RuntimeException e) {
-            LOG.error("Error adding new document history");
+            log.error("Error adding new document history");
             throw new OperationFailedException(ErrorMessageConstants.DOCUMENT_HISTORY_NOT_CREATED, e);
         }
 
@@ -90,12 +88,12 @@ public class DocumentHistoryServiceImpl implements DocumentHistoryService {
     @Override
     @Transactional
     public void addHistoryForNewDocument(DocumentForm documentForm, int registryNumber, User user) {
-        LOG.info("Enter addHistoryForNewDocument {}", registryNumber);
+        log.info("Enter addHistoryForNewDocument {}", registryNumber);
         List<DocumentHistory> documentHistoryList = getHistoryForDocumentForm(documentForm, registryNumber, user);
         try {
             documentHistoryList.forEach(documentHistory -> documentHistoryRepository.addDocumentHistory(documentHistory));
         } catch (RuntimeException e) {
-            LOG.error("Error creating new document history");
+            log.error("Error creating new document history");
             throw new OperationFailedException(ErrorMessageConstants.DOCUMENT_HISTORY_NOT_CREATED, e);
         }
         documentHistoryList.stream()
@@ -106,7 +104,7 @@ public class DocumentHistoryServiceImpl implements DocumentHistoryService {
     @Override
     @Transactional
     public void resolveDocument(int registryNumber, String resolvedMessage, Principal principal) {
-        LOG.info("Enter resolveDocument {}", registryNumber);
+        log.info("Enter resolveDocument {}", registryNumber);
         User user = userTranslator.getUserFromPrincipal(principal);
         DocumentHistory documentHistory = documentHistoryRepository.getDocumentHistoryForDocumentSentTo(registryNumber, user.getUserId());
         if (documentHistory != null) {
@@ -115,7 +113,7 @@ public class DocumentHistoryServiceImpl implements DocumentHistoryService {
             try {
                 documentHistoryRepository.updateDocumentHistoryStatus(documentHistory);
             } catch (Exception e) {
-                LOG.error("Document with registry number {} not resolved", registryNumber);
+                log.error("Document with registry number {} not resolved", registryNumber);
                 throw e;
             }
             DocumentDTO document = documentService.getDocumentByRegistryNumber(registryNumber);
@@ -128,7 +126,7 @@ public class DocumentHistoryServiceImpl implements DocumentHistoryService {
 
     @Override
     public List<DepartmentDTO> getAvailableReceiversForDocument(int registryNumber, Principal principal) {
-        LOG.info("Enter getAvailableReceiversForDocument {}", registryNumber);
+        log.info("Enter getAvailableReceiversForDocument {}", registryNumber);
         List<DocumentHistoryDTO> existingHistory = getDocumentHistoryForDocument(registryNumber);
         List<UserDTO> existingReceivers = existingHistory.stream()
                 .filter(documentHistory -> documentHistory.getInternalRecipient() != null)

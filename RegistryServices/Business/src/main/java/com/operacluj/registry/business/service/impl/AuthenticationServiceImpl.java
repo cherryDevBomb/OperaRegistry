@@ -29,8 +29,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     public JWTLoginSuccessResponse loginUser(LoginRequest loginRequest) {
         inputValidator.validate(loginRequest);
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword())
-        );
+                new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = SecurityConstants.TOKEN_PREFIX + jwtTokenProvider.generateToken(authentication);
         return new JWTLoginSuccessResponse(true, jwt);

@@ -2,8 +2,7 @@ package com.operacluj.registry.business.security;
 
 import com.operacluj.registry.business.service.UserService;
 import com.operacluj.registry.model.User;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,10 +19,9 @@ import java.io.IOException;
 import java.util.Collections;
 
 @Component
+@Slf4j
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
-
-    private static final Logger LOG = LogManager.getLogger(JwtAuthenticationFilter.class);
-
+    
     @Autowired
     JwtTokenProvider jwtTokenProvider;
 
@@ -45,7 +43,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         } catch (Exception e) {
-            LOG.error("Could not set user authentication in security context", e);
+            log.error("Could not set user authentication in security context", e);
         }
 
         filterChain.doFilter(httpServletRequest, httpServletResponse);
