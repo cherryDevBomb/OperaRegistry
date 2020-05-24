@@ -75,7 +75,7 @@ class ReceivedDocuments extends Component {
     let pagesResolvedArchived = getPagination(this.props.documentReducer.receivedArchivedDocumentsPageCount, this.state.activePageArchived);
 
     let tabOpenContent;
-    if (documentsReceivedOpen.length > 0) {
+    if (documentsReceivedOpen && documentsReceivedOpen.length > 0) {
       tabOpenContent = (
         <React.Fragment>
           {documentsReceivedOpen.map(document => (
@@ -93,12 +93,12 @@ class ReceivedDocuments extends Component {
           </Row>
         </React.Fragment>
       )
-    } else {
+    } else if (documentsReceivedOpen && documentsReceivedOpen.length === 0) {
       tabOpenContent = getNoDocumentsBanner();
     }
 
     let tabResolvedContent;
-    if (documentsReceivedResolved.length > 0) {
+    if (documentsReceivedResolved && documentsReceivedResolved.length > 0) {
       tabResolvedContent = (
         <React.Fragment>
           {documentsReceivedResolved.map(document => (
@@ -115,12 +115,12 @@ class ReceivedDocuments extends Component {
           </Row>
         </React.Fragment>
       )
-    } else {
+    } else if (documentsReceivedResolved && documentsReceivedResolved.length === 0) {
       tabResolvedContent = getNoDocumentsBanner();
     }
 
     let tabArchivedContent;
-    if (documentsReceivedArchived.length > 0) {
+    if (documentsReceivedArchived && documentsReceivedArchived.length > 0) {
       tabArchivedContent = (
         <React.Fragment>
           {documentsReceivedArchived.map(document => (
@@ -137,7 +137,7 @@ class ReceivedDocuments extends Component {
           </Row>
         </React.Fragment>
       )
-    } else {
+    } else if (documentsReceivedArchived && documentsReceivedArchived.length === 0) {
       tabArchivedContent = getNoDocumentsBanner();
     }
 

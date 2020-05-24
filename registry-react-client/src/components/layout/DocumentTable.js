@@ -51,7 +51,7 @@ class DocumentTable extends Component {
     let pages = getPagination(this.props.documentReducer.documentsPageCount, this.state.activePage);
 
     let pageContent;
-    if (documents.length > 0) {
+    if (documents && documents.length > 0) {
       pageContent = (
         <React.Fragment>
           <Jumbotron className="mx-3 my-4 shadow px-3 py-3">
@@ -92,7 +92,7 @@ class DocumentTable extends Component {
           </Row>
         </React.Fragment>
       )
-    } else {
+    } else if (documents && documents.length === 0) {
       pageContent = (
         <React.Fragment>
           <Jumbotron className="mx-3 my-4 shadow px-3 py-3">

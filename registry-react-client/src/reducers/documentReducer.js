@@ -13,12 +13,12 @@ import {getDefaultSearchDetails} from "../utils/documentSearchUtils";
 let searchDetails = getDefaultSearchDetails();
 
 const initialState = {
-  documents: [],
-  myDocumentsOpen: [],
-  myDocumentsArchived: [],
-  documentsReceivedOpen: [],
-  documentsReceivedResolved: [],
-  documentsReceivedArchived: [],
+  documents: null,
+  myDocumentsOpen: null,
+  myDocumentsArchived: null,
+  documentsReceivedOpen: null,
+  documentsReceivedResolved: null,
+  documentsReceivedArchived: null,
   searchDetails: searchDetails,
   mostRecentRegNr: null,
 

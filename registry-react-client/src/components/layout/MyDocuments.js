@@ -57,7 +57,7 @@ class MyDocuments extends Component {
     let pagesArchivedTrue = getPagination(this.props.documentReducer.myArchivedDocumentsPageCount, this.state.activePageArchivedTrue);
 
     let tabOpenContent;
-    if (myDocumentsOpen.length > 0) {
+    if (myDocumentsOpen && myDocumentsOpen.length > 0) {
       tabOpenContent = (
         <React.Fragment>
           {myDocumentsOpen.map(document => (
@@ -75,12 +75,12 @@ class MyDocuments extends Component {
           </Row>
         </React.Fragment>
       )
-    } else {
+    } else if (myDocumentsOpen && myDocumentsOpen.length === 0) {
       tabOpenContent = getNoDocumentsBanner();
     }
 
     let tabArchivedContent;
-    if (myDocumentsArchived.length > 0) {
+    if (myDocumentsArchived && myDocumentsArchived.length > 0) {
       tabArchivedContent = (
         <React.Fragment>
           {myDocumentsArchived.map(document => (
@@ -97,7 +97,7 @@ class MyDocuments extends Component {
           </Row>
         </React.Fragment>
       )
-    } else {
+    } else if (myDocumentsArchived && myDocumentsArchived.length === 0){
       tabArchivedContent = getNoDocumentsBanner();
     }
 
