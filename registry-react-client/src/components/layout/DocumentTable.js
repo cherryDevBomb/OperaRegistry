@@ -86,8 +86,7 @@ class DocumentTable extends Component {
             <Col xs={{order: 12}}>
               <DropdownButton title="Generare raport" className="float-sm-right mb-3 mb-sm-0">
                 <Dropdown.Item as="button" onClick={(e) => this.generateReport("pdf", e)}>PDF</Dropdown.Item>
-                {/*TODO change to xls*/}
-                <Dropdown.Item as="button" onClick={(e) => this.generateReport("pdf", e)}>XLS</Dropdown.Item>
+                <Dropdown.Item as="button" onClick={(e) => this.generateReport("xlsx", e)}>XLS</Dropdown.Item>
               </DropdownButton>
             </Col>
           </Row>

@@ -1,7 +1,13 @@
 package com.operacluj.registry.business.service;
 
 import com.operacluj.registry.business.domain.request.SearchCriteria;
+import com.operacluj.registry.model.DocumentType;
 import org.springframework.core.io.ByteArrayResource;
+
+import java.util.AbstractMap;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public interface ReportService {
 
@@ -33,4 +39,12 @@ public interface ReportService {
     String DELIMITER = ",";
 
     ByteArrayResource generateReport(SearchCriteria searchCriteria);
+
+    default Map<String, String> getTypeMapping() {
+        return Stream.of(
+                new AbstractMap.SimpleImmutableEntry<>(DocumentType.INTERNAL.toString(), INTERNAL_TYPE),
+                new AbstractMap.SimpleImmutableEntry<>(DocumentType.ORIGIN_EXTERNAL.toString(), ORIGIN_EXTERNAL_TYPE),
+                new AbstractMap.SimpleImmutableEntry<>(DocumentType.DESTINATION_EXTERNAL.toString(), DESTINATION_EXTERNAL_TYPE))
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+    }
 }

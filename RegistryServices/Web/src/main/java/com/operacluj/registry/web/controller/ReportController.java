@@ -1,8 +1,8 @@
 package com.operacluj.registry.web.controller;
 
-import com.operacluj.registry.business.domain.request.SearchCriteria;
 import com.operacluj.registry.business.domain.exception.CustomConstraintViolationException;
-import com.operacluj.registry.business.service.impl.PdfReportService;
+import com.operacluj.registry.business.domain.request.SearchCriteria;
+import com.operacluj.registry.business.service.ReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.*;
@@ -18,9 +18,13 @@ import java.util.Date;
 public class ReportController {
 
     @Autowired
-    private PdfReportService pdfReportService;
+    private ReportService pdfReportService;
+
+    @Autowired
+    private ReportService xlsReportService;
 
     private static String PDF_FORMAT = "pdf";
+    private static String XLS_FORMAT = "xlsx";
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
@@ -33,11 +37,15 @@ public class ReportController {
         httpHeaders.setAccessControlExposeHeaders(Arrays.asList("Content-Disposition"));
         httpHeaders.setContentDisposition(ContentDisposition.builder(dispositionHeaderValue).build());
 
-        ByteArrayResource report = null;
+        ByteArrayResource report;
         if (PDF_FORMAT.equals(fileFormat)) {
             report = pdfReportService.generateReport(searchCriteria);
             httpHeaders.setContentType(MediaType.APPLICATION_PDF);
-        } else {
+        }
+        else if (XLS_FORMAT.equals(fileFormat)) {
+            report = xlsReportService.generateReport(searchCriteria);
+        }
+        else {
             throw new CustomConstraintViolationException("fileFormat", "File format must be pdf or xls");
         }
 

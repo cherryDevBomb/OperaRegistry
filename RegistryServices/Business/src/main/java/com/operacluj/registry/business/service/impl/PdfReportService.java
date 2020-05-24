@@ -7,13 +7,12 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.operacluj.registry.business.domain.dto.DocumentDTO;
 import com.operacluj.registry.business.domain.dto.DocumentHistoryDTO;
-import com.operacluj.registry.business.domain.request.SearchCriteria;
 import com.operacluj.registry.business.domain.exception.OperationFailedException;
+import com.operacluj.registry.business.domain.request.SearchCriteria;
 import com.operacluj.registry.business.service.DocumentService;
 import com.operacluj.registry.business.service.ReportService;
 import com.operacluj.registry.business.service.UserService;
 import com.operacluj.registry.business.util.ErrorMessageConstants;
-import com.operacluj.registry.model.DocumentType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
@@ -23,10 +22,11 @@ import org.springframework.util.StringUtils;
 
 import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
-import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 @Slf4j
@@ -39,11 +39,16 @@ public class PdfReportService implements ReportService {
     private UserService userService;
 
     private PdfPTable table;
-    private Font tableFont;
-    private Font headerFont;
+    private final Font tableFont;
+    private final Font headerFont;
 
     private static final float[] TABLE_HEADER_COLUMN_WIDTHS = new float[]{8, 8, 12, 21, 43, 8};
     private static final float[] HISTORY_HEADER_COLUMN_WIDTHS = new float[]{15, 12, 8, 8};
+
+    public PdfReportService() {
+        tableFont = getRegularFont(8);
+        headerFont = getBoldFont(8);
+    }
 
     @Override
     public ByteArrayResource generateReport(SearchCriteria searchCriteria) {
@@ -52,9 +57,8 @@ public class PdfReportService implements ReportService {
 
         table = new PdfPTable(TABLE_HEADER_COLUMN_WIDTHS);
         table.setWidthPercentage(95);
-        tableFont = getRegularFont(8);
-        headerFont = getBoldFont(8);
         addTableHeader();
+
         documents.forEach(doc -> {
             addCellAlignCenter(String.valueOf(doc.getRegistryNumber()));
             addCellAlignCenter(doc.getCreatedDate());
@@ -249,13 +253,5 @@ public class PdfReportService implements ReportService {
             font = FontFactory.getFont(FontFactory.HELVETICA_BOLD, BaseFont.CP1250, 8);
         }
         return font;
-    }
-
-    private Map<String, String> getTypeMapping() {
-        return Stream.of(
-                new AbstractMap.SimpleImmutableEntry<>(DocumentType.INTERNAL.toString(), INTERNAL_TYPE),
-                new AbstractMap.SimpleImmutableEntry<>(DocumentType.ORIGIN_EXTERNAL.toString(), ORIGIN_EXTERNAL_TYPE),
-                new AbstractMap.SimpleImmutableEntry<>(DocumentType.DESTINATION_EXTERNAL.toString(), DESTINATION_EXTERNAL_TYPE))
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 }
