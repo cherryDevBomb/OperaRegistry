@@ -145,7 +145,7 @@ public class DocumentServiceImpl implements DocumentService {
             allDocuments = allDocuments.stream()
                     .filter(document -> {
                         LocalDate createdDate = document.getCreatedDate().toLocalDate();
-                        return (createdDate.isAfter(fromDate) && createdDate.isBefore(toDate));
+                        return ((createdDate.isEqual(fromDate) || createdDate.isAfter(fromDate)) && (createdDate.isBefore(toDate) || createdDate.isEqual(toDate)));
                     })
                     .collect(Collectors.toList());
         }

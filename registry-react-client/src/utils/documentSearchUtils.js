@@ -87,7 +87,7 @@ const mapSearchDetailsCreatedDate = searchDetails => {
     fromDate = today;
     toDate = today;
   } else if (searchDetails.createdDate === "Ieri") {
-    toDate = today;
+    toDate = new Date(new Date().setDate(today.getDate() - 1));
     fromDate = new Date(new Date().setDate(today.getDate() - 1));
   } else if (searchDetails.createdDate === "În ultimile 7 zile") {
     toDate = today;
