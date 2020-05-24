@@ -13,19 +13,24 @@ import {getNewPageNumber, getPagination} from "../../utils/paginationUtils";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import {generateReport} from "../../actions/reportActions";
+import Spinner from "react-bootstrap/Spinner";
 
 class DocumentTable extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      activePage: 1
+      activePage: 1,
+      isLoading: false,
+      isReportLoading: false
     }
   }
 
-  loadCurrentPage() {
+  async loadCurrentPage() {
+    this.setState({isLoading: true});
     const searchDetails = this.props.documentReducer.searchDetails;
-    this.props.getDocuments(searchDetails, this.state.activePage);
+    await this.props.getDocuments(searchDetails, this.state.activePage);
+    this.setState({isLoading: false});
   }
 
   componentDidMount() {
@@ -36,13 +41,15 @@ class DocumentTable extends Component {
     const newPage = getNewPageNumber(e, this.state.activePage, this.props.documentReducer.documentsPageCount);
     this.setState({activePage: newPage}, () => {
       this.loadCurrentPage();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({top: 0, behavior: 'smooth'});
     });
   }
 
-  generateReport(format, e) {
+  async generateReport(format, e) {
     e.preventDefault();
-    this.props.generateReport(this.props.documentReducer.searchDetails, format);
+    this.setState({isReportLoading: true});
+    await this.props.generateReport(this.props.documentReducer.searchDetails, format);
+    this.setState({isReportLoading: false});
   }
 
   render() {
@@ -51,7 +58,23 @@ class DocumentTable extends Component {
     let pages = getPagination(this.props.documentReducer.documentsPageCount, this.state.activePage);
 
     let pageContent;
-    if (documents && documents.length > 0) {
+    if (this.state.isLoading) {
+      pageContent = (
+        <React.Fragment>
+          <Jumbotron className="mx-3 my-4 shadow px-3 py-3">
+            <Row className="my-5">
+              <Col xs="auto" className="mx-auto position-relative">
+                <Spinner
+                  animation="border"
+                  role="status"
+                  aria-hidden="true"
+                />
+              </Col>
+            </Row>
+          </Jumbotron>
+        </React.Fragment>
+      )
+    } else if (documents && documents.length > 0) {
       pageContent = (
         <React.Fragment>
           <Jumbotron className="mx-3 my-4 shadow px-3 py-3">
@@ -84,10 +107,18 @@ class DocumentTable extends Component {
               <Pagination className="mx-auto" onClick={this.pageChanged.bind(this)}>{pages}</Pagination>
             </Col>
             <Col xs={{order: 12}}>
-              <DropdownButton title="Generare raport" className="float-sm-right mb-3 mb-sm-0">
+              <DropdownButton title={"Generare raport"} className="float-sm-right mb-3 mb-sm-0">
                 <Dropdown.Item as="button" onClick={(e) => this.generateReport("pdf", e)}>PDF</Dropdown.Item>
                 <Dropdown.Item as="button" onClick={(e) => this.generateReport("xlsx", e)}>XLS</Dropdown.Item>
               </DropdownButton>
+              {this.state.isReportLoading &&
+              <Spinner className="float-sm-right mb-3 mb-sm-0 mr-3"
+                       as="span"
+                       animation="border"
+                       variant="primary"
+                       role="status"
+                       aria-hidden="true"
+              />}
             </Col>
           </Row>
         </React.Fragment>

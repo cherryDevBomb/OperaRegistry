@@ -13,7 +13,8 @@ export const getDefaultSearchDetails = () => {
     createdDate: "Oricând",
     from: new Date(),
     to: new Date(),
-    showDropdown: false
+    showDropdown: false,
+    isLoading: false
   };
 }
 

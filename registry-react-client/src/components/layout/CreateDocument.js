@@ -15,6 +15,7 @@ import Col from "react-bootstrap/Col";
 import {UPDATE_SELECTED_USERS_FOR_DOCUMENT_HISTORY} from "../../actions/types";
 import {getAllUsers, updateAllUsers, updateSelectedUsers} from "../../actions/userActions";
 import FileUploadModal from "../fragments/document/FileUploadModal";
+import Spinner from "react-bootstrap/Spinner";
 
 class CreateDocument extends Component {
   componentDidMount() {
@@ -31,6 +32,8 @@ class CreateDocument extends Component {
       isDestinationExternal: false,
       recipients: "",
       sentMessage: "",
+
+      isLoading: false,
 
       documentReducer: {},
       errorReducer: {},
@@ -99,6 +102,8 @@ class CreateDocument extends Component {
   }
 
   async createDocument() {
+    this.setState({isLoading: true});
+
     const newDocument = {
       title: this.state.title,
       origin: this.state.origin,
@@ -108,6 +113,8 @@ class CreateDocument extends Component {
       sentMessage: this.state.sentMessage
     };
     await this.props.createDocument(newDocument);
+    this.setState({isLoading: false});
+
     if (this.isInputValid()) {
       this.uploadModalRef.current.handleShow(this.props.documentReducer.mostRecentRegNr);
     }
@@ -285,7 +292,7 @@ class CreateDocument extends Component {
           </Col>
         </Row>
         <Row className="mt-1 align-items-center">
-          <Col xs={12} sm={4} ></Col>
+          <Col xs={12} sm={4}></Col>
           <Col xs={12} sm={8} className="my-auto">
             {internalReceiversFeedback}
           </Col>
@@ -362,6 +369,15 @@ class CreateDocument extends Component {
             {formGroupSentMessage}
             <Row className="mt-3 mb=3"><Col className="text-center">
               <Button variant="primary" type="submit" className="float-sm-right">
+                {this.state.isLoading &&
+                <Spinner className="mr-2"
+                         as="span"
+                         animation="border"
+                         variant="light"
+                         size="sm"
+                         role="status"
+                         aria-hidden="true"
+                />}
                 Confirmă
               </Button>
             </Col></Row>
@@ -390,4 +406,9 @@ const mapStateToProps = state => ({
   userReducer: state.userReducer
 });
 
-export default connect(mapStateToProps, {createDocument, getAllUsers, updateAllUsers, updateSelectedUsers})(CreateDocument);
+export default connect(mapStateToProps, {
+  createDocument,
+  getAllUsers,
+  updateAllUsers,
+  updateSelectedUsers
+})(CreateDocument);

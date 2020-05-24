@@ -21,6 +21,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import "../../../style/reusables/document-search.css"
 // import 'bootstrap-select/dist/css/bootstrap-select.css'
 import {getDefaultSearchDetails} from "../../../utils/documentSearchUtils";
+import Spinner from "react-bootstrap/Spinner";
 
 class DocumentSearch extends Component {
   constructor(props) {
@@ -34,6 +35,7 @@ class DocumentSearch extends Component {
     this.state = searchDetails;
 
     this.lastFieldChanged = "";
+    this.isLoading = false;
 
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
@@ -107,11 +109,13 @@ class DocumentSearch extends Component {
     this.lastFieldChanged = field;
   }
 
-  resetSearchDetails() {
+  async resetSearchDetails() {
+    this.setState({isLoading: true});
+
     const newState = getDefaultSearchDetails();
 
     this.props.saveSearchDetails(newState);
-    this.setState(
+    await this.setState(
       {
         originType: newState.originType,
         originUsers: newState.originUsers,
@@ -128,13 +132,16 @@ class DocumentSearch extends Component {
       }
     )
 
+    this.setState({isLoading: false});
+
     if (this.state.showDropdown === true) {
       this.toggleButtonRef.click();
     }
   }
 
-  onSubmit(e) {
+  async onSubmit(e) {
     e.preventDefault();
+    this.setState({isLoading: true});
 
     // check if origin & destination should be updated before saving state to store
     let origin;
@@ -146,19 +153,21 @@ class DocumentSearch extends Component {
       destination = this.refDestination.current.props.userReducer.selectedUsersForDestinationSearch;
     }
     if (origin && (origin !== this.state.originUsers)) {
-      this.setState({originUsers: origin}, () => {
+      await this.setState({originUsers: origin}, () => {
         this.props.saveSearchDetails(this.state);
         this.props.getDocuments(this.state, 1);
       });
     } else if (destination && (destination !== this.state.destinationUsers)) {
-      this.setState({destinationUsers: destination}, () => {
+      await this.setState({destinationUsers: destination}, () => {
         this.props.saveSearchDetails(this.state);
         this.props.getDocuments(this.state, 1);
       });
     } else {
-      this.props.saveSearchDetails(this.state);
-      this.props.getDocuments(this.state, 1);
+      await this.props.saveSearchDetails(this.state);
+      await this.props.getDocuments(this.state, 1);
     }
+
+    this.setState({isLoading: false});
 
     if (this.state.showDropdown === true) {
       this.toggleButtonRef.click();
@@ -373,7 +382,16 @@ class DocumentSearch extends Component {
                       type="submit"
                       className="mr-0"
               >
-                <i className="fas fa-search"></i>
+                {this.state.isLoading &&
+                <Spinner
+                         animation="border"
+                         variant="brownish"
+                         size="sm"
+                         role="status"
+                         aria-hidden="true"
+                />}
+                {!this.state.isLoading && <i className="fas fa-search"></i>}
+
               </Button>
             </InputGroup.Prepend>
 
