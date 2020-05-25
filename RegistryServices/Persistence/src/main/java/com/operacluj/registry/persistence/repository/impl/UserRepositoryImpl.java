@@ -43,6 +43,9 @@ public class UserRepositoryImpl implements UserRepository {
     @Value("${addUser}")
     private String addUserQuery;
 
+    @Value("${getPendingUsers}")
+    private String getPendingUsersQuery;
+
     @Value("${confirmUser}")
     private String confirmUserQuery;
 
@@ -74,6 +77,11 @@ public class UserRepositoryImpl implements UserRepository {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(addUserQuery, getSqlParameterSourceForEntity(user), keyHolder);
         return Objects.requireNonNull(keyHolder.getKey()).intValue();
+    }
+
+    @Override
+    public List<User> getPendingUsers() {
+        return jdbcTemplate.query(getPendingUsersQuery, userMapper);
     }
 
     @Override
