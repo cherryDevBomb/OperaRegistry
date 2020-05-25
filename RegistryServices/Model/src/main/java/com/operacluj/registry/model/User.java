@@ -2,9 +2,12 @@ package com.operacluj.registry.model;
 
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 
 @Data
 public class User implements UserDetails {
@@ -15,6 +18,7 @@ public class User implements UserDetails {
     private Department department;
     private String email;
     private String password;
+    private UserRole role;
 
     public String getFullName() {
         return firstName + " " + lastName;
@@ -22,7 +26,7 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return Collections.singletonList(new SimpleGrantedAuthority(role.toString()));
     }
 
     @Override

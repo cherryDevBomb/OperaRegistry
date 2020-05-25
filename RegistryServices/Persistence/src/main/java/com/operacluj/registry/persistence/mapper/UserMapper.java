@@ -2,6 +2,7 @@ package com.operacluj.registry.persistence.mapper;
 
 import com.operacluj.registry.model.Department;
 import com.operacluj.registry.model.User;
+import com.operacluj.registry.model.UserRole;
 import org.springframework.stereotype.Component;
 import org.springframework.jdbc.core.RowMapper;
 
@@ -21,6 +22,7 @@ public class UserMapper implements RowMapper<User> {
         user.setDepartment(Department.valueOf(resultSet.getString("department")));
         user.setEmail(resultSet.getString("email"));
         user.setPassword(resultSet.getString("password"));
+        user.setRole(UserRole.valueOf(resultSet.getString("role")));
         return user;
     }
 }

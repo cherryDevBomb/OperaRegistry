@@ -34,14 +34,17 @@ public class UserRepositoryImpl implements UserRepository {
     @Value("${getUserById}")
     private String getUserByIdQuery;
 
-    @Value("${addUser}")
-    private String addUserQuery;
-
     @Value("${getAllUsersExcept}")
     private String getAllUsersExceptQuery;
 
     @Value("${getAllUsers}")
     private String getAllUsersQuery;
+
+    @Value("${addUser}")
+    private String addUserQuery;
+
+    @Value("${confirmUser}")
+    private String confirmUserQuery;
 
     @Override
     public User getUserByEmail(String email) {
@@ -56,13 +59,6 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public int addUser(User user) {
-        KeyHolder keyHolder = new GeneratedKeyHolder();
-        jdbcTemplate.update(addUserQuery, getSqlParameterSourceForEntity(user), keyHolder);
-        return Objects.requireNonNull(keyHolder.getKey()).intValue();
-    }
-
-    @Override
     public List<User> getAllUsers() {
         return jdbcTemplate.query(getAllUsersQuery, userMapper);
     }
@@ -73,6 +69,18 @@ public class UserRepositoryImpl implements UserRepository {
         return jdbcTemplate.query(getAllUsersExceptQuery, parameterSource, userMapper);
     }
 
+    @Override
+    public int addUser(User user) {
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        jdbcTemplate.update(addUserQuery, getSqlParameterSourceForEntity(user), keyHolder);
+        return Objects.requireNonNull(keyHolder.getKey()).intValue();
+    }
+
+    @Override
+    public int confirmUserRegistration(int userId) {
+        SqlParameterSource parameterSource = new MapSqlParameterSource("userid", userId);
+        return jdbcTemplate.update(confirmUserQuery, parameterSource);
+    }
 
     private SqlParameterSource getSqlParameterSourceForEntity(User user) {
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();

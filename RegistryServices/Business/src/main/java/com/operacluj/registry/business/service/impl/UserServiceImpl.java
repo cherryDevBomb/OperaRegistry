@@ -2,8 +2,10 @@ package com.operacluj.registry.business.service.impl;
 
 import com.operacluj.registry.business.domain.dto.DepartmentDTO;
 import com.operacluj.registry.business.domain.dto.UserDTO;
+import com.operacluj.registry.business.domain.exception.ArgumentNotValidException;
 import com.operacluj.registry.business.domain.exception.CustomConstraintViolationException;
 import com.operacluj.registry.business.domain.exception.EntityNotFoundException;
+import com.operacluj.registry.business.domain.exception.OperationFailedException;
 import com.operacluj.registry.business.domain.request.UserForm;
 import com.operacluj.registry.business.service.UserService;
 import com.operacluj.registry.business.translator.UserTranslator;
@@ -75,20 +77,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional
-    public int addUser(UserForm userForm) {
-        log.info("Enter addUser with email {}", userForm.getEmail());
-        userValidator.validate(userForm);
-        User newUser = userTranslator.translate(userForm);
-        try {
-            return userRepository.addUser(newUser);
-        } catch (DuplicateKeyException e) {
-            log.error("User with email {} already exists", newUser.getEmail());
-            throw new CustomConstraintViolationException("email", ErrorMessageConstants.USER_ALREADY_EXISTS);
-        }
-    }
-
-    @Override
     public List<UserDTO> getAllUsers(boolean includePrincipal, Principal principal) {
         log.debug("Enter getAllUsers requested by {}", principal.getName());
         List<User> users;
@@ -123,5 +111,30 @@ public class UserServiceImpl implements UserService {
                     return departmentDTO;
                 })
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public int addUser(UserForm userForm) {
+        log.info("Enter addUser with email {}", userForm.getEmail());
+        userValidator.validate(userForm);
+        User newUser = userTranslator.translate(userForm);
+        try {
+            return userRepository.addUser(newUser);
+        } catch (DuplicateKeyException e) {
+            log.error("User with email {} already exists", newUser.getEmail());
+            throw new CustomConstraintViolationException("email", ErrorMessageConstants.USER_ALREADY_EXISTS);
+        }
+    }
+
+    @Override
+    @Transactional
+    public void confirmUserRegistration(int userId) {
+        log.info("Enter confirmUserRegistration for userId {}", userId);
+        int updated = userRepository.confirmUserRegistration(userId);
+        if (updated == 0) {
+            log.error("User {} not found", userId);
+            throw new CustomConstraintViolationException("userId", ErrorMessageConstants.USER_NOT_FOUND);
+        }
     }
 }

@@ -11,6 +11,7 @@ import com.operacluj.registry.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -34,18 +35,6 @@ public class UserController {
         return userService.getUserByEmail(email);
     }
 
-    @PostMapping(path = "/register", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.CREATED)
-    public int registerUser(@RequestBody UserForm userForm) {
-        return userService.addUser(userForm);
-    }
-
-    @PostMapping(path = "/login", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.OK)
-    public JWTLoginSuccessResponse authenticateUser(@RequestBody LoginRequest loginRequest) {
-        return authenticationService.loginUser(loginRequest);
-    }
-
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<UserDTO> getAllUsers(@RequestParam boolean includePrincipal, Principal principal) {
@@ -56,5 +45,24 @@ public class UserController {
     @ResponseStatus(HttpStatus.OK)
     public List<DepartmentDTO> getAllUsersGroupedByDepartment(@RequestParam boolean includePrincipal, Principal principal) {
         return userService.getAllUsersGroupedByDepartment(includePrincipal, principal);
+    }
+
+    @PostMapping(path = "/register", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.CREATED)
+    public int registerUser(@RequestBody UserForm userForm) {
+        return userService.addUser(userForm);
+    }
+
+    @PutMapping(path = "admin/confirm/{userId}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @ResponseStatus(HttpStatus.OK)
+    public void confirmUserRegistration(@PathVariable int userId) {
+        userService.confirmUserRegistration(userId);
+    }
+
+    @PostMapping(path = "/login", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public JWTLoginSuccessResponse authenticateUser(@RequestBody LoginRequest loginRequest) {
+        return authenticationService.loginUser(loginRequest);
     }
 }

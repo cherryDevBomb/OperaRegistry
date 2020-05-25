@@ -12,10 +12,12 @@ public interface UserRepository {
 
     User getUserById(int userId);
 
-    int addUser(User user);
-
     List<User> getAllUsers();
 
     List<User> getAllUsersExcept(User user);
+
+    int addUser(User user);
+
+    int confirmUserRegistration(int userId);
 }
 

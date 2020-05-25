@@ -15,11 +15,13 @@ public interface UserService extends UserDetailsService {
 
     User getUserByEmail(String email);
 
-    int addUser(UserForm userForm);
-
     List<UserDTO> getAllUsers(boolean includePrincipal, Principal principal);
 
     List<DepartmentDTO> getAllUsersGroupedByDepartment(boolean includePrincipal, Principal principal);
 
     List<DepartmentDTO> getUsersGroupedByDepartment(List<UserDTO> users);
+
+    int addUser(UserForm userForm);
+
+    void confirmUserRegistration(int userId);
 }
