@@ -96,9 +96,11 @@ public class DocumentHistoryServiceImpl implements DocumentHistoryService {
             log.error("Error creating new document history");
             throw new OperationFailedException(ErrorMessageConstants.DOCUMENT_HISTORY_NOT_CREATED, e);
         }
-        documentHistoryList.stream()
-                .filter(documentHistory -> documentHistory.getInternalRecipient() != null)
-                .forEach(documentHistory -> mailService.sendMailForReceivedDocument(documentHistory, documentForm.getTitle()));
+        new Thread(() -> {
+            documentHistoryList.stream()
+                    .filter(documentHistory -> documentHistory.getInternalRecipient() != null)
+                    .forEach(documentHistory -> mailService.sendMailForReceivedDocument(documentHistory, documentForm.getTitle()));
+        }).start();
     }
 
     @Override
@@ -117,7 +119,9 @@ public class DocumentHistoryServiceImpl implements DocumentHistoryService {
                 throw e;
             }
             DocumentDTO document = documentService.getDocumentByRegistryNumber(registryNumber);
-            mailService.sendMailForResolvedDocument(documentHistory, document.getTitle());
+            new Thread(() -> {
+                mailService.sendMailForResolvedDocument(documentHistory, document.getTitle());
+            }).start();
         }
         else {
             throw new EntityNotFoundException(ErrorMessageConstants.DOCUMENT_HISTORY_NOT_FOUND);
