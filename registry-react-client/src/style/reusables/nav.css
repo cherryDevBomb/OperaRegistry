@@ -99,13 +99,17 @@ button.navbar-toggler {
   margin-top: 0.1em;
 }
 
-.fa-id-card, .fa-question, .fa-sign-out-alt {
+.fa-id-card, .fa-question, .fa-sign-out-alt, .fa-user-cog {
   color: #4f4538;
   margin-right: 0.4em;
 }
 
 .fa-question {
-  margin-right: 0.7em;
+  margin-right: 0.8em;
+}
+
+.fa-user-cog {
+  margin-right: 0.32em;
 }
 
 /*# sourceMappingURL=nav.css.map */

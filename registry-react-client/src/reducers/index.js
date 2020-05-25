@@ -1,4 +1,5 @@
-import { combineReducers } from "redux";
+import {combineReducers} from "redux";
+import adminReducer from "./adminReducer";
 import errorReducer from "./errorReducer";
 import documentReducer from "./documentReducer";
 import securityReducer from "./securityReducer";
@@ -10,5 +11,6 @@ export default combineReducers({
   documentReducer: documentReducer,
   securityReducer: securityReducer,
   userReducer: userReducer,
+  adminReducer: adminReducer,
   fileReducer: fileReducer
 });

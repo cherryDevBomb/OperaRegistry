@@ -16,8 +16,9 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {logout} from "../../actions/securityActions";
-import {HELP_PATH, RECEIVED_DOCUMENTS_PATH} from "../../properties";
+import {ADMIN_PATH, HELP_PATH, RECEIVED_DOCUMENTS_PATH} from "../../properties";
 import {getFullName} from "../../utils/userUtils";
+import {ROLE_ADMIN} from "../../constants/appConstants";
 
 class PageHeader extends Component {
 
@@ -72,6 +73,12 @@ class PageHeader extends Component {
               }
             >
               <NavDropdown.Item><i className="fas fa-id-card"/> Contul tău</NavDropdown.Item>
+
+              {user.role === ROLE_ADMIN &&
+              <LinkContainer to={ADMIN_PATH}>
+                <NavDropdown.Item><i className="fas fa-user-cog"/> Administrare</NavDropdown.Item>
+              </LinkContainer>
+              }
 
               <LinkContainer to={HELP_PATH}>
                 <NavDropdown.Item><i className="fas fa-question"/> Ajutor</NavDropdown.Item>

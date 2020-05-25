@@ -10,6 +10,10 @@ export const USERS_URL = "/users";
 export const USERS_GROUPED_URL = "/users/grouped";
 export const USERS_AVAILABLE_URL = "/available-receivers"
 
+export const ADMIN_URL = "/admin";
+export const PENDING_USERS_URL = "/admin/pending";
+export const CONFIRM_REGISTRATION_URL = "/confirm";
+
 export const DOCUMENTS_URL = "/documents";
 export const MY_DOCUMENTS_URL = "/documents/created";
 export const DOCUMENTS_RECEIVED_URL = "/documents/received";
@@ -33,4 +37,5 @@ export const MY_DOCUMENTS_PATH = "/my-documents";
 export const RECEIVED_DOCUMENTS_PATH = "/received-documents";
 export const NEW_DOCUMENT_PATH = "/new-document";
 
+export const ADMIN_PATH = "/admin";
 export const HELP_PATH = "/help";

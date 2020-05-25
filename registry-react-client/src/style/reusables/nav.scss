@@ -112,11 +112,14 @@ button.navbar-toggler {
   margin-top: .1em;
 }
 
-.fa-id-card, .fa-question, .fa-sign-out-alt {
+.fa-id-card, .fa-question, .fa-sign-out-alt, .fa-user-cog {
   color: $brownish-gray;
   margin-right: .40em;
 }
 
-.fa-question {
-  margin-right: .7em;
+.fa-question, {
+  margin-right: .80em;
+}
+.fa-user-cog {
+  margin-right: .32em;
 }

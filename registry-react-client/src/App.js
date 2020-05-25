@@ -24,6 +24,7 @@ import CreateDocument from "./components/layout/CreateDocument";
 import LandingPage from "./components/layout/LandingPage";
 import Register from "./components/layout/Register";
 import {
+  ADMIN_PATH,
   DOCUMENTS_PATH,
   HELP_PATH,
   MY_DOCUMENTS_PATH,
@@ -39,6 +40,7 @@ import SecuredRoute from "./components/navigation/SecuredRoute";
 import MyDocuments from "./components/layout/MyDocuments";
 import ReceivedDocuments from "./components/layout/ReceivedDocuments";
 import HelpPage from "./components/layout/HelpPage";
+import AdminPage from "./components/layout/AdminPage";
 
 const jwtToken = localStorage.jwtToken;
 
@@ -88,6 +90,11 @@ class App extends Component {
                 exact
                 path={NEW_DOCUMENT_PATH}
                 component={CreateDocument}
+              />
+              <SecuredRoute
+                exact
+                path={ADMIN_PATH}
+                component={AdminPage}
               />
               <SecuredRoute
                 exact
