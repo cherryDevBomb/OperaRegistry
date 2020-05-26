@@ -104,20 +104,11 @@
   font-size: 0.9em;
 }
 
-.fa-chevron-up {
+.fa-chevron-up, .fa-chevron-down {
   margin-right: -0.4em;
 }
 
-.fa-chevron-down {
-  margin-right: -0.4em;
-}
-
-.fa-frown {
-  font-size: 5em;
-  color: #d8d1c8;
-}
-
-.fa-file-alt {
+.fa-frown, .fa-file-alt, .fa-user-plus {
   font-size: 5em;
   color: #d8d1c8;
 }

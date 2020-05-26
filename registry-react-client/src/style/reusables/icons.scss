@@ -96,19 +96,11 @@
   font-size: .9em;
 }
 
-.fa-chevron-up {
-  margin-right: -.4em;
-}
-.fa-chevron-down {
+.fa-chevron-up, .fa-chevron-down {
   margin-right: -.4em;
 }
 
-.fa-frown {
-  font-size: 5em;
-  color: lighten($brownish-gray, 55);
-}
-
-.fa-file-alt {
+.fa-frown, .fa-file-alt, .fa-user-plus {
   font-size: 5em;
   color: lighten($brownish-gray, 55);
 }

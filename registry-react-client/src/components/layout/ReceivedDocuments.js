@@ -10,7 +10,7 @@ import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {getReceivedArchivedDocuments, getReceivedDocuments} from "../../actions/documentActions";
 import ReceivedDocumentCard from "../fragments/document/ReceivedDocumentCard";
-import {getNoDocumentsBanner} from "../../utils/noDocumentsBanner";
+import {getNoDocumentsBanner} from "../../utils/emptyBanners";
 
 class ReceivedDocuments extends Component {
   constructor(props) {

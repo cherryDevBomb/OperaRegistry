@@ -14,6 +14,8 @@ import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import {generateReport} from "../../actions/reportActions";
 import Spinner from "react-bootstrap/Spinner";
+import {spinnerBanner} from "../../utils/spinnerBanner";
+import {getNoSearchResultBanner} from "../../utils/emptyBanners";
 
 class DocumentTable extends Component {
   constructor(props) {
@@ -59,21 +61,7 @@ class DocumentTable extends Component {
 
     let pageContent;
     if (this.state.isLoading) {
-      pageContent = (
-        <React.Fragment>
-          <Jumbotron className="mx-3 my-4 shadow px-3 py-3">
-            <Row className="my-5">
-              <Col xs="auto" className="mx-auto position-relative">
-                <Spinner
-                  animation="border"
-                  role="status"
-                  aria-hidden="true"
-                />
-              </Col>
-            </Row>
-          </Jumbotron>
-        </React.Fragment>
-      )
+      pageContent = spinnerBanner();
     } else if (documents && documents.length > 0) {
       pageContent = (
         <React.Fragment>
@@ -124,23 +112,7 @@ class DocumentTable extends Component {
         </React.Fragment>
       )
     } else if (documents && documents.length === 0) {
-      pageContent = (
-        <React.Fragment>
-          <Jumbotron className="mx-3 my-4 shadow px-3 py-3">
-            <Row className="mt-5">
-              <Col xs="auto" className="mx-auto position-relative">
-                <i className="far fa-frown"></i>
-              </Col>
-            </Row>
-            <Row className="mt-4 mb-5">
-              <Col xs="auto" className="mx-auto position-relative">
-                <span
-                  className="empty-search">Ne pare rău, nu am găsit nici un document pentru căutarea dumneavoastră</span>
-              </Col>
-            </Row>
-          </Jumbotron>
-        </React.Fragment>
-      )
+      pageContent = getNoSearchResultBanner();
     }
 
     return (

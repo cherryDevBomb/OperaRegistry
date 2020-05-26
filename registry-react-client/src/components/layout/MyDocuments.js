@@ -10,7 +10,7 @@ import Pagination from "react-bootstrap/Pagination";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import {getNewPageNumber, getPagination} from "../../utils/paginationUtils";
-import {getNoDocumentsBanner} from "../../utils/noDocumentsBanner";
+import {getNoDocumentsBanner} from "../../utils/emptyBanners";
 
 class MyDocuments extends Component {
   constructor(props) {
@@ -40,7 +40,7 @@ class MyDocuments extends Component {
     const tab = archived ? "activePageArchivedTrue" : "activePageArchivedFalse";
     this.setState({[tab]: newPage}, () => {
       this.loadCurrentPage(archived);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({top: 0, behavior: 'smooth'});
     });
   }
 
@@ -97,7 +97,7 @@ class MyDocuments extends Component {
           </Row>
         </React.Fragment>
       )
-    } else if (myDocumentsArchived && myDocumentsArchived.length === 0){
+    } else if (myDocumentsArchived && myDocumentsArchived.length === 0) {
       tabArchivedContent = getNoDocumentsBanner();
     }
 

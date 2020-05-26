@@ -1,20 +1,20 @@
-import React from "react";
 import Jumbotron from "react-bootstrap/Jumbotron";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import Spinner from "react-bootstrap/Spinner";
+import React from "react";
 
-export const getNoDocumentsBanner = () => {
+export const spinnerBanner = () => {
   return (
     <React.Fragment>
       <Jumbotron className="mx-3 my-4 shadow px-3 py-3">
-        <Row className="mt-5">
+        <Row className="my-5">
           <Col xs="auto" className="mx-auto position-relative">
-            <i className="fas fa-file-alt"></i>
-          </Col>
-        </Row>
-        <Row className="mt-4 mb-5">
-          <Col xs="auto" className="mx-auto position-relative">
-            <span className="empty-search">Nu există nici un document</span>
+            <Spinner
+              animation="border"
+              role="status"
+              aria-hidden="true"
+            />
           </Col>
         </Row>
       </Jumbotron>
