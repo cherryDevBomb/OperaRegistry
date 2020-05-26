@@ -1,6 +1,7 @@
 package com.operacluj.registry.persistence.repository.impl;
 
 import com.operacluj.registry.model.User;
+import com.operacluj.registry.model.UserRole;
 import com.operacluj.registry.persistence.repository.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +41,9 @@ public class UserRepositoryImpl implements UserRepository {
     @Value("${getAllUsers}")
     private String getAllUsersQuery;
 
+    @Value("${getAllUsersByRole}")
+    private String getAllUsersByRoleQuery;
+
     @Value("${addUser}")
     private String addUserQuery;
 
@@ -70,6 +74,12 @@ public class UserRepositoryImpl implements UserRepository {
     public List<User> getAllUsersExcept(User user) {
         SqlParameterSource parameterSource = new MapSqlParameterSource("userid", user.getUserId());
         return jdbcTemplate.query(getAllUsersExceptQuery, parameterSource, userMapper);
+    }
+
+    @Override
+    public List<User> getAllUsersByRole(UserRole role) {
+        SqlParameterSource parameterSource = new MapSqlParameterSource("role", role.toString());
+        return jdbcTemplate.query(getAllUsersByRoleQuery, parameterSource, userMapper);
     }
 
     @Override

@@ -9,7 +9,7 @@ public interface MailService {
 
     void sendMailForResolvedDocument(DocumentHistory documentHistory, String documentTitle);
 
-//    void sendMailForNewRegistrationRequest(User user)
+    void sendMailForNewRegistrationRequest(User user);
 
     void sendMailForRegistrationConfirmed(User user);
 }

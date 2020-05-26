@@ -1,6 +1,7 @@
 package com.operacluj.registry.persistence.repository;
 
 import com.operacluj.registry.model.User;
+import com.operacluj.registry.model.UserRole;
 import org.springframework.stereotype.Repository;
 
 import java.util.Arrays;
@@ -16,6 +17,8 @@ public interface UserRepository {
     List<User> getAllUsers();
 
     List<User> getAllUsersExcept(User user);
+
+    List<User> getAllUsersByRole(UserRole role);
 
     int addUser(User user);
 

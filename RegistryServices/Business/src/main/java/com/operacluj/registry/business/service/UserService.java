@@ -4,6 +4,7 @@ import com.operacluj.registry.business.domain.dto.DepartmentDTO;
 import com.operacluj.registry.business.domain.dto.UserDTO;
 import com.operacluj.registry.business.domain.request.UserForm;
 import com.operacluj.registry.model.User;
+import com.operacluj.registry.model.UserRole;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.security.Principal;
@@ -14,6 +15,8 @@ public interface UserService extends UserDetailsService {
     User getUserById(int id);
 
     User getUserByEmail(String email);
+
+    List<User> getUsersByRole(UserRole role);
 
     List<UserDTO> getAllUsers(boolean includePrincipal, Principal principal);
 

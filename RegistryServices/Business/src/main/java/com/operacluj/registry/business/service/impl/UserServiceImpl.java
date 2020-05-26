@@ -5,12 +5,14 @@ import com.operacluj.registry.business.domain.dto.UserDTO;
 import com.operacluj.registry.business.domain.exception.CustomConstraintViolationException;
 import com.operacluj.registry.business.domain.exception.EntityNotFoundException;
 import com.operacluj.registry.business.domain.request.UserForm;
+import com.operacluj.registry.business.service.MailService;
 import com.operacluj.registry.business.service.UserService;
 import com.operacluj.registry.business.translator.UserTranslator;
 import com.operacluj.registry.business.util.ErrorMessageConstants;
 import com.operacluj.registry.business.validator.UserValidator;
 import com.operacluj.registry.model.Department;
 import com.operacluj.registry.model.User;
+import com.operacluj.registry.model.UserRole;
 import com.operacluj.registry.persistence.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,12 +36,16 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
     @Autowired
-    UserValidator userValidator;
+    private UserValidator userValidator;
 
     @Autowired
-    UserTranslator userTranslator;
+    private UserTranslator userTranslator;
+
+    @Autowired
+    private MailService mailService;
 
     @Override
+    @Transactional
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         log.debug("Enter loadUserByUsername {}", email);
         try {
@@ -75,6 +81,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
+    public List<User> getUsersByRole(UserRole role) {
+        log.debug("Enter getAllUsersByRole {}", role);
+        return userRepository.getAllUsersByRole(role);
+    }
+
+    @Override
+    @Transactional
     public List<UserDTO> getAllUsers(boolean includePrincipal, Principal principal) {
         log.debug("Enter getAllUsers requested by {}", principal.getName());
         List<User> users;
@@ -89,6 +103,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public List<DepartmentDTO> getAllUsersGroupedByDepartment(boolean includePrincipal, Principal principal) {
         log.debug("Enter getAllUsersGroupedByDepartment requested by {}", principal.getName());
         List<UserDTO> allUsers = getAllUsers(includePrincipal, principal);
@@ -96,6 +111,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public List<DepartmentDTO> getUsersGroupedByDepartment(List<UserDTO> users) {
         log.debug("Enter getUsersGroupedByDepartment");
         Map<String, List<UserDTO>> departmentMap = users.stream()
@@ -118,10 +134,14 @@ public class UserServiceImpl implements UserService {
         userValidator.validate(userForm);
         User newUser = userTranslator.translate(userForm);
         try {
-            return userRepository.addUser(newUser);
+            newUser.setUserId(userRepository.addUser(newUser));
         } catch (DuplicateKeyException e) {
             log.error("User with email {} already exists", newUser.getEmail());
             throw new CustomConstraintViolationException("email", ErrorMessageConstants.USER_ALREADY_EXISTS);
         }
+        new Thread(() -> {
+            mailService.sendMailForNewRegistrationRequest(newUser);
+        }).start();
+        return newUser.getUserId();
     }
 }
