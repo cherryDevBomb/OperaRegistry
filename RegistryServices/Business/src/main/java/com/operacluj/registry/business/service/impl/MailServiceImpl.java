@@ -16,6 +16,7 @@ import org.springframework.web.servlet.view.freemarker.FreeMarkerConfig;
 
 import javax.mail.internet.MimeMessage;
 import java.nio.charset.StandardCharsets;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,8 +35,13 @@ public class MailServiceImpl implements MailService {
 
     private static final String RECEIVED_DOCUMENT_SUBJECT = "Ați primit un document nou";
     private static final String RESOLVED_DOCUMENT_SUBJECT = "Documentul dvs. a fost aprobat";
+    private static final String REGISTRATION_REQUEST_SUBJECT = "Cerere nouă de înregistrare";
+    private static final String REGISTRATION_CONFIRMED_SUBJECT = "Înregistrare confirmată";
+    
     private static final String RECEIVED_DOCUMENT_TEMPLATE = "received-document-template.html";
     private static final String RESOLVED_DOCUMENT_TEMPLATE = "resolved-document-template.html";
+    private static final String REGISTRATION_REQUEST_TEMPLATE = "registration-request-template.html";
+    private static final String REGISTRATION_CONFIRMED_TEMPLATE = "registration-confirmed-template.html";
 
     @Override
     public void sendMailForReceivedDocument(DocumentHistory documentHistory, String documentTitle) {
@@ -53,6 +59,11 @@ public class MailServiceImpl implements MailService {
         Map<String, String> placeholderMap = getPlaceholderMap(documentHistory.getRegistryNumber(), documentTitle, resolver, documentHistory.getResolvedMessage());
 
         sendMail(author, RESOLVED_DOCUMENT_SUBJECT, RESOLVED_DOCUMENT_TEMPLATE, placeholderMap);
+    }
+
+    @Override
+    public void sendMailForRegistrationConfirmed(User user) {
+        sendMail(user, REGISTRATION_CONFIRMED_SUBJECT, REGISTRATION_CONFIRMED_TEMPLATE, Collections.emptyMap());
     }
 
     private void sendMail(User to, String subject, String templatePath, Map<String, String> placeholderMap) {

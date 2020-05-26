@@ -32,8 +32,8 @@ class AdminPage extends Component {
     this.props.getPendingUsers();
   }
 
-  confirmRegistration(user) {
-    this.props.confirmUserRegistration(user);
+  async confirmRegistration(user) {
+    await this.props.confirmUserRegistration(user);
     this.props.getPendingUsers();
   }
 

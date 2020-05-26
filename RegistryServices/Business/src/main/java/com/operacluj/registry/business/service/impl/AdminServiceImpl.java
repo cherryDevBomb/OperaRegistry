@@ -3,6 +3,7 @@ package com.operacluj.registry.business.service.impl;
 import com.operacluj.registry.business.domain.dto.UserDTO;
 import com.operacluj.registry.business.domain.exception.CustomConstraintViolationException;
 import com.operacluj.registry.business.service.AdminService;
+import com.operacluj.registry.business.service.MailService;
 import com.operacluj.registry.business.translator.UserTranslator;
 import com.operacluj.registry.business.util.ErrorMessageConstants;
 import com.operacluj.registry.model.User;
@@ -25,6 +26,9 @@ public class AdminServiceImpl implements AdminService {
     @Autowired
     UserTranslator userTranslator;
 
+    @Autowired
+    private MailService mailService;
+
     @Override
     public List<UserDTO> getPendingUsers() {
         log.debug("Enter getPendingUsers");
@@ -43,5 +47,7 @@ public class AdminServiceImpl implements AdminService {
             log.error("User {} not found", userId);
             throw new CustomConstraintViolationException("userId", ErrorMessageConstants.USER_NOT_FOUND);
         }
+            User confirmedUser = userRepository.getUserById(userId);
+            mailService.sendMailForRegistrationConfirmed(confirmedUser);
     }
 }
