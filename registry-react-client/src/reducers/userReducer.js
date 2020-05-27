@@ -1,4 +1,5 @@
 import {
+  GET_ALL_DEPARTMENTS,
   GET_ALL_USERS,
   UPDATE_ALL_USERS,
   UPDATE_SELECTED_USERS_FOR_DESTINATION_SEARCH,
@@ -10,7 +11,8 @@ const initialState = {
   allUsers: [],
   selectedUsersForDocumentHistory: [],
   selectedUsersForOriginSearch: [],
-  selectedUsersForDestinationSearch: []
+  selectedUsersForDestinationSearch: [],
+  departments: []
 };
 
 export default function(state = initialState, action) {
@@ -39,6 +41,11 @@ export default function(state = initialState, action) {
       return {
         ...state,
         allUsers: action.payload
+      };
+    case GET_ALL_DEPARTMENTS:
+      return {
+        ...state,
+        departments: action.payload
       };
     default:
       return state;

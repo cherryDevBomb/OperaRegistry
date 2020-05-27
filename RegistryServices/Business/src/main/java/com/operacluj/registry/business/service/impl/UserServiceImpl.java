@@ -2,7 +2,7 @@ package com.operacluj.registry.business.service.impl;
 
 import com.operacluj.registry.business.domain.dto.DepartmentDTO;
 import com.operacluj.registry.business.domain.dto.UserDTO;
-import com.operacluj.registry.business.domain.exception.CustomConstraintViolationException;
+import com.operacluj.registry.business.domain.exception.ArgumentNotValidException;
 import com.operacluj.registry.business.domain.exception.EntityNotFoundException;
 import com.operacluj.registry.business.domain.request.UserForm;
 import com.operacluj.registry.business.service.MailService;
@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.security.Principal;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -137,7 +138,7 @@ public class UserServiceImpl implements UserService {
             newUser.setUserId(userRepository.addUser(newUser));
         } catch (DuplicateKeyException e) {
             log.error("User with email {} already exists", newUser.getEmail());
-            throw new CustomConstraintViolationException("email", ErrorMessageConstants.USER_ALREADY_EXISTS);
+            throw new ArgumentNotValidException(Collections.singletonMap("email", ErrorMessageConstants.USER_ALREADY_EXISTS));
         }
         new Thread(() -> {
             mailService.sendMailForNewRegistrationRequest(newUser);

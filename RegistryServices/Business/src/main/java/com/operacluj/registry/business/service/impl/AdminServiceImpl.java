@@ -1,7 +1,7 @@
 package com.operacluj.registry.business.service.impl;
 
 import com.operacluj.registry.business.domain.dto.UserDTO;
-import com.operacluj.registry.business.domain.exception.CustomConstraintViolationException;
+import com.operacluj.registry.business.domain.exception.ArgumentNotValidException;
 import com.operacluj.registry.business.service.AdminService;
 import com.operacluj.registry.business.service.MailService;
 import com.operacluj.registry.business.translator.UserTranslator;
@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -45,9 +46,9 @@ public class AdminServiceImpl implements AdminService {
         int updated = userRepository.confirmUserRegistration(userId);
         if (updated == 0) {
             log.error("User {} not found", userId);
-            throw new CustomConstraintViolationException("userId", ErrorMessageConstants.USER_NOT_FOUND);
+            throw new ArgumentNotValidException(Collections.singletonMap("userId", ErrorMessageConstants.USER_NOT_FOUND));
         }
-            User confirmedUser = userRepository.getUserById(userId);
-            mailService.sendMailForRegistrationConfirmed(confirmedUser);
+        User confirmedUser = userRepository.getUserById(userId);
+        mailService.sendMailForRegistrationConfirmed(confirmedUser);
     }
 }

@@ -16,7 +16,7 @@ public enum Department {
     AUDIT("Compartimentul Audit Public Intern"),
     HR("Biroul Resurse umane, Salarizare"),
     PUBLIC_ACQUISITION("Biroul Achiziții Publice"),
-    ADMINISTRATION("Biroul Achiziții Publice"),
+    ADMINISTRATION("Serviciul Administrativ, PSI, Pază"),
     SECRETARY("Secretariat");
 
     private String textValue;

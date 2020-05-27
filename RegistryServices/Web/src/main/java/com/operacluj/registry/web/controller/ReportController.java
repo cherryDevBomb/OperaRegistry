@@ -1,6 +1,6 @@
 package com.operacluj.registry.web.controller;
 
-import com.operacluj.registry.business.domain.exception.CustomConstraintViolationException;
+import com.operacluj.registry.business.domain.exception.ArgumentNotValidException;
 import com.operacluj.registry.business.domain.request.SearchCriteria;
 import com.operacluj.registry.business.service.ReportService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 
 @RestController
@@ -46,7 +47,7 @@ public class ReportController {
             report = xlsReportService.generateReport(searchCriteria);
         }
         else {
-            throw new CustomConstraintViolationException("fileFormat", "File format must be pdf or xls");
+            throw new ArgumentNotValidException(Collections.singletonMap("fileFormat", "File format must be pdf or xls"));
         }
 
         httpHeaders.setContentLength(report.contentLength());

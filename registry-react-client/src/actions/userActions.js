@@ -1,7 +1,7 @@
 import axios from "axios";
-import {GET_ALL_USERS, UPDATE_ALL_USERS} from "./types";
+import {GET_ALL_DEPARTMENTS, GET_ALL_USERS, UPDATE_ALL_USERS} from "./types";
 import {properties} from "../properties.js";
-import {DOCUMENTS_URL, USERS_AVAILABLE_URL, USERS_GROUPED_URL} from "../properties";
+import {DEPARTMENTS_URL, DOCUMENTS_URL, USERS_AVAILABLE_URL, USERS_GROUPED_URL, USERS_URL} from "../properties";
 
 export const getAllUsers = includePrincipal => async dispatch => {
   const path = properties.serverURL + USERS_GROUPED_URL;
@@ -31,6 +31,15 @@ export const getAllAvailableUsers = registryNumber => async dispatch => {
   const res = await axios.get(path);
   dispatch({
     type: UPDATE_ALL_USERS,
+    payload: res.data
+  });
+};
+
+export const getAllDepartments = () => async dispatch => {
+  const path = properties.serverURL + USERS_URL + DEPARTMENTS_URL;
+  const res = await axios.get(path);
+  dispatch({
+    type: GET_ALL_DEPARTMENTS,
     payload: res.data
   });
 };

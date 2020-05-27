@@ -4,6 +4,7 @@ public class ErrorMessageConstants {
 
     public static final String REQUIRED_FIELD = "Câmp obligatoriu";
     public static final String EMAIL_NOT_VALID = "Not a valid email";
+    public static final String INVALID_DEPARTMENT = "Departamentul nu există";
     public static final String PASSWORD_DOES_NOT_MATCH = "Password does not match";
     public static final String USER_ALREADY_EXISTS = "A user with this email is already registered";
 

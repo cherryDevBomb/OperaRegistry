@@ -91,7 +91,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 ).permitAll()
                 .antMatchers(
                         SecurityConstants.SIGN_UP_URL,
-                        SecurityConstants.SIGN_IN_URL
+                        SecurityConstants.SIGN_IN_URL,
+                        SecurityConstants.GET_DEPARTMENTS_URL
                 ).permitAll()
                 .anyRequest().authenticated();
 

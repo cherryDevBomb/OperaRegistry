@@ -5,17 +5,19 @@ import { createUser } from "../../actions/securityActions";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { DOCUMENTS_PATH } from "../../properties";
+import {getAllDepartments} from "../../actions/userActions";
 
 class Register extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+    
     this.state = {
       firstName: "",
       lastName: "",
       email: "",
+      department: "",
       password: "",
       confirmPassword: "",
-      errorReducer: {}
     };
 
     this.onChange = this.onChange.bind(this);
@@ -26,11 +28,20 @@ class Register extends Component {
     if (this.props.securityReducer.validToken) {
       this.props.history.push(DOCUMENTS_PATH);
     }
+    this.props.getAllDepartments();
   }
 
-  componentWillReceiveProps(nextProps) {
+  static getDerivedStateFromProps(nextProps, prevState) {
     if (nextProps.errorReducer) {
-      this.setState({ errorReducer: nextProps.errorReducer });
+      return {errorReducer: nextProps.errorReducer};
+    } else {
+      return null;
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState, ss) {
+    if (prevProps.errorReducer && prevProps.errorReducer !== this.props.errorReducer) {
+      this.setState({errorReducer: prevProps.errorReducer});
     }
   }
 
@@ -44,6 +55,7 @@ class Register extends Component {
       email: this.state.email,
       lastName: this.state.lastName,
       firstName: this.state.firstName,
+      department: this.state.department,
       password: this.state.password,
       confirmPassword: this.state.confirmPassword
     };
@@ -101,6 +113,23 @@ class Register extends Component {
           </Form.Control.Feedback>
         </Form.Group>
 
+        <Form.Group controlId="department">
+          <Form.Label>Departament</Form.Label>
+        <Form.Control as="select"
+                      name="department"
+                      value={this.state.department}
+                      onChange={this.onChange}
+                      isInvalid={errorReducer.department}>
+          <option key="noOption" value={null}>-</option>
+          {this.props.userReducer.departments.map(department => (
+            <option key={department} value={department}>{department}</option>
+          ))}
+        </Form.Control>
+          <Form.Control.Feedback type="invalid">
+            {errorReducer.department}
+          </Form.Control.Feedback>
+        </Form.Group>
+
         <Form.Group controlId="formBasicPassword">
           <Form.Label>Parola</Form.Label>
           <Form.Control
@@ -141,13 +170,16 @@ class Register extends Component {
 
 Register.propTypes = {
   errorReducer: PropTypes.object.isRequired,
+  securityReducer: PropTypes.object.isRequired,
+  userReducer: PropTypes.object.isRequired,
+  getAllDepartments: PropTypes.func.isRequired,
   createUser: PropTypes.func.isRequired,
-  securityReducer: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
   securityReducer: state.securityReducer,
-  errorReducer: state.errorReducer
+  errorReducer: state.errorReducer,
+  userReducer: state.userReducer
 });
 
-export default connect(mapStateToProps, { createUser })(Register);
+export default connect(mapStateToProps, { getAllDepartments, createUser })(Register);

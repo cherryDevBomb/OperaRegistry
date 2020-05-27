@@ -1,7 +1,6 @@
 package com.operacluj.registry.web.controller;
 
 import com.operacluj.registry.business.domain.exception.ArgumentNotValidException;
-import com.operacluj.registry.business.domain.exception.CustomConstraintViolationException;
 import com.operacluj.registry.business.domain.exception.EntityNotFoundException;
 import com.operacluj.registry.business.domain.exception.OperationFailedException;
 import com.operacluj.registry.business.util.ErrorMessageConstants;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.ConstraintViolation;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -45,23 +43,11 @@ public class ControllerExceptionHandler {
         return new ErrorResponse(e.getMessage(), getCause(e));
     }
 
-    @ExceptionHandler(CustomConstraintViolationException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public Map<String, String> handleException(CustomConstraintViolationException e) {
-        Map<String, String> errorMap = new HashMap<>();
-        errorMap.put(e.getPropertyName(), e.getViolationMessage());
-        return errorMap;
-    }
-
     @ExceptionHandler(ArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
     public Map<String, String> handleException(ArgumentNotValidException e) {
-        Map<String, String> errorMap = new HashMap<>();
-        for (ConstraintViolation<Object> constraintViolation : e.getConstraintViolations()) {
-            errorMap.put(constraintViolation.getPropertyPath().toString(), constraintViolation.getMessage());
-        }
-        return errorMap;
+        return e.getErrorMap();
     }
 
     @ExceptionHandler({OperationFailedException.class, Exception.class, ServletException.class})

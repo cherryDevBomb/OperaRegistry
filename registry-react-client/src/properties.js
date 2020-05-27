@@ -8,7 +8,7 @@ export const LOGIN_URL = "/users/login";
 
 export const USERS_URL = "/users";
 export const USERS_GROUPED_URL = "/users/grouped";
-export const USERS_AVAILABLE_URL = "/available-receivers"
+export const DEPARTMENTS_URL = "/departments"
 
 export const ADMIN_URL = "/admin";
 export const PENDING_USERS_URL = "/admin/pending";
@@ -18,6 +18,7 @@ export const DOCUMENTS_URL = "/documents";
 export const MY_DOCUMENTS_URL = "/documents/created";
 export const DOCUMENTS_RECEIVED_URL = "/documents/received";
 export const DOCUMENTS_RECEIVED_ARCHIVED_URL = "/documents/received/archived";
+export const USERS_AVAILABLE_URL = "/available-receivers"
 export const ARCHIVE_DOCUMENT_URL = "/archive";
 export const RESOLVE_DOCUMENT_URL = "/resolve";
 

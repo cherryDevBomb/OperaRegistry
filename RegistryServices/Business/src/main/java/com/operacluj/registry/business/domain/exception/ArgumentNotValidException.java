@@ -3,12 +3,11 @@ package com.operacluj.registry.business.domain.exception;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import javax.validation.ConstraintViolation;
-import java.util.Set;
+import java.util.Map;
 
 @Getter
 @AllArgsConstructor
 public class ArgumentNotValidException extends RuntimeException {
 
-    private Set<ConstraintViolation<Object>> constraintViolations;
+    Map<String, String> errorMap;
 }
