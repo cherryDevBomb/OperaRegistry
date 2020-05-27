@@ -1,4 +1,10 @@
-import {ADMIN_URL, CONFIRM_REGISTRATION_URL, PENDING_USERS_URL, properties} from "../properties";
+import {
+  ADMIN_URL,
+  CONFIRM_REGISTRATION_URL,
+  DECLINE_REGISTRATION_URL,
+  PENDING_USERS_URL,
+  properties
+} from "../properties";
 import axios from "axios";
 import {GET_PENDING_USERS} from "./types";
 
@@ -12,7 +18,11 @@ export const getPendingUsers = () => async dispatch => {
 };
 
 export const confirmUserRegistration = (user) => async dispatch => {
-  console.log("registration confirmed", user.userId);
   const path = properties.serverURL + ADMIN_URL + CONFIRM_REGISTRATION_URL + "/" + user.userId;
   await axios.put(path);
+}
+
+export const declineUserRegistration = (user) => async dispatch => {
+  const path = properties.serverURL + ADMIN_URL + DECLINE_REGISTRATION_URL + "/" + user.userId;
+  await axios.delete(path);
 }

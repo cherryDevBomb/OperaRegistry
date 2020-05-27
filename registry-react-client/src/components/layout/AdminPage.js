@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
-import {confirmUserRegistration, getPendingUsers} from "../../actions/adminActions";
+import {confirmUserRegistration, declineUserRegistration, getPendingUsers} from "../../actions/adminActions";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import {getNoPendingUsersBanner} from "../../utils/emptyBanners";
@@ -24,8 +24,10 @@ class AdminPage extends Component {
     }
 
     this.confirmModalRef = React.createRef();
+    this.declineModalRef = React.createRef();
 
     this.confirmRegistration = this.confirmRegistration.bind(this);
+    this.declineRegistration = this.declineRegistration.bind(this);
   }
 
   componentDidMount() {
@@ -34,6 +36,11 @@ class AdminPage extends Component {
 
   async confirmRegistration(user) {
     await this.props.confirmUserRegistration(user);
+    this.props.getPendingUsers();
+  }
+
+  async declineRegistration(user) {
+    await this.props.declineUserRegistration(user);
     this.props.getPendingUsers();
   }
 
@@ -53,6 +60,11 @@ class AdminPage extends Component {
                                        actionName={"confirmați înregistrarea"}
                                        adminConfirmCallback={this.confirmRegistration}
               />
+              <AdminActionConfirmModal ref={this.declineModalRef}
+                                       user={user}
+                                       actionName={"refuzați înregistrarea"}
+                                       adminConfirmCallback={this.declineRegistration}
+              />
 
               <Card className="mx-sm-2 mt-3 shadow-sm">
                 <Card.Header>
@@ -66,6 +78,12 @@ class AdminPage extends Component {
                       </Col>
                       <Col xs={{span: "auto", order: 2}} sm={{span: "auto", order: 3}} className="my-0 py-0 ml-auto">
                         <Row>
+                          <Col xs="auto" className="my-auto pr-0">
+                            <Button variant="archive" size="sm" className="float-right"
+                                    onClick={(e) => this.declineModalRef.current.handleShow(user)}>
+                              Refuză
+                            </Button>
+                          </Col>
                           <Col xs="auto" className="my-auto">
                             <Button variant="archive" size="sm" className="float-right"
                                     onClick={(e) => this.confirmModalRef.current.handleShow(user)}>
@@ -126,15 +144,14 @@ class AdminPage extends Component {
 }
 
 AdminPage.propTypes = {
-  // errorReducer: PropTypes.object.isRequired,
   adminReducer: PropTypes.object.isRequired,
   getPendingUsers: PropTypes.func.isRequired,
   confirmUserRegistration: PropTypes.func.isRequired,
+  declineUserRegistration: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
   adminReducer: state.adminReducer,
-  // errorReducer: state.errorReducer
 });
 
-export default connect(mapStateToProps, {getPendingUsers, confirmUserRegistration})(AdminPage);
+export default connect(mapStateToProps, {getPendingUsers, confirmUserRegistration, declineUserRegistration})(AdminPage);

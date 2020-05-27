@@ -24,6 +24,10 @@ public interface UserRepository {
 
     List<User> getPendingUsers();
 
+    User getPendingUserById(int userId);
+
     int confirmUserRegistration(int userId);
+
+    int deleteUserById(int userId);
 }
 

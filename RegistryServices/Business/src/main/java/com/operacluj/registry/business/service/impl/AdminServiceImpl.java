@@ -2,6 +2,7 @@ package com.operacluj.registry.business.service.impl;
 
 import com.operacluj.registry.business.domain.dto.UserDTO;
 import com.operacluj.registry.business.domain.exception.ArgumentNotValidException;
+import com.operacluj.registry.business.domain.exception.EntityNotFoundException;
 import com.operacluj.registry.business.service.AdminService;
 import com.operacluj.registry.business.service.MailService;
 import com.operacluj.registry.business.translator.UserTranslator;
@@ -10,6 +11,7 @@ import com.operacluj.registry.model.User;
 import com.operacluj.registry.persistence.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -50,5 +52,20 @@ public class AdminServiceImpl implements AdminService {
         }
         User confirmedUser = userRepository.getUserById(userId);
         mailService.sendMailForRegistrationConfirmed(confirmedUser);
+    }
+
+    @Override
+    public void declineUserRegistration(int userId) {
+        log.info("Enter declineUserRegistration for userId {}", userId);
+        User declinedUser;
+        try {
+            declinedUser = userRepository.getPendingUserById(userId);
+        } catch (EmptyResultDataAccessException e) {
+            log.error("User {} not found", userId);
+            throw new EntityNotFoundException(ErrorMessageConstants.USER_NOT_FOUND, e);
+        }
+
+        userRepository.deleteUserById(userId);
+        mailService.sendMailForRegistrationDeclined(declinedUser);
     }
 }

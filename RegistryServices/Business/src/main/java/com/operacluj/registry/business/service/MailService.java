@@ -12,4 +12,6 @@ public interface MailService {
     void sendMailForNewRegistrationRequest(User user);
 
     void sendMailForRegistrationConfirmed(User user);
+
+    void sendMailForRegistrationDeclined(User user);
 }

@@ -50,8 +50,14 @@ public class UserRepositoryImpl implements UserRepository {
     @Value("${getPendingUsers}")
     private String getPendingUsersQuery;
 
+    @Value("${getPendingUserById}")
+    private String getPendingUserByIdQuery;
+
     @Value("${confirmUser}")
     private String confirmUserQuery;
+
+    @Value("${deleteUser}")
+    private String deleteUserQuery;
 
     @Override
     public User getUserByEmail(String email) {
@@ -95,9 +101,21 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
+    public User getPendingUserById(int userId) {
+        SqlParameterSource parameterSource = new MapSqlParameterSource("userid", userId);
+        return jdbcTemplate.queryForObject(getPendingUserByIdQuery, parameterSource, userMapper);
+    }
+
+    @Override
     public int confirmUserRegistration(int userId) {
         SqlParameterSource parameterSource = new MapSqlParameterSource("userid", userId);
         return jdbcTemplate.update(confirmUserQuery, parameterSource);
+    }
+
+    @Override
+    public int deleteUserById(int userId) {
+        SqlParameterSource parameterSource = new MapSqlParameterSource("userid", userId);
+        return jdbcTemplate.update(deleteUserQuery, parameterSource);
     }
 
     private SqlParameterSource getSqlParameterSourceForEntity(User user) {

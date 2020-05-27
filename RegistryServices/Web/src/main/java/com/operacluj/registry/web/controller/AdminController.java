@@ -29,4 +29,10 @@ public class AdminController {
     public void confirmUserRegistration(@PathVariable int userId) {
         adminService.confirmUserRegistration(userId);
     }
+
+    @DeleteMapping(path = "/decline/{userId}")
+    @ResponseStatus(HttpStatus.OK)
+    public void declineUserRegistration(@PathVariable int userId) {
+        adminService.declineUserRegistration(userId);
+    }
 }

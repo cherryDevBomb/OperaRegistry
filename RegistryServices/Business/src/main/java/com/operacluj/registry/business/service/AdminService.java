@@ -9,4 +9,6 @@ public interface AdminService {
     List<UserDTO> getPendingUsers();
 
     void confirmUserRegistration(int userId);
+
+    void declineUserRegistration(int userId);
 }

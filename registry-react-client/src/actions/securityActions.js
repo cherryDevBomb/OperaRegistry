@@ -1,10 +1,7 @@
 import axios from "axios";
-import { properties } from "../properties.js";
-import { REGISTER_URL } from "../properties";
-import { LOGIN_PATH } from "../properties";
-import { LOGIN_URL } from "../properties";
-import { GET_ERRORS } from "./types.js";
-import { SET_CURRENT_USER } from "./types.js";
+import {properties} from "../properties.js";
+import {LOGIN_URL, REGISTER_URL} from "../properties";
+import {GET_ERRORS, SET_CURRENT_USER} from "./types.js";
 import setJWTToken from "../utils/securityUtils.js";
 import jwt_decode from "jwt-decode";
 
@@ -30,7 +27,7 @@ export const login = LoginRequest => async dispatch => {
     const path = properties.serverURL + LOGIN_URL;
     console.log(path);
     const res = await axios.post(path, LoginRequest);
-    const { token } = res.data;
+    const {token} = res.data;
     localStorage.setItem("jwtToken", token);
     //set token in header
     setJWTToken(token);

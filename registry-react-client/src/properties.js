@@ -13,6 +13,7 @@ export const DEPARTMENTS_URL = "/departments"
 export const ADMIN_URL = "/admin";
 export const PENDING_USERS_URL = "/admin/pending";
 export const CONFIRM_REGISTRATION_URL = "/confirm";
+export const DECLINE_REGISTRATION_URL = "/decline";
 
 export const DOCUMENTS_URL = "/documents";
 export const MY_DOCUMENTS_URL = "/documents/created";
