@@ -8,12 +8,11 @@ import { SET_CURRENT_USER } from "./types.js";
 import setJWTToken from "../utils/securityUtils.js";
 import jwt_decode from "jwt-decode";
 
-export const createUser = (newUser, history) => async dispatch => {
+export const createUser = (newUser) => async dispatch => {
   try {
     const path = properties.serverURL + REGISTER_URL;
     console.log(path);
     await axios.post(path, newUser);
-    history.push(LOGIN_PATH);
     dispatch({
       type: GET_ERRORS,
       payload: {}
