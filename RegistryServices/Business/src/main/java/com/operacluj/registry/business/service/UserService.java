@@ -25,4 +25,6 @@ public interface UserService extends UserDetailsService {
     List<DepartmentDTO> getUsersGroupedByDepartment(List<UserDTO> users);
 
     int addUser(UserForm userForm);
+
+    List<String> getAllDepartments();
 }

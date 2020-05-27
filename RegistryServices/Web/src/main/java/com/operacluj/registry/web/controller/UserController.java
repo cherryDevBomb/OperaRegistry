@@ -57,4 +57,10 @@ public class UserController {
     public JWTLoginSuccessResponse authenticateUser(@RequestBody LoginRequest loginRequest) {
         return authenticationService.loginUser(loginRequest);
     }
+
+    @GetMapping("/departments")
+    @ResponseStatus(HttpStatus.OK)
+    public List<String> getAllDepartments() {
+        return userService.getAllDepartments();
+    }
 }

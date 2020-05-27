@@ -144,4 +144,10 @@ public class UserServiceImpl implements UserService {
         }).start();
         return newUser.getUserId();
     }
+
+    public List<String> getAllDepartments() {
+        log.debug("Enter getAllDepartments");
+        return Department.getAllDepartments();
+
+    }
 }

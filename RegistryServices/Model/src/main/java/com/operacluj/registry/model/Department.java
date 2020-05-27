@@ -56,7 +56,7 @@ public enum Department {
      *
      * @return list of departments represented by their text value
      */
-    public List<String> getAllDepartments() {
+    public static List<String> getAllDepartments() {
         return EnumSet.allOf(Department.class).stream()
                 .map(Department::getTextValue)
                 .sorted()
