@@ -16,9 +16,9 @@ public interface UserService extends UserDetailsService {
 
     User getUserByEmail(String email);
 
-    List<User> getUsersByRole(UserRole role);
-
     List<UserDTO> getAllUsers(boolean includePrincipal, Principal principal);
+
+    List<UserDTO> getUsersByRole(UserRole role);
 
     List<DepartmentDTO> getAllUsersGroupedByDepartment(boolean includePrincipal, Principal principal);
 

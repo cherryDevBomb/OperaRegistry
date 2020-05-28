@@ -8,6 +8,7 @@ import com.operacluj.registry.business.security.payload.LoginRequest;
 import com.operacluj.registry.business.service.AuthenticationService;
 import com.operacluj.registry.business.service.UserService;
 import com.operacluj.registry.model.User;
+import com.operacluj.registry.model.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -38,6 +39,12 @@ public class UserController {
     @ResponseStatus(HttpStatus.OK)
     public List<UserDTO> getAllUsers(@RequestParam boolean includePrincipal, Principal principal) {
         return userService.getAllUsers(includePrincipal, principal);
+    }
+
+    @GetMapping("/role")
+    @ResponseStatus(HttpStatus.OK)
+    public List<UserDTO> getUsersByRole(@RequestParam String role) {
+        return userService.getUsersByRole(UserRole.valueOf(role));
     }
 
     @GetMapping("/grouped")

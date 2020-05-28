@@ -83,13 +83,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public List<User> getUsersByRole(UserRole role) {
-        log.debug("Enter getAllUsersByRole {}", role);
-        return userRepository.getAllUsersByRole(role);
-    }
-
-    @Override
-    @Transactional
     public List<UserDTO> getAllUsers(boolean includePrincipal, Principal principal) {
         log.debug("Enter getAllUsers requested by {}", principal.getName());
         List<User> users;
@@ -105,6 +98,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
+    public List<UserDTO> getUsersByRole(UserRole role) {
+        log.debug("Enter getAllUsersByRole {}", role);
+        return userRepository.getAllUsersByRole(role).stream()
+                .map(user -> userTranslator.translate(user))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
     public List<DepartmentDTO> getAllUsersGroupedByDepartment(boolean includePrincipal, Principal principal) {
         log.debug("Enter getAllUsersGroupedByDepartment requested by {}", principal.getName());
         List<UserDTO> allUsers = getAllUsers(includePrincipal, principal);
@@ -113,6 +115,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
+    //TODO make this return also departments with empty list of users
     public List<DepartmentDTO> getUsersGroupedByDepartment(List<UserDTO> users) {
         log.debug("Enter getUsersGroupedByDepartment");
         Map<String, List<UserDTO>> departmentMap = users.stream()

@@ -1,7 +1,9 @@
 package com.operacluj.registry.business.service.impl;
 
+import com.operacluj.registry.business.domain.dto.UserDTO;
 import com.operacluj.registry.business.service.MailService;
 import com.operacluj.registry.business.service.UserService;
+import com.operacluj.registry.business.translator.UserTranslator;
 import com.operacluj.registry.model.DocumentHistory;
 import com.operacluj.registry.model.User;
 import com.operacluj.registry.model.UserRole;
@@ -31,6 +33,9 @@ public class MailServiceImpl implements MailService {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private UserTranslator userTranslator;
 
     @Autowired
     private FreeMarkerConfig freeMarkerConfig;
@@ -68,8 +73,8 @@ public class MailServiceImpl implements MailService {
     @Override
     public void sendMailForNewRegistrationRequest(User user) {
         Map<String, String> placeholderMap = getUserPlaceholderMap(user);
-        List<User> adminUsers = userService.getUsersByRole(UserRole.ROLE_ADMIN);
-        adminUsers.forEach(admin -> sendMail(admin, REGISTRATION_REQUEST_SUBJECT, REGISTRATION_REQUEST_TEMPLATE, placeholderMap));
+        List<UserDTO> adminUsers = userService.getUsersByRole(UserRole.ROLE_ADMIN);
+        adminUsers.forEach(admin -> sendMail(userTranslator.translate(admin), REGISTRATION_REQUEST_SUBJECT, REGISTRATION_REQUEST_TEMPLATE, placeholderMap));
     }
 
     @Override

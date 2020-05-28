@@ -37,6 +37,16 @@ public class UserTranslator {
         return userDTO;
     }
 
+    public User translate(UserDTO userDTO) {
+        User user = new User();
+        user.setUserId(userDTO.getUserId());
+        user.setFirstName(userDTO.getFirstName());
+        user.setLastName(userDTO.getLastName());
+        user.setEmail(userDTO.getEmail());
+        user.setDepartment(Department.getDepartment(userDTO.getDepartment()));
+        return user;
+    }
+
     public User getUserFromPrincipal(Principal principal) {
         return (User) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
     }
