@@ -15,9 +15,9 @@ public class DocumentForm {
 
     private String origin;
 
-    private boolean isOriginExternal;
+    private boolean originExternal;
 
-    private boolean isDestinationExternal;
+    private boolean destinationExternal;
 
     @NotEmpty(message = ErrorMessageConstants.REQUIRED_FIELD)
     private List<String> recipients;

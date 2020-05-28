@@ -15,7 +15,7 @@ import Col from "react-bootstrap/Col";
 import {UPDATE_SELECTED_USERS_FOR_DOCUMENT_HISTORY} from "../../actions/types";
 import {getAllUsers, updateAllUsers, updateSelectedUsers} from "../../actions/userActions";
 import FileUploadModal from "../fragments/document/FileUploadModal";
-import Spinner from "react-bootstrap/Spinner";
+import {buttonSpinner} from "../../utils/spinnerUtils";
 
 class CreateDocument extends Component {
   componentDidMount() {
@@ -107,8 +107,8 @@ class CreateDocument extends Component {
     const newDocument = {
       title: this.state.title,
       origin: this.state.origin,
-      isOriginExternal: this.state.isOriginExternal,
-      isDestinationExternal: this.state.isDestinationExternal,
+      originExternal: this.state.isOriginExternal,
+      destinationExternal: this.state.isDestinationExternal,
       recipients: this.state.recipients,
       sentMessage: this.state.sentMessage
     };
@@ -369,15 +369,7 @@ class CreateDocument extends Component {
             {formGroupSentMessage}
             <Row className="mt-3 mb=3"><Col className="text-center">
               <Button variant="primary" type="submit" className="float-sm-right">
-                {this.state.isLoading &&
-                <Spinner className="mr-2"
-                         as="span"
-                         animation="border"
-                         variant="light"
-                         size="sm"
-                         role="status"
-                         aria-hidden="true"
-                />}
+                {this.state.isLoading && buttonSpinner()}
                 Confirmă
               </Button>
             </Col></Row>
