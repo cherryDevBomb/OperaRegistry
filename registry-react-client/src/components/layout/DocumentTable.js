@@ -14,7 +14,7 @@ import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import {generateReport} from "../../actions/reportActions";
 import Spinner from "react-bootstrap/Spinner";
-import {spinnerBanner} from "../../utils/spinnerBanner";
+import {spinnerBanner} from "../../utils/spinnerUtils";
 import {getNoSearchResultBanner} from "../../utils/emptyBanners";
 
 class DocumentTable extends Component {

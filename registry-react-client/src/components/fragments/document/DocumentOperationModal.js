@@ -6,6 +6,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import {connect} from "react-redux";
+import {buttonSpinner} from "../../../utils/spinnerUtils";
 
 class DocumentOperationModal extends Component {
 
@@ -20,7 +21,8 @@ class DocumentOperationModal extends Component {
     this.state = {
       show: false,
       registryNumber: null,
-      message: ""
+      message: "",
+      isLoading: false
     }
   }
 
@@ -39,10 +41,12 @@ class DocumentOperationModal extends Component {
     this.setState({message: e.target.value})
   }
 
-  onSubmit(e) {
+  async onSubmit(e) {
     e.preventDefault();
+    this.setState({isLoading: true});
+    await this.props.documentOperationCallback(this.state.message);
+    this.setState({isLoading: false});
     this.handleClose();
-    this.props.documentOperationCallback(this.state.message);
   }
 
   onSkipClick = () => {
@@ -89,6 +93,7 @@ class DocumentOperationModal extends Component {
                 </Col>
                 <Col xs="auto" className="my-auto">
                   <Button variant="primary" type="submit" onSubmit={this.onSubmit}>
+                    {this.state.isLoading && buttonSpinner()}
                     Confirmă
                   </Button>
                 </Col>

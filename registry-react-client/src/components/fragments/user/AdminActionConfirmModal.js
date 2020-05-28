@@ -5,6 +5,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import {connect} from "react-redux";
+import {buttonSpinner} from "../../../utils/spinnerUtils";
 
 class AdminActionConfirmModal extends Component {
 
@@ -18,6 +19,7 @@ class AdminActionConfirmModal extends Component {
     this.state = {
       show: false,
       user: null,
+      isLoading: false
     }
   }
 
@@ -32,10 +34,12 @@ class AdminActionConfirmModal extends Component {
     this.setState({show: false})
   }
 
-  onConfirm(e) {
+  async onConfirm(e) {
     e.preventDefault();
+    this.setState({isLoading: true});
+    await this.props.adminConfirmCallback(this.props.user);
+    this.setState({isLoading: false});
     this.handleClose();
-    this.props.adminConfirmCallback(this.props.user);
   }
 
   onSkipClick = () => {
@@ -71,6 +75,7 @@ class AdminActionConfirmModal extends Component {
               </Col>
               <Col xs="auto" className="my-auto">
                 <Button variant="primary" type="submit" onClick={this.onConfirm}>
+                  {this.state.isLoading && buttonSpinner()}
                   Confirmă
                 </Button>
               </Col>

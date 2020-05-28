@@ -21,3 +21,16 @@ export const spinnerBanner = () => {
     </React.Fragment>
   )
 }
+
+export const buttonSpinner = () => {
+  return (
+    <Spinner className="mr-2"
+             as="span"
+             animation="border"
+             variant="light"
+             size="sm"
+             role="status"
+             aria-hidden="true"
+    />
+  )
+}

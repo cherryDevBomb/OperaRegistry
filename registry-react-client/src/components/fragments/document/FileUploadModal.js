@@ -23,7 +23,8 @@ class FileUploadModal extends Component {
     this.state = {
       show: false,
       registryNumber: null,
-      file: null
+      file: null,
+      isLoading: false
     }
   }
 
@@ -45,6 +46,7 @@ class FileUploadModal extends Component {
 
   async onSubmit(e) {
     e.preventDefault();
+    this.setState({isLoading: true});
     await this.props.uploadFile(this.state.file, this.state.registryNumber, this.props.history);
     if (!this.props.errorReducer.file) {
       if (!this.props.history) {
@@ -62,9 +64,17 @@ class FileUploadModal extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  static getDerivedStateFromProps(nextProps, prevState) {
     if (nextProps.errorReducer) {
-      this.setState({errorReducer: nextProps.errorReducer});
+      return {errorReducer: nextProps.errorReducer};
+    } else {
+      return null;
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState, ss) {
+    if (prevProps.errorReducer && prevProps.errorReducer !== this.props.errorReducer) {
+      this.setState({errorReducer: prevProps.errorReducer});
     }
   }
 
