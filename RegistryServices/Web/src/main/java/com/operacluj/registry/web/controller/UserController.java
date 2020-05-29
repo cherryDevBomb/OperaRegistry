@@ -53,6 +53,12 @@ public class UserController {
         return userService.getAllUsersGroupedByDepartment(includePrincipal, principal);
     }
 
+    @GetMapping("/grouped/role")
+    @ResponseStatus(HttpStatus.OK)
+    public List<DepartmentDTO> getUsersByRoleGrouped(@RequestParam String role) {
+        return userService.getUsersByRoleGroupedByDepartment(UserRole.valueOf(role));
+    }
+
     @PostMapping(path = "/register", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public int registerUser(@RequestBody UserForm userForm) {

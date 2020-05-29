@@ -22,6 +22,8 @@ public interface UserService extends UserDetailsService {
 
     List<DepartmentDTO> getAllUsersGroupedByDepartment(boolean includePrincipal, Principal principal);
 
+    List<DepartmentDTO> getUsersByRoleGroupedByDepartment(UserRole role);
+
     List<DepartmentDTO> getUsersGroupedByDepartment(List<UserDTO> users);
 
     int addUser(UserForm userForm);
