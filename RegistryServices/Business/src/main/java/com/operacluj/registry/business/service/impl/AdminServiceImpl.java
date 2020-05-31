@@ -55,6 +55,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
+    @Transactional
     public void declineUserRegistration(int userId) {
         log.info("Enter declineUserRegistration for userId {}", userId);
         User declinedUser;
@@ -67,5 +68,16 @@ public class AdminServiceImpl implements AdminService {
 
         userRepository.deleteUserById(userId);
         mailService.sendMailForRegistrationDeclined(declinedUser);
+    }
+
+    @Override
+    public void grantAdminRole(int userId) {
+        log.info("Enter grantAdminRoles for user {}", userId);
+        try {
+            userRepository.grantAdminRole(userId);
+        } catch (EmptyResultDataAccessException e) {
+            log.error("User {} not found", userId);
+            throw new EntityNotFoundException(ErrorMessageConstants.USER_NOT_FOUND, e);
+        }
     }
 }

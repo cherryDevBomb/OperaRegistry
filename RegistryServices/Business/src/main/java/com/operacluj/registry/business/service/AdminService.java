@@ -11,4 +11,6 @@ public interface AdminService {
     void confirmUserRegistration(int userId);
 
     void declineUserRegistration(int userId);
+
+    void grantAdminRole(int userId);
 }

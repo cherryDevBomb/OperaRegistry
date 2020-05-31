@@ -59,6 +59,9 @@ public class UserRepositoryImpl implements UserRepository {
     @Value("${deleteUser}")
     private String deleteUserQuery;
 
+    @Value("${makeAdminUser}")
+    private String makeAdminUserQuery;
+
     @Override
     public User getUserByEmail(String email) {
         SqlParameterSource parameterSource = new MapSqlParameterSource("email", email);
@@ -116,6 +119,16 @@ public class UserRepositoryImpl implements UserRepository {
     public int deleteUserById(int userId) {
         SqlParameterSource parameterSource = new MapSqlParameterSource("userid", userId);
         return jdbcTemplate.update(deleteUserQuery, parameterSource);
+    }
+
+    @Override
+    public void grantAdminRole(Integer userId) {
+        try {
+            SqlParameterSource parameterSource = new MapSqlParameterSource("userid", userId);
+            jdbcTemplate.update(makeAdminUserQuery, parameterSource);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private SqlParameterSource getSqlParameterSourceForEntity(User user) {

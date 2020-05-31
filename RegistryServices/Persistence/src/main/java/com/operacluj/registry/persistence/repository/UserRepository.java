@@ -29,5 +29,7 @@ public interface UserRepository {
     int confirmUserRegistration(int userId);
 
     int deleteUserById(int userId);
+
+    void grantAdminRole(Integer userId);
 }
 

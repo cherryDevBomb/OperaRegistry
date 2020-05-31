@@ -35,4 +35,10 @@ public class AdminController {
     public void declineUserRegistration(@PathVariable int userId) {
         adminService.declineUserRegistration(userId);
     }
+
+    @PutMapping(path = "/grant/{userId}")
+    @ResponseStatus(HttpStatus.OK)
+    public void grantAdminRole(@PathVariable int userId) {
+        adminService.grantAdminRole(userId);
+    }
 }
