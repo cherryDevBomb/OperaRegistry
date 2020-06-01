@@ -8,6 +8,9 @@ import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
 import {spinnerBanner} from "../../utils/spinnerUtils";
 import PendingUserCard from "../fragments/user/PendingUserCard";
+import {getUsersByRole, updateAllUsers} from "../../actions/userActions";
+import {ROLE_USER} from "../../constants/appConstants";
+import GrantAdminRoleTab from "../fragments/user/RoleManagementTab";
 
 class AdminPage extends Component {
   constructor(props) {
@@ -20,6 +23,12 @@ class AdminPage extends Component {
 
   componentDidMount() {
     this.props.getPendingUsers();
+    this.props.getUsersByRole(ROLE_USER);
+  }
+
+  componentWillUnmount() {
+    this.props.updateAllUsers([]);
+    console.log(this.props.userReducer.allUsers);
   }
 
   render() {
@@ -48,8 +57,8 @@ class AdminPage extends Component {
             <Tab eventKey="open" title="Cereri de înregistrare" className="tab-left">
               {tabConfirmationsContent}
             </Tab>
-            <Tab eventKey="archived" title="Management privilegii" className="tab-right">
-              {/*{tabArchivedContent}*/}
+            <Tab eventKey="archived" title="Management roluri" className="tab-right">
+              <GrantAdminRoleTab/>
             </Tab>
           </Tabs>
         </Jumbotron>
@@ -60,11 +69,15 @@ class AdminPage extends Component {
 
 AdminPage.propTypes = {
   adminReducer: PropTypes.object.isRequired,
-  getPendingUsers: PropTypes.func.isRequired
+  userReducer: PropTypes.object.isRequired,
+  getPendingUsers: PropTypes.func.isRequired,
+  getUsersByRole: PropTypes.func.isRequired,
+  updateAllUsers: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
   adminReducer: state.adminReducer,
+  userReducer: state.userReducer
 });
 
-export default connect(mapStateToProps, {getPendingUsers})(AdminPage);
+export default connect(mapStateToProps, {getPendingUsers, getUsersByRole, updateAllUsers})(AdminPage);

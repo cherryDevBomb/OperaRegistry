@@ -15,11 +15,10 @@ import {
   UPDATE_SELECTED_USERS_FOR_DESTINATION_SEARCH,
   UPDATE_SELECTED_USERS_FOR_ORIGIN_SEARCH
 } from "../../../actions/types";
-import {getAllUsers} from "../../../actions/userActions";
+import {getAllUsers, updateAllUsers, updateSelectedUsers} from "../../../actions/userActions";
 import DatePicker from "react-datepicker/es";
 import 'react-datepicker/dist/react-datepicker.css';
 import "../../../style/reusables/document-search.css"
-// import 'bootstrap-select/dist/css/bootstrap-select.css'
 import {getDefaultSearchDetails} from "../../../utils/documentSearchUtils";
 import Spinner from "react-bootstrap/Spinner";
 
@@ -41,19 +40,38 @@ class DocumentSearch extends Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
+  componentDidMount() {
+    this.setState({showDropdown: false});
+    this.setState({isLoading: false});
+    // this.props.getAllUsers(true);
+    this.getUsersNotSelected();
+  }
+
   getSnapshotBeforeUpdate(prevProps, prevState) {
     let snapshot = {};
-    if (this.refOrigin && this.refOrigin.current) {
-      let selectedUsersForOriginSearch = this.refOrigin.current.props.userReducer.selectedUsersForOriginSearch
-      if (selectedUsersForOriginSearch && selectedUsersForOriginSearch !== this.state.originUsers) {
-        snapshot.origin = selectedUsersForOriginSearch;
-      }
+    // if (this.refOrigin && this.refOrigin.current) {
+    //   console.log("entered if current")
+    //   let selectedUsersForOriginSearch = this.refOrigin.current.props.userReducer.selectedUsersForOriginSearch
+    //   console.log("selected:", selectedUsersForOriginSearch)
+    //   if (selectedUsersForOriginSearch && selectedUsersForOriginSearch !== this.state.originUsers) {
+    //     console.log("entered if state diff")
+    //     snapshot.origin = selectedUsersForOriginSearch;
+    //   }
+    // }
+    // if (this.refDestination && this.refDestination.current) {
+    //   let selectedUsersForDestinationSearch = this.refDestination.current.props.userReducer.selectedUsersForDestinationSearch;
+    //   if (selectedUsersForDestinationSearch && selectedUsersForDestinationSearch !== this.state.destinationUsers) {
+    //     snapshot.destination = selectedUsersForDestinationSearch;
+    //   }
+    // }
+
+    let selectedUsersForOriginSearch = this.props.userReducer.selectedUsersForOriginSearch;
+    if (selectedUsersForOriginSearch && selectedUsersForOriginSearch !== this.state.originUsers) {
+      snapshot.origin = selectedUsersForOriginSearch;
     }
-    if (this.refDestination && this.refDestination.current) {
-      let selectedUsersForDestinationSearch = this.refDestination.current.props.userReducer.selectedUsersForDestinationSearch;
-      if (selectedUsersForDestinationSearch && selectedUsersForDestinationSearch !== this.state.destinationUsers) {
-        snapshot.destination = selectedUsersForDestinationSearch;
-      }
+    let selectedUsersForDestinationSearch = this.props.userReducer.selectedUsersForDestinationSearch;
+    if (selectedUsersForDestinationSearch && selectedUsersForDestinationSearch !== this.state.destinationUsers) {
+      snapshot.destination = selectedUsersForDestinationSearch;
     }
     return snapshot;
   }
@@ -72,6 +90,27 @@ class DocumentSearch extends Component {
 
   componentWillUnmount() {
     this.props.getAllUsers(false);
+  }
+
+  async getUsersNotSelected() {
+    await this.props.getAllUsers(true);
+    const selectedOrigin = this.props.userReducer.selectedUsersForOriginSearch;
+    const selectedDestination = this.props.userReducer.selectedUsersForDestinationSearch;
+
+    let remainingUsers = this.props.userReducer.allUsers
+      .map(section => {
+        return {
+          department: section.department,
+          departmentName: section.departmentName,
+          departmentUsers: section.departmentUsers.filter(item => {
+              const includedInOrigin = selectedOrigin.some(selectedItem => selectedItem.userId === item.userId);
+              const includedInDestination = selectedDestination.some(selectedItem => selectedItem.userId === item.userId);
+              return !includedInOrigin && !includedInDestination;
+            }
+          )
+        };
+      })
+    this.props.updateAllUsers(remainingUsers);
   }
 
   onChange(e) {
@@ -112,8 +151,12 @@ class DocumentSearch extends Component {
   async resetSearchDetails() {
     this.setState({isLoading: true});
 
-    const newState = getDefaultSearchDetails();
+    await this.props.updateSelectedUsers([], UPDATE_SELECTED_USERS_FOR_ORIGIN_SEARCH);
+    await this.props.updateSelectedUsers([], UPDATE_SELECTED_USERS_FOR_DESTINATION_SEARCH);
+    await this.refOrigin.current && this.refOrigin.current.clearPrevSelections();
+    await this.refDestination.current && this.refDestination.current.clearPrevSelections();
 
+    const newState = getDefaultSearchDetails();
     this.props.saveSearchDetails(newState);
     await this.setState(
       {
@@ -141,7 +184,7 @@ class DocumentSearch extends Component {
 
   async onSubmit(e) {
     e.preventDefault();
-    this.setState({isLoading: true});
+    await this.setState({isLoading: true});
 
     // check if origin & destination should be updated before saving state to store
     let origin;
@@ -384,11 +427,11 @@ class DocumentSearch extends Component {
               >
                 {this.state.isLoading &&
                 <Spinner
-                         animation="border"
-                         variant="brownish"
-                         size="sm"
-                         role="status"
-                         aria-hidden="true"
+                  animation="border"
+                  variant="brownish"
+                  size="sm"
+                  role="status"
+                  aria-hidden="true"
                 />}
                 {!this.state.isLoading && <i className="fas fa-search"></i>}
 
@@ -419,13 +462,23 @@ class DocumentSearch extends Component {
 
 DocumentSearch.propTypes = {
   documentReducer: PropTypes.object.isRequired,
+  userReducer: PropTypes.object.isRequired,
   getAllUsers: PropTypes.func.isRequired,
   getDocuments: PropTypes.func.isRequired,
   saveSearchDetails: PropTypes.func.isRequired,
+  updateAllUsers: PropTypes.func.isRequired,
+  updateSelectedUsers: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
   documentReducer: state.documentReducer,
+  userReducer: state.userReducer,
 });
 
-export default connect(mapStateToProps, {getAllUsers, getDocuments, saveSearchDetails})(DocumentSearch);
+export default connect(mapStateToProps, {
+  getAllUsers,
+  getDocuments,
+  saveSearchDetails,
+  updateAllUsers,
+  updateSelectedUsers
+})(DocumentSearch);

@@ -2,7 +2,7 @@ import Autosuggest from 'react-autosuggest';
 import React, {Component} from "react";
 import "../../../style/reusables/autosuggest.css"
 import Button from "react-bootstrap/Button";
-import {getAllUsers, updateAllUsers, updateSelectedUsers} from "../../../actions/userActions";
+import {getAllUsers, getUsersByRole, updateAllUsers, updateSelectedUsers} from "../../../actions/userActions";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {getFullName} from "../../../utils/userUtils";
@@ -11,13 +11,6 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
 class UserAutosuggest extends Component {
-  componentDidMount() {
-    let {includePrincipal} = this.props;
-    if (this.props.userReducer.allUsers.length === 0) {
-      this.props.getAllUsers(includePrincipal);
-    }
-  }
-
   constructor(props) {
     super(props);
 
@@ -31,11 +24,31 @@ class UserAutosuggest extends Component {
     };
   }
 
+  componentDidMount() {
+    // if (this.props.actionType === UPDATE_SELECTED_USERS_FOR_GRANT_ADMIN_ROLE) {
+    //   console.log("getting all users in admin")
+    //   this.props.getUsersByRole(ROLE_USER);
+    // }
+    // else {
+    //   let {includePrincipal} = this.props;
+    //   if (this.props.userReducer.allUsers.length === 0) {
+    //     console.log("getting all users in search")
+    //     this.props.getAllUsers(includePrincipal);
+    //   }
+    // }
+  }
+
   onChange = (event, {newValue}) => {
     this.setState({
       value: newValue
     });
   };
+
+  clearPrevSelections() {
+    this.setState({
+      allSelectedUsers: []
+    });
+  }
 
   //how to calculate suggestions for any given input value.
   getSuggestions = value => {
@@ -136,7 +149,7 @@ class UserAutosuggest extends Component {
         return {
           department: section.department,
           departmentName: section.departmentName,
-          departmentUsers: (e.department === section.department) ? [...section.departmentUsers, e] : section.departmentUsers
+          departmentUsers: (e.department === section.departmentName) ? [...section.departmentUsers, e] : section.departmentUsers
         }
       });
     this.props.updateAllUsers(remainingUsers);
@@ -188,6 +201,7 @@ class UserAutosuggest extends Component {
 UserAutosuggest.propTypes = {
   userReducer: PropTypes.object.isRequired,
   getAllUsers: PropTypes.func.isRequired,
+  getUsersByRole: PropTypes.func.isRequired,
   updateSelectedUsers: PropTypes.func.isRequired,
   updateAllUsers: PropTypes.func.isRequired
 };
@@ -198,6 +212,7 @@ const mapStateToProps = state => ({
 
 export default connect(mapStateToProps, {
   getAllUsers,
+  getUsersByRole,
   updateSelectedUsers,
   updateAllUsers
 }, null, {forwardRef: true})(UserAutosuggest);

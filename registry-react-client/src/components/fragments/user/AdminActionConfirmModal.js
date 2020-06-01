@@ -47,6 +47,13 @@ class AdminActionConfirmModal extends Component {
   }
 
   render() {
+    let chosenUsers;
+    if (Array.isArray(this.props.user)) {
+      chosenUsers = this.props.user.map(user => user.fullName).join()
+    } else {
+      chosenUsers = (this.props.user.fullName)
+    }
+
     return (
       <React.Fragment>
         <Modal
@@ -61,8 +68,7 @@ class AdminActionConfirmModal extends Component {
           <Modal.Body>
             <Row className="my-2">
               <Col>
-                <p>Sunteți sigur că doriți
-                  să {this.props.actionName} utilizatorului <strong>{this.props.user.fullName}</strong>?</p>
+                <p>Sunteți sigur că doriți să {this.props.actionName} utilizatorului <strong>{chosenUsers}</strong>?</p>
               </Col>
             </Row>
             <Row className="mt-3 mb-2 mr-1 justify-content-end">

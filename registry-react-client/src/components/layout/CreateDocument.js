@@ -19,6 +19,7 @@ import {buttonSpinner} from "../../utils/spinnerUtils";
 
 class CreateDocument extends Component {
   componentDidMount() {
+    this.props.getAllUsers(false);
     this.props.updateSelectedUsers([], UPDATE_SELECTED_USERS_FOR_DOCUMENT_HISTORY);
   }
 
@@ -88,6 +89,8 @@ class CreateDocument extends Component {
   onDestinationTypeChange(e) {
     if (e === "external") {
       this.setState({isDestinationExternal: true});
+      this.props.updateSelectedUsers([], UPDATE_SELECTED_USERS_FOR_DOCUMENT_HISTORY);
+      this.props.getAllUsers(false);
     } else {
       this.setState({isDestinationExternal: false});
     }
@@ -128,7 +131,6 @@ class CreateDocument extends Component {
       this.setState({
         recipients: recipientEmails
       }, () => {
-        console.log("recipients in onSubmit", this.state.recipients);
         this.createDocument()
       });
     } else {

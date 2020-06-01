@@ -1,7 +1,15 @@
 import axios from "axios";
-import {GET_ALL_DEPARTMENTS, GET_ALL_USERS, UPDATE_ALL_USERS} from "./types";
+import {GET_ADMIN_USERS, GET_ALL_DEPARTMENTS, GET_ALL_USERS, UPDATE_ALL_USERS} from "./types";
 import {properties} from "../properties.js";
-import {DEPARTMENTS_URL, DOCUMENTS_URL, USERS_AVAILABLE_URL, USERS_GROUPED_URL, USERS_URL} from "../properties";
+import {
+  DEPARTMENTS_URL,
+  DOCUMENTS_URL,
+  USERS_AVAILABLE_URL,
+  USERS_BY_ROLE_URL,
+  USERS_GROUPED_URL,
+  USERS_URL
+} from "../properties";
+import {ROLE_ADMIN} from "../constants/appConstants";
 
 export const getAllUsers = includePrincipal => async dispatch => {
   const path = properties.serverURL + USERS_GROUPED_URL;
@@ -11,6 +19,16 @@ export const getAllUsers = includePrincipal => async dispatch => {
     payload: res.data
   });
 };
+
+export const getUsersByRole = (role) => async dispatch => {
+  const path = properties.serverURL + USERS_GROUPED_URL + USERS_BY_ROLE_URL;
+  const actionType = role === ROLE_ADMIN ? GET_ADMIN_USERS : GET_ALL_USERS;
+  const res = await axios.get(path, {params: {role: role}});
+  dispatch({
+    type: actionType,
+    payload: res.data
+  });
+}
 
 export const updateSelectedUsers = (selectedUsers, actionType) => dispatch => {
   dispatch({
