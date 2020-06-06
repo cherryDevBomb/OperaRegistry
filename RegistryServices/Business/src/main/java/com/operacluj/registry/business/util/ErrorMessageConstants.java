@@ -18,6 +18,7 @@ public class ErrorMessageConstants {
     public static final String FILE_UPLOAD_FAILED = "Failed to upload file";
     public static final String FILE_DOWNLOAD_FAILED = "Failed to download file";
     public static final String FILE_COUNT_FAILED = "Failed to count attached files";
+    public static final String UNSUPPORTED_FILE_TYPE = "Acest tip de fișier nu este suportat";
 
     public static final String REPORT_GENERATION_FAILED = "Failed to generate report";
 
