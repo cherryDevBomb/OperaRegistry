@@ -26,7 +26,7 @@ import {
   ADMIN_PATH,
   DOCUMENTS_PATH,
   HELP_PATH,
-  MY_DOCUMENTS_PATH,
+  MY_DOCUMENTS_PATH, MY_PROFILE_PATH,
   NEW_DOCUMENT_PATH,
   RECEIVED_DOCUMENTS_PATH,
   REGISTER_PATH
@@ -40,6 +40,7 @@ import MyDocuments from "./components/layout/MyDocuments";
 import ReceivedDocuments from "./components/layout/ReceivedDocuments";
 import HelpPage from "./components/layout/HelpPage";
 import AdminPage from "./components/layout/AdminPage";
+import MyProfilePage from "./components/fragments/user/MyProfilePage";
 
 const jwtToken = localStorage.jwtToken;
 
@@ -89,6 +90,11 @@ class App extends Component {
                 exact
                 path={NEW_DOCUMENT_PATH}
                 component={CreateDocument}
+              />
+              <SecuredRoute
+                exact
+                path={MY_PROFILE_PATH}
+                component={MyProfilePage}
               />
               <SecuredRoute
                 exact
