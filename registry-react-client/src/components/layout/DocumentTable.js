@@ -41,10 +41,13 @@ class DocumentTable extends Component {
 
   pageChanged(e) {
     const newPage = getNewPageNumber(e, this.state.activePage, this.props.documentReducer.documentsPageCount);
-    this.setState({activePage: newPage}, () => {
-      this.loadCurrentPage();
-      window.scrollTo({top: 0, behavior: 'smooth'});
-    });
+
+    if (this.state.activePage !== newPage) {
+      this.setState({activePage: newPage}, () => {
+        this.loadCurrentPage();
+        window.scrollTo({top: 0, behavior: 'smooth'});
+      });
+    }
   }
 
   async generateReport(format, e) {

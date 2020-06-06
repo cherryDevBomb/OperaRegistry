@@ -38,10 +38,13 @@ class MyDocuments extends Component {
     const total = archived ? this.props.documentReducer.myArchivedDocumentsPageCount : this.props.documentReducer.myOpenDocumentsPageCount;
     const newPage = getNewPageNumber(e, activePage, total);
     const tab = archived ? "activePageArchivedTrue" : "activePageArchivedFalse";
-    this.setState({[tab]: newPage}, () => {
-      this.loadCurrentPage(archived);
-      window.scrollTo({top: 0, behavior: 'smooth'});
-    });
+
+    if (activePage !== newPage) {
+      this.setState({[tab]: newPage}, () => {
+        this.loadCurrentPage(archived);
+        window.scrollTo({top: 0, behavior: 'smooth'});
+      });
+    }
   }
 
   pageChangedAfterArchive(page) {

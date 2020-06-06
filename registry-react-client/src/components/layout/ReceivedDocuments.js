@@ -45,19 +45,25 @@ class ReceivedDocuments extends Component {
     const total = resolved ? this.props.documentReducer.receivedResolvedDocumentsPageCount : this.props.documentReducer.receivedOpenDocumentsPageCount;
     const newPage = getNewPageNumber(e, activePage, total);
     const tab = resolved ? "activePageResolvedTrue" : "activePageResolvedFalse";
-    this.setState({[tab]: newPage}, () => {
-      this.loadCurrentPage(resolved);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
+
+    if (activePage !== newPage) {
+      this.setState({[tab]: newPage}, () => {
+        this.loadCurrentPage(resolved);
+        window.scrollTo({top: 0, behavior: 'smooth'});
+      });
+    }
   }
 
   pageChangedForArchived(e) {
     const newPage = getNewPageNumber(e, this.state.activePageArchived, this.props.documentReducer.receivedArchivedDocumentsPageCount);
     const tab = "activePageArchived";
-    this.setState({[tab]: newPage}, () => {
-      this.loadCurrentPageForArchived();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
+
+    if (this.state.activePageArchived !== newPage) {
+      this.setState({[tab]: newPage}, () => {
+        this.loadCurrentPageForArchived();
+        window.scrollTo({top: 0, behavior: 'smooth'});
+      });
+    }
   }
 
   pageChangedAfterResolve(page) {

@@ -22,7 +22,6 @@ public class FileController {
     @PostMapping(value = "/{registryNumber}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public void uploadFile(@RequestParam MultipartFile file, @PathVariable int registryNumber, Principal principal) {
-        System.out.println("Got into upload");
         fileService.uploadFile(file, registryNumber, principal);
     }
 
