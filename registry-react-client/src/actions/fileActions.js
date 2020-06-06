@@ -16,7 +16,7 @@ export const uploadFile = (file, registryNumber, history) => async dispatch => {
       history.push(MY_DOCUMENTS_PATH);
     }
   } catch (error) {
-    if (error.response) {
+    if (error.response && error.response.status === 400) {
       dispatch({
         type: GET_ERRORS,
         payload: error.response.data

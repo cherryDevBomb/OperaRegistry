@@ -26,7 +26,9 @@ import {
   ADMIN_PATH,
   DOCUMENTS_PATH,
   HELP_PATH,
-  MY_DOCUMENTS_PATH, MY_PROFILE_PATH,
+  LOGIN_PATH,
+  MY_DOCUMENTS_PATH,
+  MY_PROFILE_PATH,
   NEW_DOCUMENT_PATH,
   RECEIVED_DOCUMENTS_PATH,
   REGISTER_PATH
@@ -55,7 +57,7 @@ if (jwtToken) {
   const currentTime = Date.now() / 1000;
   if (decoded.exp < currentTime) {
     store.dispatch(logout());
-    window.location.href = "/";
+    window.location.href = LOGIN_PATH;
   }
 }
 
@@ -67,7 +69,7 @@ class App extends Component {
           <div className="App">
             <PageHeader/>
 
-            <Route exact path="/" component={LandingPage}/>
+            <Route exact path={LOGIN_PATH} component={LandingPage}/>
             <Route exact path={REGISTER_PATH} component={Register}/>
 
             <Switch>

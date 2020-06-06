@@ -15,6 +15,7 @@ export const createUser = (newUser) => async dispatch => {
       payload: {}
     });
   } catch (error) {
+    console.log(error.response.data)
     dispatch({
       type: GET_ERRORS,
       payload: error.response.data
@@ -25,7 +26,6 @@ export const createUser = (newUser) => async dispatch => {
 export const login = LoginRequest => async dispatch => {
   try {
     const path = properties.serverURL + LOGIN_URL;
-    console.log(path);
     const res = await axios.post(path, LoginRequest);
     const {token} = res.data;
     localStorage.setItem("jwtToken", token);
@@ -37,12 +37,13 @@ export const login = LoginRequest => async dispatch => {
       payload: decoded
     });
   } catch (error) {
-    console.log(error);
     if (error.response) {
       dispatch({
         type: GET_ERRORS,
         payload: error.response.data
       });
+    } else {
+      alert("Serviciul nu este disponibil pentru moment")
     }
   }
 };
@@ -55,10 +56,3 @@ export const logout = () => dispatch => {
     payload: {}
   });
 };
-
-// export const getCurrentUser = () => dispatch => {
-//   dispatch({
-//     type: GET_CURRENT_USER,
-//     payload: {}
-//   });
-// };

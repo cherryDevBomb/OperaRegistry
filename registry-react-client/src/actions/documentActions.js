@@ -45,13 +45,16 @@ export const createDocument = document => async dispatch => {
       });
     }
   } catch (error) {
+    console.log(error.response)
+    dispatch({
+      type: DOCUMENT_CREATED,
+      payload: null
+    });
     if (error.response) {
       dispatch({
         type: GET_ERRORS,
         payload: error.response.data
       });
-    } else {
-      alert('Something went wrong');
     }
   }
 };

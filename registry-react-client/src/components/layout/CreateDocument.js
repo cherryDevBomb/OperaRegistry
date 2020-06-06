@@ -118,7 +118,7 @@ class CreateDocument extends Component {
     await this.props.createDocument(newDocument);
     this.setState({isLoading: false});
 
-    if (this.isInputValid()) {
+    if (this.isInputValid() && this.props.documentReducer.mostRecentRegNr) {
       this.uploadModalRef.current.handleShow(this.props.documentReducer.mostRecentRegNr);
     }
   }

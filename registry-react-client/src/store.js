@@ -1,6 +1,8 @@
-import { createStore, applyMiddleware, compose } from "redux";
+import {applyMiddleware, compose, createStore} from "redux";
 import thunk from "redux-thunk";
 import rootReducer from "./reducers";
+import axios from "axios";
+import {LOGIN_PATH} from "./properties";
 
 const initialState = {};
 const middleware = [thunk];
@@ -25,3 +27,14 @@ if (window.navigator.userAgent.includes("Chrome") && ReactReduxDevTools) {
 }
 
 export default store;
+
+
+axios.interceptors.response.use(function (response) {
+  return response;
+}, function (error) {
+  if (error.response.status === 401) {
+    window.location.href = LOGIN_PATH;
+  }
+  return Promise.reject(error);
+});
+
