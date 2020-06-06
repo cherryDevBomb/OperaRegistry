@@ -2,26 +2,26 @@ import React, {Component} from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./style/theme.css";
 import "./style/App.css";
-import "./style/reusables/accordion.css"
-import "./style/reusables/badge.css"
-import "./style/reusables/autosuggest.css"
-import "./style/reusables/btn-variants.css"
-import "./style/reusables/btn-toggle.css"
-import "./style/reusables/form.css"
-import "./style/reusables/icons.css"
-import "./style/reusables/modal.css"
-import "./style/reusables/nav.css"
-import "./style/components/landing.css"
-import "./style/components/table.css"
-import "./style/reusables/tab.css"
+import "./style/components/accordion.css"
+import "./style/components/badge.css"
+import "./style/custom/autosuggest.css"
+import "./style/components/btn-variants.css"
+import "./style/components/btn-toggle.css"
+import "./style/components/form.css"
+import "./style/components/icons.css"
+import "./style/components/modal.css"
+import "./style/components/nav.css"
+import "./style/custom/landing.css"
+import "./style/custom/table.css"
+import "./style/components/tab.css"
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import {Provider} from "react-redux";
-import store from "./store";
-import PageHeader from "./components/navigation/PageHeader";
-import DocumentTable from "./components/layout/DocumentTable";
-import CreateDocument from "./components/layout/CreateDocument";
-import LandingPage from "./components/layout/LandingPage";
-import Register from "./components/layout/Register";
+import store from "./js/redux/store";
+import PageHeader from "./js/components/navigation/PageHeader";
+import DocumentTable from "./js/components/document/layout/DocumentTable";
+import CreateDocument from "./js/components/document/layout/CreateDocument";
+import LandingPage from "./js/components/authentication/LandingPage";
+import Register from "./js/components/authentication/Register";
 import {
   ADMIN_PATH,
   DOCUMENTS_PATH,
@@ -32,17 +32,17 @@ import {
   NEW_DOCUMENT_PATH,
   RECEIVED_DOCUMENTS_PATH,
   REGISTER_PATH
-} from "./properties";
+} from "./js/constants/properties";
 import jwt_decode from "jwt-decode";
-import setJWTToken from "./utils/securityUtils";
-import {SET_CURRENT_USER} from "./actions/types";
-import {logout} from "./actions/securityActions";
-import SecuredRoute from "./components/navigation/SecuredRoute";
-import MyDocuments from "./components/layout/MyDocuments";
-import ReceivedDocuments from "./components/layout/ReceivedDocuments";
-import HelpPage from "./components/layout/HelpPage";
-import AdminPage from "./components/layout/AdminPage";
-import MyProfilePage from "./components/fragments/user/MyProfilePage";
+import setJWTToken from "./js/utils/securityUtils";
+import {SET_CURRENT_USER} from "./js/redux/actions/actionTypes";
+import {logout} from "./js/redux/actions/securityActions";
+import SecuredRoute from "./js/components/navigation/SecuredRoute";
+import MyDocuments from "./js/components/document/layout/MyDocuments";
+import ReceivedDocuments from "./js/components/document/layout/ReceivedDocuments";
+import HelpPage from "./js/components/user/layout/HelpPage";
+import AdminPage from "./js/components/user/layout/AdminPage";
+import MyProfilePage from "./js/components/user/layout/MyProfilePage";
 
 const jwtToken = localStorage.jwtToken;
 
