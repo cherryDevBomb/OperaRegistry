@@ -9,7 +9,6 @@ export const generateReport = (searchDetails, fileFormat) => async dispatch => {
     let params = getSearchParams(searchDetails, null);
     params.fileFormat = fileFormat;
     params = new URLSearchParams(params);
-    console.log(params);
     const config = {
       headers: {
         responseType: 'blob'
@@ -34,7 +33,6 @@ export const generateReport = (searchDetails, fileFormat) => async dispatch => {
     document.body.appendChild(link);
     link.click();
   } catch (error) {
-    console.log(error);
     if (error.response) {
       alert(error.response.data.message);
     } else {

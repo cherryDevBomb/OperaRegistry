@@ -11,7 +11,6 @@ import Container from "react-bootstrap/Container";
 class MyProfilePage extends Component {
   render() {
     const user = this.props.securityReducer.user;
-    console.log(user)
 
     return (
       <React.Fragment>

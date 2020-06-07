@@ -69,7 +69,6 @@ class Register extends Component {
       password: this.state.password,
       confirmPassword: this.state.confirmPassword
     };
-    console.log(newUser);
     await this.props.createUser(newUser);
     this.setState({isLoading: false});
     if (!this.props.errorReducer) {

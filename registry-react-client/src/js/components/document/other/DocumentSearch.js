@@ -43,28 +43,11 @@ class DocumentSearch extends Component {
   componentDidMount() {
     this.setState({showDropdown: false});
     this.setState({isLoading: false});
-    // this.props.getAllUsers(true);
     this.getUsersNotSelected();
   }
 
   getSnapshotBeforeUpdate(prevProps, prevState) {
     let snapshot = {};
-    // if (this.refOrigin && this.refOrigin.current) {
-    //   console.log("entered if current")
-    //   let selectedUsersForOriginSearch = this.refOrigin.current.props.userReducer.selectedUsersForOriginSearch
-    //   console.log("selected:", selectedUsersForOriginSearch)
-    //   if (selectedUsersForOriginSearch && selectedUsersForOriginSearch !== this.state.originUsers) {
-    //     console.log("entered if state diff")
-    //     snapshot.origin = selectedUsersForOriginSearch;
-    //   }
-    // }
-    // if (this.refDestination && this.refDestination.current) {
-    //   let selectedUsersForDestinationSearch = this.refDestination.current.props.userReducer.selectedUsersForDestinationSearch;
-    //   if (selectedUsersForDestinationSearch && selectedUsersForDestinationSearch !== this.state.destinationUsers) {
-    //     snapshot.destination = selectedUsersForDestinationSearch;
-    //   }
-    // }
-
     let selectedUsersForOriginSearch = this.props.userReducer.selectedUsersForOriginSearch;
     if (selectedUsersForOriginSearch && selectedUsersForOriginSearch !== this.state.originUsers) {
       snapshot.origin = selectedUsersForOriginSearch;

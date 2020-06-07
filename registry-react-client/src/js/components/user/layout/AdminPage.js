@@ -28,7 +28,6 @@ class AdminPage extends Component {
 
   componentWillUnmount() {
     this.props.updateAllUsers([]);
-    console.log(this.props.userReducer.allUsers);
   }
 
   render() {

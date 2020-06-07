@@ -8,14 +8,12 @@ import jwt_decode from "jwt-decode";
 export const createUser = (newUser) => async dispatch => {
   try {
     const path = properties.serverURL + REGISTER_URL;
-    console.log(path);
     await axios.post(path, newUser);
     dispatch({
       type: GET_ERRORS,
       payload: {}
     });
   } catch (error) {
-    console.log(error.response.data)
     dispatch({
       type: GET_ERRORS,
       payload: error.response.data

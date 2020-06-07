@@ -45,7 +45,6 @@ export const createDocument = document => async dispatch => {
       });
     }
   } catch (error) {
-    console.log(error.response)
     dispatch({
       type: DOCUMENT_CREATED,
       payload: null
