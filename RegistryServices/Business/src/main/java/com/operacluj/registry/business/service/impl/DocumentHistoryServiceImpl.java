@@ -78,7 +78,7 @@ public class DocumentHistoryServiceImpl implements DocumentHistoryService {
             newHistoryList.forEach(dh -> documentHistoryRepository.addDocumentHistory(dh));
         } catch (RuntimeException e) {
             log.error("Error adding new document history");
-            throw new OperationFailedException(ErrorMessageConstants.DOCUMENT_HISTORY_NOT_CREATED, e);
+            throw new OperationFailedException(ErrorMessageConstants.OPERATION_FAILED, e);
         }
 
         DocumentDTO document = documentService.getDocumentByRegistryNumber(registryNumber);
@@ -94,7 +94,7 @@ public class DocumentHistoryServiceImpl implements DocumentHistoryService {
             documentHistoryList.forEach(documentHistory -> documentHistoryRepository.addDocumentHistory(documentHistory));
         } catch (RuntimeException e) {
             log.error("Error creating new document history");
-            throw new OperationFailedException(ErrorMessageConstants.DOCUMENT_HISTORY_NOT_CREATED, e);
+            throw new OperationFailedException(ErrorMessageConstants.OPERATION_FAILED, e);
         }
         new Thread(() -> {
             documentHistoryList.stream()

@@ -63,7 +63,7 @@ public class FileServiceImpl implements FileService {
             return fileRepository.getAttachmentsNumber(registryNumber) != 0;
         } catch (Exception e) {
             log.error("Failed to retrieve number of attached documents for registry number {}", registryNumber);
-            throw new OperationFailedException(ErrorMessageConstants.FILE_COUNT_FAILED, e);
+            throw new OperationFailedException(ErrorMessageConstants.OPERATION_FAILED, e);
         }
     }
 

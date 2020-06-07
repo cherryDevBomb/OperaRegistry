@@ -23,11 +23,11 @@ import java.util.Map;
 public class ControllerExceptionHandler {
 
     @ExceptionHandler(AuthenticationException.class)
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public Map<String, String> handleAuthException(AuthenticationException e, HttpServletResponse response) {
         Map<String, String> errorMap = new HashMap<>();
         errorMap.put("email", ErrorMessageConstants.EMPTY_MESSAGE);
-        errorMap.put("password", ErrorMessageConstants.EMPTY_MESSAGE);
+        errorMap.put("password", ErrorMessageConstants.BAD_CREDENTIALS);
         return errorMap;
     }
 
