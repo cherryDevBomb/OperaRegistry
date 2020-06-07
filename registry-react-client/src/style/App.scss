@@ -7,19 +7,35 @@ body {
   sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  //background-color: #e6e6e6;
   background-color: lighten($light-gold, 30);
 }
 
-.jumbotron {
+// Navbar
+.bg-dark {
+  background-color: $dark !important;
+}
+
+// Pagination
+.page-link:focus {
+  box-shadow: none;
+}
+
+// Cards
+.card-header {
   background-color: white;
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+.card-title {
+  margin-bottom: 0;
 }
 
-.btn:focus, .btn.focus {
-  outline: 0;
-  box-shadow: 0 0 0 0 black;
+// Modals
+.modal-header {
+  background-color: $gray-lightest;
 }
 
+// Spinners
 .spinner-brownish {
   color: $brownish-gray;
 }

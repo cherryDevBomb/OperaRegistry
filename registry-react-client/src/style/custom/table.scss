@@ -5,45 +5,7 @@
 }
 
 .btn-link {
-  font-weight: 400;
-  color: darken($brownish-gray, 10);
-  text-decoration: none;
   width: fit-content;
-}
-.btn-link:hover {
-  color: $gold;
-  text-decoration: none;
-}
-.btn-link:focus, .btn-link.focus {
-  text-decoration: none;
-  box-shadow: none;
-}
-.btn-link:disabled, .btn-link.disabled {
-  color: #4f4538;
-  pointer-events: none;
-}
-
-.page-link {
-  position: relative;
-  display: block;
-  padding: 0.5rem 0.75rem;
-  margin-left: -1px;
-  line-height: 1.25;
-  color: $brownish-gray;
-  background-color: #fff;
-  border: 1px solid #dee2e6;
-}
-.page-link:hover {
-  z-index: 2;
-  color: $light-gold;
-  text-decoration: none;
-  background-color: #e9ecef;
-  border-color: #dee2e6;
-}
-.page-link:focus {
-  z-index: 3;
-  outline: 0;
-  box-shadow: 0 0 0 0 black;
 }
 
 .report-dropdown-btn:active {
@@ -53,4 +15,8 @@
 .report-dropdown-btn:focus {
   border: 1px $gold;
   box-shadow: none;
+}
+
+.archiving-state-modal-title {
+  font-size: medium;
 }

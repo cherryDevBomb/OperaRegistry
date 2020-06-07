@@ -106,7 +106,7 @@ class DocumentTable extends Component {
               <Spinner className="float-sm-right mb-3 mb-sm-0 mr-3"
                        as="span"
                        animation="border"
-                       variant="primary"
+                       variant="brownish"
                        role="status"
                        aria-hidden="true"
               />}

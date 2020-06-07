@@ -68,7 +68,7 @@ class DocumentDetailsModal extends Component {
           <Modal.Header closeButton>
             <ModalTitle>
               Document Nr. {this.props.document.registryNumber}
-              <div className="archiving-state-title">{archivingStatus}</div>
+              <div className="archiving-state-modal-title">{archivingStatus}</div>
             </ModalTitle>
           </Modal.Header>
 

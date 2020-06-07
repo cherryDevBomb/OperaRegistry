@@ -3,14 +3,13 @@
 .search-container {
   max-width: 60vw;
 }
-
 .search-dropdown-inner {
   max-width: 60vw;
 }
-
 .dropdown-search {
   min-width: 60vw;
   max-width: 60vw;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.175);
 }
 
 @media (max-width: 768px) {

@@ -3,50 +3,7 @@
 }
 
 .btn-link {
-  font-weight: 400;
-  color: #312b23;
-  text-decoration: none;
   width: fit-content;
-}
-
-.btn-link:hover {
-  color: #bd8f3a;
-  text-decoration: none;
-}
-
-.btn-link:focus, .btn-link.focus {
-  text-decoration: none;
-  box-shadow: none;
-}
-
-.btn-link:disabled, .btn-link.disabled {
-  color: #4f4538;
-  pointer-events: none;
-}
-
-.page-link {
-  position: relative;
-  display: block;
-  padding: 0.5rem 0.75rem;
-  margin-left: -1px;
-  line-height: 1.25;
-  color: #4f4538;
-  background-color: #fff;
-  border: 1px solid #dee2e6;
-}
-
-.page-link:hover {
-  z-index: 2;
-  color: #c6ad82;
-  text-decoration: none;
-  background-color: #e9ecef;
-  border-color: #dee2e6;
-}
-
-.page-link:focus {
-  z-index: 3;
-  outline: 0;
-  box-shadow: 0 0 0 0 black;
 }
 
 .report-dropdown-btn:active {
@@ -57,6 +14,10 @@
 .report-dropdown-btn:focus {
   border: 1px #bd8f3a;
   box-shadow: none;
+}
+
+.archiving-state-modal-title {
+  font-size: medium;
 }
 
 /*# sourceMappingURL=table.css.map */

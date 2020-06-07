@@ -14,6 +14,7 @@
   background-color: #f7f7f9;
   color: black;
   padding: 0.5em;
+  outline: none;
 }
 
 .nav-tabs .nav-link:hover {
@@ -29,13 +30,17 @@
   font-weight: bold;
 }
 
-.card-header {
-  padding-bottom: 0;
-  border-bottom: 0;
+.nav-tabs .nav-item.focus, .nav-item .nav-link:focus {
+  border: 1px solid #eceeef;
+  border-bottom: 1px solid white;
+  background-color: white;
+  color: black;
+  font-weight: bold;
+  outline: none;
 }
 
-.card-title {
-  margin-bottom: 0;
+.nav-tabs .nav-item, .nav-item .nav-link {
+  outline: none;
 }
 
 .nav-pills .nav-link {

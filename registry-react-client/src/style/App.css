@@ -6,13 +6,26 @@ body {
   background-color: #f6f2eb;
 }
 
-.jumbotron {
-  background-color: white;
+.bg-dark {
+  background-color: #080505 !important;
 }
 
-.btn:focus, .btn.focus {
-  outline: 0;
-  box-shadow: 0 0 0 0 black;
+.page-link:focus {
+  box-shadow: none;
+}
+
+.card-header {
+  background-color: white;
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.card-title {
+  margin-bottom: 0;
+}
+
+.modal-header {
+  background-color: #f7f7f9;
 }
 
 .spinner-brownish {
