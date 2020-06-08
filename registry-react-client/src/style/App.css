@@ -6,6 +6,12 @@ body {
   background-color: #f6f2eb;
 }
 
+.body-container {
+  min-height: calc(100vh - 6.7em);
+  margin: 0;
+  padding: 0;
+}
+
 .bg-dark {
   background-color: #080505 !important;
 }
@@ -30,6 +36,10 @@ body {
 
 .spinner-brownish {
   color: #4f4538;
+}
+
+.footer-text {
+  color: #666660;
 }
 
 /*# sourceMappingURL=App.css.map */

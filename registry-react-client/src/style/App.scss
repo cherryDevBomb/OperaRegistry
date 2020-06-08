@@ -10,6 +10,12 @@ body {
   background-color: lighten($light-gold, 30);
 }
 
+.body-container {
+  min-height: calc(100vh - 6.7em);
+  margin: 0;
+  padding: 0;
+}
+
 // Navbar
 .bg-dark {
   background-color: $dark !important;
@@ -38,4 +44,9 @@ body {
 // Spinners
 .spinner-brownish {
   color: $brownish-gray;
+}
+
+// Footer
+.footer-text {
+  color: #666660;
 }

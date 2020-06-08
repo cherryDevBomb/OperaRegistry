@@ -42,6 +42,7 @@ import ReceivedDocuments from "./js/components/document/layout/ReceivedDocuments
 import HelpPage from "./js/components/user/layout/HelpPage";
 import AdminPage from "./js/components/user/layout/AdminPage";
 import MyProfilePage from "./js/components/user/layout/MyProfilePage";
+import PageFooter from "./js/components/navigation/PageFooter";
 
 const jwtToken = localStorage.jwtToken;
 
@@ -68,46 +69,51 @@ class App extends Component {
           <div className="App">
             <PageHeader/>
 
-            <Route exact path={LOGIN_PATH} component={LandingPage}/>
-            <Route exact path={REGISTER_PATH} component={Register}/>
+            <div className="body-container">
 
-            <Switch>
-              <SecuredRoute
-                exact
-                path={DOCUMENTS_PATH}
-                component={DocumentTable}
-              />
-              <SecuredRoute
-                exact
-                path={MY_DOCUMENTS_PATH}
-                component={MyDocuments}
-              />
-              <SecuredRoute
-                exact
-                path={RECEIVED_DOCUMENTS_PATH}
-                component={ReceivedDocuments}
-              />
-              <SecuredRoute
-                exact
-                path={NEW_DOCUMENT_PATH}
-                component={CreateDocument}
-              />
-              <SecuredRoute
-                exact
-                path={MY_PROFILE_PATH}
-                component={MyProfilePage}
-              />
-              <SecuredRoute
-                exact
-                path={ADMIN_PATH}
-                component={AdminPage}
-              />
-              <SecuredRoute
-                exact
-                path={HELP_PATH}
-                component={HelpPage}
-              />
-            </Switch>
+              <Route exact path={LOGIN_PATH} component={LandingPage}/>
+              <Route exact path={REGISTER_PATH} component={Register}/>
+
+              <Switch>
+                <SecuredRoute
+                  exact
+                  path={DOCUMENTS_PATH}
+                  component={DocumentTable}
+                />
+                <SecuredRoute
+                  exact
+                  path={MY_DOCUMENTS_PATH}
+                  component={MyDocuments}
+                />
+                <SecuredRoute
+                  exact
+                  path={RECEIVED_DOCUMENTS_PATH}
+                  component={ReceivedDocuments}
+                />
+                <SecuredRoute
+                  exact
+                  path={NEW_DOCUMENT_PATH}
+                  component={CreateDocument}
+                />
+                <SecuredRoute
+                  exact
+                  path={MY_PROFILE_PATH}
+                  component={MyProfilePage}
+                />
+                <SecuredRoute
+                  exact
+                  path={ADMIN_PATH}
+                  component={AdminPage}
+                />
+                <SecuredRoute
+                  exact
+                  path={HELP_PATH}
+                  component={HelpPage}
+                />
+              </Switch>
+            </div>
+
+            <PageFooter/>
           </div>
         </Router>
       </Provider>
