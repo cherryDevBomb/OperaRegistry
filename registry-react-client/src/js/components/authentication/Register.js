@@ -71,7 +71,7 @@ class Register extends Component {
     };
     await this.props.createUser(newUser);
     this.setState({isLoading: false});
-    if (!this.props.errorReducer) {
+    if (Object.keys(this.props.errorReducer).length === 0 && this.props.errorReducer.constructor === Object) {
       this.setState({isRegistrationComplete: true});
     }
   }
