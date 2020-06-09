@@ -30,7 +30,7 @@
   font-weight: bold;
 }
 
-.nav-tabs .nav-item.focus, .nav-item .nav-link:focus {
+.nav-tabs .nav-item.focus {
   border: 1px solid #eceeef;
   border-bottom: 1px solid white;
   background-color: white;
