@@ -23,30 +23,32 @@ In the following subsections of this chapter we will describe each of the chosen
 The Spring Framework is an application framework for the Java platform which offers a wide range of features for modern Java-based applications. According to a survey from 2018, Spring is the most popular Web Framework worldwide in the JVM ecosystem (See Figure \ref{javaWebFrameworksTrendsImg}). It provides a large set of functionality and tools, making it suitable for a big variety of applications. In addition, its flexibility and focus on ease of use allow developers to focus on the application business logic rather than configurations and boilerplate code, thus increasing velocity, productivity and development speed.
 
 \begin{figure}[H]
-    \centering
-    \includegraphics[width=4in]{images/javaWebFrameworksTrends}
-    \caption{The most popular Java Web Frameworks according to the JVM Ecosystem report 2018 \cite{jvmEcosystemReport}}
-    \label{javaWebFrameworksTrendsImg}
+  \centering
+  \includegraphics[width=3.3in]{images/javaWebFrameworksTrends}
+  \caption[The most popular Java Web Frameworks according to the JVM Ecosystem report 2018]{The most popular Java Web Frameworks according to the JVM Ecosystem report 2018 \footnotemark}
+  \label{javaWebFrameworksTrendsImg}
 \end{figure}
+\footnotetext{Image source: https://snyk.io/blog/jvm-ecosystem-report-2018-platform-application}
 
 One of the most important features offered by Spring is \textit{Inversion of Control} (IoC), achieved by \textit{Dependency Injection} (DI). According to this principle, objects are not responsible for creating their dependencies. Instead, they should be "injected" into the object through arguments passed to the constructor, setter methods or factory methods. In contrast to the classical way where each object is locating and instantiating all of its dependencies, the DI approach has several advantages. The most important one is achieving loose coupling, making it easier to interchange distinct implementations and maintain program modularity.
 
 To achieve this, the Spring Framework uses an \textit{IoC container}. It is responsible for the instantiation, configuration and managing of the \textit{beans} - objects that will be used by the application (See Figure \ref{springIocContainer}). In order to know how each bean should be created and which dependencies injected, the IoC container needs additional configuration information. This is provided as metadata in form of XML, Java Configuration classes or Java annotations. In our project, we are going to use Java annotations as it is the most easy and straightforward way to configure beans.
 
 \begin{figure}[H]
-    \centering
-    \includegraphics[width=4in]{images/springIocContainer}
-    \caption{The Spring IoC Container \cite{springDocs}}
-    \label{springIocContainer}
+  \centering
+  \includegraphics[width=4in]{images/springIocContainer}
+  \caption[The Spring IoC Container]{The Spring IoC Container \footnotemark}
+  \label{springIocContainer}
 \end{figure}
+\footnotetext{Image source: \cite{springDocs}}
 
 Another advantage of Spring is that it uses well-known design patterns which are implemented under the hood:
 
 \begin{itemize}
-    \item All beans created by Spring are by default \textbf{Singletons}. This means that the IoC container creates only one instance for a bean and caches it so that it could then be used in multiple different places.
-    \item Spring uses the \textbf{Factory Method Pattern} for bean creation. The \code{BeanFactory} class defines a list of \code{getBean()} methods, all of each are factory methods that could be used to create a bean with the desired configuration. This functionality is extended by the \code{ApplicationContext} class, which adds the possibility of creating beans using external configurations like XML files or Java annotations.
-    \item Spring uses the \textbf{Proxy Pattern} to control access to its beans. One typical example where this is necessary is when using transactions. If we annotate a method as \code{@Transactional}, Spring guarantees its atomic execution and transactional consistency (hence the name). This is only possible by intercepting the call through a proxy object that wraps our bean and would control the method execution.
-    \item Spring uses the \textbf{Template Method Pattern} to minimize the amount of boilerplate code that is repeated again and again throughout projects. The \code{JdbcTemplate} class is a perfect example, providing an easy and intuitive way to execute database queries using predefined templates.
+  \item All beans created by Spring are by default \textbf{Singletons}. This means that the IoC container creates only one instance for a bean and caches it so that it could then be used in multiple different places.
+  \item Spring uses the \textbf{Factory Method Pattern} for bean creation. The \code{BeanFactory} class defines a list of \code{getBean()} methods, all of each are factory methods that could be used to create a bean with the desired configuration. This functionality is extended by the \code{ApplicationContext} class, which adds the possibility of creating beans using external configurations like XML files or Java annotations.
+  \item Spring uses the \textbf{Proxy Pattern} to control access to its beans. One typical example where this is necessary is when using transactions. If we annotate a method as \code{@Transactional}, Spring guarantees its atomic execution and transactional consistency (hence the name). This is only possible by intercepting the call through a proxy object that wraps our bean and would control the method execution.
+  \item Spring uses the \textbf{Template Method Pattern} to minimize the amount of boilerplate code that is repeated again and again throughout projects. The \code{JdbcTemplate} class is a perfect example, providing an easy and intuitive way to execute database queries using predefined templates.
 \end{itemize}
 
 
@@ -72,9 +74,9 @@ Traditionally, Spring Security operates by creating a session and storing cookie
 To avoid this, we are going to use JSON Web Tokens which handle authentication in a stateless way and can be easily integrated with Spring Security. As stated in \cite{buildingRESTfulWebServicesWithSpring}, a JWT is just a string consisting of three encoded parts which are separated by a dot:
 
 \begin{itemize}
-    \item The \textbf{header} is used to indicate the hashing algorithm used to sign the token. In our application we use the \textit{HS512} - a Hash-based Message Authentication Code algorithm which uses the SHA-512 cryptographic hash function and a secret cryptographic key to generate the code.
-    \item The \textbf{payload} is used to store the user's \textit{claims} - information about the user like authorization data, roles and permissions.
-    \item The \textbf{signature} is the final section of the token used for additional verifications.
+  \item The \textbf{header} is used to indicate the hashing algorithm used to sign the token. In our application we use the \textit{HS512} - a Hash-based Message Authentication Code algorithm which uses the SHA-512 cryptographic hash function and a secret cryptographic key to generate the code.
+  \item The \textbf{payload} is used to store the user's \textit{claims} - information about the user like authorization data, roles and permissions.
+  \item The \textbf{signature} is the final section of the token used for additional verifications.
 \end{itemize}
 
 The way JWT secures the application is simple and intuitive (\ref{jwtFlow}). When the user enters his or her credentials in the login form, they are sent to the server for verification. If the provided credentials are correct, the server queries the database for information about the user, generates a JWT and stores the user information in it. The server has to also specify an expiration time for the token. After being signed and hashed, the JWT is sent to the client as a response to the authentication request. As the server is stateless, it is the client's responsibility to store the token until it expires.
@@ -82,15 +84,17 @@ The way JWT secures the application is simple and intuitive (\ref{jwtFlow}). Whe
 Afterwards, every request from the client to the server has to contain the JWT token specified in an Authorization header. The server will extract the token, validate the signature and get the user data from the JWT payload. Based on that data, the server will decide if the user is or is not authorized to perform the desired request.
 
 \begin{figure}[H]
-    \centering
-    \includegraphics[width=5in]{images/jwtFlow}
-    \caption{Creation and usage of Json Web Tokens \cite{jwtFlow}}
-    \label{jwtFlow}
+  \centering
+  \includegraphics[width=4.5in]{images/jwtFlow}
+  \caption[Creation and usage of Json Web Tokens]{Creation and usage of Json Web Tokens \footnotemark}
+  \label{jwtFlow}
 \end{figure}
 
 
 \subsection{MySQL Database}
 \label{section:mysqlDatabase}
+
+\footnotetext{Image source: \cite{jwtFlow}}
 
 An important decision we had to make was whether to choose a \textit{relational} or a \textit{non-relational} database for persisting our data. Relational databases have been successfully used in enterprise applications for decades, however the NoSQL movement of the recent years has questioned whether the relational model is the best approach in all situations. Indeed, relational databases weren't designed to be used in an Object Oriented context. There are numerous techniques of mapping domain objects into database tables and columns. It is especially cumbersome when concepts like inheritance or user-defined data types are involved. The normalization of the obtained database model usually tends to split the information about an entity across multiple tables. We then need to make use of the foreign keys and perform joins to reconstruct our entity, which are costly operations. This is the main reason why, in the Big Data Era, non-relational databases are preferred for storing huge amounts of data. A NoSQL database will store information as JSON documents instead of rows spread across multiple tables, which will provide a considerable advantage in scalability and performance.
 
@@ -111,10 +115,10 @@ Next thing to consider is how the web service is going to connect to the databas
 With the rise of the popularity of web applications, front-end technologies have also become a rather popular topic. In contrast to using plain old HTML and JavaScript, modern UI frameworks strive to offer solutions for achieving a responsive and interactive user interface with minimum effort.
 
 \begin{figure}[H]
-    \centering
-    \includegraphics[width=6.5in]{images/jsWebFrameworksTrends}
-    \caption{Popularity of JavaScript front-end frameworks in the last 5 years according to Google Trends}
-    \label{jsWebFrameworksTrends}
+  \centering
+  \includegraphics[width=6.5in]{images/jsWebFrameworksTrends}
+  \caption{Popularity of JavaScript front-end frameworks in the last 5 years according to Google Trends}
+  \label{jsWebFrameworksTrends}
 \end{figure}
 
 \textbf{React}, \textbf{Vue.js} and \textbf{Angular} are 3 popular JavaScript frameworks that have been constantly present in front-end technologies tops in the last years. According to Google Trends (Figure \ref{jsWebFrameworksTrends}), the popularity of Angular has been falling since 2015, while the interest for both React and Vue has been rising. However, React has a greater popularity, since Vue is a younger technology with a smaller community.
@@ -130,17 +134,18 @@ According to the official documentation, Redux is \textit{"a predictable state c
 When speaking about state management, we mean initializing, modifying and deleting state. For very small applications, this could be easily handled only by using React's local state. However, as the size and complexity of the application grows, so does the effort needed to manage its state. To make things easier, we used Redux, which handles state management in a predictable and elegant way using only 3 main building parts (See Figure \ref{reduxFlow}):
 
 \begin{itemize}
-    \item The \textbf{store} is the most important part, which holds the entire application state as a global object. It is a singleton, meaning that there is only one Redux store per application.
-    \item \textbf{Actions} are events that send data from the application to the store. To execute an action in Redux is called to \textit{dispatch}, and it should be done when you want to change the state. Dispatching an action requires providing an \textit{action type} and an additional \textit{payload} - information being sent to the store. Once an action is dispatched, it will pass through all reducers.
-    \item \textbf{Reducers} are pure functions that are responsible for updating the state. They take as input the current application state and a dispatched action, and, based on the action type and payload, return the next state. It is worth noting that reducers return a new state object without mutating the current state, which always results in a predictable outcome.
+  \item The \textbf{store} is the most important part, which holds the entire application state as a global object. It is a singleton, meaning that there is only one Redux store per application.
+  \item \textbf{Actions} are events that send data from the application to the store. To execute an action in Redux is called to \textit{dispatch}, and it should be done when you want to change the state. Dispatching an action requires providing an \textit{action type} and an additional \textit{payload} - information being sent to the store. Once an action is dispatched, it will pass through all reducers.
+  \item \textbf{Reducers} are pure functions that are responsible for updating the state. They take as input the current application state and a dispatched action, and, based on the action type and payload, return the next state. It is worth noting that reducers return a new state object without mutating the current state, which always results in a predictable outcome.
 \end{itemize}
 
 \begin{figure}[H]
-    \centering
-    \includegraphics[width=5in]{images/reduxDataFlow}
-    \caption{Redux Data Flow \cite{reduxFlow}}
-    \label{reduxFlow}
+  \centering
+  \includegraphics[width=5in]{images/reduxDataFlow}
+  \caption[Redux Data Flow]{Redux Data Flow \footnotemark}
+  \label{reduxFlow}
 \end{figure}
+\footnotetext{Image source: https://cloud.netlifyusercontent.com/assets/344dbf88-fdf9-42bb-adb4-46f01eedd629/44e53712-498d-400f-8967-8ed0dbdb90a1/new-redux-data-flow-large-opt.png}
 
 
 

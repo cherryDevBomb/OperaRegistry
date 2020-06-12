@@ -42,10 +42,10 @@ A web application architecture is based on a \textit{client-server} model, which
 Each of the layers has its own set of responsibilities. The Presentation Layer, in our case a web-browser GUI, handles the display of information as well as user input, such as mouse clicks, keyboard hits and http requests. The Database Layer is primarily responsible for storing persistent data. The middle-tier, called the Application Layer, is the means of communication between the other two layers and is fully responsible for all the business logic of the application. This includes validation of the data that comes from the UI, performing calculations based on user input and execution of different business flows depending on requests received from the Presentation Layer.
 
 \begin{figure}[H]
-    \centering
-    \includegraphics[width=5in]{images/threeTierArchitecture}
-    \caption{The three-tier architecture}
-    \label{threeTierArchitecture}
+  \centering
+  \includegraphics[width=5in]{images/threeTierArchitecture}
+  \caption{The three-tier architecture}
+  \label{threeTierArchitecture}
 \end{figure}
 
 The three-tier architecture represents the simplest layering scheme that could be successfully applied to an enterprise application. However, if the application is quite complex, it would indeed need additional mediating layers. This raises the question of how to further split the layers and how the dependencies between layers should be managed. The Software Engineering field has seen quite a few architecture models which serve exactly this purpose.
@@ -53,19 +53,20 @@ The three-tier architecture represents the simplest layering scheme that could b
 \textit{The Clean Architecture} model seen in Figure \ref{cleanArchitectureImg} is, as described in \cite{cleanArchitecture}, an attempt to integrate and combine several architectures having as end goal the separation of concerns, which results in modular systems composed of fairly independent components.
 
 \begin{figure}[H]
-    \centering
-    \includegraphics[width=6in]{images/cleanArchitecture}
-    \caption{The clean architecture \cite{cleanArchitecture}}
-    \label{cleanArchitectureImg}
+  \centering
+  \includegraphics[width=5.5in]{images/cleanArchitecture}
+  \caption[The clean architecture]{The clean architecture \footnotemark}
+  \label{cleanArchitectureImg}
 \end{figure}
+\footnotetext{Image source: \cite{cleanArchitecture}}
 
 The circles in Figure \ref{cleanArchitectureImg} show different components of a software application:
 
 \begin{itemize}
-    \item \textbf{Entities} represent the business objects of the application.
-    \item \textbf{Use cases} encapsulate the business logic and is not affected by changes to the database or the UI.
-    \item \textbf{Interface adapters} act as converters between data formats and handle communication between use cases and entities with the database or the web GUI.
-    \item \textbf{Frameworks and drivers} is a layer composed mainly of tools - be it the database or the web framework.
+  \item \textbf{Entities} represent the business objects of the application.
+  \item \textbf{Use cases} encapsulate the business logic and is not affected by changes to the database or the UI.
+  \item \textbf{Interface adapters} act as converters between data formats and handle communication between use cases and entities with the database or the web GUI.
+  \item \textbf{Frameworks and drivers} is a layer composed mainly of tools - be it the database or the web framework.
 \end{itemize}
 
 Of course, a clean architecture would imply a low coupling of layers, that would permit the components to remain independent of each other. The business layer should be independent of the database, allowing it to be replaced with a different data source as long as the model objects keep the same structure. At the same time, it should also be independent of the UI. Thus, the UI could change, be redesigned or reimplemented using another framework without even touching the business layer. This separation also contributes to making the business layer highly testable on its own, without involving the actual database or the UI.
@@ -75,40 +76,40 @@ To achieve this low coupling, an important rule must be kept in mind when defini
 Building dependencies according to this rule will result in a layered design with a structure that resembles a \textit{directed acyclic graph} (DAG), meaning that it has no cycles. This will ensure that the components are independent of one another, which will make them easier to develop, maintain and extend.
 
 
-\subsection{Client-server communication: REpresentational State Transfer}
+\subsection{Client-server communication: Representational State Transfer}
 \label{subsection:rest}
 
 In the previous subsection, we have talked about the separation of client and server so that each of them could be individually developed and changed without affecting the other part. However, the only way to achieve this modularity is to establish a communication standard between the server and the client.
 
-This could be accomplished by using REpresentational State Transfer (REST), which is an architectural style for providing standards for communication between web systems. It was designed as an alternative to Simple Object Access Protocol (SOAP), which has been, for a long time, the mainly used architectural style for building web services. However, due to its simplicity, lightweightness and scalability, REST has quickly gained popularity and is nowadays the most popular approach chosen for web service development.
+This could be accomplished by using Representational State Transfer (REST), which is an architectural style for providing standards for communication between web systems. It was designed as an alternative to Simple Object Access Protocol (SOAP), which has been, for a long time, the mainly used architectural style for building web services. However, due to its simplicity, lightweightness and scalability, REST has quickly gained popularity and is nowadays the most popular approach chosen for web service development.
 
 The decoupling of the client and server is one of the 6 constraints of the REST architectural style. The communication is made via the defined Application Programming Interface (API) using requests and responses. Clients will send requests using the HTTP protocol and wait for responses. The server will receive those requests and do whatever the client needs, i.e. query the database or perform some other operations. When the REST service will finish processing the request, it will send back a response to the client (See Figure \ref{rest}). It is worth mentioning that the communication is always initiated by the client. The server will never share information about its resources on its own: it will wait and only send responses as a reaction to incoming requests.
 
 \begin{figure}[H]
-    \centering
-    \includegraphics[width=5in]{images/rest}
-    \caption{The client-server communication using a REST API \cite{rest}}
-    \label{rest}
+  \centering
+  \includegraphics[width=4.2in]{images/rest}
+  \caption[The client-server communication using a REST API]{The client-server communication using a REST API \footnotemark}
+  \label{rest}
 \end{figure}
 
 What operation will be triggered on the server is determined by the information the client has to provide while making the request:
 
 \begin{itemize}
-    \item The \textbf{endpoint}, which is the Uniform Resource Identifier (URI) for the requested resource.
-    \item The \textbf{HTTP method} that tells the server which operation needs to be performed on the resource. (See Table \ref{httpVerbs})
+  \item The \textbf{endpoint}, which is the Uniform Resource Identifier (URI) for the requested resource.
+  \item The \textbf{HTTP method} that tells the server which operation needs to be performed on the resource. (See Table \ref{httpVerbs})
 \end{itemize}
 
 \begin{table}[H]
-    \centering
-    \begin{tabular}{|c|l|}
-        \hline
-        GET    & read a resource             \\ \hline
-        POST   & create a new resource       \\ \hline
-        PUT    & update an existing resource \\ \hline
-        DELETE & delete a resource           \\ \hline
-    \end{tabular}
-    \caption{The basic HTTP verbs}
-    \label{httpVerbs}
+  \centering
+  \begin{tabular}{|c|l|}
+    \hline
+    GET    & read a resource             \\ \hline
+    POST   & create a new resource       \\ \hline
+    PUT    & update an existing resource \\ \hline
+    DELETE & delete a resource           \\ \hline
+  \end{tabular}
+  \caption{The basic HTTP verbs}
+  \label{httpVerbs}
 \end{table}
 
 Another important REST constraint says that the client-server communication is \textbf{stateless}, meaning that each single client request should contain all the information that the server needs for processing. It does not store a history of the requests and thus cannot use some previous context. Session state management is therefore entirely the client's responsibility. This is one of the main reasons why RESTful web services are so lightweight, scalable and easy to implement.
@@ -116,6 +117,8 @@ Another important REST constraint says that the client-server communication is \
 
 \subsection{Usability in the context of Enterprise Application Design}
 \label{subsection:usability}
+
+\footnotetext{Image source: \cite{rest}}
 
 We had already mentioned in the previous section that usability is an important ingredient for a successful application. Now is the time to analyze in more detail what usability means and how it should be achieved in our application.
 

@@ -32,7 +32,7 @@ export default store;
 axios.interceptors.response.use(function (response) {
   return response;
 }, function (error) {
-  if (error.response.status === 401) {
+  if (error.response && error.response.status === 401) {
     window.location.href = LOGIN_PATH;
   }
   return Promise.reject(error);
