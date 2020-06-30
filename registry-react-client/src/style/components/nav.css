@@ -75,7 +75,7 @@ button.navbar-toggler {
   white-space: unset;
 }
 
-.dropdown-item:active, .dropdown-item:focus {
+.dropdown-item:active, .dropdown-item.active, .dropdown-item:focus {
   color: black;
   background-color: #f6f2eb;
   border: none;

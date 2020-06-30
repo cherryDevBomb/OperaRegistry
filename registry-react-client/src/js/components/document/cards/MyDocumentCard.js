@@ -104,7 +104,7 @@ class MyDocumentCard extends Component {
         <Card className="mx-sm-2 mt-3 shadow-sm">
 
           <Card.Header>
-            <Container>
+            <Container fluid>
               <Row className="mt-2 mb-1">
                 <Col xs={{span: 1, order: 1}} className="my-auto">
                   <Button variant="number">{document.registryNumber}</Button>
