@@ -34,7 +34,7 @@ export default class UserPopup extends Component {
             <Row>
               <Col>
                 <div className="font-weight-light">{user.department}</div>
-            </Col>
+              </Col>
             </Row>
           </Container>
         </Popover.Content>

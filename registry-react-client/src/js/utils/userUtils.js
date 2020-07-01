@@ -13,15 +13,15 @@ export const getInitials = user => {
 
 export const getUserPopup = user => {
   return (
-  <OverlayTrigger
-    trigger={['hover', 'focus']}
-    placement="auto"
-    overlay={<UserPopup user={user}/>}
-  >
-    <div className="btn-link">
-      {getFullName(user)}
-    </div>
-  </OverlayTrigger>
+    <OverlayTrigger
+      trigger={['hover', 'focus']}
+      placement="auto"
+      overlay={<UserPopup user={user}/>}
+    >
+      <div className="btn-link">
+        {getFullName(user)}
+      </div>
+    </OverlayTrigger>
   )
 }
 

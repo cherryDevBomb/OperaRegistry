@@ -68,11 +68,11 @@ export default function (state = initialState, action) {
         receivedResolvedDocumentsPageCount: action.payload.pageCount
       };
     case GET_DOCUMENTS_RECEIVED_ARCHIVED:
-    return {
-      ...state,
-      documentsReceivedArchived: action.payload.documentList,
-      receivedArchivedDocumentsPageCount: action.payload.pageCount
-    };
+      return {
+        ...state,
+        documentsReceivedArchived: action.payload.documentList,
+        receivedArchivedDocumentsPageCount: action.payload.pageCount
+      };
     case DOCUMENT_CREATED:
       return {
         ...state,

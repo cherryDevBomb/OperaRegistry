@@ -19,7 +19,7 @@ const initialState = {
   departments: []
 };
 
-export default function(state = initialState, action) {
+export default function (state = initialState, action) {
   switch (action.type) {
     case GET_ALL_USERS:
       return {
@@ -46,7 +46,7 @@ export default function(state = initialState, action) {
         ...state,
         selectedUsersForDestinationSearch: action.payload
       };
-      case UPDATE_SELECTED_USERS_FOR_GRANT_ADMIN_ROLE:
+    case UPDATE_SELECTED_USERS_FOR_GRANT_ADMIN_ROLE:
       return {
         ...state,
         selectedUsersForGrantAdminRole: action.payload

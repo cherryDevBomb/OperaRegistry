@@ -1,10 +1,10 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import { login } from "../../redux/actions/securityActions";
+import {login} from "../../redux/actions/securityActions";
 import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import { DOCUMENTS_PATH } from "../../constants/properties";
+import {connect} from "react-redux";
+import {DOCUMENTS_PATH} from "../../constants/properties";
 
 class Login extends Component {
   constructor(props) {
@@ -30,12 +30,12 @@ class Login extends Component {
       this.props.history.push(DOCUMENTS_PATH);
     }
     if (nextProps.errorReducer) {
-      this.setState({ errorReducer: nextProps.errorReducer });
+      this.setState({errorReducer: nextProps.errorReducer});
     }
   }
 
   onChange(e) {
-    this.setState({ [e.target.name]: e.target.value });
+    this.setState({[e.target.name]: e.target.value});
   }
 
   onSubmit(e) {
@@ -48,7 +48,7 @@ class Login extends Component {
   }
 
   render() {
-    const { errorReducer } = this.state;
+    const {errorReducer} = this.state;
 
     return (
       <Form onSubmit={this.onSubmit}>
@@ -99,4 +99,4 @@ const mapStateToProps = state => ({
   errorReducer: state.errorReducer
 });
 
-export default connect(mapStateToProps, { login })(Login);
+export default connect(mapStateToProps, {login})(Login);

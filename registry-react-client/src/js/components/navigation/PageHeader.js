@@ -73,7 +73,7 @@ class PageHeader extends Component {
               }
             >
               <LinkContainer to={MY_PROFILE_PATH}>
-              <NavDropdown.Item><i className="fas fa-id-card"/> Contul meu</NavDropdown.Item>
+                <NavDropdown.Item><i className="fas fa-id-card"/> Contul meu</NavDropdown.Item>
               </LinkContainer>
 
               {user.role === ROLE_ADMIN &&
