@@ -4,7 +4,6 @@ import com.operacluj.registry.model.User;
 import com.operacluj.registry.model.UserRole;
 import org.springframework.stereotype.Repository;
 
-import java.util.Arrays;
 import java.util.List;
 
 @Repository

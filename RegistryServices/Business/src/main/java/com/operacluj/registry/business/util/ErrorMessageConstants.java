@@ -18,7 +18,7 @@ public class ErrorMessageConstants {
     public static final String OPERATION_FAILED = "Operațiune eșuată";
     public static final String DOCUMENT_NOT_CREATED = "Înregistrarea unui nou document a eșuat";
     public static final String REPORT_GENERATION_FAILED = "Failed to generate report";
-    
+
     public static final String FILE_UPLOAD_FAILED = "Încărcarea fișierului a eșuat";
     public static final String FILE_DOWNLOAD_FAILED = "Descărcarea fișierului a eșuat";
     public static final String UNSUPPORTED_FILE_TYPE = "Acest tip de fișier nu este suportat";

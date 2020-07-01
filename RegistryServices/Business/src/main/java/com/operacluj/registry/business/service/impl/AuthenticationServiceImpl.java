@@ -1,9 +1,9 @@
 package com.operacluj.registry.business.service.impl;
 
-import com.operacluj.registry.business.security.payload.JWTLoginSuccessResponse;
-import com.operacluj.registry.business.security.payload.LoginRequest;
 import com.operacluj.registry.business.security.JwtTokenProvider;
 import com.operacluj.registry.business.security.SecurityConstants;
+import com.operacluj.registry.business.security.payload.JWTLoginSuccessResponse;
+import com.operacluj.registry.business.security.payload.LoginRequest;
 import com.operacluj.registry.business.service.AuthenticationService;
 import com.operacluj.registry.business.validator.InputValidator;
 import org.springframework.beans.factory.annotation.Autowired;

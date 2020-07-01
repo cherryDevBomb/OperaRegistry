@@ -3,7 +3,6 @@ package com.operacluj.registry.persistence.repository.impl;
 import com.operacluj.registry.model.User;
 import com.operacluj.registry.model.UserRole;
 import com.operacluj.registry.persistence.repository.UserRepository;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;

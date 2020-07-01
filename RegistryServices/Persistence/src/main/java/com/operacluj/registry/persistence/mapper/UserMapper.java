@@ -3,8 +3,8 @@ package com.operacluj.registry.persistence.mapper;
 import com.operacluj.registry.model.Department;
 import com.operacluj.registry.model.User;
 import com.operacluj.registry.model.UserRole;
-import org.springframework.stereotype.Component;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Component;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
