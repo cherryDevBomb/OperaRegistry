@@ -18,7 +18,7 @@ This application represents a digital alternative to the manual document managem
 
 ## Built with
 * Spring Boot 
-* Spring Security
+* Spring Security & JWT
 * ReactJS & Redux
 
 ## Demo
